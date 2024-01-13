@@ -7,6 +7,7 @@ const path = require("path");
 let countWrites = 0;
 
 async function writeFile(file, text, folder, countObject) {
+  console.log("+++++++++++++++++++++++++++++++++tesse writeFile called");
   const totalFiles = countObject.numberOfFiles;
   const dir = `../Documents/Textfiles/${folder}`;
   try {
@@ -24,7 +25,7 @@ async function writeFile(file, text, folder, countObject) {
   }
   countWrites++;
   console.log(
-    "teeReader writeFile countWrites, totalFils",
+    "teeReader writeFile countWrites, totalFiles",
     countWrites,
     totalFiles
   );
@@ -39,6 +40,9 @@ async function writeFile(file, text, folder, countObject) {
 }
 
 async function convert(file, path, folder, countObject) {
+  console.log(
+    "-----------------------------------------------tesse convert called"
+  );
   const worker = await createWorker();
   const concatPath = `${path}/${file}`;
   await worker.loadLanguage("eng");
