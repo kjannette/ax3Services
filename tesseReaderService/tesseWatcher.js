@@ -17,7 +17,7 @@ function countFiles(directory, file) {
 async function watchOnce() {
   const watcher = fs.watch(directory, (event, file) => {
     watcher.close();
-    sleep(15000);
+    sleep(10000);
     const fileCount = countFiles(`../Documents/Converted/${file}`, file);
     //sleep(1000);
     tesseReader.readMultipleFiles(
