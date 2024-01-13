@@ -81,7 +81,7 @@ class ModelController {
     const completionsArray = [];
     const completionsObject = { type: `response to ${reqType}` };
     const finalArray = completions[0];
-    console.log("finalArray", finalArray);
+
     let temp;
     finalArray?.forEach((comp) => {
       let obj = {};
