@@ -1,13 +1,11 @@
 const { createWorker } = require("tesseract.js");
 const docParser = require("../docParserService/docParser.js");
-// const { readDir, parseTextFiles } = require("../docParserService/docParser.js");
 const fs = require("fs");
 const path = require("path");
 
 let countWrites = 0;
 
 async function writeFile(file, text, folder, countObject) {
-  console.log("+++++++++++++++++++++++++++++++++tesse writeFile called");
   const totalFiles = countObject.numberOfFiles;
   const dir = `../Documents/Textfiles/${folder}`;
   try {
@@ -24,11 +22,6 @@ async function writeFile(file, text, folder, countObject) {
     console.log("Error writing file:", err);
   }
   countWrites++;
-  console.log(
-    "teeReader writeFile countWrites, totalFiles",
-    countWrites,
-    totalFiles
-  );
   if (countWrites == totalFiles) {
     countWrites = 0;
     docParser.readDir(
@@ -40,9 +33,6 @@ async function writeFile(file, text, folder, countObject) {
 }
 
 async function convert(file, path, folder, countObject) {
-  console.log(
-    "-----------------------------------------------tesse convert called"
-  );
   const worker = await createWorker();
   const concatPath = `${path}/${file}`;
   await worker.loadLanguage("eng");
@@ -69,11 +59,15 @@ async function makeDir(folder) {
 
 async function readMultipleFiles(path, folder, countObject) {
   makeDir(folder);
-  fs.readdirSync(path).forEach((file, index) => {
-    setTimeout(function () {
-      convert(file, path, folder, countObject);
-    }, index * 10);
-  });
+  try {
+    fs.readdirSync(path).forEach((file, index) => {
+      setTimeout(function () {
+        convert(file, path, folder, countObject);
+      }, index * 10);
+    });
+  } catch (err) {
+    console.log("err", err);
+  }
 }
 
 module.exports = {
