@@ -39,10 +39,10 @@ const upload = multer({ storage: storage });
  *
  */
 
-app.post("/uploadToParse", upload.single("file"), function (req, res) {
+app.post("/parseNewDoc", upload.single("file"), function (req, res) {
   try {
+    //check
     const file = req.file;
-    res.status(200).json({});
   } catch (err) {
     res.send().json(err);
   }

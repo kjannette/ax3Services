@@ -1,6 +1,5 @@
 const fs = require("fs");
 const tesseReader = require("./tesseReader.js");
-const { readMultipleFiles, convert, writeFile } = require("./tesseReader.js");
 var sleep = require("system-sleep");
 
 const directory = "../Documents/Converted/";
@@ -19,7 +18,7 @@ async function watchOnce() {
     watcher.close();
     sleep(10000);
     const fileCount = countFiles(`../Documents/Converted/${file}`, file);
-    //sleep(1000);
+
     tesseReader.readMultipleFiles(
       `../Documents/Converted/${file}`,
       `${file}`,
