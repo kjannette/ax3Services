@@ -107,7 +107,6 @@ const iterateFilePaths = async (paths) => {
 };
 
 async function classifyDoc(sortedPaths) {
-  console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ fired classifyDoc");
   const master = [
     { searchTerm: "interrogatories", count: 0 },
     { searchTerm: "interrogatory", count: 0 },

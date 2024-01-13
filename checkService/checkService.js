@@ -9,7 +9,6 @@ async function checkFile(
   determinedDocType
 ) {
   let path;
-  //console.log("determinedDocType in checkFile:", determinedDocType);
   if (determinedDocType === "interrogatories") {
     path = `../Documents/Requests/Parsedrogs/${folder}/${folder}-jbk-parsedArr.json`;
   } else if (determinedDocType === "production") {
