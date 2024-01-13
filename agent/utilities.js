@@ -40,7 +40,7 @@ function selectRequestPath(reqType, isRequests, folder) {
   } else if (reqType == "admissions") {
     dir = `../Documents/Requests/Parsedadmit/${folder}/`;
   } else if (reqType == "production") {
-    dir = `../Documents/Requests/Parsedprod/${folder}`;
+    dir = `../Documents/Requests/Parsedprod/${folder}/`;
   } else if (reqType == "combined-numbered") {
     dir = `../Documents/Requests/Parsedcombined/${folder}/`;
   }
