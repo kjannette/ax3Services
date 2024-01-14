@@ -29,7 +29,7 @@ function selectRequestFolderPath(docId, reqType) {
   }
   return folderPath;
 }
-// need to check
+
 function selectResponseFilePath(docId, reqType) {
   let filePath;
   const basePath = process.cwd();
@@ -79,26 +79,49 @@ async function deleteDocument(docId, reqType, respGens) {
 async function deleteFolderAndContents(docId, reqType, respGens = 0) {
   const requestFolderPath = selectRequestFolderPath(docId, reqType);
   const gens = parseInt(respGens);
-
   function removeFolder() {
     const requestFolderPath = selectRequestFolderPath(docId, reqType);
-    fs.rm(requestFolderPath, { recursive: true, force: true }, (err) => {
-      if (err) {
-        console.log(err);
-        return err;
-      }
-    });
-    if (gens > 0) {
-      const responseFolderPath = selectResponseFolderPath(docId, reqType);
-      fs.rm(responseFolderPath, { recursive: true, force: true }, (err) => {
-        if (err) {
-          console.log(err);
-          return err;
+    if (requestFolderPath) {
+      try {
+        fs.rm(requestFolderPath, { recursive: true, force: true }, (err) => {
+          if (err) {
+            console.log(err);
+            return err;
+          }
+        });
+        if (gens > 0) {
+          const responseFolderPath = selectResponseFolderPath(docId, reqType);
+          fs.rm(responseFolderPath, { recursive: true, force: true }, (err) => {
+            if (err) {
+              console.log(err);
+              return err;
+            }
+          });
         }
-      });
+      } catch (err) {
+        console.log(err);
+      }
     }
   }
+}
 
+async function cleanupGenFolderAndContents(docId, reqType) {
+  const requestFolderPath = `/Users/kjannette/workspace/ax3/ax3Services/docGenService/Docxinfo/${docId}.json`;
+  fs.rm(requestFolderPath, { recursive: true, force: true }, (err) => {
+    if (err) {
+      console.log(err);
+      return err;
+    }
+  });
+}
+
+module.exports = {
+  deleteDocument,
+  deleteFolderAndContents,
+  cleanupGenFolderAndContents,
+};
+
+/*
   fs.access(
     requestFolderPath,
     fs.constants.R_OK | fs.constants.W_OK,
@@ -129,20 +152,4 @@ async function deleteFolderAndContents(docId, reqType, respGens = 0) {
         }
       }
     };
-}
-
-async function cleanupGenFolderAndContents(docId, reqType) {
-  const requestFolderPath = `/Users/kjannette/workspace/ax3/ax3Services/docGenService/Docxinfo/${docId}.json`;
-  fs.rm(requestFolderPath, { recursive: true, force: true }, (err) => {
-    if (err) {
-      console.log(err);
-      return err;
-    }
-  });
-}
-
-module.exports = {
-  deleteDocument,
-  deleteFolderAndContents,
-  cleanupGenFolderAndContents,
-};
+    */
