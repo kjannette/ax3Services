@@ -458,9 +458,18 @@ async function parseRogs(
     rogs.push(obj);
   });
   if (rogs.length < 2) {
-    const isRequests = true;
-    combinedParseRequests(folder, determinedDocType, isRequests);
-    return;
+    if (parseRogsCount < 2) {
+      parseRogsCount++;
+      parseRogs(docType, filePaths, folder, determinedDocType, parseRogsCount);
+    } else {
+      const isRequests = true;
+      modelController.createArrayOfQuestions(
+        folder,
+        determinedDocType,
+        isRequests
+      );
+      return;
+    }
   } else {
     let requestArray = [];
     let requestObject = {};
