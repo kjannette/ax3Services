@@ -59,15 +59,11 @@ async function makeDir(folder) {
 
 async function readMultipleFiles(path, folder, countObject) {
   makeDir(folder);
-  try {
-    fs.readdirSync(path).forEach((file, index) => {
-      setTimeout(function () {
-        convert(file, path, folder, countObject);
-      }, index * 10);
-    });
-  } catch (err) {
-    console.log("err", err);
-  }
+  fs.readdirSync(path).forEach((file, index) => {
+    setTimeout(function () {
+      convert(file, path, folder, countObject);
+    }, index * 10);
+  });
 }
 
 module.exports = {
