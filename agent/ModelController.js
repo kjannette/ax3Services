@@ -176,7 +176,7 @@ class ModelController {
         return comp;
       })
     );
-
+    console.log("completes", completes);
     const flatReq = completes.flat();
     const completionsObject = { type: "combined-numbered" };
     completionsObject["requests"] = flatReq;
@@ -236,7 +236,7 @@ class ModelController {
 }
 
 /*
-const docId = "09b3f1c3-75fb-4225-a15f-8a633bbbdca9";
+const docId = "0fb50376-5386-4b4b-b73b-0bef8db7de61";
 const modCon = new ModelController();
 modCon.createArrayOfQuestions(docId, "combined-numbered");
 */
