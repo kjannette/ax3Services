@@ -161,7 +161,7 @@ class ModelController {
     if (dirArray.length > 10) {
       const splitAt = Math.floor(dirArray.length / 2);
       const temp1 = dirArray.slice(0, splitAt);
-      const temp2 = dirArray.slice(splitAt, dirArray.length - 1);
+      const temp2 = dirArray.slice(splitAt, dirArray.length);
       newArray.push(temp1);
       newArray.push(temp2);
     } else {
@@ -171,6 +171,13 @@ class ModelController {
 
     completes = await Promise.all(
       newArray.map(async (arr) => {
+        console.log(
+          "-----------------------------------------------------------------"
+        );
+        console.log("arr", arr);
+        console.log(
+          "-----------------------------------------------------------------"
+        );
         requestStr = await iteratePathsReturnString(arr);
         const comp = await this.startOne(requestStr, reqType, isRequests);
         return comp;
@@ -231,13 +238,22 @@ class ModelController {
       model: "gpt-4",
       messages: prompt,
     });
+    console.log(
+      "________________________________________________________________________________"
+    );
+    console.log(
+      "completion.choices[0].message.content",
+      completion.choices[0].message.content
+    );
+    console.log(
+      "________________________________________________________________________________"
+    );
     return completion.choices[0].message.content;
   }
 }
 
-/*
 const docId = "0fb50376-5386-4b4b-b73b-0bef8db7de61";
 const modCon = new ModelController();
 modCon.createArrayOfQuestions(docId, "combined-numbered");
-*/
+
 module.exports = new ModelController();
