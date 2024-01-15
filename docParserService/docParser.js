@@ -43,6 +43,20 @@ async function methodSelector(docType, filePaths, folder, parseOneCount) {
       isRequests
     );
     return;
+  } else if (
+    docType.docProd > docType.rogs &&
+    docType.docProd > docType.admit &&
+    docType.docProd > 12 &&
+    docType.rogs > 10
+  ) {
+    determinedDocType = "combined-numbered";
+    const isRequests = true;
+    modelController.createArrayOfQuestions(
+      folder,
+      determinedDocType,
+      isRequests
+    );
+    return;
   } else if (docType.rogs > docType.docProd && docType.rogs > docType.admit) {
     determinedDocType = "interrogatories";
     let parseRogsCount = 0;
