@@ -251,9 +251,9 @@ class ModelController {
     return completion.choices[0].message.content;
   }
 }
-
+/*
 const docId = "0fb50376-5386-4b4b-b73b-0bef8db7de61";
 const modCon = new ModelController();
 modCon.createArrayOfQuestions(docId, "combined-numbered");
-
+*/
 module.exports = new ModelController();
