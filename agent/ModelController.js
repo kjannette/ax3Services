@@ -155,27 +155,30 @@ class ModelController {
     });
     let requestStr;
     let completes;
+    let newArray = [];
     if (dirArray.length > 10) {
       console.log("dirArray", dirArray);
-      let newArray = [];
       const splitAt = Math.floor(dirArray.length / 2);
       console.log("splitAt", splitAt);
       const temp1 = dirArray.slice(0, splitAt);
       const temp2 = dirArray.slice(splitAt, dirArray.length - 1);
-      console.log(temp1);
-      console.log(temp2);
+      newArray.push(temp1);
+      newArray.push(temp2);
     } else {
       requestStr = await iteratePathsReturnString(dirArray);
-      completes = await this.startOne(requestString, reqType, isRequests);
+      completes = await this.startOne(requestStr, reqType, isRequests);
     }
+    const parsedRequests = await Promise.all(
+      newArray.map(async (arr) => {
+        requestStr = await iteratePathsReturnString(arr);
+        const comp = await this.startOne(requestStr, reqType, isRequests);
+      }
+    )
 
-    return;
-    const requestString = await iteratePathsReturnString(dirArray);
-    const completions = await this.startOne(requestString, reqType, isRequests);
 
     const completionsObject = { type: "combined-numbered" };
     //const tempComp = JSON.parse(completions);
-    completionsObject["requests"] = completions;
+    completionsObject["requests"] = completes;
 
     makeDir(docId, reqType, isRequests);
     masterArray.push(completionsObject);
