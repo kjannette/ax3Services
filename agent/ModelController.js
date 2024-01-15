@@ -45,6 +45,9 @@ class ModelController {
    */
 
   async arrayGenAnswers(docId, reqType, isRequests) {
+    console.log(
+      "_____________________________________________________________ fired arrayGenAnswers"
+    );
     let filePath;
     const basePath = process.cwd();
     if (reqType == "combined-numbered") {
@@ -59,13 +62,27 @@ class ModelController {
     const fileData = fs.readFileSync(filePath, "utf8");
     const rogs = await JSON.parse(fileData);
     const requests = rogs[0].requests;
+    console.log(
+      "-----------------------------------------------------------------------"
+    );
+    console.log("requests", requests);
+    console.log(
+      "-----------------------------------------------------------------------"
+    );
     let completions;
+
+    /*
+
+    this probably needs to go, because combined-numbered are being parsed to json always now
+    
     if (reqType == "combined-numbered") {
       completions = await this.startOne(requests, reqType, isRequests);
     } else {
       completions = await this.start(requests, reqType, isRequests);
     }
+    */
 
+    completions = await this.start(requests, reqType, isRequests);
     let masterArray = [];
     const completionsArray = [];
     const completionsObject = { type: `response to ${reqType}` };
@@ -99,6 +116,9 @@ class ModelController {
    */
 
   async combinedGenAnswers(docId, reqType, isRequests) {
+    console.log(
+      "_____________________________________________________________ fired combinedGenAnswers"
+    );
     const masterArray = [];
     let dirPath;
 
