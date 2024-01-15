@@ -169,7 +169,7 @@ class ModelController {
       completes = await this.startOne(requestStr, reqType, isRequests);
     }
 
-    const parsedRequests = await Promise.all(
+    completes = await Promise.all(
       newArray.map(async (arr) => {
         requestStr = await iteratePathsReturnString(arr);
         const comp = await this.startOne(requestStr, reqType, isRequests);
@@ -177,10 +177,8 @@ class ModelController {
       })
     );
 
-    const flatReq = parsedRequests.flat();
-
+    const flatReq = completes.flat();
     const completionsObject = { type: "combined-numbered" };
-
     completionsObject["requests"] = flatReq;
 
     makeDir(docId, reqType, isRequests);
@@ -237,8 +235,9 @@ class ModelController {
   }
 }
 
+/*
 const docId = "09b3f1c3-75fb-4225-a15f-8a633bbbdca9";
 const modCon = new ModelController();
 modCon.createArrayOfQuestions(docId, "combined-numbered");
-
-//module.exports = new ModelController();
+*/
+module.exports = new ModelController();
