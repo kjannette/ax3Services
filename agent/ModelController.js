@@ -25,13 +25,6 @@ class ModelController {
     let filePath;
     let temp;
 
-    /* This can probably be deprecated because docParser calls  createArrayOfQuestions directory
-    if (reqType === "combined-numbered" && isRequests == true) {
-      dumped = this.createArrayOfQuestions(docId, reqType, isRequests);
-      return dumped;
-    }
-    */
-
     const basePath = process.cwd();
     if (reqType == "combined-numbered") {
       filePath = `${basePath}/Documents/Requests/Parsedcombined/${docId}/${docId}-jbk-parsedRequests.json`;
@@ -56,16 +49,12 @@ class ModelController {
     const basePath = process.cwd();
     if (reqType == "combined-numbered") {
       filePath = `${basePath}/Documents/Requests/Parsedcombined/${docId}/${docId}-jbk-parsedRequests.json`;
-      //temp = this.arrayGenAnswers(filePath, docId, reqType, isRequests);
     } else if (reqType == "interrogatories") {
       filePath = `${basePath}/Documents/Requests/Parsedrogs/${docId}/${docId}-jbk-parsedRequests.json`;
-      //temp = this.arrayGenAnswers(filePath, docId, reqType, isRequests);
     } else if (reqType == "admissions") {
       filePath = `${basePath}/Documents/Requests/Parsedadmit/${docId}/${docId}-jbk-parsedRequests.json`;
-      //temp = this.arrayGenAnswers(filePath, docId, reqType, isRequests);
     } else if (reqType == "production") {
       filePath = `${basePath}/Documents/Requests/Parsedprod/${docId}/${docId}-jbk-parsedRequests.json`;
-      //temp = this.arrayGenAnswers(filePath, docId, reqType, isRequests);
     }
     const fileData = fs.readFileSync(filePath, "utf8");
     const rogs = await JSON.parse(fileData);
@@ -164,25 +153,25 @@ class ModelController {
       const temp2 = dirArray.slice(splitAt, dirArray.length);
       newArray.push(temp1);
       newArray.push(temp2);
+      completes = await Promise.all(
+        newArray.map(async (arr) => {
+          console.log(
+            "-----------------------------------------------------------------"
+          );
+          console.log("arr", arr);
+          console.log(
+            "-----------------------------------------------------------------"
+          );
+          requestStr = await iteratePathsReturnString(arr);
+          const comp = await this.startOne(requestStr, reqType, isRequests);
+          return comp;
+        })
+      );
     } else {
       requestStr = await iteratePathsReturnString(dirArray);
       completes = await this.startOne(requestStr, reqType, isRequests);
     }
 
-    completes = await Promise.all(
-      newArray.map(async (arr) => {
-        console.log(
-          "-----------------------------------------------------------------"
-        );
-        console.log("arr", arr);
-        console.log(
-          "-----------------------------------------------------------------"
-        );
-        requestStr = await iteratePathsReturnString(arr);
-        const comp = await this.startOne(requestStr, reqType, isRequests);
-        return comp;
-      })
-    );
     console.log("completes", completes);
     const flatReq = completes.flat();
     const completionsObject = { type: "combined-numbered" };
@@ -251,9 +240,5 @@ class ModelController {
     return completion.choices[0].message.content;
   }
 }
-/*
-const docId = "0fb50376-5386-4b4b-b73b-0bef8db7de61";
-const modCon = new ModelController();
-modCon.createArrayOfQuestions(docId, "combined-numbered");
-*/
+
 module.exports = new ModelController();

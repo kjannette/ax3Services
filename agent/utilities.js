@@ -3,7 +3,6 @@ const fs = require("fs");
 /*
  *
  *  Strore returned completions
- *
  */
 
 function saveCompletions(responses, folder, reqType, isRequests) {
@@ -42,14 +41,13 @@ function selectRequestPath(reqType, isRequests, folder) {
   } else if (reqType == "production") {
     dir = `../Documents/Requests/Parsedprod/${folder}/`;
   } else if (reqType == "combined-numbered") {
-    dir = `../Documents/Requests/Parsedcombined/${folder}/`;
+    dir = `/Users/kjannette/workspace/ax3/ax3Services/Documents/Requests/Parsedcombined/${folder}/`;
   }
   return dir;
 }
 
 function selectResponsePath(reqType, isRequests, folder) {
   let dir;
-  // called from app.js ?
   if (reqType === "interrogatories") {
     dir = `./Documents/Responses/Rogresp/${folder}/`;
   } else if (reqType == "admissions") {
@@ -68,7 +66,6 @@ const directoryPath = `/Users/kjannette/workspace/agentxa2new/Backend/Documents/
  *
  * Takes path to directory returns
  * concat path + fileName
- *
  */
 
 async function readDir(docId, direcPath = directoryPath) {
@@ -88,7 +85,6 @@ async function readDir(docId, direcPath = directoryPath) {
  *  Create directory w/its location based on if
  *  1. request or response and
  *  2. request/response type
- *
  */
 
 async function makeDir(folder, reqType, isRequests) {
@@ -123,7 +119,6 @@ async function iteratePathsReturnString(paths) {
     masterArray.push(fileData);
   }
   const massiveString = masterArray.join();
-
   return massiveString;
 }
 
