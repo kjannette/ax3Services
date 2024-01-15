@@ -153,7 +153,23 @@ class ModelController {
     const dirArray = fileNames.map((name) => {
       return dirPath + name;
     });
+    let requestStr;
+    let completes;
+    if (dirArray.length > 10) {
+      console.log("dirArray", dirArray);
+      let newArray = [];
+      const splitAt = Math.floor(dirArray.length / 2);
+      console.log("splitAt", splitAt);
+      const temp1 = dirArray.slice(0, splitAt);
+      const temp2 = dirArray.slice(splitAt, dirArray.length - 1);
+      console.log(temp1);
+      console.log(temp2);
+    } else {
+      requestStr = await iteratePathsReturnString(dirArray);
+      completes = await this.startOne(requestString, reqType, isRequests);
+    }
 
+    return;
     const requestString = await iteratePathsReturnString(dirArray);
     const completions = await this.startOne(requestString, reqType, isRequests);
 
@@ -207,15 +223,17 @@ class ModelController {
 
   async startOne(request, reqType) {
     const prompt = createArrayFromSingleDocPrompt(request);
-    console.log("prompt in startOne", prompt);
-
     const completion = await openai.chat.completions.create({
       model: "gpt-4",
       messages: prompt,
     });
-
+    console.log("completion", completion.choices);
     return completion.choices[0].message.content;
   }
 }
 
-module.exports = new ModelController();
+const docId = "09b3f1c3-75fb-4225-a15f-8a633bbbdca9";
+const modCon = new ModelController();
+modCon.createArrayOfQuestions(docId, "combined-numbered");
+
+//module.exports = new ModelController();
