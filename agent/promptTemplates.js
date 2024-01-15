@@ -9,7 +9,7 @@ const createResponseFromOneQuestionPrompt = (request) => {
   return regularPrompt;
 };
 
-// create an array of the quesitons onn a combined numbered
+// create an array of the questions for a combined numbered type
 const createArrayFromSingleDocPrompt = (request) => {
   console.log(
     ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>createArrayFromSingleDocPrompt FIRED~~~~~~~~~~~~~~~~~~~"
