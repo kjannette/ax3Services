@@ -49,6 +49,9 @@ async function methodSelector(docType, filePaths, folder, parseOneCount) {
     docType.docProd > 12 &&
     docType.rogs > 10
   ) {
+    console.log(
+      "new if fired ____________________________________________________________________________________________________________________________________________________________________-"
+    );
     determinedDocType = "combined-numbered";
     const isRequests = true;
     modelController.createArrayOfQuestions(

@@ -154,12 +154,39 @@ class ModelController {
       return dirPath + name;
     });
 
-    const requestString = await iteratePathsReturnString(dirArray);
-    const completions = await this.startOne(requestString, reqType, isRequests);
+    let requestStr;
+    let completes;
+    let newArray = [];
 
+    if (dirArray.length > 10) {
+      const splitAt = Math.floor(dirArray.length / 2);
+      const temp1 = dirArray.slice(0, splitAt);
+      const temp2 = dirArray.slice(splitAt, dirArray.length);
+      newArray.push(temp1);
+      newArray.push(temp2);
+    } else {
+      requestStr = await iteratePathsReturnString(dirArray);
+      completes = await this.startOne(requestStr, reqType, isRequests);
+    }
+
+    completes = await Promise.all(
+      newArray.map(async (arr) => {
+        console.log(
+          "-----------------------------------------------------------------"
+        );
+        console.log("arr", arr);
+        console.log(
+          "-----------------------------------------------------------------"
+        );
+        requestStr = await iteratePathsReturnString(arr);
+        const comp = await this.startOne(requestStr, reqType, isRequests);
+        return comp;
+      })
+    );
+    console.log("completes", completes);
+    const flatReq = completes.flat();
     const completionsObject = { type: "combined-numbered" };
-    //const tempComp = JSON.parse(completions);
-    completionsObject["requests"] = completions;
+    completionsObject["requests"] = flatReq;
 
     makeDir(docId, reqType, isRequests);
     masterArray.push(completionsObject);
@@ -207,15 +234,26 @@ class ModelController {
 
   async startOne(request, reqType) {
     const prompt = createArrayFromSingleDocPrompt(request);
-    console.log("prompt in startOne", prompt);
-
     const completion = await openai.chat.completions.create({
       model: "gpt-4",
       messages: prompt,
     });
-
+    console.log(
+      "________________________________________________________________________________"
+    );
+    console.log(
+      "completion.choices[0].message.content",
+      completion.choices[0].message.content
+    );
+    console.log(
+      "________________________________________________________________________________"
+    );
     return completion.choices[0].message.content;
   }
 }
-
+/*
+const docId = "0fb50376-5386-4b4b-b73b-0bef8db7de61";
+const modCon = new ModelController();
+modCon.createArrayOfQuestions(docId, "combined-numbered");
+*/
 module.exports = new ModelController();
