@@ -41,7 +41,7 @@ function selectRequestPath(reqType, isRequests, folder) {
   } else if (reqType == "production") {
     dir = `../Documents/Requests/Parsedprod/${folder}/`;
   } else if (reqType == "combined-numbered") {
-    dir = `../Documents/Requests/Parsedcombined/${folder}/`;
+    dir = `/Users/kjannette/workspace/ax3/ax3Services/Documents/Requests/Parsedcombined/${folder}/`;
   }
   return dir;
 }
