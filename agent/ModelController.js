@@ -153,13 +153,13 @@ class ModelController {
     const dirArray = fileNames.map((name) => {
       return dirPath + name;
     });
+
     let requestStr;
     let completes;
     let newArray = [];
+
     if (dirArray.length > 10) {
-      console.log("dirArray", dirArray);
       const splitAt = Math.floor(dirArray.length / 2);
-      console.log("splitAt", splitAt);
       const temp1 = dirArray.slice(0, splitAt);
       const temp2 = dirArray.slice(splitAt, dirArray.length - 1);
       newArray.push(temp1);
@@ -168,17 +168,20 @@ class ModelController {
       requestStr = await iteratePathsReturnString(dirArray);
       completes = await this.startOne(requestStr, reqType, isRequests);
     }
+
     const parsedRequests = await Promise.all(
       newArray.map(async (arr) => {
         requestStr = await iteratePathsReturnString(arr);
         const comp = await this.startOne(requestStr, reqType, isRequests);
-      }
-    )
+        return comp;
+      })
+    );
 
+    const flatReq = parsedRequests.flat();
 
     const completionsObject = { type: "combined-numbered" };
-    //const tempComp = JSON.parse(completions);
-    completionsObject["requests"] = completes;
+
+    completionsObject["requests"] = flatReq;
 
     makeDir(docId, reqType, isRequests);
     masterArray.push(completionsObject);
@@ -230,7 +233,6 @@ class ModelController {
       model: "gpt-4",
       messages: prompt,
     });
-    console.log("completion", completion.choices);
     return completion.choices[0].message.content;
   }
 }
