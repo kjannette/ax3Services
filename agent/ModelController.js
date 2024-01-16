@@ -80,7 +80,7 @@ class ModelController {
       obj["text"] = comp;
       completionsArray.push(obj);
     });
-
+    console.log("completionsArray", completionsArray);
     completionsObject["responses"] = completionsArray;
     masterArray.push(completionsObject);
 
@@ -100,9 +100,6 @@ class ModelController {
    */
 
   async arrayGenAnswersCombined(docId, reqType, isRequests) {
-    console.log(
-      "_____________________________________________________________ fired arrayGenAnswersCombined"
-    );
     let filePath;
     const basePath = process.cwd();
     if (reqType == "combined-numbered") {
@@ -116,27 +113,27 @@ class ModelController {
     } else if (reqType == "production") {
       filePath = `${basePath}/Documents/Requests/Parsedprod/${docId}/${docId}-jbk-parsedRequests.json`;
     }
-    const data = fs.readFileSync(filePath, "utf8");
-    const tempFoo = JSON.parse(data);
-    console.log(
-      "--------------------------------------------------------------------------->"
-    );
-    const procArr = tempFoo[0].requests;
 
-    const finalArray = await this.start(procArr, reqType, isRequests);
+    const fileData = fs.readFileSync(filePath, "utf8");
+    const rogs = await JSON.parse(fileData);
+    const requests = rogs[0].requests;
+    let completions;
 
+    completions = await this.start(requests, reqType, isRequests);
+
+    let masterArray = [];
     const completionsArray = [];
+    const completionsObject = { type: `response to ${reqType}` };
+    const finalArray = completions[0];
 
     finalArray?.forEach((comp) => {
+      console.log("comp", comp);
       let obj = {};
       const responseId = uuidv4();
       obj["responseId"] = responseId;
       obj["text"] = comp;
       completionsArray.push(obj);
     });
-
-    let masterArray = [];
-    const completionsObject = { type: `response to ${reqType}` };
     completionsObject["responses"] = completionsArray;
     masterArray.push(completionsObject);
 
@@ -144,6 +141,7 @@ class ModelController {
     let temp;
     temp = docId;
     temp = masterArray;
+
     saveCompletions(temp, docId, reqType, isRequests);
     return temp;
   }
@@ -264,10 +262,6 @@ class ModelController {
           model: "gpt-4",
           messages: prompt,
         });
-        console.log(
-          "completion.choices[0].message.content;",
-          completion.choices[0].message.content
-        );
         return completion.choices[0].message.content;
       })
     );
@@ -289,23 +283,15 @@ class ModelController {
       model: "gpt-4",
       messages: prompt,
     });
-    console.log(
-      "________________________________________________________________________________"
-    );
-    console.log(
-      "completion.choices[0].message.content",
-      completion.choices[0].message.content
-    );
-    console.log(
-      "________________________________________________________________________________"
-    );
+
     return completion.choices[0].message.content;
   }
 }
+/*
 const docId = "20886dec-3459-46b7-9c0e-80c390cf058b";
 const reqType = "combined-numbered";
 const isRequests = false;
 const modCon = new ModelController();
 modCon.arrayGenAnswersCombined(docId, reqType, isRequests);
-
+*/
 module.exports = new ModelController();
