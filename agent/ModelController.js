@@ -203,7 +203,7 @@ class ModelController {
     let requestStr;
     let completes;
     let newArray = [];
-
+    let flatReq;
     if (dirArray.length > 10) {
       const splitAt = Math.floor(dirArray.length / 2);
       const temp1 = dirArray.slice(0, splitAt);
@@ -224,15 +224,17 @@ class ModelController {
           return comp;
         })
       );
+      flatReq = completes.flat();
     } else {
       requestStr = await iteratePathsReturnString(dirArray);
-      completes = await this.startOne(requestStr, reqType, isRequests);
+      flatReq = await this.startOne(requestStr, reqType, isRequests);
     }
+    const parsedRequests = JSON.parse(flatReq);
 
-    console.log("completes", completes);
-    const flatReq = completes.flat();
+    console.log("parsedRequests", parsedRequests);
+
     const completionsObject = { type: "combined-numbered" };
-    completionsObject["requests"] = flatReq;
+    completionsObject["requests"] = parsedRequests;
 
     makeDir(docId, reqType, isRequests);
     masterArray.push(completionsObject);
@@ -297,5 +299,10 @@ class ModelController {
     return completion.choices[0].message.content;
   }
 }
+
+const docId = "eb5017cd-5495-4ded-a88a-5646781eb00b";
+const reqType = "combined-numbered";
+const modCon = new ModelController();
+modCon.createArrayOfQuestions(docId, reqType);
 
 module.exports = new ModelController();
