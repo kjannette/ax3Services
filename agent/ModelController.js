@@ -106,7 +106,9 @@ class ModelController {
     let filePath;
     const basePath = process.cwd();
     if (reqType == "combined-numbered") {
-      filePath = `${basePath}/Documents/Requests/Parsedcombined/${docId}/${docId}-jbk-parsedRequests.json`;
+      filePath =
+        "/Users/kjannette/workspace/ax3/ax3Services/Documents/Requests/Parsedcombined/20886dec-3459-46b7-9c0e-80c390cf058b/20886dec-3459-46b7-9c0e-80c390cf058b-jbk-parsedRequests.json";
+      //filePath = `${basePath}/Documents/Requests/Parsedcombined/${docId}/${docId}-jbk-parsedRequests.json`;
     } else if (reqType == "interrogatories") {
       filePath = `${basePath}/Documents/Requests/Parsedrogs/${docId}/${docId}-jbk-parsedRequests.json`;
     } else if (reqType == "admissions") {
@@ -114,15 +116,15 @@ class ModelController {
     } else if (reqType == "production") {
       filePath = `${basePath}/Documents/Requests/Parsedprod/${docId}/${docId}-jbk-parsedRequests.json`;
     }
-    const fileData = fs.readFileSync(filePath, "utf8");
-    const requests = JSON.parse(fileData);
-    const arrayOne = JSON.parse(requests[0].requests[0]);
-    const arrayTwo = JSON.parse(requests[0].requests[1]);
+    const data = fs.readFileSync(filePath, "utf8");
+    const tempFoo = JSON.parse(data);
+    console.log(
+      "--------------------------------------------------------------------------->"
+    );
+    const procArr = tempFoo[0].requests;
 
-    const completionsOne = await this.start(arrayOne, reqType, isRequests);
-    const completionstwo = await this.start(arrayTwo, reqType, isRequests);
+    const finalArray = await this.start(procArr, reqType, isRequests);
 
-    const finalArray = completionsOne.concat(completionstwo);
     const completionsArray = [];
 
     finalArray?.forEach((comp) => {
@@ -300,10 +302,10 @@ class ModelController {
     return completion.choices[0].message.content;
   }
 }
-
-const docId = "d79fa856-dea3-4545-b60e-1827d1dce82f";
+const docId = "20886dec-3459-46b7-9c0e-80c390cf058b";
 const reqType = "combined-numbered";
+const isRequests = false;
 const modCon = new ModelController();
-modCon.createArrayOfQuestions(docId, reqType);
+modCon.arrayGenAnswersCombined(docId, reqType, isRequests);
 
 module.exports = new ModelController();
