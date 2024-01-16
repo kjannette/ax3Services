@@ -46,6 +46,60 @@ class ModelController {
    */
 
   async arrayGenAnswers(docId, reqType, isRequests) {
+    let filePath;
+    const basePath = process.cwd();
+    if (reqType == "combined-numbered") {
+      filePath = `${basePath}/Documents/Requests/Parsedcombined/${docId}/${docId}-jbk-parsedRequests.json`;
+    } else if (reqType == "interrogatories") {
+      filePath = `${basePath}/Documents/Requests/Parsedrogs/${docId}/${docId}-jbk-parsedRequests.json`;
+    } else if (reqType == "admissions") {
+      filePath = `${basePath}/Documents/Requests/Parsedadmit/${docId}/${docId}-jbk-parsedRequests.json`;
+    } else if (reqType == "production") {
+      filePath = `${basePath}/Documents/Requests/Parsedprod/${docId}/${docId}-jbk-parsedRequests.json`;
+    }
+    const fileData = fs.readFileSync(filePath, "utf8");
+    const rogs = await JSON.parse(fileData);
+    const requests = rogs[0].requests;
+    let completions;
+    if (reqType == "combined-numbered") {
+      completions = await this.startOne(requests, reqType, isRequests);
+    } else {
+      completions = await this.start(requests, reqType, isRequests);
+    }
+
+    let masterArray = [];
+    const completionsArray = [];
+    const completionsObject = { type: `response to ${reqType}` };
+    const finalArray = completions[0];
+
+    let temp;
+    finalArray?.forEach((comp) => {
+      let obj = {};
+      const responseId = uuidv4();
+      obj["responseId"] = responseId;
+      obj["text"] = comp;
+      completionsArray.push(obj);
+    });
+
+    completionsObject["responses"] = completionsArray;
+    masterArray.push(completionsObject);
+
+    makeDir(docId, reqType, isRequests);
+
+    temp = docId;
+    temp = masterArray;
+    console.log("temp in arrayGenAnswers", temp);
+    saveCompletions(temp, docId, reqType, isRequests);
+    return temp;
+  }
+
+  /*
+   *  LLM PROMPT CONTROLLER
+   *  RETURNS ANSWERS FROM ARRAY OF REQUESTS - COMBINED TYPE
+   *
+   */
+
+  async arrayGenAnswersCombined(docId, reqType, isRequests) {
     console.log(
       "_____________________________________________________________ fired arrayGenAnswers"
     );
