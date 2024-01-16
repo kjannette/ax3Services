@@ -80,6 +80,26 @@ app.get(
  *  combined-numbered
  */
 
+app.get(
+  "/genResponseFromArrayCombined/:docId/:docType/:isRequests",
+  async (req, res) => {
+    const { docId, docType } = req.params;
+
+    const isRequests = false;
+    try {
+      const data = await modelController.arrayGenAnswersCombined(
+        docId,
+        docType,
+        isRequests
+      );
+      res.send(data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
+
+/*
 app.get("/genResponseBlob/:docId/:docType/:isRequests", async (req, res) => {
   const { docId, docType } = req.params;
 
@@ -95,6 +115,7 @@ app.get("/genResponseBlob/:docId/:docType/:isRequests", async (req, res) => {
     console.log(error);
   }
 });
+*/
 
 /*
  *  POST to Generate Docx

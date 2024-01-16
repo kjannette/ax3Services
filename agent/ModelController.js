@@ -15,6 +15,7 @@ const {
 } = require("./promptTemplates.js");
 const { OPENAI_API_KEY } = require("./secrets_1.js");
 const { v4: uuidv4 } = require("uuid");
+const dJSON = require("dirty-json");
 
 const openai = new OpenAI({
   apiKey: OPENAI_API_KEY,
@@ -94,11 +95,67 @@ class ModelController {
 
   /*
    *  LLM PROMPT CONTROLLER
+   *  RETURNS ANSWERS FROM ARRAY OF REQUESTS - COMBINED TYPE
+   *
+   */
+
+  async arrayGenAnswersCombined(docId, reqType, isRequests) {
+    console.log(
+      "_____________________________________________________________ fired arrayGenAnswersCombined"
+    );
+    let filePath;
+    const basePath = process.cwd();
+    if (reqType == "combined-numbered") {
+      filePath = `${basePath}/Documents/Requests/Parsedcombined/${docId}/${docId}-jbk-parsedRequests.json`;
+    } else if (reqType == "interrogatories") {
+      filePath = `${basePath}/Documents/Requests/Parsedrogs/${docId}/${docId}-jbk-parsedRequests.json`;
+    } else if (reqType == "admissions") {
+      filePath = `${basePath}/Documents/Requests/Parsedadmit/${docId}/${docId}-jbk-parsedRequests.json`;
+    } else if (reqType == "production") {
+      filePath = `${basePath}/Documents/Requests/Parsedprod/${docId}/${docId}-jbk-parsedRequests.json`;
+    }
+    const fileData = fs.readFileSync(filePath, "utf8");
+    const requests = JSON.parse(fileData);
+    const arrayOne = JSON.parse(requests[0].requests[0]);
+    const arrayTwo = JSON.parse(requests[0].requests[1]);
+
+    const completionsOne = await this.start(arrayOne, reqType, isRequests);
+    const completionstwo = await this.start(arrayTwo, reqType, isRequests);
+
+    const finalArray = completionsOne.concat(completionstwo);
+    const completionsArray = [];
+
+    finalArray?.forEach((comp) => {
+      let obj = {};
+      const responseId = uuidv4();
+      obj["responseId"] = responseId;
+      obj["text"] = comp;
+      completionsArray.push(obj);
+    });
+
+    let masterArray = [];
+    const completionsObject = { type: `response to ${reqType}` };
+    completionsObject["responses"] = completionsArray;
+    masterArray.push(completionsObject);
+
+    makeDir(docId, reqType, isRequests);
+    let temp;
+    temp = docId;
+    temp = masterArray;
+    saveCompletions(temp, docId, reqType, isRequests);
+    return temp;
+  }
+
+  /*
+   *  LLM PROMPT CONTROLLER
    *  RETURNS ANSWERS FROM TEXT BLOB
    *
    */
 
   async combinedGenAnswers(docId, reqType, isRequests) {
+    console.log(
+      "_____________________________________________________________ fired combinedGenAnswers"
+    );
     const masterArray = [];
     let dirPath;
 
