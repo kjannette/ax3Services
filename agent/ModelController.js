@@ -88,7 +88,6 @@ class ModelController {
     let temp;
     temp = docId;
     temp = masterArray;
-    console.log("temp in arrayGenAnswers", temp);
     saveCompletions(temp, docId, reqType, isRequests);
     return temp;
   }
