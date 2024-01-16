@@ -55,7 +55,7 @@ function selectResponsePath(reqType, isRequests, folder) {
   } else if (reqType == "production") {
     dir = `./Documents/Responses/Prodresp/${folder}/`;
   } else if (reqType == "combined-numbered") {
-    dir = `./Documents/Responses/Combinedresp/${folder}/`;
+    dir = `/Users/kjannette/workspace/ax3/ax3Services/Documents/Responses/Combinedresp/${folder}/`;
   }
   return dir;
 }

@@ -80,7 +80,7 @@ class ModelController {
       obj["text"] = comp;
       completionsArray.push(obj);
     });
-
+    console.log("completionsArray", completionsArray);
     completionsObject["responses"] = completionsArray;
     masterArray.push(completionsObject);
 
@@ -100,13 +100,12 @@ class ModelController {
    */
 
   async arrayGenAnswersCombined(docId, reqType, isRequests) {
-    console.log(
-      "_____________________________________________________________ fired arrayGenAnswersCombined"
-    );
     let filePath;
     const basePath = process.cwd();
     if (reqType == "combined-numbered") {
-      filePath = `${basePath}/Documents/Requests/Parsedcombined/${docId}/${docId}-jbk-parsedRequests.json`;
+      filePath =
+        "/Users/kjannette/workspace/ax3/ax3Services/Documents/Requests/Parsedcombined/20886dec-3459-46b7-9c0e-80c390cf058b/20886dec-3459-46b7-9c0e-80c390cf058b-jbk-parsedRequests.json";
+      //filePath = `${basePath}/Documents/Requests/Parsedcombined/${docId}/${docId}-jbk-parsedRequests.json`;
     } else if (reqType == "interrogatories") {
       filePath = `${basePath}/Documents/Requests/Parsedrogs/${docId}/${docId}-jbk-parsedRequests.json`;
     } else if (reqType == "admissions") {
@@ -114,27 +113,27 @@ class ModelController {
     } else if (reqType == "production") {
       filePath = `${basePath}/Documents/Requests/Parsedprod/${docId}/${docId}-jbk-parsedRequests.json`;
     }
+
     const fileData = fs.readFileSync(filePath, "utf8");
-    const requests = JSON.parse(fileData);
-    const arrayOne = JSON.parse(requests[0].requests[0]);
-    const arrayTwo = JSON.parse(requests[0].requests[1]);
+    const rogs = await JSON.parse(fileData);
+    const requests = rogs[0].requests;
+    let completions;
 
-    const completionsOne = await this.start(arrayOne, reqType, isRequests);
-    const completionstwo = await this.start(arrayTwo, reqType, isRequests);
+    completions = await this.start(requests, reqType, isRequests);
 
-    const finalArray = completionsOne.concat(completionstwo);
+    let masterArray = [];
     const completionsArray = [];
+    const completionsObject = { type: `response to ${reqType}` };
+    const finalArray = completions[0];
 
     finalArray?.forEach((comp) => {
+      console.log("comp", comp);
       let obj = {};
       const responseId = uuidv4();
       obj["responseId"] = responseId;
       obj["text"] = comp;
       completionsArray.push(obj);
     });
-
-    let masterArray = [];
-    const completionsObject = { type: `response to ${reqType}` };
     completionsObject["responses"] = completionsArray;
     masterArray.push(completionsObject);
 
@@ -142,6 +141,7 @@ class ModelController {
     let temp;
     temp = docId;
     temp = masterArray;
+
     saveCompletions(temp, docId, reqType, isRequests);
     return temp;
   }
@@ -203,6 +203,8 @@ class ModelController {
     let requestStr;
     let completes;
     let newArray = [];
+    let flatReq;
+    let parsedRequests = [];
 
     if (dirArray.length > 10) {
       const splitAt = Math.floor(dirArray.length / 2);
@@ -212,27 +214,28 @@ class ModelController {
       newArray.push(temp2);
       completes = await Promise.all(
         newArray.map(async (arr) => {
-          console.log(
-            "-----------------------------------------------------------------"
-          );
-          console.log("arr", arr);
-          console.log(
-            "-----------------------------------------------------------------"
-          );
           requestStr = await iteratePathsReturnString(arr);
           const comp = await this.startOne(requestStr, reqType, isRequests);
           return comp;
         })
       );
+      let fooz = JSON.parse(completes[0]);
+      let barz = JSON.parse(completes[1]);
+
+      fooz.forEach((item) => {
+        parsedRequests.push(item);
+      });
+      barz.forEach((item) => {
+        parsedRequests.push(item);
+      });
     } else {
       requestStr = await iteratePathsReturnString(dirArray);
-      completes = await this.startOne(requestStr, reqType, isRequests);
+      flatReq = await this.startOne(requestStr, reqType, isRequests);
+      parsedRequests = JSON.parse(flatReq);
     }
 
-    console.log("completes", completes);
-    const flatReq = completes.flat();
     const completionsObject = { type: "combined-numbered" };
-    completionsObject["requests"] = flatReq;
+    completionsObject["requests"] = parsedRequests;
 
     makeDir(docId, reqType, isRequests);
     masterArray.push(completionsObject);
@@ -259,10 +262,6 @@ class ModelController {
           model: "gpt-4",
           messages: prompt,
         });
-        console.log(
-          "completion.choices[0].message.content;",
-          completion.choices[0].message.content
-        );
         return completion.choices[0].message.content;
       })
     );
@@ -284,18 +283,15 @@ class ModelController {
       model: "gpt-4",
       messages: prompt,
     });
-    console.log(
-      "________________________________________________________________________________"
-    );
-    console.log(
-      "completion.choices[0].message.content",
-      completion.choices[0].message.content
-    );
-    console.log(
-      "________________________________________________________________________________"
-    );
+
     return completion.choices[0].message.content;
   }
 }
-
+/*
+const docId = "20886dec-3459-46b7-9c0e-80c390cf058b";
+const reqType = "combined-numbered";
+const isRequests = false;
+const modCon = new ModelController();
+modCon.arrayGenAnswersCombined(docId, reqType, isRequests);
+*/
 module.exports = new ModelController();
