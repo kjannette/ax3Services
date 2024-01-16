@@ -15,6 +15,7 @@ const {
 } = require("./promptTemplates.js");
 const { OPENAI_API_KEY } = require("./secrets_1.js");
 const { v4: uuidv4 } = require("uuid");
+const dJSON = require("dirty-json");
 
 const openai = new OpenAI({
   apiKey: OPENAI_API_KEY,
@@ -60,15 +61,11 @@ class ModelController {
       filePath = `${basePath}/Documents/Requests/Parsedprod/${docId}/${docId}-jbk-parsedRequests.json`;
     }
     const fileData = fs.readFileSync(filePath, "utf8");
-    const rogs = await JSON.parse(fileData);
-    const requests = rogs[0].requests;
-    console.log(
-      "-----------------------------------------------------------------------"
-    );
-    console.log("requests", requests);
-    console.log(
-      "-----------------------------------------------------------------------"
-    );
+    const requests = JSON.parse(fileData);
+    const arrayOne = JSON.parse(requests[0].requests[0]);
+    const arrayTwo = JSON.parse(requests[0].requests[1]);
+
+    return;
     let completions;
 
     /*
