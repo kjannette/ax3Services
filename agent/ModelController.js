@@ -101,7 +101,7 @@ class ModelController {
 
   async arrayGenAnswersCombined(docId, reqType, isRequests) {
     console.log(
-      "_____________________________________________________________ fired arrayGenAnswers"
+      "_____________________________________________________________ fired arrayGenAnswersCombined"
     );
     let filePath;
     const basePath = process.cwd();
