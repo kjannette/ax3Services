@@ -204,6 +204,8 @@ class ModelController {
     let completes;
     let newArray = [];
     let flatReq;
+    let parsedRequests = [];
+
     if (dirArray.length > 10) {
       const splitAt = Math.floor(dirArray.length / 2);
       const temp1 = dirArray.slice(0, splitAt);
@@ -212,26 +214,25 @@ class ModelController {
       newArray.push(temp2);
       completes = await Promise.all(
         newArray.map(async (arr) => {
-          console.log(
-            "-----------------------------------------------------------------"
-          );
-          console.log("arr", arr);
-          console.log(
-            "-----------------------------------------------------------------"
-          );
           requestStr = await iteratePathsReturnString(arr);
           const comp = await this.startOne(requestStr, reqType, isRequests);
           return comp;
         })
       );
-      flatReq = completes.flat();
+      let fooz = JSON.parse(completes[0]);
+      let barz = JSON.parse(completes[1]);
+
+      fooz.forEach((item) => {
+        parsedRequests.push(item);
+      });
+      barz.forEach((item) => {
+        parsedRequests.push(item);
+      });
     } else {
       requestStr = await iteratePathsReturnString(dirArray);
       flatReq = await this.startOne(requestStr, reqType, isRequests);
+      parsedRequests = JSON.parse(flatReq);
     }
-    const parsedRequests = JSON.parse(flatReq);
-
-    console.log("parsedRequests", parsedRequests);
 
     const completionsObject = { type: "combined-numbered" };
     completionsObject["requests"] = parsedRequests;
@@ -300,7 +301,7 @@ class ModelController {
   }
 }
 
-const docId = "eb5017cd-5495-4ded-a88a-5646781eb00b";
+const docId = "d79fa856-dea3-4545-b60e-1827d1dce82f";
 const reqType = "combined-numbered";
 const modCon = new ModelController();
 modCon.createArrayOfQuestions(docId, reqType);
