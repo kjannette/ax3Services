@@ -65,27 +65,12 @@ class ModelController {
     const arrayOne = JSON.parse(requests[0].requests[0]);
     const arrayTwo = JSON.parse(requests[0].requests[1]);
 
-    return;
-    let completions;
+    const completionsOne = await this.start(arrayOne, reqType, isRequests);
+    const completionstwo = await this.start(arrayTwo, reqType, isRequests);
 
-    /*
-
-    this probably needs to go, because combined-numbered are being parsed to json always now
-    
-    if (reqType == "combined-numbered") {
-      completions = await this.startOne(requests, reqType, isRequests);
-    } else {
-      completions = await this.start(requests, reqType, isRequests);
-    }
-    */
-
-    completions = await this.start(requests, reqType, isRequests);
-    let masterArray = [];
+    const finalArray = completionsOne.concat(completionstwo);
     const completionsArray = [];
-    const completionsObject = { type: `response to ${reqType}` };
-    const finalArray = completions[0];
 
-    let temp;
     finalArray?.forEach((comp) => {
       let obj = {};
       const responseId = uuidv4();
@@ -94,11 +79,13 @@ class ModelController {
       completionsArray.push(obj);
     });
 
+    let masterArray = [];
+    const completionsObject = { type: `response to ${reqType}` };
     completionsObject["responses"] = completionsArray;
     masterArray.push(completionsObject);
 
     makeDir(docId, reqType, isRequests);
-
+    let temp;
     temp = docId;
     temp = masterArray;
     console.log("temp in arrayGenAnswers", temp);
