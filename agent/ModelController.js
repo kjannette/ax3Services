@@ -233,11 +233,10 @@ class ModelController {
       flatReq = await this.startOne(requestStr, reqType, isRequests);
       parsedRequests = JSON.parse(flatReq);
     }
-
+    makeDir(docId, reqType, isRequests);
     const completionsObject = { type: "combined-numbered" };
     completionsObject["requests"] = parsedRequests;
 
-    makeDir(docId, reqType, isRequests);
     masterArray.push(completionsObject);
 
     let temp = docId;
@@ -283,11 +282,17 @@ class ModelController {
       model: "gpt-4",
       messages: prompt,
     });
-
     return completion.choices[0].message.content;
   }
 }
 /*
+
+  async callMakeDir(temp, docId, reqType, isRequests) {
+    makeDir(temp, docId, reqType, isRequests);
+  }
+  async callSavecompletions(temp, docId, reqType, isRequests) {
+    saveCompletions(temp, docId, reqType, isRequests);
+  }
 const docId = "20886dec-3459-46b7-9c0e-80c390cf058b";
 const reqType = "combined-numbered";
 const isRequests = false;

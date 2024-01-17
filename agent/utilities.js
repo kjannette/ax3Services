@@ -21,8 +21,9 @@ function saveCompletions(responses, folder, reqType, isRequests) {
   } else {
     fileSuffix = `-jbk-responses.json`;
   }
+
   try {
-    fs.writeFile(dir + `${folder}${fileSuffix}`, data, function (err) {
+    fs.writeFile(`${dir}${folder}${fileSuffix}`, data, function (err) {
       if (err) {
         return console.log("Error in saveCompletions writeFile:", err);
       }
@@ -41,6 +42,7 @@ function selectRequestPath(reqType, isRequests, folder) {
   } else if (reqType == "production") {
     dir = `../Documents/Requests/Parsedprod/${folder}/`;
   } else if (reqType == "combined-numbered") {
+    //`/Users/kjannette/workspace/ax3/ax3Services/Documents/Requests/Parsedcombined/${folder}`
     dir = `/Users/kjannette/workspace/ax3/ax3Services/Documents/Requests/Parsedcombined/${folder}/`;
   }
   return dir;
@@ -87,6 +89,7 @@ async function readDir(docId, direcPath = directoryPath) {
  *  2. request/response type
  */
 
+///Users/kjannette/workspace/ax3/ax3Services/Documents/Requests/Parsedcombined
 async function makeDir(folder, reqType, isRequests) {
   let dir;
   if (isRequests === true) {
