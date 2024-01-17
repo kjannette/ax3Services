@@ -69,7 +69,7 @@ async function methodSelector(docType, filePaths, folder, parseOneCount) {
     docType.docProd > docType.admit
   ) {
     determinedDocType = "production";
-    const parseProdCount = 0;
+    let parseProdCount = 0;
     parseProduction(
       docType,
       filePaths,
@@ -304,16 +304,13 @@ async function parseAdmissions(
     searchStr = "ADMIT";
   } else if (parseAdmitCount === 3) {
     regex = /^[1-9]?$/;
-    searchStr = `Request No. ${reggex}`;
+    searchStr = `Request No. ${regex}`;
   } else if (parseAdmitCount === 4) {
     regex = /^[1-9][0-9]?$/;
-    searchStr = `Request No. ${reggex}`;
+    searchStr = `Request No. ${regex}`;
   } else if (parseAdmitCount === 5) {
     regex = /^[1-9]?$/;
-    searchStr = `Request ${reggex}.`;
-  } else {
-    regex = /^[1-9][0-9]?$/;
-    searchStr = `Request ${reggex}.`;
+    searchStr = `Request ${regex}.`;
   }
 
   filePaths.forEach((filePath, mainIndex) => {
@@ -322,7 +319,6 @@ async function parseAdmissions(
     const arr = [];
 
     const stringChunk = fileData.toString().toLowerCase();
-    //const string = fileData.toString().toLowerCase();  this might solve lowercase problem
     const string = fileData.toString();
     for (
       let pos = stringChunk.indexOf(searchStr.toLowerCase());
@@ -355,8 +351,8 @@ async function parseAdmissions(
 
   if (rogs.length < 2) {
     console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>rogs.length < 2 fired");
-    if (parseAdmitCount < 6) {
-      console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>parseAdmitCount < 6 fired");
+    if (parseAdmitCount < 5) {
+      console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>parseAdmitCount < 5 fired");
       const determinedDocType = "admissions";
       parseAdmitCount++;
       parseAdmissions(
@@ -368,11 +364,13 @@ async function parseAdmissions(
         parseAdmitCount
       );
     } else {
-      console.log(
-        "--------------------> Parsed admissions switching to LLM calling combinedParseRequests"
-      );
+      determinedDocType = "combined-numbered";
       const isRequests = true;
-      combinedParseRequests(folder, determinedDocType, isRequests);
+      modelController.createArrayOfQuestions(
+        folder,
+        determinedDocType,
+        isRequests
+      );
     }
   } else {
     const determinedDocType = "admissions"; //determinedDocType var value is lost by here not sure why but this hack should fix
@@ -463,6 +461,7 @@ async function parseRogs(
     obj["text"] = item;
     rogs.push(obj);
   });
+
   if (rogs.length < 2) {
     if (parseRogsCount < 2) {
       parseRogsCount++;
@@ -485,93 +484,6 @@ async function parseRogs(
     makeDir(folder, determinedDocType);
     saveParsedRogs(requestArray, folder, determinedDocType);
   }
-  /*
-  checkService.checkFile(
-    docType,
-    filePaths,
-    folder,
-    searchStr,
-    determinedDocType
-  );
-  */
-}
-
-/*******************************************************************************
- *
- *  Secondary Rog Parser/Fallback numeric parser: if none of the keyword search
- *  strings work, tries using numbered lists
- *
- *******************************************************************************/
-
-let arrCount = 0;
-async function parseTextFiles2(
-  docType,
-  filePaths,
-  folder,
-  searchStr,
-  determinedDocType,
-  parseTextFiles2Count
-) {
-  const processArray = [];
-  const rogs = [];
-  filePaths.forEach((filePath) => {
-    let fileData;
-    fileData = fs.readFileSync(filePath, "utf8");
-    const arr = [];
-    const string = fileData.toString();
-    let seachVar = 1;
-
-    for (
-      let pos = fileData.indexOf(`${seachVar}.`);
-      pos > -1;
-      pos = fileData.indexOf(`${seachVar}.`, pos + 1)
-    ) {
-      seachVar++;
-      arr.push(pos);
-    }
-
-    const questionsArray = arr.map((item, i) => {
-      return string.slice(arr[i], arr[i + 1]);
-    });
-    const clean = questionsArray.map((item) => {
-      return item.replace(/\r?\n|\r/g, "");
-    });
-
-    processArray.push(...clean);
-
-    const unique = processArray.filter(function (item, pos) {
-      return processArray.indexOf(item) == pos;
-    });
-
-    unique.forEach((item) => {
-      let obj = {};
-      const interrogatoryId = uuidv4();
-      obj["interrogatoryId"] = interrogatoryId;
-      obj["text"] = item;
-      rogs.push(obj);
-    });
-
-    if (parseTextFiles2Count < 2) {
-      parseTextFiles2Count++;
-      parseTextFiles2(
-        docType,
-        filePaths,
-        folder,
-        searchStr,
-        determinedDocType,
-        parseTextFiles2Count
-      );
-    } else {
-      makeDir(folder, determinedDocType);
-      let requestArray = [];
-      let requestObject = {};
-      requestObject["type"] = determinedDocType;
-      requestObject["requests"] = rogs;
-      requestArray.push(requestObject);
-      saveParsedRogs(requestArray, folder, determinedDocType);
-    }
-  });
-  //checkService.checkFile(docType, filePaths, folder, determinedDocType);
 }
 
 /*******************************************************************************

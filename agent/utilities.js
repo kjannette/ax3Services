@@ -21,8 +21,9 @@ function saveCompletions(responses, folder, reqType, isRequests) {
   } else {
     fileSuffix = `-jbk-responses.json`;
   }
+
   try {
-    fs.writeFile(dir + `${folder}${fileSuffix}`, data, function (err) {
+    fs.writeFile(`${dir}${folder}${fileSuffix}`, data, function (err) {
       if (err) {
         return console.log("Error in saveCompletions writeFile:", err);
       }

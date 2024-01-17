@@ -282,7 +282,6 @@ class ModelController {
       model: "gpt-4",
       messages: prompt,
     });
-
     return completion.choices[0].message.content;
   }
 }
