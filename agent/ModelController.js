@@ -287,6 +287,13 @@ class ModelController {
   }
 }
 /*
+
+  async callMakeDir(temp, docId, reqType, isRequests) {
+    makeDir(temp, docId, reqType, isRequests);
+  }
+  async callSavecompletions(temp, docId, reqType, isRequests) {
+    saveCompletions(temp, docId, reqType, isRequests);
+  }
 const docId = "20886dec-3459-46b7-9c0e-80c390cf058b";
 const reqType = "combined-numbered";
 const isRequests = false;

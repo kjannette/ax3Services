@@ -84,7 +84,7 @@ app.get(
   "/genResponseFromArrayCombined/:docId/:docType/:isRequests",
   async (req, res) => {
     const { docId, docType } = req.params;
-
+    console.log("--------------------------docId"), docId;
     const isRequests = false;
     try {
       const data = await modelController.arrayGenAnswersCombined(
@@ -281,3 +281,11 @@ const responseHeaderGeneratorMethod = async () => {
   return responseHeaderGenerator;
 };
 */
+//folder, reqType, isRequests
+const temp = [{ one: "one" }, { two: "two" }];
+const docId = "8384-84848484-8484";
+const reqType = "combined-numbered";
+const isRequests = true;
+
+//modelController.callMakeDir(docId, reqType, isRequests);
+//modelController.callSavecompletions(temp, docId, reqType, isRequests);
