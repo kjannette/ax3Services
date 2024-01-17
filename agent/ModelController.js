@@ -233,11 +233,10 @@ class ModelController {
       flatReq = await this.startOne(requestStr, reqType, isRequests);
       parsedRequests = JSON.parse(flatReq);
     }
-
+    makeDir(docId, reqType, isRequests);
     const completionsObject = { type: "combined-numbered" };
     completionsObject["requests"] = parsedRequests;
 
-    makeDir(docId, reqType, isRequests);
     masterArray.push(completionsObject);
 
     let temp = docId;

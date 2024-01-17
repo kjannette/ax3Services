@@ -69,7 +69,7 @@ async function methodSelector(docType, filePaths, folder, parseOneCount) {
     docType.docProd > docType.admit
   ) {
     determinedDocType = "production";
-    parseProdCount = 0;
+    const parseProdCount = 0;
     parseProduction(
       docType,
       filePaths,
@@ -192,7 +192,10 @@ async function parseProduction(
   parseProdCount
 ) {
   const initialHeaderString = "requests for production"; // /^request* for admission*$/;
-
+  console.log(
+    "------------------------------------------------------------------------ parseProdCount",
+    parseProdCount
+  );
   const processArray = [];
   const rogs = [];
   let searchStr;
@@ -202,17 +205,6 @@ async function parseProduction(
     searchStr = "REQUEST NO";
   } else if (parseProdCount === 2) {
     searchStr = "REQUEST NUM";
-  } else {
-    let parseTextFiles2Count = 0;
-    parseTextFiles2(
-      docType,
-      filePaths,
-      folder,
-      searchStr,
-      determinedDocType,
-      parseTextFiles2Count
-    );
-    return;
   }
 
   filePaths.forEach((filePath, mainIndex) => {
@@ -251,28 +243,25 @@ async function parseProduction(
     obj["text"] = item;
     rogs.push(obj);
   });
-  console.log("rogs", rogs);
+
   if (rogs.length < 2) {
-    if (parseProdCount < 3) {
-      //todo- retries
-      //console.log("PROD PARSER - EMPTY RESULT FAIL.  ***RETRY***");
+    if (parseProdCount < 2) {
       parseProdCount++;
       parseProduction(
         docType,
         filePaths,
         folder,
         parseOneCount,
-        determinedDocType
+        determinedDocType,
+        parseProdCount
       );
     } else {
-      let parseTextFiles2Count = 0;
-      parseTextFiles2(
-        docType,
-        filePaths,
+      determinedDocType = "combined-numbered";
+      const isRequests = true;
+      modelController.createArrayOfQuestions(
         folder,
-        searchStr,
         determinedDocType,
-        parseTextFiles2Count
+        isRequests
       );
     }
   } else {
