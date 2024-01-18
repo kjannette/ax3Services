@@ -231,8 +231,16 @@ class ModelController {
     } else {
       requestStr = await iteratePathsReturnString(dirArray);
       flatReq = await this.startOne(requestStr, reqType, isRequests);
-      parsedRequests = JSON.parse(flatReq);
+      try {
+        parsedRequests = JSON.parse(flatReq);
+      } catch (err) {
+        console.log(
+          "Error parsing json in ModelController.createArrayOfQuestions: ",
+          err
+        );
+      }
     }
+
     makeDir(docId, reqType, isRequests);
     const completionsObject = { type: "combined-numbered" };
     completionsObject["requests"] = parsedRequests;
