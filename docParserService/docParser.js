@@ -155,9 +155,7 @@ async function parseCombined(
       rogs.push(obj);
     });
 
-    if (rogs.length === 0) {
-      //TODO - retries
-      //console.log("COMBINED PARSER - EMPTY RESULT");
+    if (rogs.length < 3) {
     } else {
       makeDir(folder, determinedDocType);
       let requestArray = [];
@@ -257,6 +255,7 @@ async function parseProduction(
         determinedDocType,
         isRequests
       );
+      return;
     }
   } else {
     makeDir(folder, determinedDocType);
@@ -363,6 +362,7 @@ async function parseAdmissions(
         determinedDocType,
         isRequests
       );
+      return;
     }
   } else {
     const determinedDocType = "admissions"; //determinedDocType var value is lost by here not sure why but this hack should fix
