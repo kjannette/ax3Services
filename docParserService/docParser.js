@@ -1,17 +1,11 @@
 const fs = require("fs");
 const docClassifer = require("./docClassifier.js");
-const checkService = require("../checkService/checkService.js");
+//const checkService = require("../checkService/checkService.js");
 const modelController = require("../agent/ModelController.js");
 const { updateDB } = require("../firebase/firebase.js");
 const { v4: uuidv4 } = require("uuid");
 
 async function readDir(direcPath, folder, countObject) {
-  console.log(
-    "docParser readDir received: direcPath, folder, ",
-    direcPath,
-    folder
-  );
-
   try {
     let fileNames = fs.readdirSync(direcPath);
     const dirArray = fileNames.map((name) => {
@@ -266,13 +260,11 @@ async function parseProduction(
     }
   } else {
     makeDir(folder, determinedDocType);
-
     let requestArray = [];
     let requestObject = {};
     requestObject["type"] = determinedDocType;
     requestObject["requests"] = rogs;
     requestArray.push(requestObject);
-
     saveParsedRogs(requestArray, folder, determinedDocType);
   }
 }
@@ -380,7 +372,6 @@ async function parseAdmissions(
     requestObject["type"] = determinedDocType;
     requestObject["requests"] = rogs;
     requestArray.push(requestObject);
-    parseTextFiles2SaveCount = 0;
     parseAdmitCount = 0;
     saveParsedRogs(requestArray, folder, determinedDocType);
   }
