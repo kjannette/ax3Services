@@ -35,12 +35,12 @@ def make_ny_header(
     paragraph.paragraph_format.space_before = Pt(0)
     paragraph.paragraph_format.space_after = Pt(12)
     paragraph = document.add_paragraph(
-        f"                                                Plaintiff(s)                                                                    Index No.: {caseNumber}"
+        f"                                                Plaintiff(s)                                                                  Index No.: {caseNumber}"
     )
     paragraph.paragraph_format.space_before = Pt(0)
     paragraph.paragraph_format.space_after = Pt(12)
     paragraph = document.add_paragraph(
-        f"- against -                                                                                                                      Judge: {judge}"
+        f"- against -                                                                                                                    Judge: {judge}"
     )
     paragraph.paragraph_format.space_before = Pt(0)
     paragraph.paragraph_format.space_after = Pt(16)
