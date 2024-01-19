@@ -133,6 +133,7 @@ class GenerateBody(object):
         paragraph.paragraph_format.space_before = Pt(12)
         paragraph.paragraph_format.space_after = Pt(12)
 
+        # General Objections
         if firmState == "New York":
             pass
         elif firmState == "New Jersey":
