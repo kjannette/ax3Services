@@ -5,6 +5,7 @@ from docx.shared import Pt
 from docx.shared import Length
 from docx.enum.text import WD_PARAGRAPH_ALIGNMENT
 from pyCaptionTemplates import make_ny_header, make_nj_header
+from pyGenObjectionTemplates import make_nj_gen_obj
 
 
 class GenerateBody(object):
@@ -132,6 +133,27 @@ class GenerateBody(object):
         paragraph.paragraph_format.space_before = Pt(12)
         paragraph.paragraph_format.space_after = Pt(12)
 
+        if firmState == "New York":
+            pass
+        elif firmState == "New Jersey":
+            document = make_nj_gen_obj(
+                comesNowString,
+                firm,
+                leadAttorneys,
+                document,
+                jurisdiction,
+                venue,
+                caption1,
+                caption2,
+                mainHeader,
+                caseNumber,
+                judge,
+                firmStreetAddress,
+                firmCity,
+                firmState,
+                firmTel,
+                firmZip,
+            )
         # INIT responses to iterate
         json_resp_data = open(respFile)
         respData = json.load(json_resp_data)

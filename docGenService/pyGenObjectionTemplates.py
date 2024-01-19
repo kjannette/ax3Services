@@ -7,7 +7,7 @@ from docx.enum.text import WD_PARAGRAPH_ALIGNMENT
 
 
 # New Jersey *******************************************************************/
-def make_nj_objections(
+def make_nj_gen_obj(
     document,
     jurisdiction,
     venue,
@@ -32,5 +32,8 @@ def make_nj_objections(
     print(
         "______________________________________________________________NEW JERSEY MAKE OBJECTION FIRED"
     )
+    p = document.add_paragraph()
+    p.add_run("GENERAL OBJECTIONS").underline = True
+    p.paragraph_format.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
 
     return document
