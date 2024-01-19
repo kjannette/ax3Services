@@ -397,7 +397,7 @@ async function parseRogs(
   if (parseRogsCount < 1) {
     searchStr = "INTERROGATORY NO";
   } else {
-    searchStr = "INTERROGATORY";
+    searchStr = "INTERROGATORY NUM";
   }
   const processArray = [];
   const rogs = [];
@@ -452,7 +452,10 @@ async function parseRogs(
     obj["text"] = item;
     rogs.push(obj);
   });
-
+  console.log(
+    "----------------------------------------------------------------------------->rogs.length",
+    rogs.length
+  );
   if (rogs.length < 2) {
     if (parseRogsCount < 2) {
       parseRogsCount++;
