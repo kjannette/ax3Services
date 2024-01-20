@@ -140,6 +140,11 @@ class GenerateBody(object):
         elif firmState == "New Jersey":
             document = make_nj_gen_obj(document, clientPosition, servingParty)
 
+        # Add main header
+        p = document.add_paragraph()
+        p.add_run(f"{mainHeader}").underline = True
+        p.paragraph_format.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
+
         # INIT responses to iterate
         json_resp_data = open(respFile)
         respData = json.load(json_resp_data)
@@ -160,10 +165,13 @@ class GenerateBody(object):
                 paragraph = document.add_paragraph(text)
                 paragraph.paragraph_format.line_spacing = Pt(20)
                 paragraph.paragraph_format.space_after = Pt(12)
+                paragraph.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
                 paragraph = document.add_paragraph(f"{respHeader} {count}:")
+                paragraph.paragraph_format.space_before = Pt(24)
                 paragraph = document.add_paragraph(respArray[count]["text"])
                 paragraph.paragraph_format.line_spacing = Pt(24)
-                paragraph.paragraph_format.space_after = Pt(16)
+                paragraph.paragraph_format.space_after = Pt(12)
+                paragraph.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
                 count = count + 1
 
         paragraph = document.add_paragraph(
