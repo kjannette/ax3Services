@@ -7,6 +7,37 @@ from docx.enum.text import WD_PARAGRAPH_ALIGNMENT
 from docx.enum.text import WD_ALIGN_PARAGRAPH
 
 
+# New York *******************************************************************/
+def make_ny_gen_obj(document, clientPosition, servingParty):
+    objectionsArray = [
+        f"All of {clientPosition}'s responses to the discovery requests that are responded to herein are subject to the following objections, in addition to any and all objections set forth in the answers to individual requests, infra.",
+        f"In responding to these requests, [party] does not admit or concede any presumptions or assumptions made in the propounding parties' definitions, or in the requests themselves.",
+        f"{clientPosition} further objects to any and all requests to the extent they seek or may be interpreted to seek disclosure of information not within the scope of New York CPLR 3120, 3130 - 33, or not within the scope of what is permitted under any applicable Case Management Order entered in this case, and [party] reserves all rights to contest any such matters in any other context or proceeding where they may be relevant.",
+        f"{clientPosition} objects to all requests that seek disclosure of information which (a) is subject to attorney-client privilege, or (b) the 'work product' doctrine; (c) is subject to the self-critical analysis privilege; (d) is subject to the required reports privilege; (e) is subject to a joint defense or common interest privilege; (f) was generated in anticipation of litigation or for trial, (g) relates to the identity or opinions of experts who have been retained or employed in anticipation of litigation and who are not expected to be called as witnesses at trial; (h) is protected as a trade secret; (i) is subject to a protective order or confidentiality order or agreement which was entered or made in another matter, and/or (j) is otherwise privileged, protected from disclosure, or beyond the scope of discovery under applicable rules and laws. [party] does not intend to disclose or produce any such information,  and any disclosure of such  information is inadvertent, and all rights to demand return and/or destruction of any such information are reserved.",
+        f"{clientPosition}  objects to the propounding parties' requests insofar as they seek a proposition of law and/or the formulation of a legal theory, or seek contentions regarding factual matters as to which essential discovery is incomplete. [party]'s current responses to such requests necessarily cannot present all information {clientPosition} may ultimately discover and utilize or rely upon in this matter. {clientPosition} thus reserves all rights to supplement or amend its responses in accordance with applicable rules, laws, orders or agreements of the parties, if, as and when circumstances may warrant.",
+    ]
+    print(
+        "______________________________________________________________NEW YORK MAKE OBJECTION FIRED"
+    )
+    p = document.add_paragraph()
+    p.add_run("GENERAL OBJECTIONS").underline = True
+    p.paragraph_format.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
+    arrLen = len(objectionsArray)
+    count = 0
+
+    for obj in objectionsArray:
+        if count == arrLen:
+            break
+
+        paragraph = document.add_paragraph(f"{count + 1}. {obj}")
+        paragraph.paragraph_format.line_spacing = Pt(20)
+        paragraph.paragraph_format.space_after = Pt(12)
+        paragraph.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
+        count = count + 1
+
+    return document
+
+
 # New Jersey *******************************************************************/
 def make_nj_gen_obj(document, clientPosition, servingParty):
     objectionsArray = [

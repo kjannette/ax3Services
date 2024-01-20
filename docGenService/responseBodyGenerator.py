@@ -6,7 +6,7 @@ from docx.shared import Length
 from docx.enum.text import WD_PARAGRAPH_ALIGNMENT
 from docx.enum.text import WD_ALIGN_PARAGRAPH
 from pyCaptionTemplates import make_ny_header, make_nj_header
-from pyGenObjectionTemplates import make_nj_gen_obj
+from pyGenObjectionTemplates import make_ny_gen_obj, make_nj_gen_obj
 
 
 class GenerateBody(object):
@@ -135,12 +135,13 @@ class GenerateBody(object):
         paragraph.paragraph_format.space_after = Pt(12)
         paragraph.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
 
+        # Add General Objections
         if firmState == "New York":
-            pass
+            document = make_ny_gen_obj(document, clientPosition, servingParty)
         elif firmState == "New Jersey":
             document = make_nj_gen_obj(document, clientPosition, servingParty)
 
-        # Add main header
+        # Add main heading
         p = document.add_paragraph()
         p.add_run(f"{mainHeader}").underline = True
         p.paragraph_format.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
