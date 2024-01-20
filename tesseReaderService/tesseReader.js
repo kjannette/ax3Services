@@ -32,6 +32,38 @@ async function writeFile(file, text, folder, countObject) {
   }
 }
 
+async function writeSingle(folder, text) {
+  console.log("-------------------------------------------------->");
+  console.log(" -- writeSingle -- folder, text", folder, text);
+  console.log("-------------------------------------------------->");
+  /*
+  const totalFiles = countObject.numberOfFiles;
+  const dir = `../Documents/Textfiles/${folder}`;
+  try {
+    fs.writeFile(
+      `../Documents/Textfiles/${folder}/${file.split(".")[0]}.txt`,
+      text,
+      function (err) {
+        if (err) {
+          return console.log(err);
+        }
+      }
+    );
+  } catch (err) {
+    console.log("Error writing file:", err);
+  }
+  countWrites++;
+  if (countWrites == totalFiles) {
+    countWrites = 0;
+    docParser.readDir(
+      `../Documents/Textfiles/${folder}/`,
+      `${folder}`,
+      countObject
+    );
+  }
+  */
+}
+
 async function convert(file, path, folder, countObject) {
   const worker = await createWorker();
   const concatPath = `${path}/${file}`;
@@ -49,9 +81,9 @@ async function convert(file, path, folder, countObject) {
   await worker.terminate();
 }
 
-async function convertBurst(file, path, folder, countObject) {
+async function convertBurst(fullFilePath) {
   const worker = await createWorker();
-  const concatPath = `${path}/${file}`;
+
   await worker.loadLanguage("eng");
   await worker.initialize("eng");
   await worker.setParameters({
@@ -60,9 +92,10 @@ async function convertBurst(file, path, folder, countObject) {
 
   const {
     data: { text },
-  } = await worker.recognize(concatPath);
+  } = await worker.recognize(fullFilePath);
 
   await worker.terminate();
+
   return text;
 }
 
@@ -84,9 +117,6 @@ async function readMultipleFiles(path, folder, countObject) {
 }
 
 async function readMultipleFilesLarge(path, folder, countObject, filenames) {
-  console.log("filenames", filenames);
-  console.log("------------------------------------------------------------");
-  console.log(" path", path);
   makeDir(folder);
   const a = filenames.map((name) => {
     return `${path}/${name}`;
@@ -101,10 +131,10 @@ async function readMultipleFilesLarge(path, folder, countObject, filenames) {
 
   arrays.forEach((array, i) => {
     setTimeout(function () {
-      console.log(array);
-      /*array.forEach((item) => {
-        const text = convertBurst(file, path, folder, countObject)
-      })*/
+      array.forEach(async (fullFilePath) => {
+        const text = await convertBurst(fullFilePath);
+        writeSingle(folder, text);
+      });
     }, i * 3000);
   });
 }
