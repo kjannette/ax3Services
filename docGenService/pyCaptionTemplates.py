@@ -104,43 +104,43 @@ def make_nj_header(
     )
     paragraph.paragraph_format.space_before = Pt(0)
     paragraph.paragraph_format.space_after = Pt(0)
-    paragraph = document.add_paragraph(f"{caption1:<92} :")
+    paragraph = document.add_paragraph(f"{caption1:<92} ")
     paragraph.paragraph_format.space_before = Pt(0)
     paragraph.paragraph_format.space_after = Pt(0)
     paragraph = document.add_paragraph(
-        f"                                                                                                            :      {jurisdiction}          "
+        f"                                                                                                                  {jurisdiction}          "
     )
     paragraph.paragraph_format.space_before = Pt(0)
     paragraph.paragraph_format.space_after = Pt(0)
     paragraph = document.add_paragraph(
-        f"                                                                                                            :      {venue}          "
+        f"                                                                                                                  {venue}          "
     )
     paragraph.paragraph_format.space_before = Pt(0)
     paragraph.paragraph_format.space_after = Pt(0)
     paragraph = document.add_paragraph(
-        f"                    Plaintiff                                                                         :"
+        f"                      Plaintiff                                                                          "
     )
     paragraph = document.add_paragraph(
-        f"                                                                                                            :              "
+        f"                                                                                                                           "
     )
     paragraph.paragraph_format.space_before = Pt(0)
     paragraph.paragraph_format.space_after = Pt(0)
     paragraph = document.add_paragraph(
-        f"                    v.                                                                                     :       Docket No,{caseNumber}"
+        f"                      v.                                                                                           Docket No,{caseNumber}"
     )
     paragraph.paragraph_format.space_before = Pt(0)
     paragraph.paragraph_format.space_after = Pt(0)
     paragraph = document.add_paragraph(
-        f"                                                                                                           :             "
+        f"                                                                                                                         "
     )
     paragraph.paragraph_format.space_before = Pt(0)
     paragraph.paragraph_format.space_after = Pt(0)
     paragraph = document.add_paragraph(
-        f"                                                                                                           :              "
+        f"                                                                                                                          "
     )
     paragraph.paragraph_format.space_before = Pt(0)
     paragraph.paragraph_format.space_after = Pt(0)
-    paragraph = document.add_paragraph((f"{caption2:<90} :"))
+    paragraph = document.add_paragraph((f"{caption2:<90}  "))
 
     paragraph.paragraph_format.space_before = Pt(0)
     paragraph.paragraph_format.space_after = Pt(0)
@@ -150,12 +150,12 @@ def make_nj_header(
     paragraph.paragraph_format.space_before = Pt(0)
     paragraph.paragraph_format.space_after = Pt(0)
     paragraph = document.add_paragraph(
-        f"                    Defendant                                                                     :"
+        f"                      Defendant                                                                      "
     )
     paragraph.paragraph_format.space_before = Pt(0)
     paragraph.paragraph_format.space_after = Pt(0)
     paragraph = document.add_paragraph(
-        f"                                                                                                             :"
+        f"                                                                                                              "
     )
     paragraph.paragraph_format.space_before = Pt(0)
     paragraph.paragraph_format.space_after = Pt(0)

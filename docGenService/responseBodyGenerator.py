@@ -133,28 +133,11 @@ class GenerateBody(object):
         paragraph.paragraph_format.space_before = Pt(12)
         paragraph.paragraph_format.space_after = Pt(12)
 
-        # General Objections
         if firmState == "New York":
             pass
         elif firmState == "New Jersey":
-            document = make_nj_gen_obj(
-                comesNowString,
-                firm,
-                leadAttorneys,
-                document,
-                jurisdiction,
-                venue,
-                caption1,
-                caption2,
-                mainHeader,
-                caseNumber,
-                judge,
-                firmStreetAddress,
-                firmCity,
-                firmState,
-                firmTel,
-                firmZip,
-            )
+            document = make_nj_gen_obj(document, clientPosition)
+
         # INIT responses to iterate
         json_resp_data = open(respFile)
         respData = json.load(json_resp_data)
