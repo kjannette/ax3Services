@@ -34,14 +34,13 @@ async function writeFile(file, text, folder, countObject) {
 
 async function writeSingle(folder, text) {
   console.log("-------------------------------------------------->");
-  console.log(" -- writeSingle -- folder, text", folder, text);
+  console.log(" -- writeSingle -- folder", folder);
   console.log("-------------------------------------------------->");
-  /*
-  const totalFiles = countObject.numberOfFiles;
-  const dir = `../Documents/Textfiles/${folder}`;
+  console.log(" -- writeSingle -- text", text);
+  console.log("-------------------------------------------------->");
   try {
     fs.writeFile(
-      `../Documents/Textfiles/${folder}/${file.split(".")[0]}.txt`,
+      `../Documents/Textfiles/${folder}/${folder}.txt`,
       text,
       function (err) {
         if (err) {
@@ -52,16 +51,6 @@ async function writeSingle(folder, text) {
   } catch (err) {
     console.log("Error writing file:", err);
   }
-  countWrites++;
-  if (countWrites == totalFiles) {
-    countWrites = 0;
-    docParser.readDir(
-      `../Documents/Textfiles/${folder}/`,
-      `${folder}`,
-      countObject
-    );
-  }
-  */
 }
 
 async function convert(file, path, folder, countObject) {
@@ -128,15 +117,19 @@ async function readMultipleFilesLarge(path, folder, countObject, filenames) {
   while (a.length > 0) {
     arrays.push(a.splice(0, arrSize));
   }
-
+  let count = 0;
   arrays.forEach((array, i) => {
     setTimeout(function () {
       array.forEach(async (fullFilePath) => {
         const text = await convertBurst(fullFilePath);
         writeSingle(folder, text);
+        count++;
       });
     }, i * 3000);
   });
+  console.log("...............................................");
+  console.log("countObject, count", countObject, count);
+  console.log("...............................................");
 }
 
 module.exports = {
