@@ -28,7 +28,7 @@ async function watchOnce() {
       let fileCount = {};
       fileCount.fileName = file;
       fileCount.numberOfFiles = filenames.length;
-
+      fileCount.fileNames = filenames;
       tesseReader.readMultipleFilesLarge(
         `../Documents/Converted/${file}`,
         `${file}`,

@@ -2,6 +2,7 @@ const { createWorker } = require("tesseract.js");
 const docParser = require("../docParserService/docParser.js");
 const fs = require("fs");
 const path = require("path");
+const { v4: uuidv4 } = require("uuid");
 
 let countWrites = 0;
 
@@ -33,14 +34,10 @@ async function writeFile(file, text, folder, countObject) {
 }
 
 async function writeSingle(folder, text) {
-  console.log("-------------------------------------------------->");
-  console.log(" -- writeSingle -- folder", folder);
-  console.log("-------------------------------------------------->");
-  console.log(" -- writeSingle -- text", text);
-  console.log("-------------------------------------------------->");
+  const fileName = uuidv4();
   try {
     fs.writeFile(
-      `../Documents/Textfiles/${folder}/${folder}.txt`,
+      `../Documents/Textfiles/${folder}/${fileName}.txt`,
       text,
       function (err) {
         if (err) {
@@ -127,9 +124,6 @@ async function readMultipleFilesLarge(path, folder, countObject, filenames) {
       });
     }, i * 3000);
   });
-  console.log("...............................................");
-  console.log("countObject, count", countObject, count);
-  console.log("...............................................");
 }
 
 module.exports = {
