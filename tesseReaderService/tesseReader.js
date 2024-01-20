@@ -66,9 +66,27 @@ async function readMultipleFiles(path, folder, countObject) {
   });
 }
 
+async function readMultipleFilesLarge(path, folder, countObject) {
+  makeDir(folder);
+  const arrSize = 20;
+  let arrays = [];
+
+  while (a.length > 0) {
+    arrays.push(a.splice(0, arrSize));
+  }
+
+  arrays.forEach((array, i) => {
+    setTimeout(function () {
+      console.log(array);
+      //convert array
+    }, i * 2000);
+  });
+}
+
 module.exports = {
   writeFile,
   convert,
   readMultipleFiles,
+  readMultipleFilesLarge,
   makeDir,
 };
