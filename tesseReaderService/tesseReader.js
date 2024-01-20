@@ -3,6 +3,7 @@ const docParser = require("../docParserService/docParser.js");
 const fs = require("fs");
 const path = require("path");
 const { v4: uuidv4 } = require("uuid");
+const modelController = require("../agent/ModelController.js");
 
 let countWrites = 0;
 
@@ -124,6 +125,13 @@ async function readMultipleFilesLarge(path, folder, countObject, filenames) {
       });
     }, i * 3000);
   });
+  determinedDocType = "combined-numbered";
+  const isRequests = true;
+  modelController.createArrayOfQuestionsLarge(
+    folder,
+    determinedDocType,
+    isRequests
+  );
 }
 
 module.exports = {
