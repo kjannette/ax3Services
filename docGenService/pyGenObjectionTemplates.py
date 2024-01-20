@@ -7,19 +7,12 @@ from docx.enum.text import WD_PARAGRAPH_ALIGNMENT
 
 
 # New Jersey *******************************************************************/
-def make_nj_objections(
+def make_nj_gen_obj(
     document,
-    jurisdiction,
-    venue,
-    caption1,
-    caption2,
-    mainHeader,
-    caseNumber,
-    judge,
     clientPosition,
 ):
-    objections = [
-        "All of [party]’s responses to the discovery requests being answered are subject to the following, in addition to any and all objections stated in the answers to individual requests, infra.",
+    objectionsArray = [
+        f"All of {clientPosition}’s responses to the discovery requests being answered are subject to the following objections, in addition to any and all objections stated in the answers to each individual request.",
         "[Party] objects to the definitions and instructions included in [propounding party’s] discovery requests, to the extent that:",
         "(1)  the definitions or instructions are inconsistent with any applicable statutes, regulations, laws, legal precedents, or the terms of any applicable agreements or other legal documents;",
         "(2)  the definitions or instructions seek to impose on [party] obligations that exceed the requirements of the New Jersey Rules of Court; and/or",
@@ -32,5 +25,19 @@ def make_nj_objections(
     print(
         "______________________________________________________________NEW JERSEY MAKE OBJECTION FIRED"
     )
+    p = document.add_paragraph()
+    p.add_run("GENERAL OBJECTIONS").underline = True
+    p.paragraph_format.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
+    arrLen = len(objectionsArray)
+    count = 0
+
+    for obj in objectionsArray:
+        if count == arrLen:
+            break
+
+        paragraph = document.add_paragraph(f"{count}. {obj}")
+        paragraph.paragraph_format.line_spacing = Pt(20)
+        paragraph.paragraph_format.space_after = Pt(12)
+        count = count + 1
 
     return document
