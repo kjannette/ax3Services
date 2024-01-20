@@ -49,6 +49,23 @@ async function convert(file, path, folder, countObject) {
   await worker.terminate();
 }
 
+async function convertBurst(file, path, folder, countObject) {
+  const worker = await createWorker();
+  const concatPath = `${path}/${file}`;
+  await worker.loadLanguage("eng");
+  await worker.initialize("eng");
+  await worker.setParameters({
+    tessedit_pageseg_mode: "4",
+  });
+
+  const {
+    data: { text },
+  } = await worker.recognize(concatPath);
+
+  await worker.terminate();
+  return text;
+}
+
 async function makeDir(folder) {
   fs.mkdir(`../Documents/Textfiles/${folder}`, function (err) {
     if (err) {
@@ -66,8 +83,15 @@ async function readMultipleFiles(path, folder, countObject) {
   });
 }
 
-async function readMultipleFilesLarge(path, folder, countObject) {
+async function readMultipleFilesLarge(path, folder, countObject, filenames) {
+  console.log("filenames", filenames);
+  console.log("------------------------------------------------------------");
+  console.log(" path", path);
   makeDir(folder);
+  const a = filenames.map((name) => {
+    return `${path}/${name}`;
+  });
+
   const arrSize = 20;
   let arrays = [];
 
@@ -78,8 +102,10 @@ async function readMultipleFilesLarge(path, folder, countObject) {
   arrays.forEach((array, i) => {
     setTimeout(function () {
       console.log(array);
-      //convert array
-    }, i * 2000);
+      /*array.forEach((item) => {
+        const text = convertBurst(file, path, folder, countObject)
+      })*/
+    }, i * 3000);
   });
 }
 
