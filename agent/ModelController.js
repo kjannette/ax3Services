@@ -255,6 +255,13 @@ class ModelController {
     return temp;
   }
 
+  /*
+   *  LLM PROMPT CONTROLLER
+   *  RETURNS REQUESTS FROM STRING BLOB
+   *  FOR VERY LONG REQUEST DOCUMENTS
+   * (> 50 pages?? ... guestimate; determined by timer in tesseWatcher)
+   */
+
   async createArrayOfQuestionsLarge(docId, reqType) {
     const masterArray = [];
     const isRequests = true;
@@ -272,6 +279,23 @@ class ModelController {
     let flatReq;
     let parsedRequests = [];
 
+    const arrSize = 20;
+
+    while (dirArray.length > 0) {
+      newArray.push(a.splice(0, arrSize));
+    }
+
+    completes = await Promise.all(
+      newArray.map(async (arr) => {
+        requestStr = await iteratePathsReturnString(arr);
+        const comp = await this.startOne(requestStr, reqType, isRequests);
+        return comp;
+      })
+    );
+
+    console.log("+++++++++++completes", completes);
+    return;
+    // r
     if (dirArray.length > 10) {
       const splitAt = Math.floor(dirArray.length / 2);
       const temp1 = dirArray.slice(0, splitAt);
