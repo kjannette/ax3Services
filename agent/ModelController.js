@@ -282,7 +282,7 @@ class ModelController {
     const arrSize = 20;
 
     while (dirArray.length > 0) {
-      newArray.push(a.splice(0, arrSize));
+      newArray.push(dirArray.splice(0, arrSize));
     }
 
     completes = await Promise.all(
@@ -292,57 +292,29 @@ class ModelController {
         return comp;
       })
     );
-
-    console.log("+++++++++++completes", completes);
-    return;
-    // r
-    if (dirArray.length > 10) {
-      const splitAt = Math.floor(dirArray.length / 2);
-      const temp1 = dirArray.slice(0, splitAt);
-      const temp2 = dirArray.slice(splitAt, dirArray.length);
-      newArray.push(temp1);
-      newArray.push(temp2);
-      completes = await Promise.all(
-        newArray.map(async (arr) => {
-          requestStr = await iteratePathsReturnString(arr);
-          const comp = await this.startOne(requestStr, reqType, isRequests);
-          return comp;
-        })
-      );
-      let fooz = JSON.parse(completes[0]);
-      let barz = JSON.parse(completes[1]);
-
-      fooz.forEach((item) => {
+    /*
+    const num = newArray.length;
+    for (let i = 0; i < newArray.length; i++) {
+      let temp = JSON.parse(completes[i]);
+      temp.forEach((item) => {
         parsedRequests.push(item);
       });
-      barz.forEach((item) => {
-        parsedRequests.push(item);
-      });
-    } else {
-      requestStr = await iteratePathsReturnString(dirArray);
-      flatReq = await this.startOne(requestStr, reqType, isRequests);
-      try {
-        parsedRequests = JSON.parse(flatReq);
-      } catch (err) {
-        console.log(
-          "Error parsing json in ModelController.createArrayOfQuestions: ",
-          err
-        );
-      }
     }
-
+    */
+    parsedRequests = completes.flat(Infinity);
     makeDir(docId, reqType, isRequests);
-    const completionsObject = { type: "combined-numbered" };
-    completionsObject["requests"] = parsedRequests;
 
-    masterArray.push(completionsObject);
+    const completionsObject2 = { type: "combined-numbered" };
+    completionsObject2["requests"] = parsedRequests;
 
-    let temp = docId;
-    temp = masterArray;
+    masterArray.push(completionsObject2);
 
-    saveCompletions(temp, docId, reqType, isRequests);
+    let temp2 = docId;
+    temp2 = masterArray;
+
+    saveCompletions(temp2, docId, reqType, isRequests);
     updateDB(docId, reqType);
-    return temp;
+    return temp2;
   }
 
   /*
