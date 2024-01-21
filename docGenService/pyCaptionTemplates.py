@@ -27,7 +27,7 @@ def make_ny_header(
     paragraph.paragraph_format.space_before = Pt(0)
     paragraph.paragraph_format.space_after = Pt(1)
     paragraph = document.add_paragraph(
-        "_____________________________________________________________"
+        "-------------------------------------------------------------X"
     )
     paragraph.paragraph_format.space_before = Pt(0)
     paragraph.paragraph_format.space_after = Pt(1)
@@ -53,7 +53,7 @@ def make_ny_header(
     paragraph.paragraph_format.space_before = Pt(0)
     paragraph.paragraph_format.space_after = Pt(3)
     paragraph = document.add_paragraph(
-        "_____________________________________________________________"
+        "-------------------------------------------------------------X"
     )
     paragraph.paragraph_format.space_before = Pt(0)
     paragraph.paragraph_format.space_after = Pt(12)
