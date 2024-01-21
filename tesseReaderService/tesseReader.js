@@ -105,6 +105,8 @@ async function readMultipleFiles(path, folder, countObject) {
 
 async function readMultipleFilesLarge(path, folder, countObject, filenames) {
   makeDir(folder);
+  const total = filenames.length;
+  console.log("~+~+~+~+~+~+~++~+~+~+~+~ ---- -- -- --- -- ---- > total", total);
   const a = filenames.map((name) => {
     return `${path}/${name}`;
   });
@@ -122,16 +124,19 @@ async function readMultipleFilesLarge(path, folder, countObject, filenames) {
         const text = await convertBurst(fullFilePath);
         writeSingle(folder, text);
         count++;
+        console.log("count", count);
+        if (count === total) {
+          determinedDocType = "combined-numbered";
+          const isRequests = true;
+          modelController.createArrayOfQuestionsLarge(
+            folder,
+            determinedDocType,
+            isRequests
+          );
+        }
       });
     }, i * 3000);
   });
-  determinedDocType = "combined-numbered";
-  const isRequests = true;
-  modelController.createArrayOfQuestionsLarge(
-    folder,
-    determinedDocType,
-    isRequests
-  );
 }
 
 module.exports = {
