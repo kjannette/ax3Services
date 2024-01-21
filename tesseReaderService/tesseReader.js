@@ -2,6 +2,8 @@ const { createWorker } = require("tesseract.js");
 const docParser = require("../docParserService/docParser.js");
 const fs = require("fs");
 const path = require("path");
+const { v4: uuidv4 } = require("uuid");
+const modelController = require("../agent/ModelController.js");
 
 let countWrites = 0;
 
@@ -32,6 +34,23 @@ async function writeFile(file, text, folder, countObject) {
   }
 }
 
+async function writeSingle(folder, text) {
+  const fileName = uuidv4();
+  try {
+    fs.writeFile(
+      `../Documents/Textfiles/${folder}/${fileName}.txt`,
+      text,
+      function (err) {
+        if (err) {
+          return console.log(err);
+        }
+      }
+    );
+  } catch (err) {
+    console.log("Error writing file:", err);
+  }
+}
+
 async function convert(file, path, folder, countObject) {
   const worker = await createWorker();
   const concatPath = `${path}/${file}`;
@@ -47,6 +66,24 @@ async function convert(file, path, folder, countObject) {
 
   writeFile(file, text, folder, countObject);
   await worker.terminate();
+}
+
+async function convertBurst(fullFilePath) {
+  const worker = await createWorker();
+
+  await worker.loadLanguage("eng");
+  await worker.initialize("eng");
+  await worker.setParameters({
+    tessedit_pageseg_mode: "4",
+  });
+
+  const {
+    data: { text },
+  } = await worker.recognize(fullFilePath);
+
+  await worker.terminate();
+
+  return text;
 }
 
 async function makeDir(folder) {
@@ -66,9 +103,41 @@ async function readMultipleFiles(path, folder, countObject) {
   });
 }
 
+async function readMultipleFilesLarge(path, folder, countObject, filenames) {
+  makeDir(folder);
+  const a = filenames.map((name) => {
+    return `${path}/${name}`;
+  });
+
+  const arrSize = 20;
+  let arrays = [];
+
+  while (a.length > 0) {
+    arrays.push(a.splice(0, arrSize));
+  }
+  let count = 0;
+  arrays.forEach((array, i) => {
+    setTimeout(function () {
+      array.forEach(async (fullFilePath) => {
+        const text = await convertBurst(fullFilePath);
+        writeSingle(folder, text);
+        count++;
+      });
+    }, i * 3000);
+  });
+  determinedDocType = "combined-numbered";
+  const isRequests = true;
+  modelController.createArrayOfQuestionsLarge(
+    folder,
+    determinedDocType,
+    isRequests
+  );
+}
+
 module.exports = {
   writeFile,
   convert,
   readMultipleFiles,
+  readMultipleFilesLarge,
   makeDir,
 };

@@ -256,6 +256,96 @@ class ModelController {
   }
 
   /*
+   *  LLM PROMPT CONTROLLER
+   *  RETURNS REQUESTS FROM STRING BLOB
+   *  FOR VERY LONG REQUEST DOCUMENTS
+   * (> 50 pages?? ... guestimate; determined by timer in tesseWatcher)
+   */
+
+  async createArrayOfQuestionsLarge(docId, reqType) {
+    const masterArray = [];
+    const isRequests = true;
+
+    const dirPath = `../Documents/Textfiles/${docId}/`;
+    let fileNames = fs.readdirSync(dirPath);
+
+    const dirArray = fileNames.map((name) => {
+      return dirPath + name;
+    });
+
+    let requestStr;
+    let completes;
+    let newArray = [];
+    let flatReq;
+    let parsedRequests = [];
+
+    const arrSize = 20;
+
+    while (dirArray.length > 0) {
+      newArray.push(a.splice(0, arrSize));
+    }
+
+    completes = await Promise.all(
+      newArray.map(async (arr) => {
+        requestStr = await iteratePathsReturnString(arr);
+        const comp = await this.startOne(requestStr, reqType, isRequests);
+        return comp;
+      })
+    );
+
+    console.log("+++++++++++completes", completes);
+    return;
+    // r
+    if (dirArray.length > 10) {
+      const splitAt = Math.floor(dirArray.length / 2);
+      const temp1 = dirArray.slice(0, splitAt);
+      const temp2 = dirArray.slice(splitAt, dirArray.length);
+      newArray.push(temp1);
+      newArray.push(temp2);
+      completes = await Promise.all(
+        newArray.map(async (arr) => {
+          requestStr = await iteratePathsReturnString(arr);
+          const comp = await this.startOne(requestStr, reqType, isRequests);
+          return comp;
+        })
+      );
+      let fooz = JSON.parse(completes[0]);
+      let barz = JSON.parse(completes[1]);
+
+      fooz.forEach((item) => {
+        parsedRequests.push(item);
+      });
+      barz.forEach((item) => {
+        parsedRequests.push(item);
+      });
+    } else {
+      requestStr = await iteratePathsReturnString(dirArray);
+      flatReq = await this.startOne(requestStr, reqType, isRequests);
+      try {
+        parsedRequests = JSON.parse(flatReq);
+      } catch (err) {
+        console.log(
+          "Error parsing json in ModelController.createArrayOfQuestions: ",
+          err
+        );
+      }
+    }
+
+    makeDir(docId, reqType, isRequests);
+    const completionsObject = { type: "combined-numbered" };
+    completionsObject["requests"] = parsedRequests;
+
+    masterArray.push(completionsObject);
+
+    let temp = docId;
+    temp = masterArray;
+
+    saveCompletions(temp, docId, reqType, isRequests);
+    updateDB(docId, reqType);
+    return temp;
+  }
+
+  /*
    *  LLM PROMPT CYCLE
    *  CREATE RESPONSES FROM ARRAY OF REQUEST Qs
    *
