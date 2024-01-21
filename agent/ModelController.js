@@ -292,16 +292,19 @@ class ModelController {
         return comp;
       })
     );
-    /*
-    const num = newArray.length;
-    for (let i = 0; i < newArray.length; i++) {
+
+    const num = newArray.length - 1;
+    for (let i = 0; i < num; i++) {
       let temp = JSON.parse(completes[i]);
       temp.forEach((item) => {
         parsedRequests.push(item);
       });
     }
-    */
-    parsedRequests = completes.flat(Infinity);
+
+    //const foo = JSON.parse(completes[0]);
+
+    //console.log("foo", foo);
+    //parsedRequests = completes.flat(Infinity);
     makeDir(docId, reqType, isRequests);
 
     const completionsObject2 = { type: "combined-numbered" };
