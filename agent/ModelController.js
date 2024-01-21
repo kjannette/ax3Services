@@ -292,16 +292,29 @@ class ModelController {
         return comp;
       })
     );
-    /*
-    const num = newArray.length;
-    for (let i = 0; i < newArray.length; i++) {
-      let temp = JSON.parse(completes[i]);
-      temp.forEach((item) => {
-        parsedRequests.push(item);
-      });
+
+    const num = newArray.length - 1;
+    for (let i = 0; i < num; i++) {
+      try {
+        let temp = dJSON.parse(completes[i]);
+        temp.forEach((item) => {
+          parsedRequests.push(item);
+        });
+      } catch (err) {
+        console.log(
+          `Error parsing JSON in completions for item at index no ${i}`,
+          err
+        );
+      }
     }
-    */
+
+    /*
+    const foo = dJSON.parse(completes[0]);
+    const bar = dJSON.parse(completes[1]);
+    console.log("foo", foo);
     parsedRequests = completes.flat(Infinity);
+    parsedRequests = foo.concat(bar);
+*/
     makeDir(docId, reqType, isRequests);
 
     const completionsObject2 = { type: "combined-numbered" };
