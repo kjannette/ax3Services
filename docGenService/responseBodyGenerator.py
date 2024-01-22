@@ -87,8 +87,6 @@ class GenerateBody(object):
         # Create header
         if firmState == "New York":
             document = make_ny_header(
-                comesNowString,
-                self,
                 document,
                 jurisdiction,
                 venue,
