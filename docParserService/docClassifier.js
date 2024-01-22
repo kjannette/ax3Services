@@ -69,7 +69,12 @@ async function inspectFile(data) {
         .toLowerCase()
         .includes("interrogatories and requests for production") ||
       temp.toLowerCase().includes("interrogatories and document requests") ||
-      temp.toLowerCase().includes("and requests for production of documents")
+      temp.toLowerCase().includes("and requests for production of documents") ||
+      temp.toLowerCase().includes("discovery and inspection") ||
+      temp.toLowerCase().includes("combined discovery demands") ||
+      temp.toLowerCase().includes("demand for discovery") ||
+      temp.toLowerCase().includes("discovery demands") ||
+      temp.toLowerCase().includes("combined demands")
     ) {
       total.combined = "combined-numbered";
     }
