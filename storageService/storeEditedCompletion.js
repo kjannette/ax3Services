@@ -23,26 +23,25 @@ function storeEditedCompletions(editedComps) {
       let temp = docId;
       let bim;
       const fileData = fs.readdirSync(`EditedCompletions/${docId}/`, "utf8");
-      console.log("fileData", fileData);
-      let foo = fileData.sort();
-      let bar = foo[foo.length - 1];
-      console.log("bar.split('-')[5]", bar.split("-")[5]);
-      const nameArray = bar.split("-");
-      const baz = bar.split("-")[5];
-      if (baz === "jbk") {
-        bim = `1`;
-        nameArray.splice(5, 0, bim);
-        const newone = nameArray.join("", "-");
-        console.log("~~~~~newone", newone);
+      if (fileData.length > 1) {
+        let foo = fileData.sort();
+        console.log("fileData.length > 1 foo", foo);
+        let bar = foo[foo.length - 2];
+        console.log("fileData.length > 1 bar", bar);
+        const nameArray = bar.split("-");
+        const baz = bar.split("-")[5];
+        console.log("fileData.length > 1 baz", baz);
+        const int = Number(baz) + 1;
+        nameArray.splice(5, 6, `${int}`);
+        console.log("nameArray", nameArray);
         const delimiter = "-";
         const frak = nameArray.reduce((acc, val) =>
           [].concat(acc, delimiter, val)
         );
-        console.log("frak", frak.join(""));
         const finished = frak.join("");
-        var options = { flag: "w" };
+        console.log("finished", `${finished}-jbk-editedResponses.json`);
         fs.writeFileSync(
-          dir + `${finished}`,
+          dir + `${finished}-jbk-editedResponses.json`,
           editedCompletes,
           options,
           function (err) {
@@ -53,10 +52,39 @@ function storeEditedCompletions(editedComps) {
         );
         return;
       } else {
-        bim = `-1-`;
-        nameArray.splice(4, 0, bim);
-        nameArray.join();
-        console.log("nameArray", nameArray);
+        let bar = foo[foo.length - 1];
+        const nameArray = bar.split("-");
+        const baz = bar.split("-")[5];
+        if (baz === "jbk") {
+          bim = `1`;
+          nameArray.splice(5, 0, bim);
+
+          const delimiter = "-";
+          const frak = nameArray.reduce((acc, val) =>
+            [].concat(acc, delimiter, val)
+          );
+          const finished = frak.join("");
+          var options = { flag: "w" };
+          fs.writeFileSync(
+            dir + `${finished}`,
+            editedCompletes,
+            options,
+            function (err) {
+              if (err) {
+                return console.log(
+                  "Error writing in storeEditedCompletion",
+                  err
+                );
+              }
+            }
+          );
+          return;
+        } else {
+          bim = `-1-`;
+          nameArray.splice(4, 0, bim);
+          nameArray.join();
+          console.log("nameArray", nameArray);
+        }
       }
     } else {
       makeDir(dir);
