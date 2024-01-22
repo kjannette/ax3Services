@@ -71,34 +71,6 @@ function storeEditedCompletions(editedComps) {
           }
         );
         return;
-        const nameArray = bar.split("-");
-        const baz = bar.split("-")[5];
-        if (baz === "jbk") {
-          bim = `1`;
-          nameArray.splice(5, 0, bim);
-          const delimiter = "-";
-          const frak = nameArray.reduce((acc, val) =>
-            [].concat(acc, delimiter, val)
-          );
-          const finished = frak.join("");
-          var options = { flag: "w" };
-          fs.writeFileSync(
-            dir + `${finished}`,
-            editedCompletes,
-            options,
-            function (err) {
-              if (err) {
-                return console.log(
-                  "Error writing in storeEditedCompletion",
-                  err
-                );
-              }
-            }
-          );
-          return;
-        } else {
-          console.log("houston, we have a problem");
-        }
       }
     } else {
       makeDir(dir);
