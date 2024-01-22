@@ -15,12 +15,10 @@ function storeEditedCompletions(editedComps) {
     "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~storeEditedCompletion"
   );
   let docId = editedComps.id;
-  console.log("docId", docId);
   const dir = `EditedCompletions/${docId}/`;
 
   try {
     if (fs.existsSync(`EditedCompletions/${docId}/`)) {
-      let temp = docId;
       let bim;
       const fileData = fs.readdirSync(`EditedCompletions/${docId}/`, "utf8");
       if (fileData.length > 1) {
@@ -48,7 +46,31 @@ function storeEditedCompletions(editedComps) {
         );
         return;
       } else {
-        let bar = foo[foo.length - 1];
+        console.log("filedata length of one fired, fileData", fileData);
+        let bar = fileData[0];
+        console.log("bar", bar);
+        const zeroArray = bar.split("-");
+        console.log("zeroArray", zeroArray);
+        bim = `1`;
+        zeroArray.splice(5, 0, bim);
+        const delimiter = "-";
+        const frak = zeroArray.reduce((acc, val) =>
+          [].concat(acc, delimiter, val)
+        );
+        const finished = frak.join("");
+        console.log("finished", finished);
+        var options = { flag: "w" };
+        fs.writeFileSync(
+          dir + `${finished}`,
+          editedCompletes,
+          options,
+          function (err) {
+            if (err) {
+              return console.log("Error writing in storeEditedCompletion", err);
+            }
+          }
+        );
+        return;
         const nameArray = bar.split("-");
         const baz = bar.split("-")[5];
         if (baz === "jbk") {
