@@ -9,11 +9,10 @@ async function makeDir(path) {
   });
 }
 
-function storeEditedCompletion(editedComps) {
+function storeEditedCompletions(editedComps) {
   const editedCompletes = JSON.stringify(editedComps);
   console.log(
-    "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~editedCompletes",
-    editedCompletes
+    "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~storeEditedCompletion"
   );
   const docId = editedComps.id;
   console.log("docId", docId);
@@ -42,5 +41,5 @@ function storeEditedCompletion(editedComps) {
 }
 
 module.exports = {
-  storeEditedCompletion,
+  storeEditedCompletions,
 };
