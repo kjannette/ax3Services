@@ -5,7 +5,7 @@ const multer = require("multer");
 const fs = require("fs");
 const path = require("path");
 const {
-  storeEditedCompletion,
+  storeEditedCompletions,
 } = require("./storageService/storeEditedCompletion.js");
 const {
   deleteDocument,
@@ -173,7 +173,7 @@ app.get("/cleanUpDocx/:docId/:reqType", (req, res) => {
 app.post("/storeeditedcompletions", function (req, res) {
   const data = req.body;
   try {
-    storeEditedCompletion(data);
+    storeEditedCompletions(data);
   } catch (err) {
     console.log("Error:", err);
   }
