@@ -100,6 +100,8 @@ async function inspectFile(data) {
   }
 }
 
+// TODO find the first iteration one in chain - would it be tesseWatcher?  maybe py watcher
+// major refactor - do after launch
 const iterateFilePaths = async (paths) => {
   const result = await Promise.all(
     paths.map(async (path) => {
