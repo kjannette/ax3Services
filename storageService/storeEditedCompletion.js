@@ -25,21 +25,17 @@ function storeEditedCompletions(editedComps) {
       const fileData = fs.readdirSync(`EditedCompletions/${docId}/`, "utf8");
       if (fileData.length > 1) {
         let foo = fileData.sort();
-        console.log("fileData.length > 1 foo", foo);
         let bar = foo[foo.length - 2];
-        console.log("fileData.length > 1 bar", bar);
         const nameArray = bar.split("-");
         const baz = bar.split("-")[5];
-        console.log("fileData.length > 1 baz", baz);
         const int = Number(baz) + 1;
         nameArray.splice(5, 6, `${int}`);
-        console.log("nameArray", nameArray);
         const delimiter = "-";
         const frak = nameArray.reduce((acc, val) =>
           [].concat(acc, delimiter, val)
         );
         const finished = frak.join("");
-        console.log("finished", `${finished}-jbk-editedResponses.json`);
+        var options = { flag: "w" };
         fs.writeFileSync(
           dir + `${finished}-jbk-editedResponses.json`,
           editedCompletes,
@@ -58,7 +54,6 @@ function storeEditedCompletions(editedComps) {
         if (baz === "jbk") {
           bim = `1`;
           nameArray.splice(5, 0, bim);
-
           const delimiter = "-";
           const frak = nameArray.reduce((acc, val) =>
             [].concat(acc, delimiter, val)
@@ -80,10 +75,7 @@ function storeEditedCompletions(editedComps) {
           );
           return;
         } else {
-          bim = `-1-`;
-          nameArray.splice(4, 0, bim);
-          nameArray.join();
-          console.log("nameArray", nameArray);
+          console.log("houston, we have a problem");
         }
       }
     } else {
