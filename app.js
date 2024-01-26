@@ -8,7 +8,8 @@ const modelController = require("./agent/ModelController.js");
 const { db } = require("./firebase/firebase.js");
 const upload = multer({ storage: storage });
 const port = 4000;
-
+const Stripe = require("stripe");
+const { stripeAPIKey, stripeWebhooksKey } = require("./secrets,js");
 const {
   storeEditedCompletions,
 } = require("./storageService/storeEditedCompletion.js");
@@ -33,14 +34,10 @@ const {
   getDocs,
 } = require("firebase/firestore");
 
-const Stripe = require("stripe");
-const stripe = Stripe(
-  "sk_test_51NNoasBi8p7FeGFrHklM5etKHIV7mLAyd1PkQzisiF5B3T6wT88j6Lr6KuPzpqOwv3kEbLdni4VRLgPelmOK3zgS005ywOX5qE"
-);
+const stripe = Stripe(stripeAPIKey);
 
 // Secret for Stripe webhooks
-const endpointSecret =
-  "whsec_7779181f90bc45c639da184a7cd42ec59b1f6dd32392416dd1fc134e117ccf2e";
+const endpointSecret = stripeWebhooksKey;
 
 const storage = multer.diskStorage({
   destination: "Documents/Uploads/",
@@ -64,14 +61,12 @@ app.use(express.json());
  */
 app.post("/create-subscription", async (req, res) => {
   try {
-    // extract necessary information from request body
     const { customerData, type, token } = req.body;
-
     const monthlyPriceId = "price_1ObShsBi8p7FeGFrCV3Ox5Mn";
     const yearlyPriceId = "placeholder";
     const tokenId = token.id;
 
-    // create a new customer object
+    // create new customer object
     const customer = await stripe.customers.create({
       ...customerData,
       source: tokenId,
@@ -85,7 +80,7 @@ app.post("/create-subscription", async (req, res) => {
     });
 
     //await updateUserSubscriptionData(customer.id, subscription.id);
-
+    // maybe want to add this to the firebase DB
     res.send({
       subscriptionId: subscription.id,
       customerId: customer.id,
