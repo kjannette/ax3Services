@@ -4,17 +4,43 @@ const cors = require("cors");
 const multer = require("multer");
 const fs = require("fs");
 const path = require("path");
+const modelController = require("./agent/ModelController.js");
+const { db } = require("./firebase/firebase.js");
+const upload = multer({ storage: storage });
+const port = 4000;
+
 const {
   storeEditedCompletions,
 } = require("./storageService/storeEditedCompletion.js");
+
 const {
   deleteDocument,
   deleteFolderAndContents,
   cleanupGenFolderAndContents,
 } = require("./storageService/deleteDirOrDoc.js");
-const modelController = require("./agent/ModelController.js");
 
-const port = 4000;
+const {
+  handlePaymentFailure,
+  handleSubscriptionDeletion,
+} = require("./paymentService/stripe.js");
+
+const {
+  doc,
+  updateDoc,
+  collection,
+  query,
+  where,
+  getDocs,
+} = require("firebase/firestore");
+
+const Stripe = require("stripe");
+const stripe = Stripe(
+  "sk_test_51NNoasBi8p7FeGFrHklM5etKHIV7mLAyd1PkQzisiF5B3T6wT88j6Lr6KuPzpqOwv3kEbLdni4VRLgPelmOK3zgS005ywOX5qE"
+);
+
+// Secret for Stripe webhooks
+const endpointSecret =
+  "whsec_7779181f90bc45c639da184a7cd42ec59b1f6dd32392416dd1fc134e117ccf2e";
 
 const storage = multer.diskStorage({
   destination: "Documents/Uploads/",
@@ -32,7 +58,105 @@ app.use(cors(corsOptions));
 app.use(express.urlencoded({ extended: false })); //< Add this
 app.use(express.json());
 
-const upload = multer({ storage: storage });
+/*
+ *  Client POST for payment integration
+ *
+ */
+app.post("/create-subscription", async (req, res) => {
+  try {
+    // extract necessary information from request body
+    const { customerData, type, token } = req.body;
+
+    const monthlyPriceId = "price_1ObShsBi8p7FeGFrCV3Ox5Mn";
+    const yearlyPriceId = "placeholder";
+    const tokenId = token.id;
+
+    // create a new customer object
+    const customer = await stripe.customers.create({
+      ...customerData,
+      source: tokenId,
+    });
+
+    // Create the subscription
+    const subscription = await stripe.subscriptions.create({
+      customer: customer.id,
+      items: [{ price: type === "monthly" ? monthlyPriceId : yearlyPriceId }],
+      expand: ["latest_invoice.payment_intent"],
+    });
+
+    //await updateUserSubscriptionData(customer.id, subscription.id);
+
+    res.send({
+      subscriptionId: subscription.id,
+      customerId: customer.id,
+    });
+  } catch (error) {
+    console.error("Error creating subscription:", error);
+    res.status(400).send({ error: { message: error.message } });
+  }
+});
+
+/*
+ *  Client POST for canceling a subscription
+ *
+ */
+app.post("/cancel-subscription", async (req, res) => {
+  const { appUserId } = req.body;
+
+  const usersRef = collection(db, "users");
+  const q = query(usersRef, where("appUserId", "==", appUserId));
+  const querySnapshot = await getDocs(q);
+
+  if (querySnapshot.empty) {
+    console.log("No user found with the email:", appUserId);
+    return;
+  }
+
+  const userDoc = querySnapshot.docs[0];
+
+  //get the user's subscription ID and customer ID
+  const subscriptionId = userDoc.data().subscriptionId;
+
+  const deletedSubscription = await stripe.subscriptions.update(
+    subscriptionId,
+    {
+      cancel_at_period_end: true,
+    }
+  );
+
+  res.status(200).send();
+});
+
+/*
+ *  Client POST - Stripe webhook
+ *
+ */
+app.post(
+  "/stripe-webhook",
+  express.raw({ type: "application/json" }),
+  async (request, response) => {
+    switch (request.body.type) {
+      case "customer.subscription.deleted":
+        const subscription = request.body.data.object;
+
+        //get stripe customer
+        const stripeCustomer = await stripe.customers.retrieve(
+          subscription.customer
+        );
+
+        await handleSubscriptionDeletion(stripeCustomer, subscription, stripe);
+        break;
+      case "invoice.payment_failed":
+        const paymentIntent = request.body.data.object;
+        await handlePaymentFailure(paymentIntent);
+        break;
+      default:
+        console.log(`Unhandled event type`);
+    }
+
+    response.status(200).send();
+  }
+);
 
 /*
  *  Client POST new request doc for docParser to parse into array
