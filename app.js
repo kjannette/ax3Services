@@ -6,10 +6,10 @@ const fs = require("fs");
 const path = require("path");
 const modelController = require("./agent/ModelController.js");
 const { db } = require("./firebase/firebase.js");
-const upload = multer({ storage: storage });
+
 const port = 4000;
 const Stripe = require("stripe");
-const { stripeAPIKey, stripeWebhooksKey } = require("./secrets,js");
+const { stripeAPIKey, stripeWebhooksKey } = require("./secrets.js");
 const {
   storeEditedCompletions,
 } = require("./storageService/storeEditedCompletion.js");
@@ -45,6 +45,8 @@ const storage = multer.diskStorage({
     callback(null, file.originalname);
   },
 });
+
+const upload = multer({ storage: storage });
 
 var corsOptions = {
   origin: "*",
