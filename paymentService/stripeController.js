@@ -23,8 +23,21 @@ class StripeController {
       additionalAccounts,
       isAnnual
     );
-    const monthlyPriceId = "price_1ObShsBi8p7FeGFrCV3Ox5Mn";
-    const yearlyPriceId = "placeholder";
+    let priceId;
+    if (planType === "associate" && isAnnual === false) {
+      priceId = "price_1OdGLMBi8p7FeGFrr3JN9LB6";
+    } else if (planType === "associate" && isAnnual === true) {
+      //
+    } else if (planType === "partner" && isAnnual === false) {
+      //
+    } else if (planType === "partner" && isAnnual === true) {
+      //
+    } else if (planType === "seniorPartner" && isAnnual === false) {
+      //
+    } else if (planType === "seniorPartner" && isAnnual === false) {
+      //
+    }
+
     const tokenId = token.id;
 
     try {
@@ -40,7 +53,13 @@ class StripeController {
         items: [{ price: type === "monthly" ? monthlyPriceId : yearlyPriceId }],
         expand: ["latest_invoice.payment_intent"],
       });
-
+      /*
+      const subscription = await stripe.subscriptions.create({
+        customer: customer.id,
+        items: [{ price: type === "monthly" ? monthlyPriceId : yearlyPriceId }],
+        expand: ["latest_invoice.payment_intent"],
+      });
+*/
       //await updateUserSubscriptionData(customer.id, subscription.id);
       // maybe want to add this to the firebase DB
       console.log("subscription", subscription);
