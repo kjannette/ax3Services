@@ -23,19 +23,20 @@ class StripeController {
       additionalAccounts,
       isAnnual
     );
+
     let priceId;
     if (planType === "associate" && isAnnual === false) {
       priceId = "price_1OdGLMBi8p7FeGFrr3JN9LB6";
     } else if (planType === "associate" && isAnnual === true) {
-      //
+      priceId = "price_1OdGN3Bi8p7FeGFr9PM7oD93";
     } else if (planType === "partner" && isAnnual === false) {
-      //
+      priceId = "price_1OdGO8Bi8p7FeGFrg7EdavjO";
     } else if (planType === "partner" && isAnnual === true) {
-      //
+      priceId = "price_1OdGPHBi8p7FeGFrNd0hOVro";
     } else if (planType === "seniorPartner" && isAnnual === false) {
-      //
+      priceId = "price_1OdGRLBi8p7FeGFrVAf7QCdw";
     } else if (planType === "seniorPartner" && isAnnual === false) {
-      //
+      priceId = "price_1OdGRrBi8p7FeGFr2Zvr7USe";
     }
 
     const tokenId = token.id;
@@ -50,19 +51,14 @@ class StripeController {
       // Create the subscription
       const subscription = await stripe.subscriptions.create({
         customer: customer.id,
-        items: [{ price: type === "monthly" ? monthlyPriceId : yearlyPriceId }],
+        items: [{ price: priceId }],
         expand: ["latest_invoice.payment_intent"],
       });
-      /*
-      const subscription = await stripe.subscriptions.create({
-        customer: customer.id,
-        items: [{ price: type === "monthly" ? monthlyPriceId : yearlyPriceId }],
-        expand: ["latest_invoice.payment_intent"],
-      });
-*/
-      //await updateUserSubscriptionData(customer.id, subscription.id);
-      // maybe want to add this to the firebase DB
-      console.log("subscription", subscription);
+
+      console.log(
+        "------------------------------------------------------>subscription",
+        subscription
+      );
       return subscription;
     } catch (error) {
       console.log(
