@@ -25,6 +25,8 @@ class StripeController {
     );
 
     let priceId;
+    let addId;
+    let items;
     if (planType === "associate" && isAnnual === false) {
       priceId = "price_1OdGLMBi8p7FeGFrr3JN9LB6";
     } else if (planType === "associate" && isAnnual === true) {
@@ -40,6 +42,14 @@ class StripeController {
     }
 
     const tokenId = token.id;
+
+    if (planType === "partner" && isAnnual === false) {
+      if (additionalAccounts === 1) {
+        addId = "";
+      } else if (additionalAccounts === 2) {
+        addId = "";
+      }
+    }
 
     try {
       // create new customer object
