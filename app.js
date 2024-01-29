@@ -5,11 +5,12 @@ const multer = require("multer");
 const fs = require("fs");
 const path = require("path");
 const modelController = require("./agent/ModelController.js");
+const stripeController = require("./paymentService/StripeController.js");
 const { db } = require("./firebase/firebase.js");
-const upload = multer({ storage: storage });
+
 const port = 4000;
 const Stripe = require("stripe");
-const { stripeAPIKey, stripeWebhooksKey } = require("./secrets,js");
+const { stripeAPIKey, stripeWebhooksKey } = require("./secrets.js");
 const {
   storeEditedCompletions,
 } = require("./storageService/storeEditedCompletion.js");
@@ -46,6 +47,8 @@ const storage = multer.diskStorage({
   },
 });
 
+const upload = multer({ storage: storage });
+
 var corsOptions = {
   origin: "*",
   optionsSuccessStatus: 200,
@@ -56,12 +59,32 @@ app.use(express.urlencoded({ extended: false })); //< Add this
 app.use(express.json());
 
 /*
- *  Client POST for payment integration
+ *  Client POST create stripe subscription, make payment
  *
  */
 app.post("/create-subscription", async (req, res) => {
+  console.log(
+    "~~~~~~~~~~~~~-----------------------~~~~~~hitcreate-subscription endpoint"
+  );
+
+  const { planType, additionalAccounts, isAnnual, customerData, token } =
+    req.body;
+
   try {
-    const { customerData, type, token } = req.body;
+    const newSubscription = stripeController.createNewSubscription(
+      planType,
+      additionalAccounts,
+      isAnnual,
+      customerData,
+      token
+    );
+    return newSubscription;
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
+
+  /*
     const monthlyPriceId = "price_1ObShsBi8p7FeGFrCV3Ox5Mn";
     const yearlyPriceId = "placeholder";
     const tokenId = token.id;
@@ -89,10 +112,11 @@ app.post("/create-subscription", async (req, res) => {
     console.error("Error creating subscription:", error);
     res.status(400).send({ error: { message: error.message } });
   }
+  */
 });
 
 /*
- *  Client POST for canceling a subscription
+ *  Client POST for cancelling a subscription
  *
  */
 app.post("/cancel-subscription", async (req, res) => {
@@ -123,13 +147,15 @@ app.post("/cancel-subscription", async (req, res) => {
 });
 
 /*
- *  Client POST - Stripe webhook
+ *  Client POST - Stripe webhook - refactoring
  *
  */
+
 app.post(
   "/stripe-webhook",
   express.raw({ type: "application/json" }),
   async (request, response) => {
+    const { type } = request.body.type;
     switch (request.body.type) {
       case "customer.subscription.deleted":
         const subscription = request.body.data.object;
