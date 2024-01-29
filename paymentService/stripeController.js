@@ -18,7 +18,7 @@ class StripeController {
     token
   ) {
     console.log(
-      "planType, additionalAccounts, isAnnual",
+      "------------->planType, additionalAccounts, isAnnual",
       planType,
       additionalAccounts,
       isAnnual
@@ -27,10 +27,7 @@ class StripeController {
     let priceId;
     let addId;
     let items;
-    console.log(
-      "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~>>>additionalAccounts",
-      additionalAccounts
-    );
+
     if (planType === "associate" && isAnnual === false) {
       priceId = "price_1OdGLMBi8p7FeGFrr3JN9LB6";
     } else if (planType === "associate" && isAnnual === true) {
@@ -130,7 +127,7 @@ class StripeController {
         items.push({ price: addId });
       }
     }
-
+    console.log("items", items);
     try {
       // create new customer object
       const customer = await stripe.customers.create({
@@ -151,10 +148,7 @@ class StripeController {
       );
       return subscription;
     } catch (error) {
-      console.log(
-        "StripeController rror creating subscription in createNewSubscription",
-        error
-      );
+      console.log("StripeController error in createNewSubscription", error);
     }
   }
 

@@ -63,10 +63,6 @@ app.use(express.json());
  *
  */
 app.post("/create-subscription", async (req, res) => {
-  console.log(
-    "~~~~~~~~~~~~~-----------------------~~~~~~hitcreate-subscription endpoint"
-  );
-
   const { planType, additionalAccounts, isAnnual, customerData, token } =
     req.body;
 
