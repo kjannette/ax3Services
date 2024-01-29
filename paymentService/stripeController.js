@@ -51,6 +51,16 @@ class StripeController {
       }
     }
 
+    if (
+      additionalAccounts < 0 ||
+      additionalAccounts === undefined ||
+      additionalAccounts === null
+    ) {
+      items = [{ price: priceId }];
+    } else if (additionalAccounts > 0) {
+      items = [{ price: priceId }, { price: addId }];
+    }
+
     try {
       // create new customer object
       const customer = await stripe.customers.create({
@@ -61,7 +71,7 @@ class StripeController {
       // Create the subscription
       const subscription = await stripe.subscriptions.create({
         customer: customer.id,
-        items: [{ price: priceId }],
+        items: items,
         expand: ["latest_invoice.payment_intent"],
       });
 
