@@ -5,6 +5,7 @@ const multer = require("multer");
 const fs = require("fs");
 const path = require("path");
 const modelController = require("./agent/ModelController.js");
+const stripeController = require("./paymentService/ModelController.js");
 const { db } = require("./firebase/firebase.js");
 
 const port = 4000;
@@ -127,7 +128,7 @@ app.post("/cancel-subscription", async (req, res) => {
 });
 
 /*
- *  Client POST - Stripe webhook
+ *  Client POST - Stripe webhook - refactoring
  *
  */
 
@@ -135,6 +136,7 @@ app.post(
   "/stripe-webhook",
   express.raw({ type: "application/json" }),
   async (request, response) => {
+    const { type } = request.body.type;
     switch (request.body.type) {
       case "customer.subscription.deleted":
         const subscription = request.body.data.object;

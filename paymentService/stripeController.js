@@ -60,6 +60,30 @@ class StripeController {
         cancel_at_period_end: true,
       }
     );
+    return deletedSubscription;
+  }
+
+  async stripeWebhook(type, subscription) {
+    switch (type) {
+      case "customer.subscription.deleted":
+        const subscription = request.body.data.object;
+
+        //get stripe customer
+        const stripeCustomer = await stripe.customers.retrieve(
+          subscription.customer
+        );
+
+        await handleSubscriptionDeletion(stripeCustomer, subscription, stripe);
+        break;
+      case "invoice.payment_failed":
+        const paymentIntent = request.body.data.object;
+        await handlePaymentFailure(paymentIntent);
+        break;
+      default:
+        console.log(`Unhandled event type`);
+    }
+
+    response.status(200).send();
   }
 }
 
