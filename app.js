@@ -65,12 +65,15 @@ app.use(express.json());
 app.post("/create-subscription", async (req, res) => {
   console.log("hitcreate-subscription endpoint");
 
-  const { customerData, type, token } = req.body;
+  const { planType, additionalAccounts, isAnnual, customerData, token } =
+    req.body;
 
   try {
     const newSubscription = stripeController.createNewSubscription(
+      planType,
+      additionalAccounts,
+      isAnnual,
       customerData,
-      type,
       token
     );
     return newSubscription;

@@ -10,7 +10,19 @@ const stripe = Stripe(stripeAPIKey);
 const endpointSecret = stripeWebhooksKey;
 
 class StripeController {
-  async createNewSubscription(customerData, type, token) {
+  async createNewSubscription(
+    planType,
+    additionalAccounts,
+    isAnnual,
+    customerData,
+    token
+  ) {
+    console.log(
+      "planType, additionalAccounts, isAnnual",
+      planType,
+      additionalAccounts,
+      isAnnual
+    );
     const monthlyPriceId = "price_1ObShsBi8p7FeGFrCV3Ox5Mn";
     const yearlyPriceId = "placeholder";
     const tokenId = token.id;
