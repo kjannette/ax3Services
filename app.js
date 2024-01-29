@@ -64,21 +64,22 @@ app.use(express.json());
  */
 app.post("/create-subscription", async (req, res) => {
   console.log("hitcreate-subscription endpoint");
-  try {
-    const { customerData, type, token } = req.body;
-    try {
-      const newSubscription = stripeController.createNewSubscription(
-        customerData,
-        type,
-        token
-      );
-      return newSubscription
-    } catch (err){
-      console.log(err)
-      return err
-    }
 
-    /*
+  const { customerData, type, token } = req.body;
+
+  try {
+    const newSubscription = stripeController.createNewSubscription(
+      customerData,
+      type,
+      token
+    );
+    return newSubscription;
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
+
+  /*
     const monthlyPriceId = "price_1ObShsBi8p7FeGFrCV3Ox5Mn";
     const yearlyPriceId = "placeholder";
     const tokenId = token.id;
