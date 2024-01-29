@@ -5,7 +5,7 @@ const multer = require("multer");
 const fs = require("fs");
 const path = require("path");
 const modelController = require("./agent/ModelController.js");
-const stripeController = require("./paymentService/ModelController.js");
+const stripeController = require("./paymentService/StripeController.js");
 const { db } = require("./firebase/firebase.js");
 
 const port = 4000;
@@ -63,7 +63,9 @@ app.use(express.json());
  *
  */
 app.post("/create-subscription", async (req, res) => {
-  console.log("hitcreate-subscription endpoint");
+  console.log(
+    "~~~~~~~~~~~~~-----------------------~~~~~~hitcreate-subscription endpoint"
+  );
 
   const { planType, additionalAccounts, isAnnual, customerData, token } =
     req.body;

@@ -43,6 +43,7 @@ class StripeController {
 
       //await updateUserSubscriptionData(customer.id, subscription.id);
       // maybe want to add this to the firebase DB
+      console.log("subscription", subscription);
       return subscription;
     } catch (error) {
       console.log(
@@ -95,7 +96,7 @@ class StripeController {
         console.log(`Unhandled event type`);
     }
 
-    response.status(200).send();
+    //response.status(200).send();
   }
 }
 
