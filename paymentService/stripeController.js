@@ -25,6 +25,12 @@ class StripeController {
     );
 
     let priceId;
+    let addId;
+    let items;
+    console.log(
+      "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~>>>additionalAccounts",
+      additionalAccounts
+    );
     if (planType === "associate" && isAnnual === false) {
       priceId = "price_1OdGLMBi8p7FeGFrr3JN9LB6";
     } else if (planType === "associate" && isAnnual === true) {
@@ -41,6 +47,28 @@ class StripeController {
 
     const tokenId = token.id;
 
+    if (planType === "partner" && isAnnual === false) {
+      if (additionalAccounts === 1) {
+        addId = "price_1OdIcqBi8p7FeGFrcKhFGudX";
+      } else if (additionalAccounts === 2) {
+        addId = "price_1OdIvYBi8p7FeGFrLhvk1mwo";
+      }
+    } else if (planType === "partner" && isAnnual === true) {
+      if (additionalAccounts === 1) {
+        addId = "price_1OdIunBi8p7FeGFrOJjULnA0";
+      } else if (additionalAccounts === 2) {
+        addId = "price_1OdJ0pBi8p7FeGFrFrrXjfwA";
+      }
+    }
+
+    if (additionalAccounts === 0) {
+      items = [{ price: priceId }];
+    } else if (additionalAccounts === 1) {
+      items = [{ price: priceId }, { price: addId }];
+    } else if (additionalAccounts === 2) {
+      items = [{ price: priceId }, { price: addId }];
+    }
+    console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~>>>items", items);
     try {
       // create new customer object
       const customer = await stripe.customers.create({
@@ -51,7 +79,7 @@ class StripeController {
       // Create the subscription
       const subscription = await stripe.subscriptions.create({
         customer: customer.id,
-        items: [{ price: priceId }],
+        items: items,
         expand: ["latest_invoice.payment_intent"],
       });
 
