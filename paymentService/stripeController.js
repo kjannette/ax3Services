@@ -17,12 +17,6 @@ class StripeController {
     customerData,
     token
   ) {
-    console.log(
-      "------------->planType, additionalAccounts, isAnnual",
-      planType,
-      additionalAccounts,
-      isAnnual
-    );
     const tokenId = token.id;
     let priceId;
     let addId;
@@ -129,7 +123,7 @@ class StripeController {
         items.push({ price: addId });
       }
     }
-    console.log("items", items);
+
     try {
       // create new customer object
       const customer = await stripe.customers.create({
@@ -144,10 +138,6 @@ class StripeController {
         expand: ["latest_invoice.payment_intent"],
       });
 
-      console.log(
-        "------------------------------------------------------>subscription",
-        subscription
-      );
       return subscription;
     } catch (error) {
       console.log("StripeController error in createNewSubscription", error);
