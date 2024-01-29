@@ -58,12 +58,14 @@ app.use(express.urlencoded({ extended: false })); //< Add this
 app.use(express.json());
 
 /*
- *  Client POST for payment integration
+ *  Client POST create stripe subscription, make payment
  *
  */
 app.post("/create-subscription", async (req, res) => {
+  console.log("hitcreate-subscription endpoint");
   try {
     const { customerData, type, token } = req.body;
+
     const monthlyPriceId = "price_1ObShsBi8p7FeGFrCV3Ox5Mn";
     const yearlyPriceId = "placeholder";
     const tokenId = token.id;
@@ -94,7 +96,7 @@ app.post("/create-subscription", async (req, res) => {
 });
 
 /*
- *  Client POST for canceling a subscription
+ *  Client POST for cancelling a subscription
  *
  */
 app.post("/cancel-subscription", async (req, res) => {
