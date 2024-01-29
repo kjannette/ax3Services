@@ -38,7 +38,7 @@ class StripeController {
       priceId = "price_1OdGPHBi8p7FeGFrNd0hOVro";
     } else if (planType === "seniorPartner" && isAnnual === false) {
       priceId = "price_1OdGRLBi8p7FeGFrVAf7QCdw";
-    } else if (planType === "seniorPartner" && isAnnual === false) {
+    } else if (planType === "seniorPartner" && isAnnual === true) {
       priceId = "price_1OdGRrBi8p7FeGFr2Zvr7USe";
     }
 
@@ -94,7 +94,9 @@ class StripeController {
         addId = "price_1OddNUBi8p7FeGFraRX3ypOK";
         items.push({ price: addId });
       }
-    } else if (planType === "seniorPartner" && isAnnual === true) {
+    }
+
+    if (planType === "seniorPartner" && isAnnual === true) {
       if (additionalAccounts === 1) {
         addId = "price_1OdJ3EBi8p7FeGFr6371XcAi";
         items.push({ price: addId });
