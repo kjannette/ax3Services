@@ -66,7 +66,19 @@ app.post("/create-subscription", async (req, res) => {
   console.log("hitcreate-subscription endpoint");
   try {
     const { customerData, type, token } = req.body;
+    try {
+      const newSubscription = stripeController.createNewSubscription(
+        customerData,
+        type,
+        token
+      );
+      return newSubscription
+    } catch (err){
+      console.log(err)
+      return err
+    }
 
+    /*
     const monthlyPriceId = "price_1ObShsBi8p7FeGFrCV3Ox5Mn";
     const yearlyPriceId = "placeholder";
     const tokenId = token.id;
@@ -94,6 +106,7 @@ app.post("/create-subscription", async (req, res) => {
     console.error("Error creating subscription:", error);
     res.status(400).send({ error: { message: error.message } });
   }
+  */
 });
 
 /*
