@@ -126,21 +126,22 @@ class StripeController {
 
     try {
       // create new customer object
-      const customer = stripe.customers.create({
+      const customer = await stripe.customers.create({
         ...customerData,
         source: tokenId,
       });
 
       // Create the subscription
-      const subscription = stripe.subscriptions.create({
+      const subscription = await stripe.subscriptions.create({
         customer: customer.id,
         items: items,
         expand: ["latest_invoice.payment_intent"],
       });
-
-      if (subscription) {
-        return subscription;
-      }
+      console.log(
+        "------------------------subscription in stripe conroller",
+        subscription
+      );
+      return subscription;
     } catch (error) {
       console.log("StripeController error in createNewSubscription", error);
     }

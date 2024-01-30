@@ -67,7 +67,7 @@ app.post("/create-subscription", async (req, res) => {
     req.body;
 
   try {
-    const subscription = stripeController.createNewSubscription(
+    const sub = await stripeController.createNewSubscription(
       planType,
       additionalAccounts,
       isAnnual,
@@ -75,12 +75,12 @@ app.post("/create-subscription", async (req, res) => {
       token
     );
     console.log(
-      "---------------------------------------------subscription",
-      subscription
+      "---------------------------------------------sub in appjs",
+      sub
     );
+
     res.send({
-      subscriptionId: subscription.id,
-      customerId: customer.id,
+      sub,
     });
   } catch (error) {
     console.log(error);
