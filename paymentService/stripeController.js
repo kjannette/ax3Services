@@ -137,10 +137,7 @@ class StripeController {
         items: items,
         expand: ["latest_invoice.payment_intent"],
       });
-      console.log(
-        "------------------------subscription in stripe conroller",
-        subscription
-      );
+
       return subscription;
     } catch (error) {
       console.log("StripeController error in createNewSubscription", error);

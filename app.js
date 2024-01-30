@@ -78,9 +78,13 @@ app.post("/create-subscription", async (req, res) => {
       "---------------------------------------------sub in appjs",
       sub
     );
-
+    const subscripId = sub.id;
+    console.log(
+      "---------------------------------------------subscripId in app.js",
+      subscripId
+    );
     res.send({
-      sub,
+      subscriptionId: subscripId,
     });
   } catch (error) {
     console.log(error);
