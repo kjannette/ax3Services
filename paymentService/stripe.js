@@ -1,5 +1,4 @@
 // stripe.js
-
 const {
   doc,
   updateDoc,

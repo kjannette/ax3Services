@@ -89,36 +89,6 @@ app.post("/create-subscription", async (req, res) => {
     console.log(error);
     res.status(400).send({ error: { message: error.message } });
   }
-
-  /*
-    const monthlyPriceId = "price_1ObShsBi8p7FeGFrCV3Ox5Mn";
-    const yearlyPriceId = "placeholder";
-    const tokenId = token.id;
-
-    // create new customer object
-    const customer = await stripe.customers.create({
-      ...customerData,
-      source: tokenId,
-    });
-
-    // Create the subscription
-    const subscription = await stripe.subscriptions.create({
-      customer: customer.id,
-      items: [{ price: type === "monthly" ? monthlyPriceId : yearlyPriceId }],
-      expand: ["latest_invoice.payment_intent"],
-    });
-
-    //await updateUserSubscriptionData(customer.id, subscription.id);
-    // maybe want to add this to the firebase DB
-    res.send({
-      subscriptionId: subscription.id,
-      customerId: customer.id,
-    });
-  } catch (error) {
-    console.error("Error creating subscription:", error);
-    res.status(400).send({ error: { message: error.message } });
-  }
-  */
 });
 
 /*
@@ -127,33 +97,37 @@ app.post("/create-subscription", async (req, res) => {
  */
 app.post("/cancel-subscription", async (req, res) => {
   const { appUserId } = req.body;
+  try {
+    const usersRef = collection(db, "users");
+    const q = query(usersRef, where("appUserId", "==", appUserId));
+    const querySnapshot = await getDocs(q);
 
-  const usersRef = collection(db, "users");
-  const q = query(usersRef, where("appUserId", "==", appUserId));
-  const querySnapshot = await getDocs(q);
-
-  if (querySnapshot.empty) {
-    console.log("No user found with the email:", appUserId);
-    return;
-  }
-
-  const userDoc = querySnapshot.docs[0];
-
-  //get the user's subscription ID and customer ID
-  const subscriptionId = userDoc.data().subscriptionId;
-
-  const deletedSubscription = await stripe.subscriptions.update(
-    subscriptionId,
-    {
-      cancel_at_period_end: true,
+    if (querySnapshot.empty) {
+      console.log("No user found with the email:", appUserId);
+      return;
     }
-  );
 
-  res.status(200).send();
+    const userDoc = querySnapshot.docs[0];
+
+    //get the user's subscription ID and customer ID
+    const subscriptionId = userDoc.data().subscriptionId;
+
+    const deletedSubscription = await stripe.subscriptions.update(
+      subscriptionId,
+      {
+        cancel_at_period_end: true,
+      }
+    );
+
+    res.status(200).send();
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({ error: { message: error.message } });
+  }
 });
 
 /*
- *  Client POST - Stripe webhook - refactoring
+ *  Client POST - Stripe webhook(s)
  *
  */
 
@@ -173,6 +147,7 @@ app.post(
 
         await handleSubscriptionDeletion(stripeCustomer, subscription, stripe);
         break;
+        x;
       case "invoice.payment_failed":
         const paymentIntent = request.body.data.object;
         await handlePaymentFailure(paymentIntent);
