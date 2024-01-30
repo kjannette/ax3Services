@@ -138,7 +138,9 @@ class StripeController {
         expand: ["latest_invoice.payment_intent"],
       });
 
-      return subscription;
+      const obj = { subscription, customer: { customerId: customer.id } };
+      console.log("obj in controller", obj);
+      return obj;
     } catch (error) {
       console.log("StripeController error in createNewSubscription", error);
     }
