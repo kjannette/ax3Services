@@ -84,7 +84,7 @@ app.post("/create-subscription", async (req, res) => {
       subscripId
     );
     res.send({
-      subscriptionId: subscripId,
+      subscripId,
     });
   } catch (error) {
     console.log(error);
