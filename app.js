@@ -76,11 +76,7 @@ app.post("/create-subscription", async (req, res) => {
     );
     const subscriptionId = sub.subscription.id;
     const customerId = sub.customer.customerId;
-    console.log(
-      "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~subscriptionId,  customerId in app.js",
-      subscriptionId,
-      customerId
-    );
+
     res.send({
       subscriptionId,
       customerId,
