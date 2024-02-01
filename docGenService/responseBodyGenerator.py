@@ -85,7 +85,7 @@ class GenerateBody(object):
             mainHeader = "RESPONSE TO REQUEST FOR PRODUCTON"
 
         # Create header
-        if firmState == "New York":
+        if firmState == "ny":
             document = make_ny_header(
                 document,
                 jurisdiction,
@@ -96,7 +96,7 @@ class GenerateBody(object):
                 caseNumber,
                 judge,
             )
-        elif firmState == "New Jersey":
+        elif firmState == "nj":
             document = make_nj_header(
                 comesNowString,
                 firm,
