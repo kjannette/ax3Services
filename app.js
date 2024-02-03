@@ -74,10 +74,21 @@ app.post("/create-subscription", async (req, res) => {
       customerData,
       token
     );
+    console.log(
+      "------------->sub.subscription.current_period_end",
+      sub.subscription.current_period_end
+    );
+
+    const subscriptionCreated = sub.subscription.created;
+    const subscriptionPeriodStart = sub.subscription.current_period_start;
+    const subscriptionPeriodEnd = sub.subscription.current_period_end;
     const subscriptionId = sub.subscription.id;
     const customerId = sub.customer.customerId;
 
     res.send({
+      subscriptionCreated,
+      subscriptionPeriodStart,
+      subscriptionPeriodEnd,
       subscriptionId,
       customerId,
     });
