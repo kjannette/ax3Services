@@ -89,27 +89,28 @@ def make_fl_header(
     print(
         "______________________________________________________________FLORIDA MAKE HEADER FIRED"
     )
+    jurisdictionUpper = jurisdiction.upper()
+    venueUpper = venue.upper()
+
     p = document.add_paragraph()
-    p.add_run(f" IN THE CIRCUIT COURT OF THE {jurisdiction}")
+    p.add_run(f" IN THE CIRCUIT COURT OF THE {jurisdictionUpper}")
     p.paragraph_format.space_before = Pt(0)
     p.paragraph_format.space_after = Pt(1)
     p.paragraph_format.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
     p = document.add_paragraph()
-    p.add_run(f"OF FLORIDA, IN AND FOR {venue} County")
+    p.add_run(f"OF FLORIDA, IN AND FOR {venueUpper} COUNTY")
     p.paragraph_format.space_before = Pt(0)
-    p.paragraph_format.space_after = Pt(1)
+    p.paragraph_format.space_after = Pt(12)
     p.paragraph_format.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
     paragraph = document.add_paragraph(f"{caption1}")
     paragraph.paragraph_format.space_before = Pt(0)
     paragraph.paragraph_format.space_after = Pt(12)
     paragraph = document.add_paragraph(
-        f"                                                Plaintiff(s)                                                                  Index No.: {caseNumber}"
+        f"                                                Plaintiff(s)                                                            Case No.: {caseNumber}"
     )
     paragraph.paragraph_format.space_before = Pt(0)
     paragraph.paragraph_format.space_after = Pt(12)
-    paragraph = document.add_paragraph(
-        f"- against -                                                                                                                    Judge: {judge}"
-    )
+    paragraph = document.add_paragraph(f"v.")
     paragraph.paragraph_format.space_before = Pt(0)
     paragraph.paragraph_format.space_after = Pt(16)
     paragraph = document.add_paragraph(f"{caption2}")
