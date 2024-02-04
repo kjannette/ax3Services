@@ -5,7 +5,7 @@ from docx.shared import Pt
 from docx.shared import Length
 from docx.enum.text import WD_PARAGRAPH_ALIGNMENT
 from docx.enum.text import WD_ALIGN_PARAGRAPH
-from pyCaptionTemplates import make_ny_header, make_nj_header
+from pyCaptionTemplates import make_ny_header, make_nj_header, make_fl_header
 from pyGenObjectionTemplates import make_ny_gen_obj, make_nj_gen_obj
 
 
@@ -55,10 +55,13 @@ class GenerateBody(object):
         leadAttorneys = jsonData.get("leadAttorneys")
         firmStreetAddress = jsonData.get("firmStreetAddress")
         firmCity = jsonData.get("firmCity")
-        firmState = jsonData.get("firmState")
+        firmState = jsonData.get("state")
         firmTel = jsonData.get("tel")
         firmZip = jsonData.get("firmZip")
-
+        print(
+            "````````````````````````````````````````````````````````firmState",
+            firmState,
+        )
         if clientPosition == "Plaintiff":
             respondent = plaintiff
         elif clientPosition == "Defendant":
@@ -98,6 +101,25 @@ class GenerateBody(object):
             )
         elif firmState == "nj":
             document = make_nj_header(
+                comesNowString,
+                firm,
+                leadAttorneys,
+                document,
+                jurisdiction,
+                venue,
+                caption1,
+                caption2,
+                mainHeader,
+                caseNumber,
+                judge,
+                firmStreetAddress,
+                firmCity,
+                firmState,
+                firmTel,
+                firmZip,
+            )
+        elif firmState == "fl":
+            document = make_fl_header(
                 comesNowString,
                 firm,
                 leadAttorneys,

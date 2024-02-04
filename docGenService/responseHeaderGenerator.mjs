@@ -44,6 +44,8 @@ async function makeDir(docId, dest) {
 const responseHeaderGenerator = (docId, reqType, data) => {
   const documentType = reqType.toUpperCase();
   const jurisdiction = data?.jurisdiction.toUpperCase();
+
+  console.log("---------------------------------->data", data);
   //const responndantPosition =
   // /  data?.clientPosition === "Plaintiff" ? "Plaintiff" : "Defendant";
   //const { defendant, plaintiff, caseNumber, judge } = data;

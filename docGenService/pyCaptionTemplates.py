@@ -65,6 +65,74 @@ def make_ny_header(
     return document
 
 
+# Florida *******************************************************************/
+
+
+def make_fl_header(
+    comesNowString,
+    firm,
+    leadAttorneys,
+    document,
+    jurisdiction,
+    venue,
+    caption1,
+    caption2,
+    mainHeader,
+    caseNumber,
+    judge,
+    firmStreetAddress,
+    firmCity,
+    firmState,
+    firmTel,
+    firmZip,
+):
+    print(
+        "______________________________________________________________FLORIDA MAKE HEADER FIRED"
+    )
+    p = document.add_paragraph()
+    p.add_run(f" IN THE CIRCUIT COURT OF THE {jurisdiction}")
+    p.paragraph_format.space_before = Pt(0)
+    p.paragraph_format.space_after = Pt(1)
+    p.paragraph_format.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
+    p = document.add_paragraph()
+    p.add_run(f"OF FLORIDA, IN AND FOR {venue} County")
+    p.paragraph_format.space_before = Pt(0)
+    p.paragraph_format.space_after = Pt(1)
+    p.paragraph_format.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
+    paragraph = document.add_paragraph(f"{caption1}")
+    paragraph.paragraph_format.space_before = Pt(0)
+    paragraph.paragraph_format.space_after = Pt(12)
+    paragraph = document.add_paragraph(
+        f"                                                Plaintiff(s)                                                                  Index No.: {caseNumber}"
+    )
+    paragraph.paragraph_format.space_before = Pt(0)
+    paragraph.paragraph_format.space_after = Pt(12)
+    paragraph = document.add_paragraph(
+        f"- against -                                                                                                                    Judge: {judge}"
+    )
+    paragraph.paragraph_format.space_before = Pt(0)
+    paragraph.paragraph_format.space_after = Pt(16)
+    paragraph = document.add_paragraph(f"{caption2}")
+    paragraph.paragraph_format.space_before = Pt(0)
+    paragraph.paragraph_format.space_after = Pt(1)
+    paragraph = document.add_paragraph(
+        "                                                Defendant(s)"
+    )
+    paragraph.paragraph_format.space_before = Pt(0)
+    paragraph.paragraph_format.space_after = Pt(3)
+    paragraph = document.add_paragraph(
+        "________________________________________________________________________/"
+    )
+    paragraph.paragraph_format.space_before = Pt(0)
+    paragraph.paragraph_format.space_after = Pt(12)
+
+    p = document.add_paragraph()
+    p.add_run(f"{mainHeader}").underline = True
+    p.paragraph_format.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
+
+    return document
+
+
 # New Jersey *******************************************************************/
 def make_nj_header(
     comesNowString,
