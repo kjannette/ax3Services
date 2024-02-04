@@ -115,7 +115,7 @@ async function getUsers() {
   return;
 }
 
-getUsers();
+//getUsers();
 
 module.exports = {
   db,
