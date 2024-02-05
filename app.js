@@ -5,7 +5,7 @@ const multer = require("multer");
 const fs = require("fs");
 const path = require("path");
 const modelController = require("./agent/ModelController.js");
-const stripeController = require("./paymentService/StripeController.js");
+const stripeController = require("./paymentService/stripeController.js");
 const { db } = require("./firebase/firebase.js");
 
 const port = 4000;
