@@ -172,9 +172,9 @@ app.post("/parseNewDoc", upload.single("file"), function (req, res) {
     const file = req.file;
   } catch (err) {
     logger.error({ level: "error", message: "err", err });
-    res.send().json(err);
+    res.send(err);
   }
-  res.end();
+  res.send("Frodo returned to the Shire");
 });
 
 /*
