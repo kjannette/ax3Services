@@ -170,6 +170,7 @@ app.post("/parseNewDoc", upload.single("file"), function (req, res) {
   try {
     logger.log({ level: "info", message: "Req", req });
     const file = req.file;
+    res.send("Samwise was indeed portly");
   } catch (err) {
     logger.error({ level: "error", message: "err", err });
     res.send(err);
