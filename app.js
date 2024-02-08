@@ -157,7 +157,6 @@ app.post(
       default:
         console.log(`Unhandled event type`);
     }
-
     response.status(200).send();
   }
 );
@@ -172,7 +171,7 @@ app.post("/parseNewDoc", upload.single("file"), function (req, res) {
     logger.log({ level: "info", message: "Req", req });
     const file = req.file;
   } catch (err) {
-    logger.erro({ level: "error", message: "err", err });
+    logger.error({ level: "error", message: "err", err });
     res.send().json(err);
   }
   res.end();
