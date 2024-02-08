@@ -2,15 +2,14 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const multer = require("multer");
-const fs = require("fs");
-const path = require("path");
+const logger = require("./logger/logger.js");
 const modelController = require("./agent/ModelController.js");
 const stripeController = require("./paymentService/stripeController.js");
 const { db } = require("./firebase/firebase.js");
 
 const port = 4000;
 const Stripe = require("stripe");
-const { stripeAPIKey, stripeWebhooksKey } = require("./secrets.js");
+const { stripeAPIKey, stripeWebhooksKey } = require("./firebase/secrets.js");
 const {
   storeEditedCompletions,
 } = require("./storageService/storeEditedCompletion.js");
@@ -170,9 +169,10 @@ app.post(
 
 app.post("/parseNewDoc", upload.single("file"), function (req, res) {
   try {
-    //check
+    logger.log({ level: "info", message: "Req", req });
     const file = req.file;
   } catch (err) {
+    logger.erro({ level: "error", message: "err", err });
     res.send().json(err);
   }
   res.end();

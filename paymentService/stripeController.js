@@ -1,5 +1,5 @@
 const Stripe = require("stripe");
-const { stripeAPIKey, stripeWebhooksKey } = require("../secrets.js");
+const { stripeAPIKey, stripeWebhooksKey } = require("../firebase/secrets.js");
 const {
   handlePaymentFailure,
   handleSubscriptionDeletion,
@@ -23,17 +23,17 @@ class StripeController {
     let items;
 
     if (planType === "associate" && isAnnual === false) {
-      priceId = "price_1OgasxBi8p7FeGFrjrF7VNAk";
+      priceId = "price_1OdGLMBi8p7FeGFrr3JN9LB6";
     } else if (planType === "associate" && isAnnual === true) {
-      priceId = "price_1OgatkBi8p7FeGFrfwzALYhR";
+      priceId = "price_1OdGN3Bi8p7FeGFr9PM7oD93";
     } else if (planType === "partner" && isAnnual === false) {
-      priceId = "price_1Ogb1uBi8p7FeGFrk9DFQOo0";
+      priceId = "price_1OdGO8Bi8p7FeGFrg7EdavjO";
     } else if (planType === "partner" && isAnnual === true) {
-      priceId = "price_1Ogb20Bi8p7FeGFrJDCwuefJ";
+      priceId = "price_1OdGPHBi8p7FeGFrNd0hOVro";
     } else if (planType === "seniorPartner" && isAnnual === false) {
-      priceId = "price_1Ogb2VBi8p7FeGFrFjIyL8eW";
+      priceId = "price_1OdGRLBi8p7FeGFrVAf7QCdw";
     } else if (planType === "seniorPartner" && isAnnual === true) {
-      priceId = "price_1Ogb2gBi8p7FeGFrlTQ6xnoj";
+      priceId = "price_1OdGRrBi8p7FeGFr2Zvr7USe";
     }
 
     items = [{ price: priceId }];
@@ -413,3 +413,21 @@ STRIPE PROD PRICE CODES
 
 
     */
+
+/*
+
+        if (planType === "associate" && isAnnual === false) {
+      priceId = "price_1OgasxBi8p7FeGFrjrF7VNAk";
+    } else if (planType === "associate" && isAnnual === true) {
+      priceId = "price_1OgatkBi8p7FeGFrfwzALYhR";
+    } else if (planType === "partner" && isAnnual === false) {
+      priceId = "price_1Ogb1uBi8p7FeGFrk9DFQOo0";
+    } else if (planType === "partner" && isAnnual === true) {
+      priceId = "price_1Ogb20Bi8p7FeGFrJDCwuefJ";
+    } else if (planType === "seniorPartner" && isAnnual === false) {
+      priceId = "price_1Ogb2VBi8p7FeGFrFjIyL8eW";
+    } else if (planType === "seniorPartner" && isAnnual === true) {
+      priceId = "price_1Ogb2gBi8p7FeGFrlTQ6xnoj";
+    }
+
+  */
