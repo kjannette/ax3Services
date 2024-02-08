@@ -162,11 +162,11 @@ app.post(
 );
 
 /*
- *  Client POST new request doc for docParser to parse into array
+ *  Client POST new disc request doc for docParser to parse into array
  *
  */
 
-app.post("/parseNewDoc", upload.single("file"), function (req, res) {
+app.post("v1/parseNewDoc", upload.single("file"), function (req, res) {
   try {
     logger.log({ level: "info", message: "Req", req });
     const file = req.file;
