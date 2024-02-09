@@ -7,7 +7,7 @@ const modelController = require("./agent/ModelController.js");
 const stripeController = require("./paymentService/stripeController.js");
 const { db } = require("./firebase/firebase.js");
 
-const port = 4000;
+const port = 3001;
 const Stripe = require("stripe");
 const { stripeAPIKey, stripeWebhooksKey } = require("./firebase/secrets.js");
 const {
@@ -40,7 +40,7 @@ const stripe = Stripe(stripeAPIKey);
 const endpointSecret = stripeWebhooksKey;
 
 const storage = multer.diskStorage({
-  destination: "Documents/Uploads/",
+  destination: "/var/www/ax3Services/Documents/Uploads/",
   filename: function (req, file, callback) {
     callback(null, file.originalname);
   },
@@ -56,7 +56,7 @@ var corsOptions = {
 };
 
 app.use(cors(corsOptions));
-app.use(express.urlencoded({ extended: false })); //< Add this
+app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 /*
@@ -168,16 +168,15 @@ app.post(
  *
  */
 
-app.post("v1/parseNewDoc", upload.single("file"), function (req, res) {
+app.post("parseNewDoc", upload.single("file"), function (req, res) {
   try {
     logger.log({ level: "info", message: "Req", req });
     const file = req.file;
-    res.send("Samwise was indeed portly");
   } catch (err) {
     logger.error({ level: "error", message: "err", err });
     res.send(err);
   }
-  res.send("Frodo returned to the Shire");
+  res.send(200);
 });
 
 /*
