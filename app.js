@@ -49,7 +49,9 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 var corsOptions = {
+  AccessControlAllowOrigin: "*",
   origin: "*",
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   optionsSuccessStatus: 200,
 };
 
