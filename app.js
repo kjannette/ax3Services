@@ -40,7 +40,7 @@ const stripe = Stripe(stripeAPIKey);
 const endpointSecret = stripeWebhooksKey;
 
 const storage = multer.diskStorage({
-  destination: "/var/www/ax3Services/Documents/Uploads/",
+  destination: "./Documents/Uploads",
   filename: function (req, file, callback) {
     callback(null, file.originalname);
   },
@@ -175,7 +175,7 @@ app.post("parseNewDoc", upload.single("file"), function (req, res) {
     logger.log({ level: "info", message: "req.file", file });
   } catch (err) {
     logger.error({ level: "error", message: "err", err });
-    res.send(err);
+    res.send("error:", err);
   }
   res.send(200);
 });
