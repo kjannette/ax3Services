@@ -168,7 +168,7 @@ app.post(
  *
  */
 
-app.post("parseNewDoc", upload.single("file"), function (req, res) {
+app.post("/parseNewDoc", upload.single("file"), function (req, res) {
   const file = req.file;
   console.log("file", file);
   try {
