@@ -177,7 +177,7 @@ app.post("/parseNewDoc", upload.single("file"), function (req, res) {
     logger.error({ level: "error", message: "err", err });
     res.send("error:", err);
   }
-  res.send(200);
+  res.sendStatus(200);
 });
 
 /*
