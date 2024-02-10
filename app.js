@@ -66,7 +66,7 @@ app.use(express.json());
 app.post("/create-subscription", async (req, res) => {
   const { planType, additionalAccounts, isAnnual, customerData, token } =
     req.body;
-
+  console.log("hit create-subscription");
   try {
     const sub = await stripeController.createNewSubscription(
       planType,
@@ -164,14 +164,15 @@ app.post(
 );
 
 /*
- *  Client POST new disc request doc for docParser to parse into array
+ *  POST new discv request .pdf => docParser parse into array
  *
  */
 
 app.post("parseNewDoc", upload.single("file"), function (req, res) {
+  const file = req.file;
+  console.log("file", file);
   try {
-    logger.log({ level: "info", message: "Req", req });
-    const file = req.file;
+    logger.log({ level: "info", message: "req.file", file });
   } catch (err) {
     logger.error({ level: "error", message: "err", err });
     res.send(err);
@@ -390,6 +391,7 @@ app.post("/deleteDoc/:docId/:docType/:respGens", (req, res) => {
   }
 });
 
+console.log("app running on port", port);
 app.listen(port);
 
 /*
