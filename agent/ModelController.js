@@ -46,6 +46,9 @@ class ModelController {
    */
 
   async arrayGenAnswers(docId, reqType, isRequests) {
+    console.log(
+      "------------------------------------------>arrayGenAnswers fired"
+    );
     let filePath;
     const basePath = process.cwd();
     if (reqType == "combined-numbered") {
@@ -410,6 +413,10 @@ class ModelController {
           model: "gpt-4",
           messages: prompt,
         });
+        console.log(
+          "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~>completion.choices[0].message.content",
+          completion.choices[0].message.content
+        );
         return completion.choices[0].message.content;
       })
     );
