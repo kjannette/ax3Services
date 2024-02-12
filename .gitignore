@@ -41,6 +41,9 @@ Backend/Documents*
 *.pdf
 .vscode
 Docx
+lib64
+lib64/
+*lib64
 
 ./Backend/EditedCompletions/
 *EditedCompletions/
