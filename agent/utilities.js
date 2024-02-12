@@ -35,6 +35,7 @@ function saveCompletions(responses, folder, reqType, isRequests) {
 
 function selectRequestPath(reqType, isRequests, folder) {
   let dir;
+  const basePath = process.cwd();
   if (reqType == "interrogatories") {
     dir = `../Documents/Requests/Parsedrogs/${folder}/`;
   } else if (reqType == "admissions") {
@@ -43,13 +44,14 @@ function selectRequestPath(reqType, isRequests, folder) {
     dir = `../Documents/Requests/Parsedprod/${folder}/`;
   } else if (reqType == "combined-numbered") {
     //`/Users/kjannette/workspace/ax3/ax3Services/Documents/Requests/Parsedcombined/${folder}`
-    dir = `/Users/kjannette/workspace/ax3/ax3Services/Documents/Requests/Parsedcombined/${folder}/`;
+    dir = `${basePath}/Documents/Requests/Parsedcombined/${folder}/`;
   }
   return dir;
 }
 
 function selectResponsePath(reqType, isRequests, folder) {
   let dir;
+  const basePath = process.cwd();
   if (reqType === "interrogatories") {
     dir = `./Documents/Responses/Rogresp/${folder}/`;
   } else if (reqType == "admissions") {
@@ -57,7 +59,7 @@ function selectResponsePath(reqType, isRequests, folder) {
   } else if (reqType == "production") {
     dir = `./Documents/Responses/Prodresp/${folder}/`;
   } else if (reqType == "combined-numbered") {
-    dir = `/Users/kjannette/workspace/ax3/ax3Services/Documents/Responses/Combinedresp/${folder}/`;
+    dir = `${basePath}/ax3Services/Documents/Responses/Combinedresp/${folder}/`;
   }
   return dir;
 }

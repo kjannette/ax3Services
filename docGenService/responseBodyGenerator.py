@@ -31,8 +31,13 @@ class GenerateBody(object):
         # filePath = f"/Users/kjannette/workspace/ax3/ax3Services/docGenService/Docxstaging/{docId}.docx"
         # f = open(filePath, "rb")
         document = Document()
-        reqFile = f"/Users/kjannette/workspace/ax3/ax3Services/Documents/Requests/Parsedrogs/{docId}/{docId}-jbk-parsedRequests.json"
-        respFile = f"/Users/kjannette/workspace/ax3/ax3Services/Documents/Responses/Rogresp/{docId}/{docId}-jbk-responses.json"
+
+        # reqFile = f"/Users/kjannette/workspace/ax3/ax3Services/Documents/Requests/Parsedrogs/{docId}/{docId}-jbk-parsedRequests.json"
+        # respFile = f"/Users/kjannette/workspace/ax3/ax3Services/Documents/Responses/Rogresp/{docId}/{docId}-jbk-responses.json"
+
+        reqFile = f"/var/www/ax3Services/Documents/Requests/Parsedrogs/{docId}/{docId}-jbk-parsedRequests.json"
+        respFile = f"/var/www/ax3Services/Documents/Responses/Rogresp/{docId}/{docId}-jbk-responses.json"
+
         dataFile = f"Docxinfo/{docId}.json"
 
         # Get case data
@@ -205,11 +210,12 @@ class GenerateBody(object):
         )
         paragraph.paragraph_format.space_before = Pt(24)
         paragraph.paragraph_format.space_after = Pt(12)
-        document.save(
-            f"/Users/kjannette/workspace/ax3/ax3Services/Docxfinal/{docId}.docx"
-        )
+        document.save(f"/var/www/ax3Services/Docxfinal/{docId}.docx")
 
 
+# document.save(
+#   f"/Users/kjannette/workspace/ax3/ax3Services/Docxfinal/{docId}.docx"
+# )
 # Uncomment for development/smoke testing
 # genBod = GenerateBody()
 # genBod.generate("a93d9b76-28aa-4b8c-83e4-e87ec6294c4b")

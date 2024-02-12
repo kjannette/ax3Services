@@ -31,7 +31,7 @@ function selectResponsePath(reqType, isRequests, folder) {
 }
 
 async function makeDir(docId, dest) {
-  const dir = `/Users/kjannette/workspace/ax3/ax3Services/docGenService/${dest}/${docId}`;
+  const dir = `/var/www/ax3Services/docGenService/${dest}/${docId}`;
 
   fs.mkdir(dir, function (err) {
     if (err) {
@@ -94,7 +94,7 @@ const responseHeaderGenerator = (docId, reqType, data) => {
   data["currentRequestType"] = reqType;
   const saveData = JSON.stringify(data);
   fs.writeFile(
-    `/Users/kjannette/workspace/ax3/ax3Services/docGenService/Docxinfo/${docId}.json`,
+    `/var/www/ax3Services/docGenService/Docxinfo/${docId}.json`,
     saveData,
     function (err) {
       if (err) {
