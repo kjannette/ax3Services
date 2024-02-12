@@ -48,6 +48,11 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
+const rootDir =
+  process.env.NODE_ENV === "development"
+    ? "/Users/kjannette/workspace/ax3/"
+    : "/var/www";
+
 var corsOptions = {
   AccessControlAllowOrigin: "*",
   origin: "*",
@@ -190,7 +195,7 @@ app.get(
   "/genResponseFromArray/:docId/:docType/:isRequests",
   async (req, res) => {
     const { docId, docType } = req.params;
-
+    console.log("-----------------------------==============<docId", docId);
     const isRequests = false;
     try {
       const data = await modelController.arrayGenAnswers(
@@ -201,6 +206,7 @@ app.get(
       res.send(data);
     } catch (error) {
       console.log(error);
+      res.send(error);
     }
   }
 );
@@ -258,7 +264,7 @@ app.post("/genDocx/:docId/:reqType", async function (req, res) {
   try {
     const defaultMjsExport = (
       await import(
-        "/Users/kjannette/workspace/ax3/ax3Services/docGenService/responseHeaderGenerator.mjs"
+        `${rootDir}/ax3Services/docGenService/responseHeaderGenerator.mjs`
       )
     ).default;
     defaultMjsExport(docId, reqType, data);
@@ -277,7 +283,7 @@ app.post("/genDocx/:docId/:reqType", async function (req, res) {
 app.get("/getDocx/:docId/:reqType", (req, res) => {
   const { docId, reqType } = req.params;
   res.sendFile(`${docId}.docx`, {
-    root: `/Users/kjannette/workspace/ax3/ax3Services/Docxfinal/`,
+    root: `${rootDir}/ax3Services/Docxfinal/`,
   });
 });
 
@@ -313,19 +319,6 @@ app.post("/storeeditedcompletions", function (req, res) {
 
 /*
  *
- *  Client GET previously-uploaded discovery request doc
- *  DISABLED ON FRONT END - may deprecate
- */
-
-app.get("/Backend/Documents/Uploads/:docId/", (req, res) => {
-  const { docId } = req.params;
-  res.sendFile(`${docId}.pdf`, {
-    root: "/Users/kjannette/workspace/agentx7/Backend/Documents/Uploads",
-  });
-});
-
-/*
- *
  *  Client GET parsed requests array
  */
 
@@ -344,7 +337,7 @@ app.get("/getParsedRequests/:docId/:docType", (req, res) => {
 
   try {
     res.sendFile(`${docId}-jbk-parsedRequests.json`, {
-      root: `/Users/kjannette/workspace/ax3/ax3Services/Documents/Requests/${folder}/${docId}/`,
+      root: `${rootDir}ax3Services/Documents/Requests/${folder}/${docId}/`,
     });
   } catch (err) {
     console.log("err", err);
