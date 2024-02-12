@@ -106,7 +106,7 @@ async function deleteFolderAndContents(docId, reqType, respGens = 0) {
 }
 
 async function cleanupGenFolderAndContents(docId, reqType) {
-  const requestFolderPath = `/Users/kjannette/workspace/ax3/ax3Services/docGenService/Docxinfo/${docId}.json`;
+  const requestFolderPath = `/var/www/ax3Services/docGenService/Docxinfo/${docId}.json`;
   fs.rm(requestFolderPath, { recursive: true, force: true }, (err) => {
     if (err) {
       console.log(err);

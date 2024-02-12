@@ -17,7 +17,7 @@ async function watchOnce() {
   const watcher = fs.watch(directory, (event, file) => {
     watcher.close();
     sleep(10000);
-
+    console.log("--------------------------->file in watcvhOnce()", file);
     const fileCount = countFiles(`../Documents/Converted/${file}`, file);
     const filenames = fs.readdirSync(`../Documents/Converted/${file}`);
 
