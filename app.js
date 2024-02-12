@@ -195,7 +195,10 @@ app.get(
   "/genResponseFromArray/:docId/:docType/:isRequests",
   async (req, res) => {
     const { docId, docType } = req.params;
-    console.log("-----------------------------==============<docId", docId);
+    console.log(
+      "genResponseFromArray   -----------------------------==============<docId",
+      docId
+    );
     const isRequests = false;
     try {
       const data = await modelController.arrayGenAnswers(
@@ -221,7 +224,10 @@ app.get(
   "/genResponseFromArrayCombined/:docId/:docType/:isRequests",
   async (req, res) => {
     const { docId, docType } = req.params;
-    console.log("--------------------------docId"), docId;
+    console.log(
+      "genResponseFromArrayCombined  Combined Combined-----------------------------==============<docId",
+      docId
+    );
     const isRequests = false;
     try {
       const data = await modelController.arrayGenAnswersCombined(
