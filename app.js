@@ -50,7 +50,7 @@ const upload = multer({ storage: storage });
 
 const rootDir =
   process.env.NODE_ENV === "development"
-    ? "/Users/kjannette/workspace/ax3/"
+    ? "/Users/kjannette/workspace/ax3"
     : "/var/www";
 
 var corsOptions = {
@@ -343,7 +343,7 @@ app.get("/getParsedRequests/:docId/:docType", (req, res) => {
 
   try {
     res.sendFile(`${docId}-jbk-parsedRequests.json`, {
-      root: `${rootDir}ax3Services/Documents/Requests/${folder}/${docId}/`,
+      root: `${rootDir}/ax3Services/Documents/Requests/${folder}/${docId}/`,
     });
   } catch (err) {
     console.log("err", err);
