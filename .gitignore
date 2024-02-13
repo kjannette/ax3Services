@@ -65,3 +65,7 @@ watcher.py
 ./docConvertService/watcher.py
 *watcher.py
 docConvertService/watcher.py
+docConvertService*
+docConvertService/*
+ax3Services/docConvertService
+*docConvertService
