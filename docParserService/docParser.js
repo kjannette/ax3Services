@@ -37,23 +37,6 @@ async function methodSelector(docType, filePaths, folder, parseOneCount) {
       isRequests
     );
     return;
-  } else if (
-    docType.docProd > docType.rogs &&
-    docType.docProd > docType.admit &&
-    docType.docProd > 12 &&
-    docType.rogs > 10
-  ) {
-    console.log(
-      "new if fired ____________________________________________________________________________________________________________________________________________________________________-"
-    );
-    determinedDocType = "combined-numbered";
-    const isRequests = true;
-    modelController.createArrayOfQuestions(
-      folder,
-      determinedDocType,
-      isRequests
-    );
-    return;
   } else if (docType.rogs > docType.docProd && docType.rogs > docType.admit) {
     determinedDocType = "interrogatories";
     let parseRogsCount = 0;
@@ -63,7 +46,7 @@ async function methodSelector(docType, filePaths, folder, parseOneCount) {
     docType.docProd > docType.admit
   ) {
     determinedDocType = "production";
-    let parseProdCount = 0;
+    parseProdCount = 0;
     parseProduction(
       docType,
       filePaths,
@@ -295,13 +278,16 @@ async function parseAdmissions(
     searchStr = "ADMIT";
   } else if (parseAdmitCount === 3) {
     regex = /^[1-9]?$/;
-    searchStr = `Request No. ${regex}`;
+    searchStr = `Request No. ${reggex}`;
   } else if (parseAdmitCount === 4) {
     regex = /^[1-9][0-9]?$/;
-    searchStr = `Request No. ${regex}`;
+    searchStr = `Request No. ${reggex}`;
   } else if (parseAdmitCount === 5) {
     regex = /^[1-9]?$/;
-    searchStr = `Request ${regex}.`;
+    searchStr = `Request ${reggex}.`;
+  } else {
+    regex = /^[1-9][0-9]?$/;
+    searchStr = `Request ${reggex}.`;
   }
 
   filePaths.forEach((filePath, mainIndex) => {
@@ -310,6 +296,7 @@ async function parseAdmissions(
     const arr = [];
 
     const stringChunk = fileData.toString().toLowerCase();
+    //const string = fileData.toString().toLowerCase();  this might solve lowercase problem
     const string = fileData.toString();
     for (
       let pos = stringChunk.indexOf(searchStr.toLowerCase());
@@ -342,9 +329,9 @@ async function parseAdmissions(
 
   if (rogs.length < 2) {
     console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>rogs.length < 2 fired");
-    if (parseAdmitCount < 5) {
-      console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>parseAdmitCount < 5 fired");
-      const determinedDocType = "admissions";
+    if (parseAdmitCount < 6) {
+      console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>parseAdmitCount < 6 fired");
+      let determinedDocType = "admissions";
       parseAdmitCount++;
       parseAdmissions(
         docType,
@@ -355,14 +342,16 @@ async function parseAdmissions(
         parseAdmitCount
       );
     } else {
-      determinedDocType = "combined-numbered";
+      console.log(
+        "--------------------> Parsed admissions switching to LLM calling createArrayOfQuestions"
+      );
       const isRequests = true;
+      determinedDocType = "combined-numbered";
       modelController.createArrayOfQuestions(
         folder,
         determinedDocType,
         isRequests
       );
-      return;
     }
   } else {
     const determinedDocType = "admissions"; //determinedDocType var value is lost by here not sure why but this hack should fix
@@ -372,6 +361,7 @@ async function parseAdmissions(
     requestObject["type"] = determinedDocType;
     requestObject["requests"] = rogs;
     requestArray.push(requestObject);
+    parseTextFiles2SaveCount = 0;
     parseAdmitCount = 0;
     saveParsedRogs(requestArray, folder, determinedDocType);
   }
