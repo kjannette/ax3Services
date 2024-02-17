@@ -60,9 +60,3 @@ Backend/firebase/secrets.js
 /firebase/agentx2-firebase-adminsdk.json
 /agent/secrets_1.js
 anImporter.cjs
-
-docConvertService*
-docConvertService/*
-ax3Services/docConvertService
-*docConvertService
-
