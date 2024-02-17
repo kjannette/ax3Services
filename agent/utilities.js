@@ -1,5 +1,5 @@
 const fs = require("fs");
-
+const path = require("path");
 /*
  *
  *  Strore returned completions
@@ -35,16 +35,25 @@ function saveCompletions(responses, folder, reqType, isRequests) {
 
 function selectRequestPath(reqType, isRequests, folder) {
   let dir;
-  const basePath = process.cwd();
+
+  const fdirup = path.resolve(process.cwd() + "/../Documents/Requests");
+  const fdir = path.resolve(
+    process.cwd() + "/../Documents/Requests/Parsedcombined"
+  );
+
+  console.log(
+    "->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>fdirup",
+    fdirup
+  );
   if (reqType == "interrogatories") {
-    dir = `../Documents/Requests/Parsedrogs/${folder}/`;
+    dir = `${fdirup}/Parsedrogs/${folder}/`;
   } else if (reqType == "admissions") {
-    dir = `../Documents/Requests/Parsedadmit/${folder}/`;
+    dir = `${fdirup}/Parsedadmit/${folder}/`;
   } else if (reqType == "production") {
-    dir = `../Documents/Requests/Parsedprod/${folder}/`;
+    dir = `${fdirup}/Parsedprod/${folder}/`;
   } else if (reqType == "combined-numbered") {
     //`/Users/kjannette/workspace/ax3/ax3Services/Documents/Requests/Parsedcombined/${folder}`
-    dir = `${basePath}/Documents/Requests/Parsedcombined/${folder}/`;
+    dir = `${fdir}/${folder}/`;
   }
   return dir;
 }
@@ -126,6 +135,11 @@ async function iteratePathsReturnString(paths) {
   const massiveString = masterArray.join();
   return massiveString;
 }
+
+const reqType = "combined-numbered";
+isRequests = true;
+folder = "461d977c-1033-45b0-85ab-66c49a227d5b";
+selectRequestPath(reqType, isRequests, folder);
 
 module.exports = {
   readDir,
