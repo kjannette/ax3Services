@@ -41,10 +41,6 @@ function selectRequestPath(reqType, isRequests, folder) {
     process.cwd() + "/../Documents/Requests/Parsedcombined"
   );
 
-  console.log(
-    "->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>fdirup",
-    fdirup
-  );
   if (reqType == "interrogatories") {
     dir = `${fdirup}/Parsedrogs/${folder}/`;
   } else if (reqType == "admissions") {
@@ -52,7 +48,6 @@ function selectRequestPath(reqType, isRequests, folder) {
   } else if (reqType == "production") {
     dir = `${fdirup}/Parsedprod/${folder}/`;
   } else if (reqType == "combined-numbered") {
-    //`/Users/kjannette/workspace/ax3/ax3Services/Documents/Requests/Parsedcombined/${folder}`
     dir = `${fdir}/${folder}/`;
   }
   return dir;
@@ -65,10 +60,6 @@ function selectResponsePath(reqType, isRequests, folder) {
     process.cwd() + "/../Documents/Requests/Parsedcombined"
   );
 
-  console.log(
-    "->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>fdirup",
-    fdirup
-  );
   if (reqType === "interrogatories") {
     dir = `${fdirup}/Rogresp/${folder}/`;
   } else if (reqType == "admissions") {
@@ -143,11 +134,6 @@ async function iteratePathsReturnString(paths) {
   const massiveString = masterArray.join();
   return massiveString;
 }
-
-const reqType = "combined-numbered";
-isRequests = true;
-folder = "461d977c-1033-45b0-85ab-66c49a227d5b";
-selectRequestPath(reqType, isRequests, folder);
 
 module.exports = {
   readDir,
