@@ -61,11 +61,8 @@ Backend/firebase/secrets.js
 /agent/secrets_1.js
 anImporter.cjs
 
-watcher.py
-./docConvertService/watcher.py
-*watcher.py
-docConvertService/watcher.py
 docConvertService*
 docConvertService/*
 ax3Services/docConvertService
 *docConvertService
+
