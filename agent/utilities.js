@@ -60,15 +60,23 @@ function selectRequestPath(reqType, isRequests, folder) {
 
 function selectResponsePath(reqType, isRequests, folder) {
   let dir;
-  const basePath = process.cwd();
+  const fdirup = path.resolve(process.cwd() + "/../Documents/Responses");
+  const fdir = path.resolve(
+    process.cwd() + "/../Documents/Requests/Parsedcombined"
+  );
+
+  console.log(
+    "->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>fdirup",
+    fdirup
+  );
   if (reqType === "interrogatories") {
-    dir = `./Documents/Responses/Rogresp/${folder}/`;
+    dir = `${fdirup}/Rogresp/${folder}/`;
   } else if (reqType == "admissions") {
-    dir = `./Documents/Responses/Admitresp/${folder}/`;
+    dir = `${fdirup}/Admitresp/${folder}/`;
   } else if (reqType == "production") {
-    dir = `./Documents/Responses/Prodresp/${folder}/`;
+    dir = `${fdirup}/Prodresp/${folder}/`;
   } else if (reqType == "combined-numbered") {
-    dir = `${basePath}/ax3Services/Documents/Responses/Combinedresp/${folder}/`;
+    dir = `${fdir}/${folder}/`;
   }
   return dir;
 }
