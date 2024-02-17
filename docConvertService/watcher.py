@@ -3,12 +3,12 @@ import time
 import logging
 from splitPdf import SplitPdf
 from watchdog.observers import Observer
+from pathlib import Path
 
 # from watchdog.events import LoggingEventHandler
 from watchdog.events import PatternMatchingEventHandler
 
-local_watch_dir = "../Documents/Uploads"
-server_watch_dir = "/var/www/ax3Services/Documents/Uploads"
+watch_dir = f"{Path(__file__).parents[1]}/Documents/Uploads"
 
 if __name__ == "__main__":
     sp = SplitPdf()
@@ -25,7 +25,7 @@ if __name__ == "__main__":
     ignore_patterns = None
     ignore_directories = False
     case_sensitive = True
-    path = "../Documents/Uploads"
+    path = watch_dir
     my_event_handler = PatternMatchingEventHandler(
         patterns, ignore_patterns, ignore_directories, case_sensitive
     )
