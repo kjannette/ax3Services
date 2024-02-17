@@ -508,22 +508,28 @@ async function makeDir(folder, determinedDocType) {
  *******************************************************************************/
 
 function saveParsedRogs(rogs, folder, determinedDocType) {
-  let dir;
+  const fdirup = path.resolve(process.cwd() + "/../Documents/Requests");
+  const fdir = path.resolve(
+    process.cwd() + "/../Documents/Requests/Parsedcombined"
+  );
   const data2 = JSON.stringify(rogs);
   if (determinedDocType === "interrogatories") {
-    dir = `../Documents/Requests/Parsedrogs/${folder}/`;
+    dir = `${fdirup}/Parsedrogs/${folder}`;
   } else if (determinedDocType === "production") {
-    dir = `../Documents/Requests/Parsedprod/${folder}/`;
+    dir = `${fdirup}/Parsedprod/${folder}`;
   } else if (determinedDocType === "admissions") {
-    dir = `../Documents/Requests/Parsedadmit/${folder}/`;
+    dir = `${fdirup}/Parsedadmit/${folder}`;
   }
-
+  console.log(
+    "full path in saveParsedRogs:",
+    `${dir}/${folder}-jbk-parsedRequests.json`
+  );
   try {
     if (folder) {
       updateDB(folder, determinedDocType);
     }
     fs.writeFile(
-      dir + `${folder}-jbk-parsedRequests.json`,
+      `${dir}/${folder}-jbk-parsedRequests.json`,
       data2,
       function (err) {
         if (err) {
