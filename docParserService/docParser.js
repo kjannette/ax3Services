@@ -331,7 +331,7 @@ async function parseAdmissions(
     console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>rogs.length < 2 fired");
     if (parseAdmitCount < 6) {
       console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>parseAdmitCount < 6 fired");
-      const determinedDocType = "admissions";
+      let determinedDocType = "admissions";
       parseAdmitCount++;
       parseAdmissions(
         docType,
@@ -343,10 +343,15 @@ async function parseAdmissions(
       );
     } else {
       console.log(
-        "--------------------> Parsed admissions switching to LLM calling combinedParseRequests"
+        "--------------------> Parsed admissions switching to LLM calling createArrayOfQuestions"
       );
       const isRequests = true;
-      combinedParseRequests(folder, determinedDocType, isRequests);
+      determinedDocType = "combined-numbered";
+      modelController.createArrayOfQuestions(
+        folder,
+        determinedDocType,
+        isRequests
+      );
     }
   } else {
     const determinedDocType = "admissions"; //determinedDocType var value is lost by here not sure why but this hack should fix
