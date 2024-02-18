@@ -21,7 +21,7 @@ function saveCompletions(responses, folder, reqType, isRequests) {
   } else {
     fileSuffix = `-jbk-responses.json`;
   }
-
+  console.log("FULL PATH IN SAVE COMPLETIONS:", `${dir}${folder}${fileSuffix}`);
   try {
     fs.writeFile(`${dir}${folder}${fileSuffix}`, data, function (err) {
       if (err) {
@@ -57,7 +57,7 @@ function selectResponsePath(reqType, isRequests, folder) {
   let dir;
   const fdirup = path.resolve(process.cwd() + "/../Documents/Responses");
   const fdir = path.resolve(
-    process.cwd() + "/../Documents/Requests/Parsedcombined"
+    process.cwd() + "/../Documents/Responses/Parsedcombined"
   );
 
   if (reqType === "interrogatories") {
