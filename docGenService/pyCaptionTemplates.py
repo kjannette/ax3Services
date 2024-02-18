@@ -60,7 +60,7 @@ def make_ny_header(
     paragraph.paragraph_format.space_after = Pt(12)
 
     p = document.add_paragraph()
-    p.add_run(f"{clientPosition}'s {mainHeader}").underline = True
+    p.add_run(f"{clientPosition.upper()}'S {mainHeader}").underline = True
     p.paragraph_format.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
 
     return document
@@ -130,7 +130,7 @@ def make_fl_header(
     paragraph.paragraph_format.space_after = Pt(12)
 
     p = document.add_paragraph()
-    p.add_run(f"{clientPosition}'s {mainHeader}").underline = True
+    p.add_run(f"{clientPosition.upper()}'S {mainHeader}").underline = True
     p.paragraph_format.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
 
     return document
