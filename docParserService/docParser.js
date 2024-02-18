@@ -4,6 +4,7 @@ const docClassifer = require("./docClassifier.js");
 const modelController = require("../agent/ModelController.js");
 const { updateDB } = require("../firebase/firebase.js");
 const { v4: uuidv4 } = require("uuid");
+const path = require("path");
 
 async function readDir(direcPath, folder, countObject) {
   try {
