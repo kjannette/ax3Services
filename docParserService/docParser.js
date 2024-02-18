@@ -311,8 +311,10 @@ async function parseAdmissions(
       return string.slice(arr[i], arr[i + 1]);
     });
     const clean = questionsArray.map((item) => {
-      return item.replace(/\r?\n|\r/g, "");
-    });
+      const temp = item.toLowerCase.replace("request no.", "");
+      const temp2 = temp.replace(/\r?\n|\r/g, "");
+      return temp2;
+    }); //
     processArray.push(...clean);
   });
 
