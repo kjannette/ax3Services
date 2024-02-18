@@ -311,10 +311,18 @@ async function parseAdmissions(
       return string.slice(arr[i], arr[i + 1]);
     });
     const clean = questionsArray.map((item) => {
-      const temp = item.toLowerCase.replace("request no.", "");
-      const temp2 = temp.replace(/\r?\n|\r/g, "");
-      return temp2;
-    }); //
+      let temp3;
+      const temp = item.replace(/\r?\n|\r/g, "");
+      const temp2 = temp.toLowerCase().replace("request no.", "").trim();
+      const firstChar = Number(temp2[0]);
+      if (Number.isInteger(firstChar)) {
+        temp3 = temp2.substring(3);
+        char = temp2[2].toUpperCase();
+        return `${char}${temp3}`;
+      } else {
+        return temp2;
+      }
+    });
     processArray.push(...clean);
   });
 
