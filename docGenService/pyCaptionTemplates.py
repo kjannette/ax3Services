@@ -16,6 +16,7 @@ def make_ny_header(
     mainHeader,
     caseNumber,
     judge,
+    clientPosition,
 ):
     print(
         "______________________________________________________________NEW YORK MAKE HEADER FIRED"
@@ -59,7 +60,7 @@ def make_ny_header(
     paragraph.paragraph_format.space_after = Pt(12)
 
     p = document.add_paragraph()
-    p.add_run(f"{mainHeader}").underline = True
+    p.add_run(f"{clientPosition}'s {mainHeader}").underline = True
     p.paragraph_format.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
 
     return document
@@ -85,6 +86,7 @@ def make_fl_header(
     firmState,
     firmTel,
     firmZip,
+    clientPosition,
 ):
     print(
         "______________________________________________________________FLORIDA MAKE HEADER FIRED"
@@ -128,7 +130,7 @@ def make_fl_header(
     paragraph.paragraph_format.space_after = Pt(12)
 
     p = document.add_paragraph()
-    p.add_run(f"{mainHeader}").underline = True
+    p.add_run(f"{clientPosition}'s {mainHeader}").underline = True
     p.paragraph_format.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
 
     return document
@@ -152,6 +154,7 @@ def make_nj_header(
     firmState,
     firmTel,
     firmZip,
+    clientPosition,
 ):
     paragraph = document.add_paragraph(f"{firm}")
     paragraph.paragraph_format.space_before = Pt(2)

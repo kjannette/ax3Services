@@ -83,14 +83,17 @@ class GenerateBody(object):
             reqHeader = "INTERROGATORY NO."
             respHeader = "RESPONSE TO INTERROGATORY NO."
             mainHeader = "RESPONSE TO INTERROGATORIES"
+            mainHeader2 = "RESPONSES"
         elif reqType == "admissions":
             reqHeader = "Request for Admission No."
             respHeader = "Response to Request for Admission  No."
             mainHeader = "RESPONSE TO REQUEST FOR ADMISSIONS"
+            mainHeader2 = "RESPONSES"
         elif reqType == "production":
             reqHeader = "Request for Production No."
             respHeader = "Response to Request for Production  No."
             mainHeader = "RESPONSE TO REQUEST FOR PRODUCTON"
+            mainHeader2 = "RESPONSES"
 
         # Create header
         if firmState == "ny":
@@ -122,6 +125,7 @@ class GenerateBody(object):
                 firmState,
                 firmTel,
                 firmZip,
+                clientPosition,
             )
         elif firmState == "fl":
             document = make_fl_header(
@@ -141,6 +145,7 @@ class GenerateBody(object):
                 firmState,
                 firmTel,
                 firmZip,
+                clientPosition,
             )
         elif firmState == None:
             document = make_ny_header(
@@ -152,6 +157,7 @@ class GenerateBody(object):
                 mainHeader,
                 caseNumber,
                 judge,
+                clientPosition,
             )
 
         paragraph = document.add_paragraph(f"{comesNowString}")
@@ -166,9 +172,9 @@ class GenerateBody(object):
         elif firmState == "New Jersey":
             document = make_nj_gen_obj(document, clientPosition, servingParty)
 
-        # Add main heading
+        # Add main heading two
         p = document.add_paragraph()
-        p.add_run(f"{mainHeader}").underline = True
+        p.add_run(f"{mainHeader2}").underline = True
         p.paragraph_format.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
 
         # INIT responses to iterate
