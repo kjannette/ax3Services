@@ -311,13 +311,14 @@ async function parseAdmissions(
       return string.slice(arr[i], arr[i + 1]);
     });
     const clean = questionsArray.map((item) => {
-      let temp3;
+      let temp4;
       const temp = item.replace(/\r?\n|\r/g, "");
-      const temp2 = temp.toLowerCase().replace("request no.", "").trim();
-      const firstChar = Number(temp2[0]);
+      const temp2 = temp.replace("request no.", "").trim();
+      const temp3 = temp2.replace("REQUEST NO.", "").trim();
+      const firstChar = Number(temp3[0]);
       if (Number.isInteger(firstChar)) {
-        temp3 = temp2.substring(3);
-        char = temp2[2].toUpperCase();
+        temp4 = temp3.substring(3);
+        char = temp3[2].toUpperCase();
         return `${char}${temp3}`;
       } else {
         return temp2;
