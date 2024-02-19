@@ -104,7 +104,7 @@ class ModelController {
     let filePath;
     const basePath = process.cwd();
     if (reqType == "combined-numbered") {
-      filePath = `${basePath}/Documents/Requests/Parsedcombined/20886dec-3459-46b7-9c0e-80c390cf058b/20886dec-3459-46b7-9c0e-80c390cf058b-jbk-parsedRequests.json`;
+      filePath = `${basePath}/Documents/Requests/Parsedcombined/${docId}/${docId}-jbk-parsedRequests.json`;
       //filePath = `${basePath}/Documents/Requests/Parsedcombined/${docId}/${docId}-jbk-parsedRequests.json`;
     } else if (reqType == "interrogatories") {
       filePath = `${basePath}/Documents/Requests/Parsedrogs/${docId}/${docId}-jbk-parsedRequests.json`;
@@ -168,7 +168,7 @@ class ModelController {
     if (reqType === "combined-numbered") {
       dirPath = `../Documents/Textfiles/${docId}/`;
     } else {
-      //
+      // prob can remove
     }
     let fileNames = fs.readdirSync(dirPath);
     const dirArray = fileNames.map((name) => {
