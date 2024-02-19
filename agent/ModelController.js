@@ -197,6 +197,14 @@ class ModelController {
    */
 
   async createArrayOfQuestions(docId, reqType) {
+    console.log(
+      "--------------------------------------------------------------------->arrayGenAnswersCombined fired"
+    );
+    console.log(
+      "--------------------------------------------------------------------->arrayGenAnswersCombined docId, reqType, isRequests",
+      docId,
+      reqType
+    );
     const masterArray = [];
     const isRequests = true;
 
