@@ -319,7 +319,7 @@ async function parseAdmissions(
       if (Number.isInteger(firstChar)) {
         temp4 = temp3.substring(3);
         char = temp3[2].toUpperCase();
-        return `${char}${temp3}`;
+        return `${char}${temp4}`;
       } else {
         return temp2;
       }
