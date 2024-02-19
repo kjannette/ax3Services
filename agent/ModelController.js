@@ -22,23 +22,6 @@ const openai = new OpenAI({
 });
 
 class ModelController {
-  async readFileSelectMethod(docId, reqType) {
-    let filePath;
-    let temp;
-
-    const basePath = process.cwd();
-    if (reqType == "combined-numbered") {
-      filePath = `${basePath}/Documents/Requests/Parsedcombined/${docId}/${docId}-jbk-parsedRequests.json`;
-    } else if (reqType == "interrogatories") {
-      filePath = `${basePath}/Documents/Requests/Parsedrogs/${docId}/${docId}-jbk-parsedRequests.json`;
-    } else if (reqType == "admissions") {
-      filePath = `${basePath}/Documents/Requests/Parsedadmit/${docId}/${docId}-jbk-parsedRequests.json`;
-    } else if (reqType == "production") {
-      filePath = `${basePath}/Documents/Requests/Parsedprod/${docId}/${docId}-jbk-parsedRequests.json`;
-    }
-    return temp;
-  }
-
   /*
    *  LLM PROMPT CONTROLLER
    *  RETURNS ANSWERS FROM ARRAY OF REQUESTS
@@ -47,7 +30,13 @@ class ModelController {
 
   async arrayGenAnswers(docId, reqType, isRequests) {
     console.log(
-      "------------------------------------------>arrayGenAnswers fired"
+      "--------------------------------------------------------------------->arrayGenAnswers fired"
+    );
+    console.log(
+      "--------------------------------------------------------------------->arrayGenAnswers docId, reqType, isRequests",
+      docId,
+      reqType,
+      isRequests
     );
     let filePath;
     const basePath = process.cwd();
@@ -103,6 +92,15 @@ class ModelController {
    */
 
   async arrayGenAnswersCombined(docId, reqType, isRequests) {
+    console.log(
+      "--------------------------------------------------------------------->arrayGenAnswersCombined fired"
+    );
+    console.log(
+      "--------------------------------------------------------------------->arrayGenAnswersCombined docId, reqType, isRequests",
+      docId,
+      reqType,
+      isRequests
+    );
     let filePath;
     const basePath = process.cwd();
     if (reqType == "combined-numbered") {
@@ -156,7 +154,13 @@ class ModelController {
 
   async combinedGenAnswers(docId, reqType, isRequests) {
     console.log(
-      "_____________________________________________________________ fired combinedGenAnswers"
+      "--------------------------------------------------------------------->combinedGenAnswers fired"
+    );
+    console.log(
+      "--------------------------------------------------------------------->combinedGenAnswers docId, reqType, isRequests",
+      docId,
+      reqType,
+      isRequests
     );
     const masterArray = [];
     let dirPath;
@@ -331,6 +335,15 @@ class ModelController {
    */
 
   async createArrayOfQuestionsLarge(docId, reqType) {
+    console.log(
+      "--------------------------------------------------------------------->createArrayOfQuestionsLarge fired"
+    );
+    console.log(
+      "--------------------------------------------------------------------->createArrayOfQuestionsLarge docId, reqType",
+      docId,
+      reqType
+    );
+
     const masterArray = [];
     const isRequests = true;
 
@@ -413,7 +426,7 @@ class ModelController {
           messages: prompt,
         });
         console.log(
-          "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~>completion.choices[0].message.content",
+          "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~start~~~~~~~~~~~~~~~~~~~~~>completion.choices[0].message.content",
           completion.choices[0].message.content
         );
         return completion.choices[0].message.content;
