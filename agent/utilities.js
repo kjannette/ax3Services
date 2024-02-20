@@ -57,7 +57,7 @@ function selectResponsePath(reqType, isRequests, folder) {
   let dir;
   const fdirup = path.resolve(process.cwd() + "/Documents/Responses");
   const fdir = path.resolve(
-    process.cwd() + "/Documents/Responses/Parsedcombined"
+    process.cwd() + "/Documents/Responses/Combinedresp"
   );
 
   if (reqType === "interrogatories") {
