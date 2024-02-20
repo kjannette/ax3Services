@@ -6,7 +6,7 @@ from docx.shared import Length
 from docx.enum.text import WD_PARAGRAPH_ALIGNMENT
 from docx.enum.text import WD_ALIGN_PARAGRAPH
 from pyCaptionTemplates import make_ny_header, make_nj_header, make_fl_header
-from pyGenObjectionTemplates import make_ny_gen_obj, make_nj_gen_obj
+from pyGenObjectionTemplates import make_ny_gen_obj, make_nj_gen_obj, make_fl_gen_obj
 
 
 class GenerateBody(object):
@@ -94,6 +94,11 @@ class GenerateBody(object):
             respHeader = "Response to Request for Production  No."
             mainHeader = "RESPONSE TO REQUEST FOR PRODUCTON"
             mainHeader2 = "RESPONSES"
+        else:
+            reqHeader = "Request No."
+            respHeader = "Response to Request No."
+            mainHeader = "RESPONSE TO INTERROGATORIES AND REQUEST FOR PRODUCTION"
+            mainHeader2 = "RESPONSES"
 
         # Create header
         if firmState == "ny":
@@ -172,6 +177,8 @@ class GenerateBody(object):
             document = make_ny_gen_obj(document, clientPosition, servingParty)
         elif firmState == "New Jersey":
             document = make_nj_gen_obj(document, clientPosition, servingParty)
+        elif firmState == "Florida":
+            document = make_fl_gen_obj(document, clientPosition, servingParty)
 
         # Add main heading two
         p = document.add_paragraph()
