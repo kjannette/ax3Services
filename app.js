@@ -394,7 +394,7 @@ app.post("/deleteDoc/:docId/:docType/:respGens", (req, res) => {
 });
 
 console.log("app running on port", port);
-
++console.log("rootDir", rootDir);
 app.listen(port);
 
 /*
