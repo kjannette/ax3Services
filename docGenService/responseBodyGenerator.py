@@ -227,7 +227,6 @@ class GenerateBody(object):
         document.save(f"/var/www/ax3Services/Docxfinal/{docId}.docx")
 
 
-print("/var/www/ax3Services/Docxfinal/{docId}.docx")
 # document.save(
 #   f"/Users/kjannette/workspace/ax3/ax3Services/Docxfinal/{docId}.docx"
 # )
