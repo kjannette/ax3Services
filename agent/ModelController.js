@@ -22,6 +22,23 @@ const openai = new OpenAI({
 });
 
 class ModelController {
+  async readFileSelectMethod(docId, reqType) {
+    let filePath;
+    let temp;
+
+    const basePath = process.cwd();
+    if (reqType == "combined-numbered") {
+      filePath = `${basePath}/Documents/Requests/Parsedcombined/${docId}/${docId}-jbk-parsedRequests.json`;
+    } else if (reqType == "interrogatories") {
+      filePath = `${basePath}/Documents/Requests/Parsedrogs/${docId}/${docId}-jbk-parsedRequests.json`;
+    } else if (reqType == "admissions") {
+      filePath = `${basePath}/Documents/Requests/Parsedadmit/${docId}/${docId}-jbk-parsedRequests.json`;
+    } else if (reqType == "production") {
+      filePath = `${basePath}/Documents/Requests/Parsedprod/${docId}/${docId}-jbk-parsedRequests.json`;
+    }
+    return temp;
+  }
+
   /*
    *  LLM PROMPT CONTROLLER
    *  RETURNS ANSWERS FROM ARRAY OF REQUESTS
@@ -30,13 +47,7 @@ class ModelController {
 
   async arrayGenAnswers(docId, reqType, isRequests) {
     console.log(
-      "--------------------------------------------------------------------->arrayGenAnswers fired"
-    );
-    console.log(
-      "--------------------------------------------------------------------->arrayGenAnswers docId, reqType, isRequests",
-      docId,
-      reqType,
-      isRequests
+      "------------------------------------------>arrayGenAnswers fired"
     );
     let filePath;
     const basePath = process.cwd();
@@ -92,15 +103,6 @@ class ModelController {
    */
 
   async arrayGenAnswersCombined(docId, reqType, isRequests) {
-    console.log(
-      "--------------------------------------------------------------------->arrayGenAnswersCombined fired"
-    );
-    console.log(
-      "--------------------------------------------------------------------->arrayGenAnswersCombined docId, reqType, isRequests",
-      docId,
-      reqType,
-      isRequests
-    );
     let filePath;
     const basePath = process.cwd();
     if (reqType == "combined-numbered") {
@@ -154,13 +156,7 @@ class ModelController {
 
   async combinedGenAnswers(docId, reqType, isRequests) {
     console.log(
-      "--------------------------------------------------------------------->combinedGenAnswers fired"
-    );
-    console.log(
-      "--------------------------------------------------------------------->combinedGenAnswers docId, reqType, isRequests",
-      docId,
-      reqType,
-      isRequests
+      "_____________________________________________________________ fired combinedGenAnswers"
     );
     const masterArray = [];
     let dirPath;
@@ -168,7 +164,7 @@ class ModelController {
     if (reqType === "combined-numbered") {
       dirPath = `../Documents/Textfiles/${docId}/`;
     } else {
-      // prob can remove
+      //
     }
     let fileNames = fs.readdirSync(dirPath);
     const dirArray = fileNames.map((name) => {
@@ -197,14 +193,6 @@ class ModelController {
    */
 
   async createArrayOfQuestions(docId, reqType) {
-    console.log(
-      "--------------------------------------------------------------------->arrayGenAnswersCombined fired"
-    );
-    console.log(
-      "--------------------------------------------------------------------->arrayGenAnswersCombined docId, reqType, isRequests",
-      docId,
-      reqType
-    );
     const masterArray = [];
     const isRequests = true;
 
@@ -343,15 +331,6 @@ class ModelController {
    */
 
   async createArrayOfQuestionsLarge(docId, reqType) {
-    console.log(
-      "--------------------------------------------------------------------->createArrayOfQuestionsLarge fired"
-    );
-    console.log(
-      "--------------------------------------------------------------------->createArrayOfQuestionsLarge docId, reqType",
-      docId,
-      reqType
-    );
-
     const masterArray = [];
     const isRequests = true;
 
@@ -434,7 +413,7 @@ class ModelController {
           messages: prompt,
         });
         console.log(
-          "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~start~~~~~~~~~~~~~~~~~~~~~>completion.choices[0].message.content",
+          "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~>completion.choices[0].message.content",
           completion.choices[0].message.content
         );
         return completion.choices[0].message.content;
