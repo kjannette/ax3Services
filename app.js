@@ -340,7 +340,10 @@ app.get("/getParsedRequests/:docId/:docType", (req, res) => {
   } else if (docType === "combined-numbered") {
     folder = "Parsedcombined";
   }
-
+  console.log(
+    "dir in getParsedRequests",
+    `${rootDir}/ax3Services/Documents/Requests/${folder}/${docId}/`
+  );
   try {
     res.sendFile(`${docId}-jbk-parsedRequests.json`, {
       root: `${rootDir}/ax3Services/Documents/Requests/${folder}/${docId}/`,
@@ -391,6 +394,7 @@ app.post("/deleteDoc/:docId/:docType/:respGens", (req, res) => {
 });
 
 console.log("app running on port", port);
+
 app.listen(port);
 
 /*
