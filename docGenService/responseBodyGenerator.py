@@ -106,6 +106,7 @@ class GenerateBody(object):
                 mainHeader,
                 caseNumber,
                 judge,
+                clientPosition,
             )
         elif firmState == "nj":
             document = make_nj_header(
