@@ -221,8 +221,34 @@ class ModelController {
           return comp;
         })
       );
-      let fooz = JSON.parse(completes[0]);
-      let barz = JSON.parse(completes[1]);
+
+      let fooz = null;
+      let barz = null;
+      try {
+        try {
+          fooz = JSON.parse(completes[0]);
+          if (!fooz) {
+            fooz = dJSON.parse(completes[0]);
+          }
+        } catch (err) {
+          console.log("err in first fooz try", err);
+        }
+      } catch (err) {
+        console.log("Error in createArrayOfQuestions at 237:", err);
+      }
+
+      try {
+        try {
+          barz = JSON.parse(completes[1]);
+          if (!barz) {
+            fooz = dJSON.parse(completes[1]);
+          }
+        } catch (err) {
+          console.log("err in first barz try", err);
+        }
+      } catch (err) {
+        console.log("Error in createArrayOfQuestions at 250:", err);
+      }
 
       fooz.forEach((item) => {
         parsedRequests.push(item);
