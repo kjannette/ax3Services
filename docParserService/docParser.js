@@ -318,7 +318,7 @@ async function parseAdmissions(
       const firstChar = Number(temp3[0]);
       if (Number.isInteger(firstChar)) {
         temp4 = temp3.substring(3);
-        char = temp3[2].toUpperCase();
+        char = temp3[1].toUpperCase();
         return `${char}${temp4}`;
       } else {
         return temp2;
