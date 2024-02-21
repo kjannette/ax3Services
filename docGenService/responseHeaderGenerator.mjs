@@ -32,7 +32,7 @@ function selectResponsePath(reqType, isRequests, folder) {
 
 async function makeDir(docId, dest) {
   const dir = `/var/www/ax3Services/docGenService/${dest}/${docId}`;
-
+  //const dir = `/Users/kjannette/workspace/ax3/ax3Services/docGenService/${dest}/${docId}`;
   fs.mkdir(dir, function (err) {
     if (err) {
       console.log("createDoc makeDir. Error creating directory: " + err);
@@ -91,17 +91,15 @@ const responseHeaderGenerator = (docId, reqType, data) => {
     );
   });
 */
+  const dir = `/var/www/ax3Services/docGenService/Docxinfo/${docId}.json`;
+  //const dir = `/Users/kjannette/workspace/ax3/ax3Services/docGenService/Docxinfo/${docId}.json`;
   data["currentRequestType"] = reqType;
   const saveData = JSON.stringify(data);
-  fs.writeFile(
-    `/var/www/ax3Services/docGenService/Docxinfo/${docId}.json`,
-    saveData,
-    function (err) {
-      if (err) {
-        return console.log("Error writing in responseHeaderGenerator", err);
-      }
+  fs.writeFile(dir, saveData, function (err) {
+    if (err) {
+      return console.log("Error writing in responseHeaderGenerator", err);
     }
-  );
+  });
 };
 
 export default responseHeaderGenerator;

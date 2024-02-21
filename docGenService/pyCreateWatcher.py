@@ -23,6 +23,7 @@ if __name__ == "__main__":
     ignore_directories = False
     case_sensitive = True
     path = "/var/www/ax3Services/docGenService/Docxinfo"
+    # path = "/Users/kjannette/workspace/ax3/ax3Services/docGenService/Docxinfo"
     my_event_handler = PatternMatchingEventHandler(
         patterns, ignore_patterns, ignore_directories, case_sensitive
     )

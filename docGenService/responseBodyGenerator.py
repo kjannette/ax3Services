@@ -31,12 +31,15 @@ class GenerateBody(object):
         # filePath = f"/Users/kjannette/workspace/ax3/ax3Services/docGenService/Docxstaging/{docId}.docx"
         # f = open(filePath, "rb")
         document = Document()
-
+        print("~~~~~~~~~~~+++++++++++docId, Firmsatte in responseBodyGenerator", docId)
         # reqFile = f"/Users/kjannette/workspace/ax3/ax3Services/Documents/Requests/Parsedrogs/{docId}/{docId}-jbk-parsedRequests.json"
         # respFile = f"/Users/kjannette/workspace/ax3/ax3Services/Documents/Responses/Rogresp/{docId}/{docId}-jbk-responses.json"
 
         reqFile = f"/var/www/ax3Services/Documents/Requests/Parsedrogs/{docId}/{docId}-jbk-parsedRequests.json"
         respFile = f"/var/www/ax3Services/Documents/Responses/Rogresp/{docId}/{docId}-jbk-responses.json"
+
+        # reqFile = f"/Users/kjannette/workspace/ax3/ax3Services/Documents/Requests/Parsedrogs/{docId}/{docId}-jbk-parsedRequests.json"
+        # respFile = f"/Users/kjannette/workspace/ax3/ax3Services/Documents/Responses/Rogresp/{docId}/{docId}-jbk-responses.json"
 
         dataFile = f"Docxinfo/{docId}.json"
 
@@ -171,13 +174,13 @@ class GenerateBody(object):
         paragraph.paragraph_format.space_before = Pt(12)
         paragraph.paragraph_format.space_after = Pt(12)
         paragraph.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
-
+        print("****************************************firmState", firmState)
         # Add General Objections
-        if firmState == "New York":
+        if firmState == "ny":
             document = make_ny_gen_obj(document, clientPosition, servingParty)
-        elif firmState == "New Jersey":
+        elif firmState == "nj":
             document = make_nj_gen_obj(document, clientPosition, servingParty)
-        elif firmState == "Florida":
+        elif firmState == "fl":
             document = make_fl_gen_obj(document, clientPosition, servingParty)
 
         # Add main heading two
@@ -224,6 +227,7 @@ class GenerateBody(object):
         )
         paragraph.paragraph_format.space_before = Pt(24)
         paragraph.paragraph_format.space_after = Pt(12)
+        # document.save(f"/var/www/ax3Services/Docxfinal/{docId}.docx")
         document.save(f"/var/www/ax3Services/Docxfinal/{docId}.docx")
 
 
