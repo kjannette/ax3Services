@@ -175,6 +175,9 @@ app.post(
 
 app.post("/parseNewDoc", upload.single("file"), function (req, res) {
   const file = req.file;
+  console.log(
+    "f---------------------------------------------------> parsenewdoc"
+  );
   console.log("file", file);
   try {
     logger.log({ level: "info", message: "req.file", file });
