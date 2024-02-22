@@ -7,7 +7,7 @@ from docx.enum.text import WD_PARAGRAPH_ALIGNMENT
 from docx.enum.text import WD_ALIGN_PARAGRAPH
 
 
-# New York *******************************************************************/
+# New York *****************************************************************/
 def make_ny_gen_obj(document, clientPosition, servingParty):
     objectionsArray = [
         f"All of {clientPosition}'s responses herein are subject to the following objections, in addition to any and all specific objections set forth in the responses to individual requests.",
