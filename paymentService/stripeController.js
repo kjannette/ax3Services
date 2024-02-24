@@ -150,28 +150,10 @@ class StripeController {
   async createNewPaymentIntent(customerData, token, userAgent) {
     const tokenId = token.id;
     try {
-      // create new customer object
       const customer = await stripe.customers.create({
         ...customerData,
         source: tokenId,
       });
-
-      /*
-      const subscription = await stripe.subscriptions.create({
-        customer: customer.id,
-        items: items,
-        expand: ["latest_invoice.payment_intent"],
-      });
-      */
-      /*
-           const confirm = await stripe.confirmPaymentIntent(
-        "{PAYMENT_INTENT_CLIENT_SECRET}",
-        {
-          payment_method: "{PAYMENT_METHOD_ID}",
-          return_url: "https://example.com/return_url",
-        }
-      );
-      */
 
       const paymentIntent = await stripe.paymentIntents.create({
         confirm: true,
