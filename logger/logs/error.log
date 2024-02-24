@@ -1,1 +1,2 @@
 {"err":{},"level":"error","message":"err","service":"user-service"}
+{"err":{"code":"ERR_INVALID_ARG_TYPE"},"level":"error","message":"err","service":"user-service"}

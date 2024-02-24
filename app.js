@@ -57,9 +57,10 @@ app.post(
   "/v1/gen-disc-request",
   uploadComp.single("file"),
   function (req, res) {
-    console.log("req", req);
+    const originalname = req.file.originalname;
+    console.log("~~~~~~originalname", originalname);
     try {
-      proxy.web(req, res, {
+      proxy.web(originalname, res, {
         target: "http://localhost:5050",
         function(err) {
           console.log("Proxy error:", err);
