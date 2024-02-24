@@ -125,7 +125,10 @@ class StripeController {
         items.push({ price: addId });
       }
     }
-
+    console.log(
+      "======balls ======balls ======balls ======balls ======balls ======balls token",
+      token
+    );
     try {
       // create new customer object
       const customer = await stripe.customers.create({
@@ -170,14 +173,37 @@ class StripeController {
         expand: ["latest_invoice.payment_intent"],
       });
       */
+      /*
+           const confirm = await stripe.confirmPaymentIntent(
+        "{PAYMENT_INTENT_CLIENT_SECRET}",
+        {
+          payment_method: "{PAYMENT_METHOD_ID}",
+          return_url: "https://example.com/return_url",
+        }
+      );
+      */
 
+      console.log("```````````customer", customer);
       const paymentIntent = await stripe.paymentIntents.create({
+        confirm: true,
         customer: customer.id,
+        automatic_payment_methods: { enabled: true },
+        payment_method: req.body.paymentMethodId,
+        mandate_data: {
+          customer_acceptance: {
+            type: "online",
+            online: {
+              ip_address: req.ip,
+              user_agent: req.get("user-agent"),
+            },
+          },
+        },
         currency: "usd",
         amount: 59 * 100,
         automatic_payment_methods: {
           enabled: true,
         },
+        payment_method: customer.defualt_source,
       });
 
       const obj = { paymentIntent, customer: { customerId: customer.id } };

@@ -104,6 +104,9 @@ app.post("/create-subscription", async (req, res) => {
 app.post("/new-payment-intent", async (req, res) => {
   const { planType, additionalAccounts, isAnnual, customerData, token } =
     req.body;
+  console.log("req.headers", req.headers);
+  //const ipAddr = req.connection.remoteAddress;
+  //const userAgent: req.get("user-agent"),
   console.log(
     "=============================================hit new-payment-intent and this is the customerData",
 
@@ -111,11 +114,14 @@ app.post("/new-payment-intent", async (req, res) => {
     token
   );
   try {
-    const res = await stripeController.createNewPaymentIntent(
+    const payIntent = await stripeController.createNewPaymentIntent(
       customerData,
       token
     );
-    console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~res in app.js", res);
+    console.log(
+      "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~intent in app.js",
+      payIntent
+    );
     /*
     res.send({
       subscriptionCreated,
@@ -126,7 +132,7 @@ app.post("/new-payment-intent", async (req, res) => {
     });
     */
     res.send({
-      res,
+      payIntent,
     });
   } catch (error) {
     console.log(error);
