@@ -48,6 +48,29 @@ const altStorage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 const uploadComp = multer({ storage: altStorage });
+/*
+ *  POST new complaint .pdf => gen discovery req
+ */
+
+app.post(
+  "/v1/gen-disc-request",
+  uploadComp.single("file"),
+  function (req, res) {
+    try {
+      proxy.web(req, res, {
+        target: "http://localhost:5050",
+        function(err) {
+          console.log("Porxy error:", err);
+        },
+      });
+      // logger.log({ level: "info", message: "req.file", file });
+    } catch (err) {
+      logger.error({ level: "error", message: "err", err });
+      res.send("error:", err);
+    }
+    res.sendStatus(200);
+  }
+);
 
 const rootDir =
   process.env.NODE_ENV === "development"
@@ -205,30 +228,6 @@ app.post("/parseNewDoc", upload.single("file"), function (req, res) {
   }
   res.sendStatus(200);
 });
-
-/*
- *  POST new complaint .pdf => gen discovery req
- */
-
-app.post(
-  "/v1/gen-disc-request",
-  uploadComp.single("file"),
-  function (req, res) {
-    try {
-      proxy.web(req, res, {
-        target: "http://localhost:5050",
-        function(err) {
-          console.log("Porxy error:", err);
-        },
-      });
-      // logger.log({ level: "info", message: "req.file", file });
-    } catch (err) {
-      logger.error({ level: "error", message: "err", err });
-      res.send("error:", err);
-    }
-    res.sendStatus(200);
-  }
-);
 
 /*
  *  Generate responses to regular types:
