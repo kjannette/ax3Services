@@ -175,7 +175,6 @@ class StripeController {
       });
 
       const obj = { paymentIntent, customer: { customerId: customer.id } };
-      console.log("obj", obj);
       return obj;
     } catch (error) {
       console.log("StripeController error in createNewPaymentIntent", error);
