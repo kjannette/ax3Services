@@ -66,12 +66,10 @@ app.use(express.json());
 
 /*
  *  Client POST create stripe subscription, make payment
- *
  */
 app.post("/create-subscription", async (req, res) => {
   const { planType, additionalAccounts, isAnnual, customerData, token } =
     req.body;
-  console.log("hit create-subscription");
   try {
     const sub = await stripeController.createNewSubscription(
       planType,
@@ -101,8 +99,30 @@ app.post("/create-subscription", async (req, res) => {
 });
 
 /*
+ *  Client POST create stripe subscription, make payment
+ */
+app.post("/new-payment-intent", async (req, res) => {
+  const { planType, additionalAccounts, isAnnual, customerData, token } =
+    req.body;
+
+  const userAgent = req.headers["user-agent"];
+  try {
+    const payIntent = await stripeController.createNewPaymentIntent(
+      customerData,
+      token,
+      userAgent
+    );
+    res.send({
+      payIntent,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(400).send({ error: { message: error.message } });
+  }
+});
+
+/*
  *  Client POST for cancelling a subscription
- *
  */
 app.post("/cancel-subscription", async (req, res) => {
   const { appUserId } = req.body;
@@ -170,14 +190,11 @@ app.post(
 
 /*
  *  POST new discv request .pdf => docParser parse into array
- *
  */
 
 app.post("/parseNewDoc", upload.single("file"), function (req, res) {
   const file = req.file;
-  console.log(
-    "f---------------------------------------------------> parsenewdoc"
-  );
+
   console.log("file", file);
   try {
     logger.log({ level: "info", message: "req.file", file });
@@ -189,7 +206,6 @@ app.post("/parseNewDoc", upload.single("file"), function (req, res) {
 });
 
 /*
- *
  *  Generate responses to regular types:
  *  interrogatories, admissions, production
  */
@@ -198,10 +214,6 @@ app.get(
   "/genResponseFromArray/:docId/:docType/:isRequests",
   async (req, res) => {
     const { docId, docType } = req.params;
-    console.log(
-      "genResponseFromArray   -----------------------------==============<docId",
-      docId
-    );
     const isRequests = false;
     try {
       const data = await modelController.arrayGenAnswers(
@@ -218,7 +230,6 @@ app.get(
 );
 
 /*
- *
  *  Generate responses to irregular types
  *  combined-numbered
  */
@@ -227,10 +238,6 @@ app.get(
   "/genResponseFromArrayCombined/:docId/:docType/:isRequests",
   async (req, res) => {
     const { docId, docType } = req.params;
-    console.log(
-      "genResponseFromArrayCombined  Combined Combined-----------------------------==============<docId",
-      docId
-    );
     const isRequests = false;
     try {
       const data = await modelController.arrayGenAnswersCombined(
@@ -297,9 +304,7 @@ app.get("/getDocx/:docId/:reqType", (req, res) => {
 });
 
 /*
- *
  *  Cleanup docx working files (temp workaround)
- *
  */
 
 app.get("/cleanUpDocx/:docId/:reqType", (req, res) => {
@@ -397,7 +402,7 @@ app.post("/deleteDoc/:docId/:docType/:respGens", (req, res) => {
 });
 
 console.log("app running on port", port);
-+console.log("rootDir", rootDir);
+console.log("rootDir", rootDir);
 console.log(
   "`${rootDir}/ax3Services/Documents/Requests/`",
   `${rootDir}/ax3Services/Documents/Requests/`

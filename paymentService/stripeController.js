@@ -141,10 +141,44 @@ class StripeController {
       });
 
       const obj = { subscription, customer: { customerId: customer.id } };
-      //console.log("obj in stripeController", obj);
       return obj;
     } catch (error) {
       console.log("StripeController error in createNewSubscription", error);
+    }
+  }
+
+  async createNewPaymentIntent(customerData, token, userAgent) {
+    const tokenId = token.id;
+    try {
+      const customer = await stripe.customers.create({
+        ...customerData,
+        source: tokenId,
+      });
+
+      const paymentIntent = await stripe.paymentIntents.create({
+        confirm: true,
+        customer: customer.id,
+        automatic_payment_methods: { enabled: true },
+        payment_method: token.card.id,
+        mandate_data: {
+          customer_acceptance: {
+            type: "online",
+            online: {
+              ip_address: token.client_ip,
+              user_agent: userAgent,
+            },
+          },
+        },
+        return_url: "https://www.novodraft.ai/dashboard",
+        currency: "usd",
+        amount: 59 * 100,
+      });
+
+      const obj = { paymentIntent, customer: { customerId: customer.id } };
+      return obj;
+    } catch (error) {
+      console.log("StripeController error in createNewPaymentIntent", error);
+      return error;
     }
   }
 
