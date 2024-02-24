@@ -6,39 +6,32 @@ const logger = require("./logger/logger.js");
 const modelController = require("./agent/ModelController.js");
 const stripeController = require("./paymentService/stripeController.js");
 const { db } = require("./firebase/firebase.js");
-
-const port = 3001;
-const Stripe = require("stripe");
-const { stripeAPIKey, stripeWebhooksKey } = require("./firebase/secrets.js");
 const {
   storeEditedCompletions,
 } = require("./storageService/storeEditedCompletion.js");
-
 const {
   deleteDocument,
   deleteFolderAndContents,
   cleanupGenFolderAndContents,
 } = require("./storageService/deleteDirOrDoc.js");
-
 const {
   handlePaymentFailure,
   handleSubscriptionDeletion,
 } = require("./paymentService/stripe.js");
+const { collection, query, where, getDocs } = require("firebase/firestore");
 
-const {
-  doc,
-  updateDoc,
-  collection,
-  query,
-  where,
-  getDocs,
-} = require("firebase/firestore");
-
+//*** STRIPE ***/
+const Stripe = require("stripe");
+const { stripeAPIKey, stripeWebhooksKey } = require("./firebase/secrets.js");
 const stripe = Stripe(stripeAPIKey);
-
 // Secret for Stripe webhooks
 const endpointSecret = stripeWebhooksKey;
 
+//** PROXY ***/
+const httpProxy = require("http-proxy");
+const proxy = httpProxy.createProxy();
+
+//*** MULTER **/
 const storage = multer.diskStorage({
   destination: "./Documents/Uploads",
   filename: function (req, file, callback) {
@@ -54,13 +47,15 @@ const altStorage = multer.diskStorage({
 });
 
 const upload = multer({ storage: storage });
-
 const uploadComp = multer({ storage: altStorage });
 
 const rootDir =
   process.env.NODE_ENV === "development"
     ? "/Users/kjannette/workspace/ax3"
     : "/var/www";
+
+// EXPRESS
+const port = 3001;
 
 var corsOptions = {
   AccessControlAllowOrigin: "*",
@@ -146,10 +141,8 @@ app.post("/cancel-subscription", async (req, res) => {
     }
 
     const userDoc = querySnapshot.docs[0];
-
     //get the user's subscription ID and customer ID
     const subscriptionId = userDoc.data().subscriptionId;
-
     const deletedSubscription = await stripe.subscriptions.update(
       subscriptionId,
       {
@@ -166,7 +159,6 @@ app.post("/cancel-subscription", async (req, res) => {
 
 /*
  *  Client POST - Stripe webhook(s)
- *
  */
 
 app.post(
@@ -222,9 +214,14 @@ app.post(
   "/v1/gen-disc-request",
   uploadComp.single("file"),
   function (req, res) {
-    const file = req.file;
     try {
-      logger.log({ level: "info", message: "req.file", file });
+      proxy.web(req, res, {
+        target: "http://localhost:5050",
+        function(err) {
+          console.log("Porxy error:", err);
+        },
+      });
+      // logger.log({ level: "info", message: "req.file", file });
     } catch (err) {
       logger.error({ level: "error", message: "err", err });
       res.send("error:", err);
