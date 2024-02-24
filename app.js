@@ -46,7 +46,16 @@ const storage = multer.diskStorage({
   },
 });
 
+const altStorage = multer.diskStorage({
+  destination: "./Documents/CleadingUploads",
+  filename: function (req, file, callback) {
+    callback(null, file.originalname);
+  },
+});
+
 const upload = multer({ storage: storage });
+
+const uploadComp = multer({ storage: altStorage });
 
 const rootDir =
   process.env.NODE_ENV === "development"
@@ -193,6 +202,23 @@ app.post(
  */
 
 app.post("/parseNewDoc", upload.single("file"), function (req, res) {
+  const file = req.file;
+
+  console.log("file", file);
+  try {
+    logger.log({ level: "info", message: "req.file", file });
+  } catch (err) {
+    logger.error({ level: "error", message: "err", err });
+    res.send("error:", err);
+  }
+  res.sendStatus(200);
+});
+
+/*
+ *  POST new complaint .pdf => gen discovery req
+ */
+
+app.post("/v1/gen-disc-request", upload.single("file"), function (req, res) {
   const file = req.file;
 
   console.log("file", file);
