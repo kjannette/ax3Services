@@ -57,10 +57,12 @@ app.post(
   "/v1/gen-disc-request",
   uploadComp.single("file"),
   function (req, res) {
-    const originalname = req.file.originalname;
-    console.log("~~~~~~originalname", originalname);
+    const filename = req.file.originalname;
     try {
-      proxy.web(originalname, res, {
+      req.headers["Content-Type"] = "application/json";
+      req.headers["accept"] = "application/json";
+      req.body = JSON.stringify({ filename: filename });
+      proxy.web(req, res, {
         target: "http://localhost:5050",
         function(err) {
           console.log("Proxy error:", err);
@@ -69,9 +71,8 @@ app.post(
       // logger.log({ level: "info", message: "req.file", file });
     } catch (err) {
       logger.error({ level: "error", message: "err", err });
-      res.send("error:", err);
+      console.log(err);
     }
-    res.sendStatus(200);
   }
 );
 
