@@ -15,7 +15,9 @@ class MyServer(BaseHTTPRequestHandler):
         self.end_headers()
 
     def do_POST(self):
+        print('post hit')
         content_length = int(self.headers['Content-Length']) # <--- Gets the size of data
+        print('content_length', content_length)
         post_data = self.rfile.read(content_length) # <--- Gets the data itself
         print('post_data', post_data)
         logging.info("POST request,\nPath: %s\nHeaders:\n%s\n\nBody:\n%s\n",
