@@ -47,7 +47,7 @@ const storage = multer.diskStorage({
 });
 
 const altStorage = multer.diskStorage({
-  destination: "./Documents/CleadingUploads",
+  destination: "./Documents/PleadingUploads",
   filename: function (req, file, callback) {
     callback(null, file.originalname);
   },
@@ -218,18 +218,20 @@ app.post("/parseNewDoc", upload.single("file"), function (req, res) {
  *  POST new complaint .pdf => gen discovery req
  */
 
-app.post("/v1/gen-disc-request", upload.single("file"), function (req, res) {
-  const file = req.file;
-
-  console.log("file", file);
-  try {
-    logger.log({ level: "info", message: "req.file", file });
-  } catch (err) {
-    logger.error({ level: "error", message: "err", err });
-    res.send("error:", err);
+app.post(
+  "/v1/gen-disc-request",
+  uploadComp.single("file"),
+  function (req, res) {
+    const file = req.file;
+    try {
+      logger.log({ level: "info", message: "req.file", file });
+    } catch (err) {
+      logger.error({ level: "error", message: "err", err });
+      res.send("error:", err);
+    }
+    res.sendStatus(200);
   }
-  res.sendStatus(200);
-});
+);
 
 /*
  *  Generate responses to regular types:
