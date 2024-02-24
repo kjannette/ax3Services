@@ -169,7 +169,7 @@ class StripeController {
         items: items,
         expand: ["latest_invoice.payment_intent"],
       });
-*/
+      */
 
       const paymentIntent = await stripe.paymentIntents.create({
         customer: customer.id,
@@ -181,6 +181,7 @@ class StripeController {
       });
 
       const obj = { paymentIntent, customer: { customerId: customer.id } };
+      console.log("obj", obj);
       return obj;
     } catch (error) {
       console.log("StripeController error in createNewPaymentIntent", error);

@@ -115,7 +115,7 @@ app.post("/new-payment-intent", async (req, res) => {
       customerData,
       token
     );
-    console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~res in app.js");
+    console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~res in app.js", res);
     /*
     res.send({
       subscriptionCreated,
@@ -125,6 +125,9 @@ app.post("/new-payment-intent", async (req, res) => {
       customerId,
     });
     */
+    res.send({
+      res,
+    });
   } catch (error) {
     console.log(error);
     res.status(400).send({ error: { message: error.message } });
