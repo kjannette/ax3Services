@@ -66,12 +66,10 @@ app.use(express.json());
 
 /*
  *  Client POST create stripe subscription, make payment
- *
  */
 app.post("/create-subscription", async (req, res) => {
   const { planType, additionalAccounts, isAnnual, customerData, token } =
     req.body;
-  console.log("hit create-subscription");
   try {
     const sub = await stripeController.createNewSubscription(
       planType,
@@ -101,8 +99,40 @@ app.post("/create-subscription", async (req, res) => {
 });
 
 /*
+ *  Client POST create stripe subscription, make payment
+ */
+app.post("/new-payment-intent", async (req, res) => {
+  const { planType, additionalAccounts, isAnnual, customerData, token } =
+    req.body;
+  console.log(
+    "=============================================hit new-payment-intent and this is the customerData",
+
+    customerData,
+    token
+  );
+  try {
+    const res = await stripeController.createNewPaymentIntent(
+      customerData,
+      token
+    );
+    console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~res in app.js");
+    /*
+    res.send({
+      subscriptionCreated,
+      subscriptionPeriodStart,
+      subscriptionPeriodEnd,
+      subscriptionId,
+      customerId,
+    });
+    */
+  } catch (error) {
+    console.log(error);
+    res.status(400).send({ error: { message: error.message } });
+  }
+});
+
+/*
  *  Client POST for cancelling a subscription
- *
  */
 app.post("/cancel-subscription", async (req, res) => {
   const { appUserId } = req.body;
@@ -170,7 +200,6 @@ app.post(
 
 /*
  *  POST new discv request .pdf => docParser parse into array
- *
  */
 
 app.post("/parseNewDoc", upload.single("file"), function (req, res) {
@@ -189,7 +218,6 @@ app.post("/parseNewDoc", upload.single("file"), function (req, res) {
 });
 
 /*
- *
  *  Generate responses to regular types:
  *  interrogatories, admissions, production
  */
@@ -218,7 +246,6 @@ app.get(
 );
 
 /*
- *
  *  Generate responses to irregular types
  *  combined-numbered
  */
@@ -297,9 +324,7 @@ app.get("/getDocx/:docId/:reqType", (req, res) => {
 });
 
 /*
- *
  *  Cleanup docx working files (temp workaround)
- *
  */
 
 app.get("/cleanUpDocx/:docId/:reqType", (req, res) => {

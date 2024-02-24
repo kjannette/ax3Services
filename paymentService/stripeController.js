@@ -141,10 +141,50 @@ class StripeController {
       });
 
       const obj = { subscription, customer: { customerId: customer.id } };
-      //console.log("obj in stripeController", obj);
       return obj;
     } catch (error) {
       console.log("StripeController error in createNewSubscription", error);
+    }
+  }
+
+  async createNewPaymentIntent(customerData, token) {
+    console.log("------------------------------------------------------------");
+    console.log(
+      "__________________________________________________________createNewPaymentIntent - customerData, toked",
+      customerData,
+      token
+    );
+    console.log("------------------------------------------------------------");
+    const tokenId = token.id;
+    try {
+      // create new customer object
+      const customer = await stripe.customers.create({
+        ...customerData,
+        source: tokenId,
+      });
+
+      /*
+      const subscription = await stripe.subscriptions.create({
+        customer: customer.id,
+        items: items,
+        expand: ["latest_invoice.payment_intent"],
+      });
+*/
+
+      const paymentIntent = await stripe.paymentIntents.create({
+        customer: customer.id,
+        currency: "usd",
+        amount: 59 * 100,
+        automatic_payment_methods: {
+          enabled: true,
+        },
+      });
+
+      const obj = { paymentIntent, customer: { customerId: customer.id } };
+      return obj;
+    } catch (error) {
+      console.log("StripeController error in createNewPaymentIntent", error);
+      return error;
     }
   }
 
