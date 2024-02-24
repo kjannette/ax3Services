@@ -48,6 +48,7 @@ const altStorage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 const uploadComp = multer({ storage: altStorage });
+
 /*
  *  POST new complaint .pdf => gen discovery req
  */
@@ -56,11 +57,12 @@ app.post(
   "/v1/gen-disc-request",
   uploadComp.single("file"),
   function (req, res) {
+    console.log("req", req);
     try {
       proxy.web(req, res, {
         target: "http://localhost:5050",
         function(err) {
-          console.log("Porxy error:", err);
+          console.log("Proxy error:", err);
         },
       });
       // logger.log({ level: "info", message: "req.file", file });
@@ -277,24 +279,6 @@ app.get(
 );
 
 /*
-app.get("/genResponseBlob/:docId/:docType/:isRequests", async (req, res) => {
-  const { docId, docType } = req.params;
-
-  const isRequests = false;
-  try {
-    const data = await modelController.readFileSelectMethod(
-      docId,
-      docType,
-      isRequests
-    );
-    res.send(data);
-  } catch (error) {
-    console.log(error);
-  }
-});
-*/
-
-/*
  *  POST to Generate Docx
  */
 
@@ -432,31 +416,3 @@ console.log(
   `${rootDir}/ax3Services/Documents/Requests/`
 );
 app.listen(port);
-
-/*
-Workaround for import because createDocx is a module
-
-const responseHeaderGeneratorMethod = async () => {
-  const { generateDoc } = await import(
-    "./docGenService/responseHeaderGenerator .mjs"
-  );
-  return responseHeaderGenerator;
-};
-/*
-Workaround for import because createDocx is a module
-
-const responseHeaderGeneratorMethod = async () => {
-  const { generateDoc } = await import(
-    "./docGenService/responseHeaderGenerator .mjs"
-  );
-  return responseHeaderGenerator;
-};
-*/
-//folder, reqType, isRequests
-const temp = [{ one: "one" }, { two: "two" }];
-const docId = "8384-84848484-8484";
-const reqType = "combined-numbered";
-const isRequests = true;
-
-//modelController.callMakeDir(docId, reqType, isRequests);
-//modelController.callSavecompletions(temp, docId, reqType, isRequests);
