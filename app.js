@@ -107,16 +107,16 @@ app.post("/new-payment-intent", async (req, res) => {
   console.log("req.headers", req.headers);
   //const ipAddr = req.connection.remoteAddress;
   //const userAgent: req.get("user-agent"),
+  const userAgent = req.headers["user-agent"];
   console.log(
-    "=============================================hit new-payment-intent and this is the customerData",
-
-    customerData,
-    token
+    "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~",
+    userAgent
   );
   try {
     const payIntent = await stripeController.createNewPaymentIntent(
       customerData,
-      token
+      token,
+      userAgent
     );
     console.log(
       "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~intent in app.js",

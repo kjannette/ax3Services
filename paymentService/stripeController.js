@@ -125,10 +125,7 @@ class StripeController {
         items.push({ price: addId });
       }
     }
-    console.log(
-      "======balls ======balls ======balls ======balls ======balls ======balls token",
-      token
-    );
+
     try {
       // create new customer object
       const customer = await stripe.customers.create({
@@ -150,14 +147,7 @@ class StripeController {
     }
   }
 
-  async createNewPaymentIntent(customerData, token) {
-    console.log("------------------------------------------------------------");
-    console.log(
-      "__________________________________________________________createNewPaymentIntent - customerData, toked",
-      customerData,
-      token
-    );
-    console.log("------------------------------------------------------------");
+  async createNewPaymentIntent(customerData, token, userAgent) {
     const tokenId = token.id;
     try {
       // create new customer object
@@ -183,27 +173,23 @@ class StripeController {
       );
       */
 
-      console.log("```````````customer", customer);
       const paymentIntent = await stripe.paymentIntents.create({
         confirm: true,
         customer: customer.id,
         automatic_payment_methods: { enabled: true },
-        payment_method: req.body.paymentMethodId,
+        payment_method: token.card.id,
         mandate_data: {
           customer_acceptance: {
             type: "online",
             online: {
-              ip_address: req.ip,
-              user_agent: req.get("user-agent"),
+              ip_address: token.client_ip,
+              user_agent: userAgent,
             },
           },
         },
+        return_url: "https://www.novodraft.ai/dashboard",
         currency: "usd",
         amount: 59 * 100,
-        automatic_payment_methods: {
-          enabled: true,
-        },
-        payment_method: customer.defualt_source,
       });
 
       const obj = { paymentIntent, customer: { customerId: customer.id } };
