@@ -104,33 +104,14 @@ app.post("/create-subscription", async (req, res) => {
 app.post("/new-payment-intent", async (req, res) => {
   const { planType, additionalAccounts, isAnnual, customerData, token } =
     req.body;
-  console.log("req.headers", req.headers);
-  //const ipAddr = req.connection.remoteAddress;
-  //const userAgent: req.get("user-agent"),
+
   const userAgent = req.headers["user-agent"];
-  console.log(
-    "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~",
-    userAgent
-  );
   try {
     const payIntent = await stripeController.createNewPaymentIntent(
       customerData,
       token,
       userAgent
     );
-    console.log(
-      "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~intent in app.js",
-      payIntent
-    );
-    /*
-    res.send({
-      subscriptionCreated,
-      subscriptionPeriodStart,
-      subscriptionPeriodEnd,
-      subscriptionId,
-      customerId,
-    });
-    */
     res.send({
       payIntent,
     });
@@ -213,9 +194,7 @@ app.post(
 
 app.post("/parseNewDoc", upload.single("file"), function (req, res) {
   const file = req.file;
-  console.log(
-    "f---------------------------------------------------> parsenewdoc"
-  );
+
   console.log("file", file);
   try {
     logger.log({ level: "info", message: "req.file", file });
@@ -235,10 +214,6 @@ app.get(
   "/genResponseFromArray/:docId/:docType/:isRequests",
   async (req, res) => {
     const { docId, docType } = req.params;
-    console.log(
-      "genResponseFromArray   -----------------------------==============<docId",
-      docId
-    );
     const isRequests = false;
     try {
       const data = await modelController.arrayGenAnswers(
@@ -263,10 +238,6 @@ app.get(
   "/genResponseFromArrayCombined/:docId/:docType/:isRequests",
   async (req, res) => {
     const { docId, docType } = req.params;
-    console.log(
-      "genResponseFromArrayCombined  Combined Combined-----------------------------==============<docId",
-      docId
-    );
     const isRequests = false;
     try {
       const data = await modelController.arrayGenAnswersCombined(
@@ -431,7 +402,7 @@ app.post("/deleteDoc/:docId/:docType/:respGens", (req, res) => {
 });
 
 console.log("app running on port", port);
-+console.log("rootDir", rootDir);
+console.log("rootDir", rootDir);
 console.log(
   "`${rootDir}/ax3Services/Documents/Requests/`",
   `${rootDir}/ax3Services/Documents/Requests/`
