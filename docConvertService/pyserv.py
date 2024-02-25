@@ -7,7 +7,7 @@ from bottle import Bottle, run, get, post, request, route
 def fix_environ_middleware(app):
   def fixed_app(environ, start_response):
     environ['wsgi.url_scheme'] = 'https'
-    environ['HTTP_X_FORWARDED_HOST'] = 'example.com'
+    environ['HTTP_X_FORWARDED_HOST'] = 'novodraft.com'
     return app(environ, start_response)
   return fixed_app
 
