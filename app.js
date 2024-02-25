@@ -27,11 +27,11 @@ const stripe = Stripe(stripeAPIKey);
 // Secret for Stripe webhooks
 const endpointSecret = stripeWebhooksKey;
 
-//** PROXY ***/
+//** NODE HTTP-PROXY ***/
 const httpProxy = require("http-proxy");
 const proxy = httpProxy.createProxy();
 
-//*** MULTER **/
+//*** MULTER ***/
 const storage = multer.diskStorage({
   destination: "./Documents/Uploads",
   filename: function (req, file, callback) {
@@ -57,14 +57,17 @@ app.post(
   "/v1/gen-disc-request",
   uploadComp.single("file"),
   function (req, res) {
-    const filename = req.file.originalname.split(".")[0];
-    console.log("---------------->filename", filename);
+    const id = req.file.originalname.split(".")[0];
+    console.log(
+      "------------------------------------------------------------------------------->filename",
+      id
+    );
     try {
       //req.headers["Content-Type"] = "application/json";
       //req.headers["accept"] = "application/json";
       //req.body = JSON.stringify({ filename: filename });
       proxy.web(req, res, {
-        target: `http://localhost:5050/newdoc/${id}`,
+        target: `http://127.0.0.1:8081/`,
         function(err) {
           console.log("Proxy error:", err);
         },
@@ -72,7 +75,7 @@ app.post(
       // logger.log({ level: "info", message: "req.file", file });
     } catch (err) {
       logger.error({ level: "error", message: "err", err });
-      console.log(err);
+      console.log("Error at /v1/gen-disc-request", err);
     }
   }
 );
@@ -82,7 +85,8 @@ const rootDir =
     ? "/Users/kjannette/workspace/ax3"
     : "/var/www";
 
-// EXPRESS
+//*** EXPRESS ***/
+
 const port = 3001;
 
 var corsOptions = {

@@ -2,8 +2,8 @@ from bottle import Bottle, run, get, post, request
 
 app = Bottle()
 
-@app.route('/newdoc/<id:int>')
+@app.route('/v1/gen-disc-request/', method='POST')
 def newdoc():
-    print('id:', id)
+    print('hit post route')
 
-run(app, host='localhost', port=5050)
+run(app, host='127.0.0.1', port=8081)
