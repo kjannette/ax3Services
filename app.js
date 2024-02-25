@@ -29,7 +29,11 @@ const endpointSecret = stripeWebhooksKey;
 
 //** NODE HTTP-PROXY ***/
 const httpProxy = require("http-proxy");
-const proxy = httpProxy.createProxy();
+const targetUrl = "http://127.0.0.1:8081";
+const proxy = httpProxy.createProxy({
+  changeOrigin: true,
+  target: targetUrl,
+});
 
 //*** MULTER ***/
 const storage = multer.diskStorage({
@@ -66,12 +70,14 @@ app.post(
       //req.headers["Content-Type"] = "application/json";
       //req.headers["accept"] = "application/json";
       //req.body = JSON.stringify({ filename: filename });
+      req.url = req.url.replace("/v1/gen-disc-request", "/newdoc");
+      console.log("req.url", req.url);
       proxy.web(req, res, {
-        target: `http://127.0.0.1:8081/`,
         function(err) {
           console.log("Proxy error:", err);
         },
       });
+
       // logger.log({ level: "info", message: "req.file", file });
     } catch (err) {
       logger.error({ level: "error", message: "err", err });
