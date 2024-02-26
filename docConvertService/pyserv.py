@@ -14,9 +14,9 @@ def fix_environ_middleware(app):
 app = bottle.default_app()
 app.wsgi = fix_environ_middleware(app.wsgi)
 
-@post('/newdoc')
-def newdoc():
-    print('hit newdoc route')
+@post('/newdoc/<id>')
+def newdoc(id='test'):
+    print('hit newdoc route, id:', id)
     return 'hello'
 
 run(app, host='127.0.0.1', port=8081, debug=True)

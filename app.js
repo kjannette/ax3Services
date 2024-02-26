@@ -70,14 +70,13 @@ app.post(
       //req.headers["Content-Type"] = "application/json";
       //req.headers["accept"] = "application/json";
       //req.body = JSON.stringify({ filename: filename });
-      req.url = req.url.replace("/v1/gen-disc-request", "/newdoc");
+      req.url = req.url.replace("/v1/gen-disc-request", `/newdoc/${id}`);
       console.log("req.url", req.url);
       proxy.web(req, res, {
         function(err) {
           console.log("Proxy error:", err);
         },
       });
-
       // logger.log({ level: "info", message: "req.file", file });
     } catch (err) {
       logger.error({ level: "error", message: "err", err });
