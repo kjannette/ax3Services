@@ -1,5 +1,7 @@
 import bottle
 from bottle import run, get, post, request, route
+from splitPdf import SplitPdf
+from pathlib import Path
 
 def fix_environ_middleware(app):
   def fixed_app(environ, start_response):
