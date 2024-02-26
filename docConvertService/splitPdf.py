@@ -17,6 +17,7 @@ class SplitPdf(object):
         os.mkdir(self.path)
 
     def split_and_convert(self, pathArg, newDir):
+        print("in split and convert: pathArg, newDir", pathArg, newDir)
         arr = [
             "a",
             "b",

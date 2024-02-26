@@ -44,7 +44,7 @@ const storage = multer.diskStorage({
 });
 
 const altStorage = multer.diskStorage({
-  destination: "./Documents/PleadingUploads",
+  destination: "./Documents/Complaints",
   filename: function (req, file, callback) {
     callback(null, file.originalname);
   },

@@ -12,10 +12,21 @@ def fix_environ_middleware(app):
 
 app = bottle.default_app()
 app.wsgi = fix_environ_middleware(app.wsgi)
+sp = SplitPdf()
 
 @post('/newdoc/<id>')
 def newdoc(id='test'):
-    print('hit newdoc route, id:', id)
+    newDir = f"{id}" # path[-1].split(".")[0]
+    print('newDir', newDir)
+    sp.make_dir(newDir)
+    path_arg = f"../Documents/Complaints/{id}.pdf"
+    sp.split_and_convert(path_arg, newDir)
+    return 'hello'
+
+@post('/new-disc-req/<id>')
+def newdoc(id='test'):
+    print('hit new-disc-req route, id:', id)
+    print('newDir', newDir)
     return 'hello'
 
 run(app, host='127.0.0.1', port=8081, debug=True)
