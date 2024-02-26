@@ -1,8 +1,5 @@
 import bottle
-from bottle import Bottle, run, get, post, request, route
-
-#app = Bottle()
-
+from bottle import run, get, post, request, route
 
 def fix_environ_middleware(app):
   def fixed_app(environ, start_response):
