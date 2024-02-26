@@ -6,39 +6,36 @@ const logger = require("./logger/logger.js");
 const modelController = require("./agent/ModelController.js");
 const stripeController = require("./paymentService/stripeController.js");
 const { db } = require("./firebase/firebase.js");
-
-const port = 3001;
-const Stripe = require("stripe");
-const { stripeAPIKey, stripeWebhooksKey } = require("./firebase/secrets.js");
 const {
   storeEditedCompletions,
 } = require("./storageService/storeEditedCompletion.js");
-
 const {
   deleteDocument,
   deleteFolderAndContents,
   cleanupGenFolderAndContents,
 } = require("./storageService/deleteDirOrDoc.js");
-
 const {
   handlePaymentFailure,
   handleSubscriptionDeletion,
 } = require("./paymentService/stripe.js");
+const { collection, query, where, getDocs } = require("firebase/firestore");
 
-const {
-  doc,
-  updateDoc,
-  collection,
-  query,
-  where,
-  getDocs,
-} = require("firebase/firestore");
-
+//*** STRIPE ***/
+const Stripe = require("stripe");
+const { stripeAPIKey, stripeWebhooksKey } = require("./firebase/secrets.js");
 const stripe = Stripe(stripeAPIKey);
-
 // Secret for Stripe webhooks
 const endpointSecret = stripeWebhooksKey;
 
+//** NODE HTTP-PROXY ***/
+const httpProxy = require("http-proxy");
+const targetUrl = "http://127.0.0.1:8081";
+const proxy = httpProxy.createProxy({
+  changeOrigin: true,
+  target: targetUrl,
+});
+
+//*** MULTER ***/
 const storage = multer.diskStorage({
   destination: "./Documents/Uploads",
   filename: function (req, file, callback) {
@@ -46,12 +43,56 @@ const storage = multer.diskStorage({
   },
 });
 
+const altStorage = multer.diskStorage({
+  destination: "./Documents/PleadingUploads",
+  filename: function (req, file, callback) {
+    callback(null, file.originalname);
+  },
+});
+
 const upload = multer({ storage: storage });
+const uploadComp = multer({ storage: altStorage });
+
+/*
+ *  POST new complaint .pdf => gen discovery req
+ */
+
+app.post(
+  "/v1/gen-disc-request",
+  uploadComp.single("file"),
+  function (req, res) {
+    const id = req.file.originalname.split(".")[0];
+    console.log(
+      "------------------------------------------------------------------------------->filename",
+      id
+    );
+    try {
+      //req.headers["Content-Type"] = "application/json";
+      //req.headers["accept"] = "application/json";
+      //req.body = JSON.stringify({ filename: filename });
+      req.url = req.url.replace("/v1/gen-disc-request", `/newdoc/${id}`);
+      console.log("req.url", req.url);
+      proxy.web(req, res, {
+        function(err) {
+          console.log("Proxy error:", err);
+        },
+      });
+      // logger.log({ level: "info", message: "req.file", file });
+    } catch (err) {
+      logger.error({ level: "error", message: "err", err });
+      console.log("Error at /v1/gen-disc-request", err);
+    }
+  }
+);
 
 const rootDir =
   process.env.NODE_ENV === "development"
     ? "/Users/kjannette/workspace/ax3"
     : "/var/www";
+
+//*** EXPRESS ***/
+
+const port = 3001;
 
 var corsOptions = {
   AccessControlAllowOrigin: "*",
@@ -137,10 +178,8 @@ app.post("/cancel-subscription", async (req, res) => {
     }
 
     const userDoc = querySnapshot.docs[0];
-
     //get the user's subscription ID and customer ID
     const subscriptionId = userDoc.data().subscriptionId;
-
     const deletedSubscription = await stripe.subscriptions.update(
       subscriptionId,
       {
@@ -157,7 +196,6 @@ app.post("/cancel-subscription", async (req, res) => {
 
 /*
  *  Client POST - Stripe webhook(s)
- *
  */
 
 app.post(
@@ -251,24 +289,6 @@ app.get(
     }
   }
 );
-
-/*
-app.get("/genResponseBlob/:docId/:docType/:isRequests", async (req, res) => {
-  const { docId, docType } = req.params;
-
-  const isRequests = false;
-  try {
-    const data = await modelController.readFileSelectMethod(
-      docId,
-      docType,
-      isRequests
-    );
-    res.send(data);
-  } catch (error) {
-    console.log(error);
-  }
-});
-*/
 
 /*
  *  POST to Generate Docx
@@ -408,31 +428,3 @@ console.log(
   `${rootDir}/ax3Services/Documents/Requests/`
 );
 app.listen(port);
-
-/*
-Workaround for import because createDocx is a module
-
-const responseHeaderGeneratorMethod = async () => {
-  const { generateDoc } = await import(
-    "./docGenService/responseHeaderGenerator .mjs"
-  );
-  return responseHeaderGenerator;
-};
-/*
-Workaround for import because createDocx is a module
-
-const responseHeaderGeneratorMethod = async () => {
-  const { generateDoc } = await import(
-    "./docGenService/responseHeaderGenerator .mjs"
-  );
-  return responseHeaderGenerator;
-};
-*/
-//folder, reqType, isRequests
-const temp = [{ one: "one" }, { two: "two" }];
-const docId = "8384-84848484-8484";
-const reqType = "combined-numbered";
-const isRequests = true;
-
-//modelController.callMakeDir(docId, reqType, isRequests);
-//modelController.callSavecompletions(temp, docId, reqType, isRequests);

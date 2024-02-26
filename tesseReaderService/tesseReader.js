@@ -106,7 +106,6 @@ async function readMultipleFiles(path, folder, countObject) {
 async function readMultipleFilesLarge(path, folder, countObject, filenames) {
   makeDir(folder);
   const total = filenames.length;
-  console.log("~+~+~+~+~+~+~++~+~+~+~+~ ---- -- -- --- -- ---- > total", total);
   const a = filenames.map((name) => {
     return `${path}/${name}`;
   });

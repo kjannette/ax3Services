@@ -62,3 +62,4 @@ Backend/firebase/secrets.js
 anImporter.cjs
 logger/logs/*
 logger/
+logger/logs/error.log
