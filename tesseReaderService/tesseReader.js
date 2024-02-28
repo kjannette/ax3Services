@@ -9,14 +9,15 @@ let countWrites = 0;
 
 async function writeFile(file, text, folder, countObject) {
   const totalFiles = countObject.numberOfFiles;
+  const fdirup = path.resolve(process.cwd() + "/Documents/Textfiles");
   const dir = `../Documents/Textfiles/${folder}`;
   try {
     fs.writeFile(
-      `../Documents/Textfiles/${folder}/${file.split(".")[0]}.txt`,
+      `${fdirup}/${folder}/${file.split(".")[0]}.txt`,
       text,
       function (err) {
         if (err) {
-          return console.log(err);
+          return console.log("err in tesseReader writeFile", err);
         }
       }
     );
@@ -59,7 +60,10 @@ async function convert(file, path, folder, countObject) {
   await worker.setParameters({
     tessedit_pageseg_mode: "4",
   });
-
+  console.log(
+    "===========================************8888889_-----------------==========concatPath",
+    concatPath
+  );
   const {
     data: { text },
   } = await worker.recognize(concatPath);
@@ -87,7 +91,9 @@ async function convertBurst(fullFilePath) {
 }
 
 async function makeDir(folder) {
-  fs.mkdir(`../Documents/Textfiles/${folder}`, function (err) {
+  const fdirup = path.resolve(process.cwd() + `/Documents/Textfiles/${folder}`);
+  console.log("fdirup", fdirup);
+  fs.mkdir(fdirup, function (err) {
     if (err) {
       console.log("Error Creating Directory: " + err);
     }
@@ -95,6 +101,11 @@ async function makeDir(folder) {
 }
 
 async function readMultipleFiles(path, folder, countObject) {
+  console.log(
+    "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~>readMultipleFiles path, folder, ",
+    path,
+    folder
+  );
   makeDir(folder);
   fs.readdirSync(path).forEach((file, index) => {
     setTimeout(function () {
