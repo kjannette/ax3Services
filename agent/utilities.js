@@ -22,7 +22,7 @@ function saveCompletions(responses, folder, reqType, isRequests, reqType) {
   } else {
     fileSuffix = `-jbk-responses.json`;
   }
-  console.log("FULL PATH IN SAVE COMPLETIONS:", `${dir}${folder}${fileSuffix}`);
+
   try {
     fs.writeFile(`${dir}${folder}${fileSuffix}`, data, function (err) {
       if (err) {

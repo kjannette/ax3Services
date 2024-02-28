@@ -283,16 +283,19 @@ class ModelController {
     return temp;
   }
 
-  // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!RETURNS DISCOVERY REQUESTS!!!!!!!!!!
+  //****************** Create Array of Interrogatories from Complaint **********************/
   async createArrayOfInterrogatories(docId, reqType = "interrogatories-out") {
-    console.log(
-      "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~>createArrayOfInterrogatories"
-    );
     const masterArray = [];
     const isRequests = true;
-
+    const fdirup = path.resolve(
+      process.cwd() + `/../Documents/Textfiles/${docId}/`
+    );
+    console.log(
+      "==============================================================>>>>>>>>fdirup",
+      fdirup
+    );
     const dirPath = `../Documents/Textfiles/${docId}/`;
-    let fileNames = fs.readdirSync(dirPath);
+    let fileNames = fs.readdirSync(fdirup);
     const dirArray = fileNames.map((name) => {
       return dirPath + name;
     });
