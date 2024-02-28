@@ -7,7 +7,7 @@ const modelController = require("../agent/ModelController.js");
 
 let countWrites = 0;
 
-async function writeFile(file, text, folder, countObject) {
+async function writeFile(file, text, folder, countObject, isComplaint) {
   const totalFiles = countObject.numberOfFiles;
   const fdirup = path.resolve(process.cwd() + "/Documents/Textfiles");
   const dir = `../Documents/Textfiles/${folder}`;
@@ -26,6 +26,10 @@ async function writeFile(file, text, folder, countObject) {
   }
   countWrites++;
   if (countWrites == totalFiles) {
+    if (isComplaint === true) {
+      countObject.filePath = `../Documents/Textfiles/${folder}/`;
+      return countObject;
+    }
     countWrites = 0;
     docParser.readDir(
       `../Documents/Textfiles/${folder}/`,
@@ -52,7 +56,7 @@ async function writeSingle(folder, text) {
   }
 }
 
-async function convert(file, path, folder, countObject) {
+async function convert(file, path, folder, countObject, isComplaint) {
   const worker = await createWorker();
   const concatPath = `${path}/${file}`;
   await worker.loadLanguage("eng");
@@ -68,7 +72,7 @@ async function convert(file, path, folder, countObject) {
     data: { text },
   } = await worker.recognize(concatPath);
 
-  writeFile(file, text, folder, countObject);
+  writeFile(file, text, folder, countObject, isComplaint);
   await worker.terminate();
 }
 
@@ -100,7 +104,7 @@ async function makeDir(folder) {
   });
 }
 
-async function readMultipleFiles(path, folder, countObject) {
+async function readMultipleFiles(path, folder, countObject, isComplaint) {
   console.log(
     "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~>readMultipleFiles path, folder, ",
     path,
@@ -109,7 +113,7 @@ async function readMultipleFiles(path, folder, countObject) {
   makeDir(folder);
   fs.readdirSync(path).forEach((file, index) => {
     setTimeout(function () {
-      convert(file, path, folder, countObject);
+      convert(file, path, folder, countObject, isComplaint);
     }, index * 10);
   });
 }

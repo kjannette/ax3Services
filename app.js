@@ -60,18 +60,22 @@ const uploadComp = multer({ storage: altStorage });
  *  POST new complaint .pdf => gen discovery req
  */
 
-async function fooBar(id) {
+async function tesseController(id) {
   sleep(2600);
   let fileCount = {};
+  const isComplaint = true;
   fileCount.fileName = id;
   fs.readdir(`./Documents/Converted/${id}`, (err, files) => {
     fileCount.numberOfFiles = files.length;
   });
-  const foo = await tesseReader.readMultipleFiles(
+  const fileConverstionInfoObj = await tesseReader.readMultipleFiles(
     `./Documents/Converted/${id}`,
     `${id}`,
-    fileCount
+    fileCount,
+    isComplaint
   );
+  console.log("fileConverstionInfoObj", fileConverstionInfoObj);
+  modelController.createArrayOfInterrogatories();
 }
 
 app.post(
@@ -100,7 +104,7 @@ app.post(
           JSON.stringify(proxyRes.headers, true, 2)
         );
         try {
-          fooBar(id);
+          tesseController(id);
           proxyRes.on("end", function () {
             res.end("compaint successfully uploaded");
           });

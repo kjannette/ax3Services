@@ -285,6 +285,8 @@ class ModelController {
 
   // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!RETURNS DISCOVERY REQUESTS!!!!!!!!!!
   async createArrayOfInterrogatories(docId, reqType) {
+    console.log("createArrayOfInterrogatories", createArrayOfInterrogatories);
+    return;
     const masterArray = [];
     const isRequests = true;
 
