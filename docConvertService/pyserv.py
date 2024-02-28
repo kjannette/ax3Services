@@ -2,6 +2,7 @@ import bottle
 from bottle import run, get, post, request, route
 from splitPdf import SplitPdf
 from pathlib import Path
+import json
 
 def fix_environ_middleware(app):
   def fixed_app(environ, start_response):
@@ -13,6 +14,9 @@ def fix_environ_middleware(app):
 app = bottle.default_app()
 app.wsgi = fix_environ_middleware(app.wsgi)
 sp = SplitPdf()
+suc = { 
+  'ok': True
+  }
 
 @post('/newdoc/<id>')
 def newdoc(id='test'):
@@ -20,13 +24,13 @@ def newdoc(id='test'):
     print('newDir', newDir)
     sp.make_dir(newDir)
     path_arg = f"../Documents/Complaints/{id}.pdf"
+    print(f"../Documents/Complaints/{id}.pdf")
     sp.split_and_convert(path_arg, newDir)
-    return 'hello'
+    return json.dumps(suc)
 
 @post('/new-disc-req/<id>')
 def newdoc(id='test'):
     print('hit new-disc-req route, id:', id)
-    print('newDir', newDir)
     return 'hello'
 
 run(app, host='127.0.0.1', port=8081, debug=True)
