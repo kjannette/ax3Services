@@ -75,7 +75,7 @@ async function tesseController(id) {
     isComplaint
   );
   console.log("fileConverstionInfoObj", fileConverstionInfoObj);
-  modelController.createArrayOfInterrogatories();
+  modelController.createArrayOfInterrogatories(id);
 }
 
 app.post(

@@ -5,9 +5,10 @@ const path = require("path");
  *  Strore returned completions
  */
 
-function saveCompletions(responses, folder, reqType, isRequests) {
+function saveCompletions(responses, folder, reqType, isRequests, reqType) {
   const data = JSON.stringify(responses);
-
+  if (reqType === "") {
+  }
   if (isRequests === true) {
     dir = selectRequestPath(reqType, isRequests, folder);
   } else {
@@ -100,13 +101,14 @@ async function readDir(docId, direcPath = directoryPath) {
  */
 
 ///Users/kjannette/workspace/ax3/ax3Services/Documents/Requests/Parsedcombined
-async function makeDir(folder, reqType, isRequests) {
+async function makeDir(folder, reqType, isRequests, reqType) {
   let dir;
-  if (isRequests === true) {
-    dir = selectRequestPath(reqType, isRequests, folder);
-  } else {
-    dir = selectResponsePath(reqType, isRequests, folder);
-  }
+  if (reqType)
+    if (isRequests === true) {
+      dir = selectRequestPath(reqType, isRequests, folder);
+    } else {
+      dir = selectResponsePath(reqType, isRequests, folder);
+    }
 
   fs.mkdir(`${dir}`, function (err) {
     if (err) {

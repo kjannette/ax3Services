@@ -269,7 +269,7 @@ class ModelController {
       }
     }
 
-    makeDir(docId, reqType, isRequests);
+    makeDir(docId, reqType, isRequests, reqType);
     const completionsObject = { type: "combined-numbered" };
     completionsObject["requests"] = parsedRequests;
 
@@ -284,9 +284,10 @@ class ModelController {
   }
 
   // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!RETURNS DISCOVERY REQUESTS!!!!!!!!!!
-  async createArrayOfInterrogatories(docId, reqType) {
-    console.log("createArrayOfInterrogatories", createArrayOfInterrogatories);
-    return;
+  async createArrayOfInterrogatories(docId, reqType = "interrogatories-out") {
+    console.log(
+      "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~>createArrayOfInterrogatories"
+    );
     const masterArray = [];
     const isRequests = true;
 
@@ -311,7 +312,12 @@ class ModelController {
       completes = await Promise.all(
         newArray.map(async (arr) => {
           requestStr = await iteratePathsReturnString(arr);
-          const comp = await this.startOne(requestStr, reqType, isRequests);
+          const comp = await this.startOne(
+            requestStr,
+            reqType,
+            isRequests,
+            reqType
+          );
           return comp;
         })
       );
@@ -337,8 +343,8 @@ class ModelController {
       }
     }
 
-    makeDir(docId, reqType, isRequests);
-    const completionsObject = { type: "combined-numbered" };
+    makeDir(docId, reqType, isRequests, reqType);
+    const completionsObject = { type: "interrogatories-out" };
     completionsObject["requests"] = parsedRequests;
 
     masterArray.push(completionsObject);
@@ -346,7 +352,7 @@ class ModelController {
     let temp = docId;
     temp = masterArray;
 
-    saveCompletions(temp, docId, reqType, isRequests);
+    saveCompletions(temp, docId, reqType, isRequests, reqType);
     updateDB(docId, reqType);
     return temp;
   }
