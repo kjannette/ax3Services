@@ -70,9 +70,10 @@ async function tesseController(id) {
   let fileCount = {};
   const isComplaint = true;
   fileCount.fileName = id;
-  fs.readdir(`./Documents/Converted/${id}`, (err, files) => {
+  const files = fs.readdir(`./Documents/Converted/${id}`, (err, files) => {
     fileCount.numberOfFiles = files.length;
   });
+  console.log("~~~~~~~~~~~~~~~~files", files);
   const fileConversionInfoObj = await tesseReader.readMultipleFiles(
     `./Documents/Converted/${id}`,
     `${id}`,

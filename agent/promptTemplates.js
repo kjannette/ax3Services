@@ -11,36 +11,41 @@ const createResponseFromOneQuestionPrompt = (request) => {
 
 // create an array of the questions for a combined numbered type
 const createArrayFromSingleDocPrompt = (request) => {
-  console.log(
-    ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>createArrayFromSingleDocPrompt FIRED~~~~~~~~~~~~~~~~~~~"
-  );
+  console.log(">>9980989cteArrayFromSingleDocPrompt FIRED~~~~~~~~~~~~~~~~~~~");
   const parseRequestsPrompt = [
     {
       role: "user",
-      content: `You are an AI assistant and paralegal assisting trial attorneys in drafting discovery responses.  As part of your job, you convert discovery request documents from text to other formats, such as JSON, for further processesing. I will provide you with some instructions, then a discovery request document (or a portion of one), and you will perform a parsing operation.
-      The instructions: Review the discovery request document and return the numbered requests, and only the requests, as JSON.  Do not include any of the preamble or earlier sections of the document in your finished result.  This JSON should be in the following form: an array of objects. There should be one object for each numbered request.  The object should contain two key/value pairs: first, “requestId" this key's value will be a randomly generated, version 4 UUID   The second key is ”text",  its value will be the substantive  content of the individual request.  This is an example response to a hypothetical sequence of three requests:  [{ "requestId": "73a855af-4fdc-4b8b-9e7f-34d57a2c084a",
-      "text": "example - request text would be set forth here.”}, { "requestId": "36fe8375-240d-4a08-8a71-9b2ba5bda348",
-      "text": "example - request text would be set forth here."}, { "requestId": "cfaf4a36-20de-44ff-8673-5a725bddca03",
-      "text": "example - request text would be set forth here.“}]. Some documents may contain sections preceding the requests. such as “Definitions”, “Instructions,” do not include definitions or instructions.  Return the questions only, do not respond to or answer the questions. Please note the following, as it is important:  some documents may have two kinds of requests - requests for production of documents, and interrogatories.  Sometimes the requests for production of documents may come first, then the interrogatories, or vice versa.  Please, be sure to include both the requests for produciton of documents and the interrogatory questions, regardless of which type comes first. Please, do not add introductory comments, analysis, or observations, such as "Based on  your request, I have parsed the document and..,"  etc.  Such comments will be problematic for later  processing of the data.
-      This is partof a request document: ${request}`,
+      content: `You are an AI paralegal assisting attorneys in drafting discovery requests.  Your firm represents the defendant in a lawsuit against it for an injury 
+      allegedly sustained by the plaintiff.  To prevail, the plaintiff must prove that 1. your client owed him/her a duty of care, 2. breached that duty, and 
+      3. the breach was the proximate (direct) cause of his/her 4. actual damages (actual damages must be proven).  It is the plaintiff’s duty to prove each of those elements.  
+      It is not the defendant's duty to disprove them.  I will provide you with the complaint filed in court, then some technical instructions.  
+      Review the complaint carefully. Asd you do,  think about the facts the plaintiff will need to prove to satisfy each of those four elements.  
+      Then, draft 20 interrogatories. They should seek all evidence the plaintiff has in his/her possession to prove the claim. The technical instructions: return the 
+      interrogatories in JSON format. The JSON should be in the form of an array of objects.  There should be one object for each interrogatory  The object should contain 
+      two key/value pairs: first, “requestId":  this key's value will be a randomly generated version 4 UUID   The second key is ”text":  its value will be the substantive 
+      content of the individual interrogatory.  This is an example sequence of three interrogatories:  [{ "requestId": "73a855af-4fdc-4b8b-9e7f-34d57a2c084a", 
+      "text": "example - Please identify the person or persons responding to these Interrogatories, and identify each person who has provided information in connection 
+      with these Interrogatories.”}, { "requestId": "36fe8375-240d-4a08-8a71-9b2ba5bda348", "text": "example - Identify the owner of the premises described in complaint."}, 
+      { "requestId": "cfaf4a36-20de-44ff-8673-5a725bddca03", "text": "example - Identify any person not already named as a party to this lawsuit whom you contend caused 
+      or contributed to the occurrence which you contend proximately caused your injuries and/or other damages .“}]. Lastly, please do not add introductory comments, analysis, 
+      or observations.  Return only the interrogatories in the manner previously described.  This is the complaint: ${complaint}`,
     },
   ];
   return parseRequestsPrompt;
 };
 
-const createArrayOfInterrogatoriesPrompt = (request) => {
+const createArrayOfInterrogatoriesPrompt = (complaint) => {
   console.log(
-    ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>createArrayFromSingleDocPrompt FIRED~~~~~~~~~~~~~~~~~~~"
+    ">>>>>>>>>>>>>>>>>>>>>>>>>>createArrayOfInterrogatoriesPrompt FIRED~~~~~~~~~~~~~~~~~~~"
   );
   const parseRequestsPrompt = [
     {
       role: "user",
-      content: `You are an AI assistant and paralegal assisting trial attorneys in drafting discovery responses.  As part of your job, you convert discovery request documents from text to other formats, such as JSON, for further processesing. I will provide you with some instructions, then a discovery request document (or a portion of one), and you will perform a parsing operation.
-      The instructions: Review the discovery request document and return the numbered requests, and only the requests, as JSON.  Do not include any of the preamble or earlier sections of the document in your finished result.  This JSON should be in the following form: an array of objects. There should be one object for each numbered request.  The object should contain two key/value pairs: first, “requestId" this key's value will be a randomly generated, version 4 UUID   The second key is ”text",  its value will be the substantive  content of the individual request.  This is an example response to a hypothetical sequence of three requests:  [{ "requestId": "73a855af-4fdc-4b8b-9e7f-34d57a2c084a",
+      content: `You are an AI assistant and paralegal assisting trial attorneys in drafting discovery requests.  Your firm represents the defendant in a lawsuit against it for an injury sustained by the plaintiff.  To win, the plaintiff must show that the client owed it a duty of care, breached that duty, and the breach caused the plaintiff damages.  You draft interrogatories to be served on the plaintiff.  I will provide you with the complaint filed in court, then some technical instructions.  Review the complaint carefully and determine any potential defenses that would be available to the client. Then think about the information you would like to obtain during the discovery process in order to prove those defenses, or, alternatively, to refute the plaintiff’s complaint.  The technical instructions: review the complaint and return interrogatories in JSON format. The JSON should be in the form of an array of objects. There should be one object for each interrogatory  The object should contain two key/value pairs: first, “requestId" this key's value will be a randomly generated, version 4 UUID   The second key is ”text",  its value will be the substantive content of the individual interrogatory.  This is an example response to a hypothetical sequence of three requests:  [{ "requestId": "73a855af-4fdc-4b8b-9e7f-34d57a2c084a",
       "text": "example - request text would be set forth here.”}, { "requestId": "36fe8375-240d-4a08-8a71-9b2ba5bda348",
       "text": "example - request text would be set forth here."}, { "requestId": "cfaf4a36-20de-44ff-8673-5a725bddca03",
       "text": "example - request text would be set forth here.“}]. Some documents may contain sections preceding the requests. such as “Definitions”, “Instructions,” do not include definitions or instructions.  Return the questions only, do not respond to or answer the questions. Please note the following, as it is important:  some documents may have two kinds of requests - requests for production of documents, and interrogatories.  Sometimes the requests for production of documents may come first, then the interrogatories, or vice versa.  Please, be sure to include both the requests for produciton of documents and the interrogatory questions, regardless of which type comes first. Please, do not add introductory comments, analysis, or observations, such as "Based on  your request, I have parsed the document and..,"  etc.  Such comments will be problematic for later  processing of the data.
-      This is the complaint: ${request}`,
+      This is the complaint: ${complaint}`,
     },
   ];
   return parseRequestsPrompt;

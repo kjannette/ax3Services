@@ -29,7 +29,7 @@ async function writeFile(file, text, folder, countObject, isComplaint) {
   if (countWrites == totalFiles) {
     if (isComplaint === true) {
       countObject.filePath = `../Documents/Textfiles/${folder}/`;
-      modelController.createArrayOfInterrogatories(folder);
+      await modelController.createArrayOfInterrogatories(folder);
       return countObject;
     }
     countWrites = 0;

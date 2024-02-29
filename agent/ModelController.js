@@ -376,7 +376,7 @@ class ModelController {
     const fileSuffix = "-jbk-requests-out.json";
     //saveCompletions(temp, docId, reqType, isRequests, reqType);
     try {
-      fs.writeFile(`${savDirup}${folder}${fileSuffix}`, temp, function (err) {
+      fs.writeFile(`${savDirup}${docId}${fileSuffix}`, temp, function (err) {
         if (err) {
           return console.log(
             "Error in saveCompletions createArrayOfInterrogatories writeFile:",
@@ -473,6 +473,9 @@ class ModelController {
    */
 
   async start(requests, reqType) {
+    console.log(
+      "=============================================FUCKING START  FIRED"
+    );
     const answersResponses = await Promise.all(
       requests.map(async (request) => {
         const prompt = createResponseFromOneQuestionPrompt(request.text);
@@ -500,18 +503,56 @@ class ModelController {
    */
 
   async startOne(request, reqType) {
+    console.log(
+      "FUCKING START ONE FIRED++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++",
+      request
+    );
     let prompt;
-    if (reqType === "combined-numbered") {
+    /*
+    if (reqType === "interrogatories-out") {
       prompt = createArrayOfInterrogatoriesPrompt(request);
+    } else {
+      prompt = createArrayFromSingleDocPrompt(request);
     }
-    prompt = createArrayFromSingleDocPrompt(request);
+*/
+    prompt = createArrayOfInterrogatoriesPrompt(request);
     const completion = await openai.chat.completions.create({
       model: "gpt-4",
       messages: prompt,
     });
+    console.log(
+      "completion.choices[0].message.content;",
+      completion.choices[0].message.content
+    );
+    return completion.choices[0].message.content;
+  }
+
+  async fooBaz(request, reqType) {
+    console.log(
+      "FUCKING START ONE FIRED++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++",
+      request
+    );
+    let prompt;
+    /*
+    if (reqType === "interrogatories-out") {
+      prompt = createArrayOfInterrogatoriesPrompt(request);
+    } else {
+      prompt = createArrayFromSingleDocPrompt(request);
+    }
+*/
+    prompt = createArrayOfInterrogatoriesPrompt(request);
+    const completion = await openai.chat.completions.create({
+      model: "gpt-4",
+      messages: prompt,
+    });
+    console.log(
+      "completion.choices[0].message.content;",
+      completion.choices[0].message.content
+    );
     return completion.choices[0].message.content;
   }
 }
+
 /*
 
   async callMakeDir(temp, docId, reqType, isRequests) {
