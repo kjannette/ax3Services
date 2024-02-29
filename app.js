@@ -61,21 +61,21 @@ const uploadComp = multer({ storage: altStorage });
  */
 
 async function tesseController(id) {
-  sleep(2600);
+  sleep(3100);
   let fileCount = {};
   const isComplaint = true;
   fileCount.fileName = id;
   fs.readdir(`./Documents/Converted/${id}`, (err, files) => {
     fileCount.numberOfFiles = files.length;
   });
-  const fileConverstionInfoObj = await tesseReader.readMultipleFiles(
+  const fileConversionInfoObj = await tesseReader.readMultipleFiles(
     `./Documents/Converted/${id}`,
     `${id}`,
     fileCount,
     isComplaint
   );
-  console.log("fileConverstionInfoObj", fileConverstionInfoObj);
-  modelController.createArrayOfInterrogatories(id);
+  //console.log("fileConversionInfoObj"), fileConversionInfoObj;
+  //modelController.createArrayOfInterrogatories(id);
 }
 
 app.post(
@@ -92,22 +92,19 @@ app.post(
       //req.headers["accept"] = "application/json";
       //req.body = JSON.stringify({ filename: filename });
       req.url = req.url.replace("/v1/gen-disc-request", `/newdoc/${id}`);
-      console.log("req.url", req.url);
       proxy.web(req, res, {
         function(err) {
           console.log("Proxy error:", err);
         },
       });
       proxy.on("proxyRes", function (proxyRes, req, res) {
-        console.log(
-          "RAW header from pyserver:",
-          JSON.stringify(proxyRes.headers, true, 2)
-        );
         try {
           tesseController(id);
+          /*
           proxyRes.on("end", function () {
             res.end("compaint successfully uploaded");
           });
+          */
         } catch (err) {
           console.log("Error in try gen-disc-request:", err);
         }
@@ -267,8 +264,6 @@ app.post(
 
 app.post("/parseNewDoc", upload.single("file"), function (req, res) {
   const file = req.file;
-
-  console.log("file", file);
   try {
     logger.log({ level: "info", message: "req.file", file });
   } catch (err) {

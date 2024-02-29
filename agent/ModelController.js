@@ -286,18 +286,18 @@ class ModelController {
   //****************** Create Array of Interrogatories from Complaint **********************/
   async createArrayOfInterrogatories(docId, reqType = "interrogatories-out") {
     const masterArray = [];
-    const isRequests = true;
+    const isRequests = false;
     const fdirup = path.resolve(
-      process.cwd() + `/../Documents/Textfiles/${docId}/`
+      process.cwd() + `/Documents/Textfiles/${docId}/`
     );
     console.log(
-      "==============================================================>>>>>>>>fdirup",
+      "==================================================== createArrayOfInterrogatories fdirup",
       fdirup
     );
     const dirPath = `../Documents/Textfiles/${docId}/`;
     let fileNames = fs.readdirSync(fdirup);
     const dirArray = fileNames.map((name) => {
-      return dirPath + name;
+      return `${fdirup}/${name}`;
     });
 
     let requestStr;
@@ -345,8 +345,19 @@ class ModelController {
         );
       }
     }
+    const savDirup = path.resolve(
+      process.cwd() + `/../Documents/RequestsOut/${docId}/`
+    );
+    //makeDir(docId, reqType, isRequests, reqType);
+    fs.mkdir(`${savDirup}`, function (err) {
+      if (err) {
+        console.log(
+          "makeDir error at createArrayOfInterrogatories creating directory: " +
+            err
+        );
+      }
+    });
 
-    makeDir(docId, reqType, isRequests, reqType);
     const completionsObject = { type: "interrogatories-out" };
     completionsObject["requests"] = parsedRequests;
 
@@ -354,9 +365,21 @@ class ModelController {
 
     let temp = docId;
     temp = masterArray;
-
-    saveCompletions(temp, docId, reqType, isRequests, reqType);
-    updateDB(docId, reqType);
+    const fileSuffix = "-jbk-requests-out.json";
+    //saveCompletions(temp, docId, reqType, isRequests, reqType);
+    try {
+      fs.writeFile(`${savDirup}${folder}${fileSuffix}`, temp, function (err) {
+        if (err) {
+          return console.log(
+            "Error in saveCompletions createArrayOfInterrogatories writeFile:",
+            err
+          );
+        }
+      });
+    } catch (err) {
+      console.log("Error writing file:", err);
+    }
+    //updateDB(docId, reqType);  //need to fix
     return temp;
   }
 
@@ -469,7 +492,11 @@ class ModelController {
    */
 
   async startOne(request, reqType) {
-    const prompt = createArrayFromSingleDocPrompt(request);
+    let prompt;
+    if (reqType === "combined-numbered") {
+      prompt = createArrayOfInterrogatories(request);
+    }
+    prompt = createArrayFromSingleDocPrompt(request);
     const completion = await openai.chat.completions.create({
       model: "gpt-4",
       messages: prompt,
