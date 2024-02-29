@@ -373,10 +373,10 @@ class ModelController {
 
     let temp = docId;
     temp = masterArray;
+    const data = JSON.stringify(temp);
     const fileSuffix = "-jbk-requests-out.json";
-    //saveCompletions(temp, docId, reqType, isRequests, reqType);
     try {
-      fs.writeFile(`${savDirup}${docId}${fileSuffix}`, temp, function (err) {
+      fs.writeFile(`${savDirup}/${docId}${fileSuffix}`, data, function (err) {
         if (err) {
           return console.log(
             "Error in saveCompletions createArrayOfInterrogatories writeFile:",
