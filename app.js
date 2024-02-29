@@ -73,7 +73,7 @@ async function tesseController(id) {
   const files = fs.readdir(`./Documents/Converted/${id}`, (err, files) => {
     fileCount.numberOfFiles = files.length;
   });
-  console.log("~~~~~~~~~~~~~~~~files", files);
+
   const fileConversionInfoObj = await tesseReader.readMultipleFiles(
     `./Documents/Converted/${id}`,
     `${id}`,
@@ -99,11 +99,6 @@ app.post(
       //req.headers["accept"] = "application/json";
       //req.body = JSON.stringify({ filename: filename });
       req.url = req.url.replace("/v1/gen-disc-request", `/newdoc/${id}`);
-      proxy.web(req, res, {
-        function(err) {
-          console.log("Proxy error:", err);
-        },
-      });
       proxy.on("proxyRes", function (proxyRes, req, res) {
         try {
           tesseController(id);
@@ -465,3 +460,11 @@ console.log(
   `${rootDir}/ax3Services/Documents/Requests/`
 );
 app.listen(port);
+
+/*
+      proxy.web(req, res, {
+        function(err) {
+          console.log("Proxy error:", err);
+        },
+      });
+      */
