@@ -28,7 +28,7 @@ const createArrayFromSingleDocPrompt = (request) => {
   return parseRequestsPrompt;
 };
 
-const createArrayOfInterrogatories = (request) => {
+const createArrayOfInterrogatoriesPrompt = (request) => {
   console.log(
     ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>createArrayFromSingleDocPrompt FIRED~~~~~~~~~~~~~~~~~~~"
   );
@@ -49,6 +49,7 @@ const createArrayOfInterrogatories = (request) => {
 module.exports = {
   createArrayFromSingleDocPrompt,
   createResponseFromOneQuestionPrompt,
+  createArrayOfInterrogatoriesPrompt,
 };
 
 /*

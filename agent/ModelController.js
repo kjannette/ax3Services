@@ -12,6 +12,7 @@ const {
 const {
   createArrayFromSingleDocPrompt,
   createResponseFromOneQuestionPrompt,
+  createArrayOfInterrogatoriesPrompt,
 } = require("./promptTemplates.js");
 const { OPENAI_API_KEY } = require("./secrets_1.js");
 const { v4: uuidv4 } = require("uuid");
@@ -296,6 +297,10 @@ class ModelController {
     );
     const dirPath = `../Documents/Textfiles/${docId}/`;
     let fileNames = fs.readdirSync(fdirup);
+    console.log(
+      "==================================================== createArrayOfInterrogatories fileNames",
+      fileNames
+    );
     const dirArray = fileNames.map((name) => {
       return `${fdirup}/${name}`;
     });
@@ -337,7 +342,9 @@ class ModelController {
       requestStr = await iteratePathsReturnString(dirArray);
       flatReq = await this.startOne(requestStr, reqType, isRequests);
       try {
-        parsedRequests = JSON.parse(flatReq);
+        if (flatReq) {
+          parsedRequests = JSON.parse(flatReq);
+        }
       } catch (err) {
         console.log(
           "Error parsing json in ModelController.createArrayOfQuestions: ",
@@ -345,8 +352,9 @@ class ModelController {
         );
       }
     }
+
     const savDirup = path.resolve(
-      process.cwd() + `/../Documents/RequestsOut/${docId}/`
+      process.cwd() + `/Documents/RequestsOut/${docId}/`
     );
     //makeDir(docId, reqType, isRequests, reqType);
     fs.mkdir(`${savDirup}`, function (err) {
@@ -494,7 +502,7 @@ class ModelController {
   async startOne(request, reqType) {
     let prompt;
     if (reqType === "combined-numbered") {
-      prompt = createArrayOfInterrogatories(request);
+      prompt = createArrayOfInterrogatoriesPrompt(request);
     }
     prompt = createArrayFromSingleDocPrompt(request);
     const completion = await openai.chat.completions.create({

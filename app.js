@@ -8,7 +8,7 @@ const logger = require("./logger/logger.js");
 const modelController = require("./agent/ModelController.js");
 const stripeController = require("./paymentService/stripeController.js");
 const { db } = require("./firebase/firebase.js");
-const sleep = require("system-sleep");
+//const sleep = require("system-sleep");
 const {
   storeEditedCompletions,
 } = require("./storageService/storeEditedCompletion.js");
@@ -61,7 +61,12 @@ const uploadComp = multer({ storage: altStorage });
  */
 
 async function tesseController(id) {
-  sleep(3100);
+  console.log("before sleep");
+  function sleep(ms) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  }
+  await sleep(3000);
+  console.log("after sleep");
   let fileCount = {};
   const isComplaint = true;
   fileCount.fileName = id;

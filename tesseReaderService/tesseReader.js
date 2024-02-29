@@ -10,10 +10,7 @@ let countWrites = 0;
 async function writeFile(file, text, folder, countObject, isComplaint) {
   const totalFiles = countObject.numberOfFiles;
   const fdirup = path.resolve(process.cwd() + "/Documents/Textfiles");
-  console.log(
-    "----------------------:::;;;;;;;;;;;;;;;isComplaint in tesse writeFile",
-    isComplaint
-  );
+  console.log("----------------------:::;;;;;;;;;;;;;;; text writeFile", text);
   const dir = `../Documents/Textfiles/${folder}`;
   try {
     fs.writeFile(
