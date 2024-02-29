@@ -80,6 +80,7 @@ async function tesseController(id) {
     fileCount,
     isComplaint
   );
+  return true;
   //console.log("fileConversionInfoObj"), fileConversionInfoObj;
   //modelController.createArrayOfInterrogatories(id);
 }
@@ -106,11 +107,10 @@ app.post(
       proxy.on("proxyRes", function (proxyRes, req, res) {
         try {
           tesseController(id);
-          /*
+
           proxyRes.on("end", function () {
-            res.end("compaint successfully uploaded");
+            res.end("Complaint successfully uploaded");
           });
-          */
         } catch (err) {
           console.log("Error in try gen-disc-request:", err);
         }
@@ -120,6 +120,7 @@ app.post(
       console.log("Error at /v1/gen-disc-request", err);
       res.send(err);
     }
+    res.status(200).send();
   }
 );
 

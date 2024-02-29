@@ -291,16 +291,10 @@ class ModelController {
     const fdirup = path.resolve(
       process.cwd() + `/Documents/Textfiles/${docId}/`
     );
-    console.log(
-      "==================================================== createArrayOfInterrogatories fdirup",
-      fdirup
-    );
+
     const dirPath = `../Documents/Textfiles/${docId}/`;
     let fileNames = fs.readdirSync(fdirup);
-    console.log(
-      "==================================================== createArrayOfInterrogatories fileNames",
-      fileNames
-    );
+
     const dirArray = fileNames.map((name) => {
       return `${fdirup}/${name}`;
     });
@@ -387,7 +381,7 @@ class ModelController {
     } catch (err) {
       console.log("Error writing file:", err);
     }
-    //updateDB(docId, reqType);  //need to fix
+    updateDB(docId, reqType); //need to fix
     return temp;
   }
 
