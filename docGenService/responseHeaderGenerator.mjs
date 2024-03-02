@@ -91,8 +91,8 @@ const responseHeaderGenerator = (docId, reqType, data) => {
     );
   });
 */
-  const dir = `/var/www/ax3Services/docGenService/Docxinfo/${docId}.json`;
-  //const dir = `/Users/kjannette/workspace/ax3/ax3Services/docGenService/Docxinfo/${docId}.json`;
+  //const dir = `/var/www/ax3Services/docGenService/Docxinfo/${docId}.json`;
+  const dir = `/Users/kjannette/workspace/ax3/ax3Services/docGenService/Docxinfo/${docId}.json`;
   data["currentRequestType"] = reqType;
   const saveData = JSON.stringify(data);
   fs.writeFile(dir, saveData, function (err) {

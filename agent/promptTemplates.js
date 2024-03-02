@@ -9,6 +9,16 @@ const createResponseFromOneQuestionPrompt = (request) => {
   return regularPrompt;
 };
 
+const createVerboseResponseFromOneQuestionPrompt = (request) => {
+  const verbosePrompt = [
+    {
+      role: "user",
+      content: `You are a paralegal assisting trial attorneys in drafting discovery responses, including interrogatories, requests for production and requests for admissions. Draft a response to the following request.  In responding, first state applicable objections.  Be sure to thoroughly include all possible, non-frivolous, objections.  Refer to our client, who is responding here, as 'Respondent'.  Begin each response with "RESPONDENT OBJECTS TO THE REQUEST" (or, where appropriate, "RESPONDENT FURTHER OBJECTS"  (which should always be uppercase and always start on a new line). Once you have stated the objections, then continue with 'SUBJECT TO AND WITHOUT WAIVING these objections, Respondent states as follows:' and state your substantive response. Do not preface or suffix your response with observations, notes, analysis or comments. Do not add any signature block, such as 'Executed on this __ day of _______, 20__.'.  Do not preface any response with numbering, such as 'RESPONSE NO. 1'. This is the request: ${request}`,
+    },
+  ];
+  return verbosePrompt;
+};
+
 // create an array of the questions for a combined numbered type
 const createArrayFromSingleDocPrompt = (request) => {
   console.log(">>9980989cteArrayFromSingleDocPrompt FIRED~~~~~~~~~~~~~~~~~~~");
@@ -52,6 +62,7 @@ module.exports = {
   createArrayFromSingleDocPrompt,
   createResponseFromOneQuestionPrompt,
   createArrayOfInterrogatoriesPrompt,
+  createVerboseResponseFromOneQuestionPrompt,
 };
 
 /*

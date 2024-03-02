@@ -13,6 +13,7 @@ const {
   createArrayFromSingleDocPrompt,
   createResponseFromOneQuestionPrompt,
   createArrayOfInterrogatoriesPrompt,
+  createVerboseResponseFromOneQuestionPrompt,
 } = require("./promptTemplates.js");
 const { OPENAI_API_KEY } = require("./secrets_1.js");
 const { v4: uuidv4 } = require("uuid");
@@ -48,7 +49,10 @@ class ModelController {
 
   async arrayGenAnswers(docId, reqType, isRequests) {
     console.log(
-      "------------------------------------------>arrayGenAnswers fired"
+      "------------------------------------------>arrayGenAnswers fired, docId, reqType, isRequests",
+      docId,
+      reqType,
+      isRequests
     );
     let filePath;
     const basePath = process.cwd();
@@ -487,7 +491,7 @@ class ModelController {
   async start(requests, reqType) {
     const answersResponses = await Promise.all(
       requests.map(async (request) => {
-        const prompt = createResponseFromOneQuestionPrompt(request.text);
+        const prompt = createVerboseResponseFromOneQuestionPrompt(request.text);
         const completion = await openai.chat.completions.create({
           model: "gpt-4",
           messages: prompt,

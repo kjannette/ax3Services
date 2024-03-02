@@ -81,8 +81,6 @@ async function tesseController(id) {
     isComplaint
   );
   return true;
-  //console.log("fileConversionInfoObj"), fileConversionInfoObj;
-  //modelController.createArrayOfInterrogatories(id);
 }
 
 app.post(
@@ -93,7 +91,6 @@ app.post(
 
     try {
       req.url = req.url.replace("/v1/gen-disc-request", `/newdoc/${id}`);
-      console.log("req.url", req.url);
       proxy.web(req, res, {
         function(err) {
           console.log("Proxy error:", err);
@@ -105,11 +102,14 @@ app.post(
           JSON.stringify(proxyRes.headers, true, 2)
         );
         tesseController(id);
+        /*
         proxyRes.on("end", function () {
           console.log('"compaint successfully uploaded"');
           res.end("compaint successfully uploaded");
         });
+        */
       });
+      res.status(200).send();
     } catch (err) {
       logger.error({ level: "error", message: "err", err });
       console.log("Error at /v1/gen-disc-request", err);
@@ -142,6 +142,7 @@ app.use(express.json());
 /*
  *  Client POST create stripe subscription, make payment
  */
+
 app.post("/create-subscription", async (req, res) => {
   const { planType, additionalAccounts, isAnnual, customerData, token } =
     req.body;
@@ -176,6 +177,7 @@ app.post("/create-subscription", async (req, res) => {
 /*
  *  Client POST create stripe subscription, make payment
  */
+
 app.post("/new-payment-intent", async (req, res) => {
   const { planType, additionalAccounts, isAnnual, customerData, token } =
     req.body;
@@ -284,6 +286,7 @@ app.get(
   "/genResponseFromArray/:docId/:docType/:isRequests",
   async (req, res) => {
     const { docId, docType } = req.params;
+    console.log("docId, docType in genResponseFromArray", docId, docType);
     const isRequests = false;
     try {
       const data = await modelController.arrayGenAnswers(
@@ -446,11 +449,6 @@ app.get("/completions/:docId/:docType", (req, res) => {
 
 app.get("/v1/get-outgoing-requests/:docId/:docType", (req, res) => {
   const { docId, docType } = req.params;
-  console.log(
-    "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~hit /v1/get-outgoing-requests/:docId/:docType",
-    docId,
-    docType
-  );
   try {
     res.sendFile(`${docId}-jbk-requests-out.json`, {
       root: `./Documents/RequestsOut/${docId}/`,

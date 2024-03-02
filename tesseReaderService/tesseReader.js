@@ -10,7 +10,11 @@ let countWrites = 0;
 async function writeFile(file, text, folder, countObject, isComplaint) {
   const totalFiles = countObject.numberOfFiles;
   const fdirup = path.join(__dirname, "..", "Documents", "Textfiles");
-
+  console.log("isComplaint", isComplaint);
+  console.log(
+    "fdirup in writeFile_______________________________________",
+    fdirup
+  );
   try {
     fs.writeFile(
       `${fdirup}/${folder}/${file.split(".")[0]}.txt`,
@@ -93,7 +97,13 @@ async function convertBurst(fullFilePath) {
 }
 
 async function makeDir(folder) {
-  const fdirup = path.resolve(process.cwd() + `/Documents/Textfiles/${folder}`);
+  const fdirup = path.join(
+    __dirname,
+    "..",
+    "Documents",
+    "Textfiles",
+    `${folder}`
+  );
 
   fs.mkdir(fdirup, function (err) {
     if (err) {
