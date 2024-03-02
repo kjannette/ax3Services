@@ -446,9 +446,14 @@ app.get("/completions/:docId/:docType", (req, res) => {
 
 app.get("/v1/get-outgoing-requests/:docId/:docType", (req, res) => {
   const { docId, docType } = req.params;
+  console.log(
+    "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~hit /v1/get-outgoing-requests/:docId/:docType",
+    docId,
+    docType
+  );
   try {
     res.sendFile(`${docId}-jbk-requests-out.json`, {
-      root: `./Documents/Responses/${docId}/${docId}/`,
+      root: `./Documents/RequestsOut/${docId}/`,
     });
   } catch (err) {
     console.log("err", err);
