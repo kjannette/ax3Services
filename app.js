@@ -90,14 +90,8 @@ app.post(
   uploadComp.single("file"),
   function (req, res) {
     const id = req.file.originalname.split(".")[0];
-    console.log(
-      "------------------------------------------------------------------------------->filename",
-      id
-    );
+
     try {
-      //req.headers["Content-Type"] = "application/json";
-      //req.headers["accept"] = "application/json";
-      //req.body = JSON.stringify({ filename: filename });
       req.url = req.url.replace("/v1/gen-disc-request", `/newdoc/${id}`);
       console.log("req.url", req.url);
       proxy.web(req, res, {
@@ -120,7 +114,7 @@ app.post(
           console.log("Error in try gen-disc-request:", err);
         }
       });
-      res.send(200);
+      res.sendStatus(200);
     } catch (err) {
       logger.error({ level: "error", message: "err", err });
       console.log("Error at /v1/gen-disc-request", err);

@@ -84,7 +84,7 @@ class ModelController {
       obj["text"] = comp;
       completionsArray.push(obj);
     });
-    console.log("completionsArray", completionsArray);
+
     completionsObject["responses"] = completionsArray;
     masterArray.push(completionsObject);
 
@@ -347,10 +347,20 @@ class ModelController {
       }
     }
 
+    /*
     const savDirup = path.resolve(
       process.cwd() + `/Documents/RequestsOut/${docId}/`
     );
+    */
     //makeDir(docId, reqType, isRequests, reqType);
+    const savDirup = path.join(
+      __dirname,
+      "..",
+      "Documents",
+      "RequestsOut",
+      `${docId}`
+    );
+
     fs.mkdir(`${savDirup}`, function (err) {
       if (err) {
         console.log(
@@ -369,12 +379,18 @@ class ModelController {
     temp = masterArray;
     const data = JSON.stringify(temp);
     const fileSuffix = "-jbk-requests-out.json";
+    function sleep(ms) {
+      return new Promise((resolve) => setTimeout(resolve, ms));
+    }
+    await sleep(2000);
     try {
       fs.writeFile(`${savDirup}/${docId}${fileSuffix}`, data, function (err) {
         if (err) {
           return console.log(
             "Error in saveCompletions createArrayOfInterrogatories writeFile:",
-            err
+            err,
+            "writing to:",
+            `${savDirup}/${docId}${fileSuffix}`
           );
         }
       });
@@ -467,9 +483,6 @@ class ModelController {
    */
 
   async start(requests, reqType) {
-    console.log(
-      "=============================================FUCKING START  FIRED"
-    );
     const answersResponses = await Promise.all(
       requests.map(async (request) => {
         const prompt = createResponseFromOneQuestionPrompt(request.text);
@@ -477,10 +490,7 @@ class ModelController {
           model: "gpt-4",
           messages: prompt,
         });
-        console.log(
-          "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~>completion.choices[0].message.content",
-          completion.choices[0].message.content
-        );
+
         return completion.choices[0].message.content;
       })
     );
@@ -497,10 +507,6 @@ class ModelController {
    */
 
   async startOne(request, reqType) {
-    console.log(
-      "FUCKING START ONE FIRED++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++",
-      request
-    );
     let prompt;
     /*
     if (reqType === "interrogatories-out") {
@@ -514,51 +520,30 @@ class ModelController {
       model: "gpt-4",
       messages: prompt,
     });
-    console.log(
-      "completion.choices[0].message.content;",
-      completion.choices[0].message.content
-    );
+
     return completion.choices[0].message.content;
   }
 
   async fooBaz(request, reqType) {
-    console.log(
-      "FUCKING START ONE FIRED++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++",
-      request
-    );
     let prompt;
+    console.log(
+      "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~+++++++++++++++++++++++~+++~+~++~+~+~++~>>>>.fucking fooBaz fired"
+    );
     /*
     if (reqType === "interrogatories-out") {
       prompt = createArrayOfInterrogatoriesPrompt(request);
     } else {
       prompt = createArrayFromSingleDocPrompt(request);
     }
-*/
+  */
     prompt = createArrayOfInterrogatoriesPrompt(request);
     const completion = await openai.chat.completions.create({
       model: "gpt-4",
       messages: prompt,
     });
-    console.log(
-      "completion.choices[0].message.content;",
-      completion.choices[0].message.content
-    );
+
     return completion.choices[0].message.content;
   }
 }
 
-/*
-
-  async callMakeDir(temp, docId, reqType, isRequests) {
-    makeDir(temp, docId, reqType, isRequests);
-  }
-  async callSavecompletions(temp, docId, reqType, isRequests) {
-    saveCompletions(temp, docId, reqType, isRequests);
-  }
-const docId = "20886dec-3459-46b7-9c0e-80c390cf058b";
-const reqType = "combined-numbered";
-const isRequests = false;
-const modCon = new ModelController();
-modCon.arrayGenAnswersCombined(docId, reqType, isRequests);
-*/
 module.exports = new ModelController();

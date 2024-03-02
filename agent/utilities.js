@@ -125,7 +125,6 @@ async function makeDir(folder, reqType, isRequests, reqType) {
  */
 
 async function iteratePathsReturnString(paths) {
-  console.log("paths in return string");
   const masterArray = [];
   for (let path of paths) {
     if (path == undefined || path == null) {
@@ -135,7 +134,6 @@ async function iteratePathsReturnString(paths) {
     masterArray.push(fileData);
   }
   const massiveString = masterArray.join();
-  console.log("massiveString", massiveString);
   return massiveString;
 }
 
