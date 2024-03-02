@@ -84,13 +84,13 @@ async function tesseController(id, isComplaint) {
 }
 
 app.post(
-  "/v1/gen-disc-request",
+  "/v1/gen-disc-request-pl",
   uploadComp.single("file"),
   function (req, res) {
     const id = req.file.originalname.split(".")[0];
     const isComplaint = true;
     try {
-      req.url = req.url.replace("/v1/gen-disc-request", `/newdoc/${id}`);
+      req.url = req.url.replace("/v1/gen-disc-request-pl", `/newdoc/${id}`);
       proxy.web(req, res, {
         function(err) {
           console.log("Proxy error:", err);
