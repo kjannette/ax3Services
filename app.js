@@ -73,7 +73,7 @@ async function tesseController(id) {
   const files = fs.readdir(`./Documents/Converted/${id}`, (err, files) => {
     fileCount.numberOfFiles = files.length;
   });
-
+  console.log("files in tesseController ", files);
   const fileConversionInfoObj = await tesseReader.readMultipleFiles(
     `./Documents/Converted/${id}`,
     `${id}`,
@@ -90,14 +90,8 @@ app.post(
   uploadComp.single("file"),
   function (req, res) {
     const id = req.file.originalname.split(".")[0];
-    console.log(
-      "------------------------------------------------------------------------------->filename",
-      id
-    );
+
     try {
-      //req.headers["Content-Type"] = "application/json";
-      //req.headers["accept"] = "application/json";
-      //req.body = JSON.stringify({ filename: filename });
       req.url = req.url.replace("/v1/gen-disc-request", `/newdoc/${id}`);
       console.log("req.url", req.url);
       proxy.web(req, res, {
@@ -110,15 +104,17 @@ app.post(
           "RAW header from pyserver:",
           JSON.stringify(proxyRes.headers, true, 2)
         );
+        tesseController(id);
         try {
-          fooBar(id);
           proxyRes.on("end", function () {
+            console.log('"compaint successfully uploaded"');
             res.end("compaint successfully uploaded");
           });
         } catch (err) {
           console.log("Error in try gen-disc-request:", err);
         }
       });
+      res.sendStatus(200);
     } catch (err) {
       logger.error({ level: "error", message: "err", err });
       console.log("Error at /v1/gen-disc-request", err);

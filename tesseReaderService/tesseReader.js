@@ -6,17 +6,11 @@ const { v4: uuidv4 } = require("uuid");
 const modelController = require("../agent/ModelController.js");
 
 let countWrites = 0;
-appRoot = path.resolve(__dirname);
 
 async function writeFile(file, text, folder, countObject, isComplaint) {
   const totalFiles = countObject.numberOfFiles;
-  //const fdirup = path.resolve(appRoot + "/../Documents/Textfiles");
   const fdirup = path.join(__dirname, "..", "Documents", "Textfiles");
-  const dir = `../Documents/Textfiles/${folder}`;
-  console.log(
-    "tesseReader fdirup in writeFile",
-    `${fdirup}/${folder}/${file.split(".")[0]}.txt`
-  );
+
   try {
     fs.writeFile(
       `${fdirup}/${folder}/${file.split(".")[0]}.txt`,
