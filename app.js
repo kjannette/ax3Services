@@ -105,21 +105,17 @@ app.post(
           JSON.stringify(proxyRes.headers, true, 2)
         );
         tesseController(id);
-        try {
-          proxyRes.on("end", function () {
-            console.log('"compaint successfully uploaded"');
-            res.end("compaint successfully uploaded");
-          });
-        } catch (err) {
-          console.log("Error in try gen-disc-request:", err);
-        }
+        proxyRes.on("end", function () {
+          console.log('"compaint successfully uploaded"');
+          res.end("compaint successfully uploaded");
+        });
       });
-      res.sendStatus(200);
     } catch (err) {
       logger.error({ level: "error", message: "err", err });
       console.log("Error at /v1/gen-disc-request", err);
       res.send(err);
     }
+    res.sendStatus(200);
   }
 );
 

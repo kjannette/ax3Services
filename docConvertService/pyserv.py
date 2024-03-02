@@ -1,5 +1,6 @@
 import bottle
 from bottle import run, get, post, request, route
+from bottle import HTTPResponse
 from splitPdf import SplitPdf
 from pathlib import Path
 import json
@@ -26,7 +27,8 @@ def newdoc(id='test'):
     path_arg = f"../Documents/Complaints/{id}.pdf"
     print(f"../Documents/Complaints/{id}.pdf")
     sp.split_and_convert(path_arg, newDir)
-    return json.dumps(suc)
+    respBody = json.dumps({'Status': 'Success'}) # you seem to want a JSON response
+    return bottle.HTTPResponse(status=200, body=respBody)
 
 @post('/new-disc-req/<id>')
 def newdoc(id='test'):
