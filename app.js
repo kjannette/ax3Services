@@ -414,7 +414,7 @@ app.get("/getParsedRequests/:docId/:docType", (req, res) => {
 });
 
 /*
- *  Client GET completions
+ *  Client GET completions - (responses to) requests in
  */
 
 app.get("/completions/:docId/:docType", (req, res) => {
@@ -434,6 +434,21 @@ app.get("/completions/:docId/:docType", (req, res) => {
   try {
     res.sendFile(`${docId}-jbk-responses.json`, {
       root: `./Documents/Responses/${folder}/${docId}/`,
+    });
+  } catch (err) {
+    console.log("err", err);
+  }
+});
+
+/*
+ *  Client GET completions - requests outgoing
+ */
+
+app.get("/v1/get-outgoing-requests/:docId/:docType", (req, res) => {
+  const { docId, docType } = req.params;
+  try {
+    res.sendFile(`${docId}-jbk-requests-out.json`, {
+      root: `./Documents/Responses/${docId}/${docId}/`,
     });
   } catch (err) {
     console.log("err", err);
