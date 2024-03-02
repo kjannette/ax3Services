@@ -60,8 +60,10 @@ class GenerateBody(object):
         firmZip = jsonData.get("firmZip")
 
         if reqType == "interrogatories":
-            reqFile = f"/var/www/ax3Services/Documents/Requests/Parsedrogs/{docId}/{docId}-jbk-parsedRequests.json"
-            respFile = f"/var/www/ax3Services/Documents/Responses/Rogresp/{docId}/{docId}-jbk-responses.json"
+            #reqFile = f"/var/www/ax3Services/Documents/Requests/Parsedrogs/{docId}/{docId}-jbk-parsedRequests.json"
+            #respFile = f"/var/www/ax3Services/Documents/Responses/Rogresp/{docId}/{docId}-jbk-responses.json"
+            reqFile = f"/Users/kjannette/workspace/ax3/ax3Services/Documents/Requests/Parsedrogs/{docId}/{docId}-jbk-parsedRequests.json"
+            respFile = f"/Users/kjannette/workspace/ax3/ax3Services/Documents/Responses/Rogresp/{docId}/{docId}-jbk-responses.json"
         elif reqType == "combined-numbered":
             reqFile = f"/var/www/ax3Services/Documents/Requests/Parsedcombined/{docId}/{docId}-jbk-parsedRequests.json"
             respFile = f"/var/www/ax3Services/Documents/Responses/Combinedresp/{docId}/{docId}-jbk-responses.json"
@@ -176,7 +178,7 @@ class GenerateBody(object):
         paragraph.paragraph_format.space_before = Pt(12)
         paragraph.paragraph_format.space_after = Pt(12)
         paragraph.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
-        print("****************************************firmState", firmState)
+        print("****************************************respFile", respFile)
         # Add General Objections
         if firmState == "ny":
             document = make_ny_gen_obj(document, clientPosition, servingParty)
@@ -229,12 +231,12 @@ class GenerateBody(object):
         )
         paragraph.paragraph_format.space_before = Pt(24)
         paragraph.paragraph_format.space_after = Pt(12)
-        document.save(f"/var/www/ax3Services/Docxfinal/{docId}.docx")
+        document.save(f"/Users/kjannette/workspace/ax3/ax3Services/Docxfinal/{docId}.docx")
 
 
 # document.save(
 #   f"/Users/kjannette/workspace/ax3/ax3Services/Docxfinal/{docId}.docx"
-# )
+#         document.save(f"/var/www/ax3Services/Docxfinal/{docId}.docx")
 # Uncomment for development/smoke testing
 # genBod = GenerateBody()
 # genBod.generate("a93d9b76-28aa-4b8c-83e4-e87ec6294c4b")

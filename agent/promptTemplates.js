@@ -9,6 +9,16 @@ const createResponseFromOneQuestionPrompt = (request) => {
   return regularPrompt;
 };
 
+const createVerboseResponseFromOneQuestionPrompt = (request) => {
+  const verbosePrompt = [
+    {
+      role: "user",
+      content: `You are a paralegal assisting trial attorneys in drafting discovery responses, including interrogatories, requests for production and requests for admissions. Draft a response to the following request.  In responding, first state applicable objections.  Be sure to thoroughly include all possible, non-frivolous, objections.  Refer to our client, who is responding here, as 'Respondent'.  Begin each response with "RESPONDENT OBJECTS TO THE REQUEST" (or, where appropriate, "RESPONDENT FURTHER OBJECTS"  (which should always be uppercase and always start on a new line). Once you have stated the objections, then continue with 'SUBJECT TO AND WITHOUT WAIVING these objections, Respondent states as follows:' and state your substantive response. Do not preface or suffix your response with observations, notes, analysis or comments. Do not add any signature block, such as 'Executed on this __ day of _______, 20__.'.  Do not preface any response with numbering, such as 'RESPONSE NO. 1'. This is the request: ${request}`,
+    },
+  ];
+  return verbosePrompt;
+};
+
 // create an array of the questions for a combined numbered type
 const createArrayFromSingleDocPrompt = (request) => {
   console.log(">>9980989cteArrayFromSingleDocPrompt FIRED~~~~~~~~~~~~~~~~~~~");
@@ -34,7 +44,24 @@ const createArrayFromSingleDocPrompt = (request) => {
   return parseRequestsPrompt;
 };
 
-const createArrayOfInterrogatoriesPrompt = (complaint) => {
+const createArrayOfInterrogatoriesPlaintiffPrompt = (complaint) => {
+  const parseRequestsPrompt = [
+    {
+      role: "user",
+      content: `You are an AI paralegal assisting attorneys in drafting discovery requests.  You represent the plaintiff in a negligence lawsuit.  To prevail, the plaintiff must satisfy these legal elements: 1) the defendant owed it a duty of care, 2) the defendant breached that duty; 3) which was the proximate cause of 4) plaintiff’s damages (typically physical injuries, may include losses stemming from injuries,  i.e. lost wages).  
+      Your task is to draft interrogatories to the defendant.  I will provide technical instructions and the Complaint (for background).  Review the complaint carefully, thinking about the above legal elements stated, and what facts would satisfy them. Then, think about the information the defendant might possess that would satisfy them.  That is the information you seek.  
+      The technical instructions: return interrogatories in JSON format. The JSON should be an array of objects, with one object for each interrogatory. An object will contain two key/value pairs: First key: “requestId", value: a random version 4 UUID   Second key is ”text",  its value is the individual interrogatory.  I will give you examples of the form.  They are hypothetical in substance,  (not necessarily similar to this case’s facts). 
+      Use them to think about the legal writing style you’ll employ.  (Reference to paragraphs of a complaint in the examples are hypothetical and for illustration.  They do not refer to the facts in this case. However, if they are similar, you may reuse/paraphrase them.)  Accurately cite the complaint where appropriate.  Do not include foundational questions in your interrogatories, such as asking the respondent’s name, address, age, etc. These will be supplied elsewhere.  
+      Do not add introductory comments, analysis, or observations, such as "Based on  your request, I have parsed the complaint and..,"  etc.  This will be problematic for later data processing. Here are the examples:
+      [{ "requestId": "73a855af-4fdc-4b8b-9e7f-34d57a2c084a", "text": "Give a detailed statement of how you contend the occurrence took place, including where you were traveling from and traveling to, any stops made along the way, the date, time, location of the accident.”}, { "requestId": "36fe8375-240d-4a08-8a71-9b2ba5bda348", "text": "State whether you were the driver and/or owner of the vehicle involved in the occurrence on the date, 
+      time and location as outlined in the Complaint. If you were not the driver, then state who you claim was driving the vehicle.”}, { "requestId": "cfaf4a36-20de-44ff-8673-5a725bddca03",
+      "text": "If you were employed at the time of the occurrence, as indicated in the Complaint, and working within the scope of that employment when the occurrence took place, identify your employer and the nature of the work you were performing.“}].     This is the complaint: ${complaint}`,
+    },
+  ];
+  return parseRequestsPrompt;
+};
+
+const createArrayOfInterrogatoriesDefendantPrompt = (complaint) => {
   const parseRequestsPrompt = [
     {
       role: "user",
@@ -51,7 +78,8 @@ const createArrayOfInterrogatoriesPrompt = (complaint) => {
 module.exports = {
   createArrayFromSingleDocPrompt,
   createResponseFromOneQuestionPrompt,
-  createArrayOfInterrogatoriesPrompt,
+  createArrayOfInterrogatoriesPlaintiffPrompt,
+  createVerboseResponseFromOneQuestionPrompt,
 };
 
 /*

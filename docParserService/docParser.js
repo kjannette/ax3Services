@@ -7,7 +7,14 @@ const { v4: uuidv4 } = require("uuid");
 const path = require("path");
 
 async function readDir(direcPath, folder, countObject) {
-  const fdirup = path.resolve(process.cwd() + `/Documents/Textfiles/${folder}`);
+  //const fdirup = path.resolve(process.cwd() + `/Documents/Textfiles/${folder}`);
+  const fdirup = path.join(
+    __dirname,
+    "..",
+    "Documents",
+    "Textfiles",
+    `${folder}`
+  );
   console.log(
     "======================================........>>>>>>>>fdirup",
     fdirup

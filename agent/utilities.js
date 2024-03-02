@@ -55,12 +55,15 @@ function selectRequestPath(reqType, isRequests, folder) {
 }
 
 function selectResponsePath(reqType, isRequests, folder) {
+  console.log("````````````````reqType", reqType);
   let dir;
-  const fdirup = path.resolve(process.cwd() + "/Documents/Responses");
+  //const fdirup = path.resolve(process.cwd() + "/Documents/Responses");
+  const fdirup = path.join(__dirname, "..", "Documents");
   const fdir = path.resolve(
     process.cwd() + "/Documents/Responses/Combinedresp"
   );
 
+  console.log("fdirup in selectResponsePath", fdirup);
   if (reqType === "interrogatories") {
     dir = `${fdirup}/Rogresp/${folder}/`;
   } else if (reqType == "admissions") {
@@ -70,6 +73,7 @@ function selectResponsePath(reqType, isRequests, folder) {
   } else if (reqType == "combined-numbered") {
     dir = `${fdir}/${folder}/`;
   }
+  console.log("dir in selectResponsePath", dir);
   return dir;
 }
 
@@ -101,7 +105,12 @@ async function readDir(docId, direcPath = directoryPath) {
  */
 
 ///Users/kjannette/workspace/ax3/ax3Services/Documents/Requests/Parsedcombined
-async function makeDir(folder, reqType, isRequests, reqType) {
+async function makeDir(folder, reqType, isRequests) {
+  makeDir(
+    "~~~~~~~~~~~~~~~makeDir folder, reqType, isRequests",
+    folder,
+    reqType
+  );
   let dir;
   if (reqType)
     if (isRequests === true) {

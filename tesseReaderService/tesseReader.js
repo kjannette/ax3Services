@@ -27,6 +27,9 @@ async function writeFile(file, text, folder, countObject, isComplaint) {
   countWrites++;
   if (countWrites == totalFiles) {
     if (isComplaint === true) {
+      console.log(
+        "_-----------------------------> isComplaint === true isComplaint === true isComplaint === true Fired"
+      );
       countObject.filePath = `../Documents/Textfiles/${folder}/`;
       await modelController.createArrayOfInterrogatories(folder);
       return countObject;
@@ -93,7 +96,13 @@ async function convertBurst(fullFilePath) {
 }
 
 async function makeDir(folder) {
-  const fdirup = path.resolve(process.cwd() + `/Documents/Textfiles/${folder}`);
+  const fdirup = path.join(
+    __dirname,
+    "..",
+    "Documents",
+    "Textfiles",
+    `${folder}`
+  );
 
   fs.mkdir(fdirup, function (err) {
     if (err) {
