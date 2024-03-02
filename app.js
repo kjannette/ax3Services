@@ -99,12 +99,21 @@ app.post(
       //req.headers["accept"] = "application/json";
       //req.body = JSON.stringify({ filename: filename });
       req.url = req.url.replace("/v1/gen-disc-request", `/newdoc/${id}`);
+      console.log("req.url", req.url);
+      proxy.web(req, res, {
+        function(err) {
+          console.log("Proxy error:", err);
+        },
+      });
       proxy.on("proxyRes", function (proxyRes, req, res) {
+        console.log(
+          "RAW header from pyserver:",
+          JSON.stringify(proxyRes.headers, true, 2)
+        );
         try {
-          tesseController(id);
-
+          fooBar(id);
           proxyRes.on("end", function () {
-            res.end("Complaint successfully uploaded");
+            res.end("compaint successfully uploaded");
           });
         } catch (err) {
           console.log("Error in try gen-disc-request:", err);
@@ -115,7 +124,6 @@ app.post(
       console.log("Error at /v1/gen-disc-request", err);
       res.send(err);
     }
-    res.status(200).send();
   }
 );
 
