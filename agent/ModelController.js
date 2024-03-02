@@ -296,7 +296,8 @@ class ModelController {
       process.cwd() + `/Documents/Textfiles/${docId}/`
     );
     console.log(
-      "****************** Create Array of Interrogatories from Complaint "
+      "****************** Create Array of Interrogatories from Complaint fdirup for text files:",
+      fdirup
     );
     const dirPath = `../Documents/Textfiles/${docId}/`;
     let fileNames = fs.readdirSync(fdirup);

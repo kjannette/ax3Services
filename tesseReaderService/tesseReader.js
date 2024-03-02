@@ -10,11 +10,7 @@ let countWrites = 0;
 async function writeFile(file, text, folder, countObject, isComplaint) {
   const totalFiles = countObject.numberOfFiles;
   const fdirup = path.join(__dirname, "..", "Documents", "Textfiles");
-  console.log("isComplaint", isComplaint);
-  console.log(
-    "fdirup in writeFile_______________________________________",
-    fdirup
-  );
+
   try {
     fs.writeFile(
       `${fdirup}/${folder}/${file.split(".")[0]}.txt`,
@@ -31,6 +27,9 @@ async function writeFile(file, text, folder, countObject, isComplaint) {
   countWrites++;
   if (countWrites == totalFiles) {
     if (isComplaint === true) {
+      console.log(
+        "_-----------------------------> isComplaint === true isComplaint === true isComplaint === true Fired"
+      );
       countObject.filePath = `../Documents/Textfiles/${folder}/`;
       await modelController.createArrayOfInterrogatories(folder);
       return countObject;
