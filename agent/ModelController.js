@@ -12,7 +12,7 @@ const {
 const {
   createArrayFromSingleDocPrompt,
   createResponseFromOneQuestionPrompt,
-  createArrayOfInterrogatoriesPrompt,
+  createArrayOfInterrogatoriesPlaintiffPrompt,
   createVerboseResponseFromOneQuestionPrompt,
 } = require("./promptTemplates.js");
 const { OPENAI_API_KEY } = require("./secrets_1.js");
@@ -522,7 +522,7 @@ class ModelController {
       prompt = createArrayFromSingleDocPrompt(request);
     }
 */
-    prompt = createArrayOfInterrogatoriesPrompt(request);
+    prompt = createArrayOfInterrogatoriesPlaintiffPrompt(request);
     const completion = await openai.chat.completions.create({
       model: "gpt-4",
       messages: prompt,
