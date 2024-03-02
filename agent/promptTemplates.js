@@ -78,7 +78,7 @@ const createArrayOfInterrogatoriesDefendantPrompt = (complaint) => {
 module.exports = {
   createArrayFromSingleDocPrompt,
   createResponseFromOneQuestionPrompt,
-  createArrayOfInterrogatoriesPrompt,
+  createArrayOfInterrogatoriesPlaintiffPrompt,
   createVerboseResponseFromOneQuestionPrompt,
 };
 
