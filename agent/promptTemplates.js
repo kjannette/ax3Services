@@ -35,9 +35,6 @@ const createArrayFromSingleDocPrompt = (request) => {
 };
 
 const createArrayOfInterrogatoriesPrompt = (complaint) => {
-  console.log(
-    ">>>>>>>>>>>>>>>>>>>>>>>>>>createArrayOfInterrogatoriesPrompt FIRED~~~~~~~~~~~~~~~~~~~"
-  );
   const parseRequestsPrompt = [
     {
       role: "user",
