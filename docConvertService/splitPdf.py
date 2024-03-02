@@ -17,6 +17,7 @@ class SplitPdf(object):
         os.mkdir(self.path)
 
     def split_and_convert(self, pathArg, newDir):
+        print("in split and convert: pathArg, newDir", pathArg, newDir)
         arr = [
             "a",
             "b",
@@ -122,6 +123,7 @@ class SplitPdf(object):
             "zz",
         ]
         self.images = convert_from_path(pathArg, fmt="png")
+        print(f"../Documents/Converted/{self.directory}")
         for i, image in enumerate(self.images):
             fname = f"{newDir}" + arr[i] + ".png"
             image.save(f"../Documents/Converted/{self.directory}/{fname}", "PNG")

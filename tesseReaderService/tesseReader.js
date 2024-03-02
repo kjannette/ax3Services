@@ -6,17 +6,24 @@ const { v4: uuidv4 } = require("uuid");
 const modelController = require("../agent/ModelController.js");
 
 let countWrites = 0;
+appRoot = path.resolve(__dirname);
 
-async function writeFile(file, text, folder, countObject) {
+async function writeFile(file, text, folder, countObject, isComplaint) {
   const totalFiles = countObject.numberOfFiles;
+  //const fdirup = path.resolve(appRoot + "/../Documents/Textfiles");
+  const fdirup = path.join(__dirname, "..", "Documents", "Textfiles");
   const dir = `../Documents/Textfiles/${folder}`;
+  console.log(
+    "tesseReader fdirup in writeFile",
+    `${fdirup}/${folder}/${file.split(".")[0]}.txt`
+  );
   try {
     fs.writeFile(
-      `../Documents/Textfiles/${folder}/${file.split(".")[0]}.txt`,
+      `${fdirup}/${folder}/${file.split(".")[0]}.txt`,
       text,
       function (err) {
         if (err) {
-          return console.log(err);
+          return console.log("err in tesseReader writeFile", err);
         }
       }
     );
@@ -25,6 +32,11 @@ async function writeFile(file, text, folder, countObject) {
   }
   countWrites++;
   if (countWrites == totalFiles) {
+    if (isComplaint === true) {
+      countObject.filePath = `../Documents/Textfiles/${folder}/`;
+      await modelController.createArrayOfInterrogatories(folder);
+      return countObject;
+    }
     countWrites = 0;
     docParser.readDir(
       `../Documents/Textfiles/${folder}/`,
@@ -51,7 +63,7 @@ async function writeSingle(folder, text) {
   }
 }
 
-async function convert(file, path, folder, countObject) {
+async function convert(file, path, folder, countObject, isComplaint) {
   const worker = await createWorker();
   const concatPath = `${path}/${file}`;
   await worker.loadLanguage("eng");
@@ -64,7 +76,7 @@ async function convert(file, path, folder, countObject) {
     data: { text },
   } = await worker.recognize(concatPath);
 
-  writeFile(file, text, folder, countObject);
+  writeFile(file, text, folder, countObject, isComplaint);
   await worker.terminate();
 }
 
@@ -87,20 +99,40 @@ async function convertBurst(fullFilePath) {
 }
 
 async function makeDir(folder) {
-  fs.mkdir(`../Documents/Textfiles/${folder}`, function (err) {
+  const fdirup = path.resolve(process.cwd() + `/Documents/Textfiles/${folder}`);
+
+  fs.mkdir(fdirup, function (err) {
     if (err) {
       console.log("Error Creating Directory: " + err);
     }
   });
 }
 
-async function readMultipleFiles(path, folder, countObject) {
+async function readMultipleFiles(path, folder, countObject, isComplaint) {
   makeDir(folder);
   fs.readdirSync(path).forEach((file, index) => {
     setTimeout(function () {
-      convert(file, path, folder, countObject);
+      convert(file, path, folder, countObject, isComplaint);
     }, index * 10);
   });
+}
+
+async function getMultipleFiles(path, folder, countObject, isComplaint) {
+  const fileArr = fs.readdirSync(path);
+  //But do you really need readDirSnc at all? YES> Because uuids are generate/files are named in python module
+
+  return fileArr;
+  /*
+  1. Move below call to iterate with forEach => convert to controller,
+  2. Then reutrn a vaL, and call write files from controller\
+  3. Then call model controller from controller
+
+  .forEach((file, index) => {
+    setTimeout(function () {
+      convert(file, path, folder, countObject, isComplaint);
+    }, index * 10);
+  });
+  */
 }
 
 async function readMultipleFilesLarge(path, folder, countObject, filenames) {
@@ -123,7 +155,6 @@ async function readMultipleFilesLarge(path, folder, countObject, filenames) {
         const text = await convertBurst(fullFilePath);
         writeSingle(folder, text);
         count++;
-        console.log("count", count);
         if (count === total) {
           determinedDocType = "combined-numbered";
           const isRequests = true;

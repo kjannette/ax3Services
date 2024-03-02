@@ -7,10 +7,19 @@ const { v4: uuidv4 } = require("uuid");
 const path = require("path");
 
 async function readDir(direcPath, folder, countObject) {
+  const fdirup = path.resolve(process.cwd() + `/Documents/Textfiles/${folder}`);
+  console.log(
+    "======================================........>>>>>>>>fdirup",
+    fdirup
+  );
   try {
-    let fileNames = fs.readdirSync(direcPath);
+    let fileNames = fs.readdirSync(fdirup);
+    console.log(
+      "=======nikka=nikka=nikka=nikka=nikka=nikka=nikka==============================........>>>>>>>>fileNames",
+      fileNames
+    );
     const dirArray = fileNames.map((name) => {
-      return direcPath + name;
+      return `${fdirup}/${name}`;
     });
     const sorted = dirArray.sort();
     const docType = await docClassifer.classifyDoc(sorted, folder);

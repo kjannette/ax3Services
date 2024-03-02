@@ -5,9 +5,10 @@ const path = require("path");
  *  Strore returned completions
  */
 
-function saveCompletions(responses, folder, reqType, isRequests) {
+function saveCompletions(responses, folder, reqType, isRequests, reqType) {
   const data = JSON.stringify(responses);
-
+  if (reqType === "") {
+  }
   if (isRequests === true) {
     dir = selectRequestPath(reqType, isRequests, folder);
   } else {
@@ -21,7 +22,7 @@ function saveCompletions(responses, folder, reqType, isRequests) {
   } else {
     fileSuffix = `-jbk-responses.json`;
   }
-  console.log("FULL PATH IN SAVE COMPLETIONS:", `${dir}${folder}${fileSuffix}`);
+
   try {
     fs.writeFile(`${dir}${folder}${fileSuffix}`, data, function (err) {
       if (err) {
@@ -100,13 +101,14 @@ async function readDir(docId, direcPath = directoryPath) {
  */
 
 ///Users/kjannette/workspace/ax3/ax3Services/Documents/Requests/Parsedcombined
-async function makeDir(folder, reqType, isRequests) {
+async function makeDir(folder, reqType, isRequests, reqType) {
   let dir;
-  if (isRequests === true) {
-    dir = selectRequestPath(reqType, isRequests, folder);
-  } else {
-    dir = selectResponsePath(reqType, isRequests, folder);
-  }
+  if (reqType)
+    if (isRequests === true) {
+      dir = selectRequestPath(reqType, isRequests, folder);
+    } else {
+      dir = selectResponsePath(reqType, isRequests, folder);
+    }
 
   fs.mkdir(`${dir}`, function (err) {
     if (err) {
@@ -123,6 +125,7 @@ async function makeDir(folder, reqType, isRequests) {
  */
 
 async function iteratePathsReturnString(paths) {
+  console.log("paths in return string");
   const masterArray = [];
   for (let path of paths) {
     if (path == undefined || path == null) {
@@ -132,6 +135,7 @@ async function iteratePathsReturnString(paths) {
     masterArray.push(fileData);
   }
   const massiveString = masterArray.join();
+  console.log("massiveString", massiveString);
   return massiveString;
 }
 

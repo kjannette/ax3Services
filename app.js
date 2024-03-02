@@ -1,11 +1,14 @@
 const express = require("express");
 const app = express();
+const fs = require("fs");
+const tesseReader = require("./tesseReaderService/tesseReader.js");
 const cors = require("cors");
 const multer = require("multer");
 const logger = require("./logger/logger.js");
 const modelController = require("./agent/ModelController.js");
 const stripeController = require("./paymentService/stripeController.js");
 const { db } = require("./firebase/firebase.js");
+//const sleep = require("system-sleep");
 const {
   storeEditedCompletions,
 } = require("./storageService/storeEditedCompletion.js");
@@ -44,7 +47,7 @@ const storage = multer.diskStorage({
 });
 
 const altStorage = multer.diskStorage({
-  destination: "./Documents/PleadingUploads",
+  destination: "./Documents/Complaints",
   filename: function (req, file, callback) {
     callback(null, file.originalname);
   },
@@ -56,6 +59,31 @@ const uploadComp = multer({ storage: altStorage });
 /*
  *  POST new complaint .pdf => gen discovery req
  */
+
+async function tesseController(id) {
+  console.log("before sleep");
+  function sleep(ms) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  }
+  await sleep(3000);
+  console.log("after sleep");
+  let fileCount = {};
+  const isComplaint = true;
+  fileCount.fileName = id;
+  const files = fs.readdir(`./Documents/Converted/${id}`, (err, files) => {
+    fileCount.numberOfFiles = files.length;
+  });
+
+  const fileConversionInfoObj = await tesseReader.readMultipleFiles(
+    `./Documents/Converted/${id}`,
+    `${id}`,
+    fileCount,
+    isComplaint
+  );
+  return true;
+  //console.log("fileConversionInfoObj"), fileConversionInfoObj;
+  //modelController.createArrayOfInterrogatories(id);
+}
 
 app.post(
   "/v1/gen-disc-request",
@@ -77,10 +105,24 @@ app.post(
           console.log("Proxy error:", err);
         },
       });
-      // logger.log({ level: "info", message: "req.file", file });
+      proxy.on("proxyRes", function (proxyRes, req, res) {
+        console.log(
+          "RAW header from pyserver:",
+          JSON.stringify(proxyRes.headers, true, 2)
+        );
+        try {
+          fooBar(id);
+          proxyRes.on("end", function () {
+            res.end("compaint successfully uploaded");
+          });
+        } catch (err) {
+          console.log("Error in try gen-disc-request:", err);
+        }
+      });
     } catch (err) {
       logger.error({ level: "error", message: "err", err });
       console.log("Error at /v1/gen-disc-request", err);
+      res.send(err);
     }
   }
 );
@@ -232,8 +274,6 @@ app.post(
 
 app.post("/parseNewDoc", upload.single("file"), function (req, res) {
   const file = req.file;
-
-  console.log("file", file);
   try {
     logger.log({ level: "info", message: "req.file", file });
   } catch (err) {
@@ -428,3 +468,11 @@ console.log(
   `${rootDir}/ax3Services/Documents/Requests/`
 );
 app.listen(port);
+
+/*
+      proxy.web(req, res, {
+        function(err) {
+          console.log("Proxy error:", err);
+        },
+      });
+      */
