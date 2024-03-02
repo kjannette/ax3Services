@@ -60,15 +60,15 @@ const uploadComp = multer({ storage: altStorage });
  *  POST new complaint .pdf => gen discovery req
  */
 
-async function tesseController(id) {
-  console.log("before sleep");
+async function tesseController(id, isComplaint) {
+  console.log("before sleep id", id);
   function sleep(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms));
   }
   await sleep(3000);
   console.log("after sleep");
   let fileCount = {};
-  const isComplaint = true;
+
   fileCount.fileName = id;
   const files = fs.readdir(`./Documents/Converted/${id}`, (err, files) => {
     fileCount.numberOfFiles = files.length;
@@ -88,7 +88,7 @@ app.post(
   uploadComp.single("file"),
   function (req, res) {
     const id = req.file.originalname.split(".")[0];
-
+    const isComplaint = true;
     try {
       req.url = req.url.replace("/v1/gen-disc-request", `/newdoc/${id}`);
       proxy.web(req, res, {
@@ -101,7 +101,7 @@ app.post(
           "RAW header from pyserver:",
           JSON.stringify(proxyRes.headers, true, 2)
         );
-        tesseController(id);
+        tesseController(id, isComplaint);
         /*
         proxyRes.on("end", function () {
           console.log('"compaint successfully uploaded"');
@@ -118,6 +118,43 @@ app.post(
     res.sendStatus(200);
   }
 );
+
+/*
+ *  POST new discv request => tesseR (to text) => docParser (to array)
+ */
+
+app.post("/v1/parse-new-req-doc", upload.single("file"), function (req, res) {
+  const id = req.file.originalname.split(".")[0];
+  const isComplaint = false;
+  try {
+    req.url = req.url.replace(
+      "/v1/parse-new-req-doc",
+      `/parse-new-disc-req/${id}`
+    );
+    proxy.web(req, res, {
+      function(err) {
+        console.log("Proxy error:", err);
+      },
+    });
+    proxy.on("proxyRes", function (proxyRes, req, res) {
+      console.log(
+        "RAW header from pyserver:",
+        JSON.stringify(proxyRes.headers, true, 2)
+      );
+      tesseController(id, isComplaint);
+      /*
+      proxyRes.on("end", function () {
+        console.log('"compaint successfully uploaded"');
+        res.end("compaint successfully uploaded");
+      });
+      */
+    });
+  } catch (err) {
+    logger.error({ level: "error", message: "err", err });
+    res.send("error:", err);
+  }
+  res.sendStatus(200);
+});
 
 const rootDir =
   process.env.NODE_ENV === "development"
@@ -261,21 +298,6 @@ app.post(
     response.status(200).send();
   }
 );
-
-/*
- *  POST new discv request .pdf => docParser parse into array
- */
-
-app.post("/parseNewDoc", upload.single("file"), function (req, res) {
-  const file = req.file;
-  try {
-    logger.log({ level: "info", message: "req.file", file });
-  } catch (err) {
-    logger.error({ level: "error", message: "err", err });
-    res.send("error:", err);
-  }
-  res.sendStatus(200);
-});
 
 /*
  *  Generate responses to regular types:

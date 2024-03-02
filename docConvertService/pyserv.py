@@ -27,12 +27,18 @@ def newdoc(id='test'):
     path_arg = f"../Documents/Complaints/{id}.pdf"
     print(f"../Documents/Complaints/{id}.pdf")
     sp.split_and_convert(path_arg, newDir)
-    respBody = json.dumps({'Status': 'Success'}) # you seem to want a JSON response
+    respBody = json.dumps({'Status': 'Success'})
     return bottle.HTTPResponse(status=200, body=respBody)
 
-@post('/new-disc-req/<id>')
+@post('/parse-new-disc-req/<id>')
 def newdoc(id='test'):
-    print('hit new-disc-req route, id:', id)
-    return 'hello'
+    newDir = f"{id}"
+    print('newDir', newDir)
+    sp.make_dir(newDir)
+    path_arg = f"../Documents/Uploads/{id}.pdf"
+    print("path_arg", path_arg)
+    sp.split_and_convert(path_arg, newDir)
+    respBody = json.dumps({'Status': 'Success'})
+    return bottle.HTTPResponse(status=200, body=respBody)
 
 run(app, host='127.0.0.1', port=8081, debug=True)
