@@ -291,7 +291,9 @@ class ModelController {
     const fdirup = path.resolve(
       process.cwd() + `/Documents/Textfiles/${docId}/`
     );
-
+    console.log(
+      "****************** Create Array of Interrogatories from Complaint "
+    );
     const dirPath = `../Documents/Textfiles/${docId}/`;
     let fileNames = fs.readdirSync(fdirup);
 
@@ -520,7 +522,10 @@ class ModelController {
       model: "gpt-4",
       messages: prompt,
     });
-
+    console.log(
+      "completion.choices[0].message.content",
+      completion.choices[0].message.content
+    );
     return completion.choices[0].message.content;
   }
 
