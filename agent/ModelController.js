@@ -13,6 +13,7 @@ const {
   createArrayFromSingleDocPrompt,
   createResponseFromOneQuestionPrompt,
   createArrayOfInterrogatoriesPlaintiffPrompt,
+  createArrayOfInterrogatoriesDefendantPrompt,
   createVerboseResponseFromOneQuestionPrompt,
 } = require("./promptTemplates.js");
 const { OPENAI_API_KEY } = require("./secrets_1.js");
@@ -289,7 +290,11 @@ class ModelController {
   }
 
   //****************** Create Array of Interrogatories from Complaint **********************/
-  async createArrayOfInterrogatories(docId, reqType = "interrogatories-out") {
+  async createArrayOfInterrogatories(
+    docId,
+    clientPosition,
+    reqType = "interrogatories-out"
+  ) {
     const masterArray = [];
     const isRequests = false;
     const fdirup = path.resolve(
@@ -341,7 +346,12 @@ class ModelController {
       });
     } else {
       requestStr = await iteratePathsReturnString(dirArray);
-      flatReq = await this.startOne(requestStr, reqType, isRequests);
+      flatReq = await this.startOneCreateOutgoing(
+        requestStr,
+        reqType,
+        isRequests,
+        clientPosition
+      );
       try {
         if (flatReq) {
           parsedRequests = JSON.parse(flatReq);
@@ -512,8 +522,8 @@ class ModelController {
    *  CREATE ARRAY OF Qs FROM STRING BLOB
    *
    */
-
-  async startOne(request, reqType) {
+  //clientPosition
+  async startOne(requestStr, reqType, isRequests) {
     let prompt;
     /*
     if (reqType === "interrogatories-out") {
@@ -521,8 +531,8 @@ class ModelController {
     } else {
       prompt = createArrayFromSingleDocPrompt(request);
     }
-*/
-    prompt = createArrayOfInterrogatoriesPlaintiffPrompt(request);
+  */
+    prompt = createArrayOfInterrogatoriesPlaintiffPrompt(requestStr);
     const completion = await openai.chat.completions.create({
       model: "gpt-4",
       messages: prompt,
@@ -534,24 +544,28 @@ class ModelController {
     return completion.choices[0].message.content;
   }
 
-  async fooBaz(request, reqType) {
+  async startOneCreateOutgoing(
+    requestStr,
+    reqType,
+    isRequests,
+    clientPosition
+  ) {
     let prompt;
-    console.log(
-      "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~+++++++++++++++++++++++~+++~+~++~+~+~++~>>>>.fucking fooBaz fired"
-    );
-    /*
-    if (reqType === "interrogatories-out") {
-      prompt = createArrayOfInterrogatoriesPrompt(request);
+
+    if (clientPosition?.toLowerCase() === "plaintiff") {
+      prompt = createArrayOfInterrogatoriesPlaintiffPrompt(requestStr);
     } else {
-      prompt = createArrayFromSingleDocPrompt(request);
+      prmopt = createArrayOfInterrogatoriesDefendantPrompt(requestStr);
     }
-  */
-    prompt = createArrayOfInterrogatoriesPrompt(request);
+
     const completion = await openai.chat.completions.create({
       model: "gpt-4",
       messages: prompt,
     });
-
+    console.log(
+      "completion.choices[0].message.content",
+      completion.choices[0].message.content
+    );
     return completion.choices[0].message.content;
   }
 }

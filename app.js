@@ -60,7 +60,7 @@ const uploadComp = multer({ storage: altStorage });
  *  POST new complaint .pdf => gen discovery req
  */
 
-async function tesseController(id, isComplaint) {
+async function tesseController(id, isComplaint, clientPosition) {
   console.log("before sleep id", id);
   function sleep(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms));
@@ -78,19 +78,20 @@ async function tesseController(id, isComplaint) {
     `./Documents/Converted/${id}`,
     `${id}`,
     fileCount,
-    isComplaint
+    isComplaint,
+    clientPosition
   );
   return true;
 }
 
 app.post(
-  "/v1/gen-disc-request",
+  "/v1/gen-disc-request-pl",
   uploadComp.single("file"),
   function (req, res) {
     const id = req.file.originalname.split(".")[0];
     const isComplaint = true;
     try {
-      req.url = req.url.replace("/v1/gen-disc-request", `/newdoc/${id}`);
+      req.url = req.url.replace("/v1/gen-disc-request-pl", `/newdoc/${id}`);
       proxy.web(req, res, {
         function(err) {
           console.log("Proxy error:", err);
@@ -101,7 +102,45 @@ app.post(
           "RAW header from pyserver:",
           JSON.stringify(proxyRes.headers, true, 2)
         );
-        tesseController(id, isComplaint);
+        const clientPosition = "plaintiff";
+        tesseController(id, isComplaint, clientPosition);
+        /*
+        proxyRes.on("end", function () {
+          console.log('"compaint successfully uploaded"');
+          res.end("compaint successfully uploaded");
+        });
+        */
+      });
+      res.status(200).send();
+    } catch (err) {
+      logger.error({ level: "error", message: "err", err });
+      console.log("Error at /v1/gen-disc-request", err);
+      res.send(err);
+    }
+    res.sendStatus(200);
+  }
+);
+
+app.post(
+  "/v1/gen-disc-request-df",
+  uploadComp.single("file"),
+  function (req, res) {
+    const id = req.file.originalname.split(".")[0];
+    const isComplaint = true;
+    try {
+      req.url = req.url.replace("/v1/gen-disc-request-pl", `/newdoc/${id}`);
+      proxy.web(req, res, {
+        function(err) {
+          console.log("Proxy error:", err);
+        },
+      });
+      proxy.on("proxyRes", function (proxyRes, req, res) {
+        console.log(
+          "RAW header from pyserver:",
+          JSON.stringify(proxyRes.headers, true, 2)
+        );
+        const clientPosition = "defendant";
+        tesseController(id, isComplaint, clientPosition);
         /*
         proxyRes.on("end", function () {
           console.log('"compaint successfully uploaded"');
