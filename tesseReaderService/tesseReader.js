@@ -7,7 +7,14 @@ const modelController = require("../agent/ModelController.js");
 
 let countWrites = 0;
 
-async function writeFile(file, text, folder, countObject, isComplaint) {
+async function writeFile(
+  file,
+  text,
+  folder,
+  countObject,
+  isComplaint,
+  clientPosition
+) {
   const totalFiles = countObject.numberOfFiles;
   const fdirup = path.join(__dirname, "..", "Documents", "Textfiles");
 
@@ -31,7 +38,10 @@ async function writeFile(file, text, folder, countObject, isComplaint) {
         "_-----------------------------> isComplaint === true isComplaint === true isComplaint === true Fired"
       );
       countObject.filePath = `../Documents/Textfiles/${folder}/`;
-      await modelController.createArrayOfInterrogatories(folder);
+      await modelController.createArrayOfInterrogatories(
+        folder,
+        clientPosition
+      );
       return countObject;
     }
     countWrites = 0;
@@ -60,7 +70,14 @@ async function writeSingle(folder, text) {
   }
 }
 
-async function convert(file, path, folder, countObject, isComplaint) {
+async function convert(
+  file,
+  path,
+  folder,
+  countObject,
+  isComplaint,
+  clientPosition
+) {
   const worker = await createWorker();
   const concatPath = `${path}/${file}`;
   await worker.loadLanguage("eng");
@@ -73,7 +90,7 @@ async function convert(file, path, folder, countObject, isComplaint) {
     data: { text },
   } = await worker.recognize(concatPath);
 
-  writeFile(file, text, folder, countObject, isComplaint);
+  writeFile(file, text, folder, countObject, isComplaint, clientPosition);
   await worker.terminate();
 }
 
@@ -111,11 +128,17 @@ async function makeDir(folder) {
   });
 }
 
-async function readMultipleFiles(path, folder, countObject, isComplaint) {
+async function readMultipleFiles(
+  path,
+  folder,
+  countObject,
+  isComplaint,
+  clientPosition
+) {
   makeDir(folder);
   fs.readdirSync(path).forEach((file, index) => {
     setTimeout(function () {
-      convert(file, path, folder, countObject, isComplaint);
+      convert(file, path, folder, countObject, isComplaint, clientPosition);
     }, index * 10);
   });
 }
