@@ -1,4 +1,4 @@
-export const forCorporation = [
+export const rogInstructions = [
   {
     interrogatoryId: "c42293a4-77fd-4c1f-926d-72c36af01298",
     text: "Identify the indivudal responding to these reusts.  Set forth the indivdual's name, address, telephone number.",
