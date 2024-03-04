@@ -17,15 +17,19 @@ async function readDir(direcPath, folder, countObject) {
     "Textfiles",
     `${folder}`
   );
+  console.log(
+    "`````````````````````````````````````````countObject",
+    countObject
+  );
 
-  const temPath = countObject.path;
   try {
     const dirArray = countObject.files.map((file) => {
-      return `${temPath}/${file}`;
+      return `${fdirup}/${file.split(".")[0]}.txt`;
     });
 
     const sorted = dirArray.sort();
     const docType = await docClassifer.classifyDoc(sorted, folder);
+
     let parseOneCount = 0;
     methodSelector(docType, sorted, folder, parseOneCount);
   } catch (err) {
@@ -34,7 +38,6 @@ async function readDir(direcPath, folder, countObject) {
 }
 
 async function methodSelector(docType, filePaths, folder, parseOneCount) {
-  console.log(docType, filePaths, folder, parseOneCount);
   let searchStr;
   let determinedDocType;
 
@@ -402,7 +405,7 @@ async function parseRogs(
   parseRogsCount
 ) {
   console.log(
-    "++++++++++++++++++++++++++++++++++++++++++++++++++parseRogs fired"
+    "++++++++++++++++++++++++++++++++++++++++++++++++++++++parseRogs fired"
   );
   let searchStr;
   if (parseRogsCount < 1) {
@@ -484,12 +487,15 @@ async function parseRogs(
     requestObject["requests"] = rogs;
     requestArray.push(requestObject);
     makeDir(folder, determinedDocType);
-    return;
+    console.log(
+      "in parseRogs-------------------------------------------------requestArray",
+      requestArray
+    );
     saveParsedRogs(requestArray, folder, determinedDocType);
     const isRequests = true;
     const docId = folder;
     // Send it straight to LLM
-    //modelController.arrayGenAnswers(docId, determinedDocType, isRequests);
+    modelController.arrayGenAnswers(docId, determinedDocType, isRequests);
   }
 }
 
@@ -555,44 +561,14 @@ async function makeDir(folder, determinedDocType) {
 
 function saveParsedRogs(rogs, folder, determinedDocType) {
   let dir;
+  const fdirup = path.join(__dirname, "..", "Documents", "Requests");
   const data2 = JSON.stringify(rogs);
-
   if (determinedDocType === "interrogatories") {
-    dir = path.join(
-      __dirname,
-      "..",
-      "Documents",
-      "Requests",
-      "Parsedrogs",
-      `${folder}`
-    );
+    dir = `${fdirup}/Parsedrogs/${folder}/`;
   } else if (determinedDocType === "production") {
-    dir = path.join(
-      __dirname,
-      "..",
-      "Documents",
-      "Requests",
-      "Parsedprod",
-      `${folder}`
-    );
+    dir = `${fdirup}/Parsedprod/${folder}/`;
   } else if (determinedDocType === "admissions") {
-    dir = path.join(
-      __dirname,
-      "..",
-      "Documents",
-      "Requests",
-      "Parsedadmit",
-      `${folder}`
-    );
-  } else if (determinedDocType === "combined-numbered") {
-    dir = path.join(
-      __dirname,
-      "..",
-      "Documents",
-      "Requests",
-      "Parsedcombined",
-      `${folder}`
-    );
+    dir = `${fdirup}/Parsedadmit/${folder}/`;
   }
 
   try {
@@ -615,4 +591,6 @@ function saveParsedRogs(rogs, folder, determinedDocType) {
 
 module.exports = {
   readDir,
+  makeDir,
+  saveParsedRogs,
 };

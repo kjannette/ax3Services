@@ -6,7 +6,9 @@ const cors = require("cors");
 const multer = require("multer");
 const logger = require("./logger/logger.js");
 const modelController = require("./agent/ModelController.js");
+const tesseController = require("./tesseReaderService/TesseController.js");
 const stripeController = require("./paymentService/stripeController.js");
+const { makeDir, saveParsedRogs } = require("./docParserService/docParser.js");
 const { db } = require("./firebase/firebase.js");
 //const sleep = require("system-sleep");
 const {
@@ -60,6 +62,7 @@ const uploadComp = multer({ storage: altStorage });
  *  POST new complaint .pdf => gen discovery req
  */
 
+/*
 async function tesseController(id, isComplaint, clientPosition) {
   console.log("before sleep id", id);
   function sleep(ms) {
@@ -89,7 +92,7 @@ async function tesseController(id, isComplaint, clientPosition) {
   );
   return { status: "OK" };
 }
-
+*/
 app.post(
   "/v1/gen-disc-request-pl",
   uploadComp.single("file"),
@@ -127,7 +130,6 @@ app.post(
   uploadComp.single("file"),
   function (req, res) {
     const id = req.file.originalname.split(".")[0];
-    const isComplaint = true;
     try {
       req.url = req.url.replace("/v1/gen-disc-request-pl", `/newdoc/${id}`);
       proxy.web(req, res, {
@@ -140,8 +142,11 @@ app.post(
           "RAW header from pyserver:",
           JSON.stringify(proxyRes.headers, true, 2)
         );
-        const clientPosition = "defendant";
-        tesseController(id, isComplaint, clientPosition);
+        tesseController.executeReadWriteActions(
+          id,
+          isComplaint,
+          clientPosition
+        );
         /*
         proxyRes.on("end", function () {
           console.log('"compaint successfully uploaded"');
@@ -181,7 +186,7 @@ app.post("/v1/parse-new-req-doc", upload.single("file"), function (req, res) {
         "RAW header from pyserver:",
         JSON.stringify(proxyRes.headers, true, 2)
       );
-      tesseController(id, isComplaint);
+      tesseController.executeReadWriteActions(id, isComplaint);
       /*
       proxyRes.on("end", function () {
         console.log('"compaint successfully uploaded"');
@@ -539,8 +544,75 @@ console.log(
   "`${rootDir}/ax3Services/Documents/Requests/`",
   `${rootDir}/ax3Services/Documents/Requests/`
 );
-app.listen(port);
+//app.listen(port);
 
+const rogs = [
+  {
+    type: "interrogatories",
+    requests: [
+      {
+        requestId: "a519c891-e243-4559-a695-920c8961450c",
+        text: "request for production) documents, set onevs. ) to dismissany defendant, and does 1-5 ) date: ,2011) time:defendant. ) dept.:proponding party: any defendantresponding party: any plaintiffset no.: oneto: plaintiff, , and his attorneys of record.please take notice that pursuant to california code of civil procedure sections2031.010-2031.510, et. seq., plaintiff/cross-defendant [name] (“plaintiff”’) demands that on[date] at [time] defendants [name]. (collectively the “defendants” or “responding party”and/or individually “defendant” or “responding party”) produce the following documents forinspection and copying at [location]. the production and inspection shall continue from day to1of|",
+      },
+      {
+        requestId: "520074b5-1058-49ab-a987-a90cab7fdc76",
+        text: "request for production of documents, set one",
+      },
+      {
+        requestId: "56463698-111c-421e-b7d1-ee520ac72b42",
+        text: "request for production no. 1.any and all documents, tangible things and other items that support, refute or inany way relate to your denial of the allegations in paragraph 3 of the complaint.",
+      },
+      {
+        requestId: "dba8af21-cccc-4ff2-8654-8175bfff2652",
+        text: "request for production no. 2.any and all documents, tangible things and other items that support, refute or inany way relate to your denial of the allegations in paragraph 6 of the complaint.",
+      },
+      {
+        requestId: "c9d1c954-a1cf-4274-a021-6d3064d2373d",
+        text: "request for production no. 3.any and all documents, tangible things and other items that support, refute or inany way relate to your denial of the allegation in paragraph 7 of the complaint.",
+      },
+      {
+        requestId: "8255516f-ad8d-4034-97d3-06f63075e847",
+        text: "request for production no. 4.any and all documents given to defendant by plaintiff, including butnot limited to commission statements.",
+      },
+      {
+        requestId: "86990e33-28fb-4adc-9615-3380518de13e",
+        text: "request for production no. 5.any and all documents that constitute or relate to documents thatdefendant gave or submitted to plaintiff.7",
+      },
+      {
+        requestId: "910d9442-3607-48d5-8d0e-b1585a695132",
+        text: "request for production no. 6.any and all documents related to requests by defendant forreimbursement for expenses from plaintiff.",
+      },
+      {
+        requestId: "7323119f-6510-4435-8d79-ff4af589d10d",
+        text: "request for production no. 7.any and all documents relating to sales made by defendant on behalfof plaintiff.",
+      },
+      {
+        requestId: "8221ccc5-5f36-495c-8d7f-0f8781fce64e",
+        text: "request for production no. 8.defendant’s current customer list.",
+      },
+      {
+        requestId: "2b6f218d-9b02-4a32-a9ef-36a60fa00ca3",
+        text: "request for production no. 9.any and all documents that support, refute or relate to any and allaffirmative defenses in your answer.",
+      },
+      {
+        requestId: "964b677b-576a-4360-b12c-cde65d0fcca2",
+        text: "request for production no. 10.the computer and any related items, including any and all storage media andmemory devices, that contain any information, documents and/or files requested in any ofthese requests for production.",
+      },
+      {
+        requestId: "f2097d5b-b3ad-433d-94ae-937a1e2febb1",
+        text: "request for production no. 11.any and all computer backup media containing information and/or files requested inthese requests for production.",
+      },
+      {
+        requestId: "6ddb6b31-8e94-4615-bce5-b2baebeb522e",
+        text: "request for production no. 12.any and all documents sufficient to determine all telephone calls, e-mails orfacsimile transmissions between defendant and [name] between [date] and [date].dated: [date]8",
+      },
+    ],
+  },
+];
+const folder = "5223d27b-035c-435a-92cb-ec2156aeb4e4";
+const determinedDocType = "interrogatories";
+makeDir(folder, determinedDocType);
+saveParsedRogs(rogs, folder, determinedDocType);
 /*
       proxy.web(req, res, {
         function(err) {

@@ -17,7 +17,7 @@ async function writeFile(
 ) {
   const totalFiles = countObject.numberOfFiles;
   const fdirup = path.join(__dirname, "..", "Documents", "Textfiles");
-  console.log("fucking fdirup in writeFile", fdirup);
+
   try {
     fs.writeFile(
       `${fdirup}/${folder}/${file.split(".")[0]}.txt`,
@@ -46,7 +46,6 @@ async function writeFile(
         "tesseReaqder calling docparser with dir arg",
         `../Documents/Textfiles/${folder}/`
       );
-
       docParser.readDir(
         `../Documents/Textfiles/${folder}/`,
         `${folder}`,

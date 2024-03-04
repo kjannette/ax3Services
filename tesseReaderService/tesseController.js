@@ -54,10 +54,6 @@ class TesseController {
       clientPosition,
       index
     ) {
-      function sleep(ms) {
-        return new Promise((resolve) => setTimeout(resolve, ms));
-      }
-
       tesseReader
         .convert(
           file,
@@ -93,6 +89,4 @@ class TesseController {
   }
 }
 
-const tesseCont = new TesseController();
-const id = "156b6023-fa85-4dac-a34f-4cdf7f3a5e2e";
-tesseCont.executeReadWriteActions(id);
+module.exports = new TesseController();
