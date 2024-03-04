@@ -9,9 +9,7 @@ const { count } = require("firebase/firestore");
 
 async function readDir(direcPath, folder, countObject) {
   //const fdirup = path.resolve(process.cwd() + `/Documents/Textfiles/${folder}`);
-  console.log(
-    "---------------------------------------------> readDer docparser"
-  );
+
   const fdirup = path.join(
     __dirname,
     "..",
@@ -19,15 +17,13 @@ async function readDir(direcPath, folder, countObject) {
     "Textfiles",
     `${folder}`
   );
-  console.log("countObject.files", countObject.files);
-  console.log("countObject.path", countObject.path);
 
   const temPath = countObject.path;
   try {
     const dirArray = countObject.files.map((file) => {
       return `${temPath}/${file}`;
     });
-    console.log("docparser dirArray", dirArray);
+
     const sorted = dirArray.sort();
     const docType = await docClassifer.classifyDoc(sorted, folder);
     let parseOneCount = 0;

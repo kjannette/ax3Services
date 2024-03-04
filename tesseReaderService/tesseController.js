@@ -54,6 +54,10 @@ class TesseController {
       clientPosition,
       index
     ) {
+      function sleep(ms) {
+        return new Promise((resolve) => setTimeout(resolve, ms));
+      }
+
       tesseReader
         .convert(
           file,
@@ -67,7 +71,7 @@ class TesseController {
           tesseReader.writeFile(
             file,
             text,
-            file,
+            id,
             fileInfObj,
             isComplaint,
             clientPosition
@@ -77,7 +81,7 @@ class TesseController {
     await fileInfObj.files.forEach(async (file, index) => {
       setTimeout(
         callConvert,
-        index * 10,
+        index * 20,
         file,
         fileInfObj.path,
         id,
@@ -90,5 +94,5 @@ class TesseController {
 }
 
 const tesseCont = new TesseController();
-const id = "27518302-aaed-4e13-9fa9-9af9e2a22114";
+const id = "156b6023-fa85-4dac-a34f-4cdf7f3a5e2e";
 tesseCont.executeReadWriteActions(id);
