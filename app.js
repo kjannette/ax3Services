@@ -65,23 +65,29 @@ async function tesseController(id, isComplaint, clientPosition) {
   function sleep(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms));
   }
-  await sleep(3000);
+  await sleep(2500);
   console.log("after sleep");
   let fileCount = {};
-
   fileCount.fileName = id;
-  const files = fs.readdir(`./Documents/Converted/${id}`, (err, files) => {
-    fileCount.numberOfFiles = files.length;
-  });
-  console.log("files in tesseController ", files);
-  const fileConversionInfoObj = await tesseReader.readMultipleFiles(
+
+  async function countFiles(directory, file) {
+    let fileCount = {};
+    fileCount.fileName = file;
+    fs.readdir(directory, (err, files) => {
+      fileCount.numberOfFiles = files.length;
+    });
+    return fileCount;
+  }
+  // WILL HAVE TO FIX DIR IF?WHEN YOU MOVE THIS CONTROLLER
+  fileCount = await countFiles(`./Documents/Converted/${id}`, id);
+  const rogArray = await tesseReader.readMultipleFiles(
     `./Documents/Converted/${id}`,
     `${id}`,
     fileCount,
     isComplaint,
     clientPosition
   );
-  return true;
+  return { status: "OK" };
 }
 
 app.post(
@@ -98,10 +104,6 @@ app.post(
         },
       });
       proxy.on("proxyRes", function (proxyRes, req, res) {
-        console.log(
-          "RAW header from pyserver:",
-          JSON.stringify(proxyRes.headers, true, 2)
-        );
         const clientPosition = "plaintiff";
         tesseController(id, isComplaint, clientPosition);
         /*
@@ -111,13 +113,12 @@ app.post(
         });
         */
       });
-      res.status(200).send();
+      res.sendStatus(200);
     } catch (err) {
       logger.error({ level: "error", message: "err", err });
       console.log("Error at /v1/gen-disc-request", err);
       res.send(err);
     }
-    res.sendStatus(200);
   }
 );
 
