@@ -8,18 +8,12 @@ const path = require("path");
 const { count } = require("firebase/firestore");
 
 async function readDir(direcPath, folder, countObject) {
-  //const fdirup = path.resolve(process.cwd() + `/Documents/Textfiles/${folder}`);
-
   const fdirup = path.join(
     __dirname,
     "..",
     "Documents",
     "Textfiles",
     `${folder}`
-  );
-  console.log(
-    "`````````````````````````````````````````countObject",
-    countObject
   );
 
   try {
@@ -487,15 +481,11 @@ async function parseRogs(
     requestObject["requests"] = rogs;
     requestArray.push(requestObject);
     makeDir(folder, determinedDocType);
-    console.log(
-      "in parseRogs-------------------------------------------------requestArray",
-      requestArray
-    );
     saveParsedRogs(requestArray, folder, determinedDocType);
     const isRequests = true;
     const docId = folder;
     // Send it straight to LLM
-    modelController.arrayGenAnswers(docId, determinedDocType, isRequests);
+    //modelController.arrayGenAnswers(docId, determinedDocType, isRequests);
   }
 }
 
@@ -562,6 +552,7 @@ async function makeDir(folder, determinedDocType) {
 function saveParsedRogs(rogs, folder, determinedDocType) {
   let dir;
   const fdirup = path.join(__dirname, "..", "Documents", "Requests");
+  console.log("rogs", rogs);
   const data2 = JSON.stringify(rogs);
   if (determinedDocType === "interrogatories") {
     dir = `${fdirup}/Parsedrogs/${folder}/`;
@@ -570,7 +561,10 @@ function saveParsedRogs(rogs, folder, determinedDocType) {
   } else if (determinedDocType === "admissions") {
     dir = `${fdirup}/Parsedadmit/${folder}/`;
   }
-
+  console.log(
+    "------------------------------------------------------------------data2",
+    data2
+  );
   try {
     if (folder) {
       updateDB(folder, determinedDocType);

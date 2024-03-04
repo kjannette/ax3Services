@@ -540,12 +540,10 @@ app.post("/deleteDoc/:docId/:docType/:respGens", (req, res) => {
 
 console.log("app running on port", port);
 console.log("rootDir", rootDir);
-console.log(
-  "`${rootDir}/ax3Services/Documents/Requests/`",
-  `${rootDir}/ax3Services/Documents/Requests/`
-);
-//app.listen(port);
 
+app.listen(port);
+
+/*
 const rogs = [
   {
     type: "interrogatories",
@@ -609,10 +607,11 @@ const rogs = [
     ],
   },
 ];
-const folder = "5223d27b-035c-435a-92cb-ec2156aeb4e4";
-const determinedDocType = "interrogatories";
-makeDir(folder, determinedDocType);
-saveParsedRogs(rogs, folder, determinedDocType);
+*/
+//const folder = "5223d27b-035c-435a-92cb-ec2156aeb4e4";
+//const determinedDocType = "interrogatories";
+//makeDir(folder, determinedDocType);
+//saveParsedRogs(rogs, folder, determinedDocType);
 /*
       proxy.web(req, res, {
         function(err) {

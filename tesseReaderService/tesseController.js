@@ -42,7 +42,10 @@ class TesseController {
     clientPosition = "Plaintiff"
   ) {
     const fileInfObj = await this.countFiles(id);
-    //console.log("fileinf", fileInfObj);
+    function sleep(ms) {
+      return new Promise((resolve) => setTimeout(resolve, ms));
+    }
+
     this.makeDir(id);
     let masterArr = [];
     function callConvert(

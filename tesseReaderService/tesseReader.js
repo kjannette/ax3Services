@@ -42,10 +42,6 @@ async function writeFile(
       return countObject;
     } else {
       countWrites = 0;
-      console.log(
-        "tesseReaqder calling docparser with dir arg",
-        `../Documents/Textfiles/${folder}/`
-      );
       docParser.readDir(
         `../Documents/Textfiles/${folder}/`,
         `${folder}`,
@@ -80,7 +76,6 @@ async function convert(
   isComplaint,
   clientPosition
 ) {
-  console.log("-------------------------------->convert called");
   const worker = await createWorker();
   const concatPath = `${path}/${file}`;
   await worker.loadLanguage("eng");
@@ -140,7 +135,7 @@ async function readMultipleFiles(
   clientPosition
 ) {
   makeDir(folder);
-  console.log("-------------------------------->readMultipleFiles called");
+
   fs.readdirSync(path).forEach((file, index) => {
     setTimeout(function () {
       convert(file, path, folder, countObject, isComplaint, clientPosition);
