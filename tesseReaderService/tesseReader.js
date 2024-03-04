@@ -47,10 +47,6 @@ async function writeFile(
         `${folder}`,
         countObject
       );
-      console.log(
-        "++++++++++++++++++++++++++++++++++++type in tesse writeFile ",
-        type
-      );
       return type;
     }
   }

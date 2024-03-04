@@ -55,7 +55,6 @@ function selectRequestPath(reqType, isRequests, folder) {
 }
 
 function selectResponsePath(reqType, isRequests, folder) {
-  console.log("````````````````reqType", reqType);
   let dir;
   //const fdirup = path.resolve(process.cwd() + "/Documents/Responses");
   const fdirup = path.join(__dirname, "..", "Documents");

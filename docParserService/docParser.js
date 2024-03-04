@@ -400,9 +400,6 @@ async function parseRogs(
   determinedDocType,
   parseRogsCount
 ) {
-  console.log(
-    "++++++++++++++++++++++++++++++++++++++++++++++++++++++parseRogs fired"
-  );
   let searchStr;
   if (parseRogsCount < 1) {
     searchStr = "INTERROGATORY NO";
@@ -555,7 +552,7 @@ async function makeDir(folder, determinedDocType) {
 function saveParsedRogs(rogs, folder, determinedDocType) {
   let dir;
   const fdirup = path.join(__dirname, "..", "Documents", "Requests");
-  console.log("rogs", rogs);
+
   const data2 = JSON.stringify(rogs);
   if (determinedDocType === "interrogatories") {
     dir = `${fdirup}/Parsedrogs/${folder}/`;
