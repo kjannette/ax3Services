@@ -45,36 +45,36 @@ class TesseController {
     //console.log("fileinf", fileInfObj);
     this.makeDir(id);
     let masterArr = [];
-    await fileInfObj.files.forEach(async (file, index) => {
-      function callConvert(
-        file,
-        path,
-        id,
-        fileInfObj,
-        isComplaint,
-        clientPosition,
-        index
-      ) {
-        tesseReader
-          .convert(
+    function callConvert(
+      file,
+      path,
+      id,
+      fileInfObj,
+      isComplaint,
+      clientPosition,
+      index
+    ) {
+      tesseReader
+        .convert(
+          file,
+          fileInfObj.path,
+          id,
+          fileInfObj,
+          isComplaint,
+          clientPosition
+        )
+        .then((text) => {
+          tesseReader.writeFile(
             file,
-            fileInfObj.path,
-            id,
+            text,
+            file,
             fileInfObj,
             isComplaint,
             clientPosition
-          )
-          .then((text) => {
-            tesseReader.writeFile(
-              file,
-              text,
-              file,
-              fileInfObj,
-              isComplaint,
-              clientPosition
-            );
-          });
-      }
+          );
+        });
+    }
+    await fileInfObj.files.forEach(async (file, index) => {
       setTimeout(
         callConvert,
         index * 10,
@@ -90,5 +90,5 @@ class TesseController {
 }
 
 const tesseCont = new TesseController();
-const id = "03be2974-ad64-48b0-90b4-1eb5238aa446";
+const id = "27518302-aaed-4e13-9fa9-9af9e2a22114";
 tesseCont.executeReadWriteActions(id);
