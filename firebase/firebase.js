@@ -47,6 +47,21 @@ async function updateDB(docId, determinedDocType) {
   });
 }
 
+async function getDoc(docId) {
+  try {
+    const docRef = doc(db, "documents", `${docId}`);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      const _doc = docSnap.data();
+      return _doc;
+    } else {
+      console.log("DB item does not exist");
+    }
+  } catch (error) {
+    console.log(`A system error occurred while getting doc: ${error}`);
+  }
+}
+
 /*******************************************************************************
  *
  *  Resest Number of Available Docs each month
@@ -120,6 +135,7 @@ async function getUsers() {
 module.exports = {
   db,
   updateDB,
+  getDoc,
 };
 
 /*

@@ -1,6 +1,8 @@
 const path = require("path");
 const fs = require("fs");
 const tesseReader = require("./tesseReader.js");
+const modelController = require("../agent/ModelController.js");
+const { getDoc } = require("../firebase/firebase.js");
 
 class TesseController {
   async makeDir(folder) {
@@ -41,13 +43,16 @@ class TesseController {
     isComplaint = false,
     clientPosition = "Plaintiff"
   ) {
-    const fileInfObj = await this.countFiles(id);
     function sleep(ms) {
+      console.log("sleep called");
       return new Promise((resolve) => setTimeout(resolve, ms));
     }
 
+    const fileInfObj = await this.countFiles(id);
+
     this.makeDir(id);
     let masterArr = [];
+
     function callConvert(
       file,
       path,
@@ -77,10 +82,11 @@ class TesseController {
           );
         });
     }
+
     await fileInfObj.files.forEach(async (file, index) => {
       setTimeout(
         callConvert,
-        index * 20,
+        index * 10,
         file,
         fileInfObj.path,
         id,
@@ -89,6 +95,7 @@ class TesseController {
         clientPosition
       );
     });
+    return JSON.stringify({ status: "OK" });
   }
 }
 

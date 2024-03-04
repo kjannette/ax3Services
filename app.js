@@ -6,7 +6,7 @@ const cors = require("cors");
 const multer = require("multer");
 const logger = require("./logger/logger.js");
 const modelController = require("./agent/ModelController.js");
-const tesseController = require("./tesseReaderService/TesseController.js");
+const tesseController = require("./tesseReaderService/tesseController.js");
 const stripeController = require("./paymentService/stripeController.js");
 const { makeDir, saveParsedRogs } = require("./docParserService/docParser.js");
 const { db } = require("./firebase/firebase.js");
@@ -122,6 +122,7 @@ app.post(
       console.log("Error at /v1/gen-disc-request", err);
       res.send(err);
     }
+    res.sendStatus(200);
   }
 );
 
@@ -142,11 +143,11 @@ app.post(
           "RAW header from pyserver:",
           JSON.stringify(proxyRes.headers, true, 2)
         );
-        tesseController.executeReadWriteActions(
-          id,
-          isComplaint,
-          clientPosition
-        );
+        tesseController
+          .executeReadWriteActions(id, isComplaint, clientPosition)
+          .then((res) => {
+            tesseController.runModel(res, id);
+          });
         /*
         proxyRes.on("end", function () {
           console.log('"compaint successfully uploaded"');
@@ -171,6 +172,7 @@ app.post(
 app.post("/v1/parse-new-req-doc", upload.single("file"), function (req, res) {
   const id = req.file.originalname.split(".")[0];
   const isComplaint = false;
+
   try {
     req.url = req.url.replace(
       "/v1/parse-new-req-doc",
@@ -181,6 +183,7 @@ app.post("/v1/parse-new-req-doc", upload.single("file"), function (req, res) {
         console.log("Proxy error:", err);
       },
     });
+
     proxy.on("proxyRes", function (proxyRes, req, res) {
       console.log(
         "RAW header from pyserver:",
@@ -353,14 +356,18 @@ app.get(
   "/genResponseFromArray/:docId/:docType/:isRequests",
   async (req, res) => {
     const { docId, docType } = req.params;
-    console.log("docId, docType in genResponseFromArray", docId, docType);
+    console.log(
+      "---------------------------------------------------------------------------------> hit genResponseFromArray"
+    );
     const isRequests = false;
+    const reqType = docType;
     try {
       const data = await modelController.arrayGenAnswers(
         docId,
-        docType,
+        reqType,
         isRequests
       );
+
       res.send(data);
     } catch (error) {
       console.log(error);

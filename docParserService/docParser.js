@@ -26,6 +26,7 @@ async function readDir(direcPath, folder, countObject) {
 
     let parseOneCount = 0;
     methodSelector(docType, sorted, folder, parseOneCount);
+    return docType;
   } catch (err) {
     console.log("read error", err);
   }
@@ -87,6 +88,7 @@ async function methodSelector(docType, filePaths, folder, parseOneCount) {
     //  To avoid undefined errors in later checks (for now)
     searchStr = "N~U**LL";
   }
+  return determinedDocType;
 }
 
 /*******************************************************************************
@@ -484,6 +486,7 @@ async function parseRogs(
     saveParsedRogs(requestArray, folder, determinedDocType);
     const isRequests = true;
     const docId = folder;
+    return determinedDocType;
     // Send it straight to LLM
     //modelController.arrayGenAnswers(docId, determinedDocType, isRequests);
   }
@@ -561,12 +564,10 @@ function saveParsedRogs(rogs, folder, determinedDocType) {
   } else if (determinedDocType === "admissions") {
     dir = `${fdirup}/Parsedadmit/${folder}/`;
   }
-  console.log(
-    "------------------------------------------------------------------data2",
-    data2
-  );
+
   try {
     if (folder) {
+      console.log("folder in saveParsedRogs");
       updateDB(folder, determinedDocType);
     }
     fs.writeFile(
