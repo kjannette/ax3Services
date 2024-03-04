@@ -5,9 +5,11 @@ const modelController = require("../agent/ModelController.js");
 const { updateDB } = require("../firebase/firebase.js");
 const { v4: uuidv4 } = require("uuid");
 const path = require("path");
+const { count } = require("firebase/firestore");
 
 async function readDir(direcPath, folder, countObject) {
   //const fdirup = path.resolve(process.cwd() + `/Documents/Textfiles/${folder}`);
+
   const fdirup = path.join(
     __dirname,
     "..",
@@ -16,20 +18,18 @@ async function readDir(direcPath, folder, countObject) {
     `${folder}`
   );
   console.log(
-    "======================================........>>>>>>>>fdirup",
-    fdirup
+    "`````````````````````````````````````````countObject",
+    countObject
   );
+
   try {
-    let fileNames = fs.readdirSync(fdirup);
-    console.log(
-      "=======nikka=nikka=nikka=nikka=nikka=nikka=nikka==============================........>>>>>>>>fileNames",
-      fileNames
-    );
-    const dirArray = fileNames.map((name) => {
-      return `${fdirup}/${name}`;
+    const dirArray = countObject.files.map((file) => {
+      return `${fdirup}/${file.split(".")[0]}.txt`;
     });
+
     const sorted = dirArray.sort();
     const docType = await docClassifer.classifyDoc(sorted, folder);
+
     let parseOneCount = 0;
     methodSelector(docType, sorted, folder, parseOneCount);
   } catch (err) {
@@ -38,13 +38,9 @@ async function readDir(direcPath, folder, countObject) {
 }
 
 async function methodSelector(docType, filePaths, folder, parseOneCount) {
-  console.log(docType, filePaths, folder, parseOneCount);
   let searchStr;
   let determinedDocType;
-  console.log(
-    ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>docType in method  selector",
-    docType
-  );
+
   if (docType.combined === "combined-numbered") {
     determinedDocType = "combined-numbered";
     const isRequests = true;
@@ -409,7 +405,7 @@ async function parseRogs(
   parseRogsCount
 ) {
   console.log(
-    "++++++++++++++++++++++++++++++++++++++++++++++++++parseRogs fired"
+    "++++++++++++++++++++++++++++++++++++++++++++++++++++++parseRogs fired"
   );
   let searchStr;
   if (parseRogsCount < 1) {
@@ -470,10 +466,7 @@ async function parseRogs(
     obj["text"] = item;
     rogs.push(obj);
   });
-  console.log(
-    "----------------------------------------------------------------------------->rogs.length",
-    rogs.length
-  );
+
   if (rogs.length < 2) {
     if (parseRogsCount < 2) {
       parseRogsCount++;
@@ -494,7 +487,15 @@ async function parseRogs(
     requestObject["requests"] = rogs;
     requestArray.push(requestObject);
     makeDir(folder, determinedDocType);
+    console.log(
+      "in parseRogs-------------------------------------------------requestArray",
+      requestArray
+    );
     saveParsedRogs(requestArray, folder, determinedDocType);
+    const isRequests = true;
+    const docId = folder;
+    // Send it straight to LLM
+    modelController.arrayGenAnswers(docId, determinedDocType, isRequests);
   }
 }
 
@@ -506,22 +507,45 @@ async function parseRogs(
 
 async function makeDir(folder, determinedDocType) {
   let dir;
-
   if (determinedDocType === "interrogatories") {
-    dir = `../Documents/Requests/Parsedrogs/${folder}/`;
+    dir = path.join(
+      __dirname,
+      "..",
+      "Documents",
+      "Requests",
+      "Parsedrogs",
+      `${folder}`
+    );
   } else if (determinedDocType === "production") {
-    dir = `../Documents/Requests/Parsedprod/${folder}/`;
+    dir = path.join(
+      __dirname,
+      "..",
+      "Documents",
+      "Requests",
+      "Parsedprod",
+      `${folder}`
+    );
   } else if (determinedDocType === "admissions") {
-    dir = `../Documents/Requests/Parsedadmit/${folder}`;
+    dir = path.join(
+      __dirname,
+      "..",
+      "Documents",
+      "Requests",
+      "Parsedadmit",
+      `${folder}`
+    );
   } else if (determinedDocType === "combined-numbered") {
-    dir = `../Documents/Requests/Parsedcombined/${folder}`;
+    dir = path.join(
+      __dirname,
+      "..",
+      "Documents",
+      "Requests",
+      "Parsedcombined",
+      `${folder}`
+    );
   } else {
     dir = `../Documents/Requests/Fallback/${folder}`;
   }
-  console.log(
-    ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>dir in docParser makeDir",
-    dir
-  );
   fs.mkdir(dir, function (err) {
     if (err) {
       console.log("docParser makeDir error.  Error Creating Directory: " + err);
@@ -536,28 +560,23 @@ async function makeDir(folder, determinedDocType) {
  *******************************************************************************/
 
 function saveParsedRogs(rogs, folder, determinedDocType) {
-  const fdirup = path.resolve(process.cwd() + "/../Documents/Requests");
-  const fdir = path.resolve(
-    process.cwd() + "/../Documents/Requests/Parsedcombined"
-  );
+  let dir;
+  const fdirup = path.join(__dirname, "..", "Documents", "Requests");
   const data2 = JSON.stringify(rogs);
   if (determinedDocType === "interrogatories") {
-    dir = `${fdirup}/Parsedrogs/${folder}`;
+    dir = `${fdirup}/Parsedrogs/${folder}/`;
   } else if (determinedDocType === "production") {
-    dir = `${fdirup}/Parsedprod/${folder}`;
+    dir = `${fdirup}/Parsedprod/${folder}/`;
   } else if (determinedDocType === "admissions") {
-    dir = `${fdirup}/Parsedadmit/${folder}`;
+    dir = `${fdirup}/Parsedadmit/${folder}/`;
   }
-  console.log(
-    "full path in saveParsedRogs:",
-    `${dir}/${folder}-jbk-parsedRequests.json`
-  );
+
   try {
     if (folder) {
       updateDB(folder, determinedDocType);
     }
     fs.writeFile(
-      `${dir}/${folder}-jbk-parsedRequests.json`,
+      dir + `${folder}-jbk-parsedRequests.json`,
       data2,
       function (err) {
         if (err) {
@@ -572,4 +591,6 @@ function saveParsedRogs(rogs, folder, determinedDocType) {
 
 module.exports = {
   readDir,
+  makeDir,
+  saveParsedRogs,
 };

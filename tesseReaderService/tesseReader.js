@@ -34,22 +34,24 @@ async function writeFile(
   countWrites++;
   if (countWrites == totalFiles) {
     if (isComplaint === true) {
-      console.log(
-        "_-----------------------------> isComplaint === true isComplaint === true isComplaint === true Fired"
-      );
       countObject.filePath = `../Documents/Textfiles/${folder}/`;
       await modelController.createArrayOfInterrogatories(
         folder,
         clientPosition
       );
       return countObject;
+    } else {
+      countWrites = 0;
+      console.log(
+        "tesseReaqder calling docparser with dir arg",
+        `../Documents/Textfiles/${folder}/`
+      );
+      docParser.readDir(
+        `../Documents/Textfiles/${folder}/`,
+        `${folder}`,
+        countObject
+      );
     }
-    countWrites = 0;
-    docParser.readDir(
-      `../Documents/Textfiles/${folder}/`,
-      `${folder}`,
-      countObject
-    );
   }
 }
 
@@ -78,6 +80,7 @@ async function convert(
   isComplaint,
   clientPosition
 ) {
+  console.log("-------------------------------->convert called");
   const worker = await createWorker();
   const concatPath = `${path}/${file}`;
   await worker.loadLanguage("eng");
@@ -90,8 +93,9 @@ async function convert(
     data: { text },
   } = await worker.recognize(concatPath);
 
-  writeFile(file, text, folder, countObject, isComplaint, clientPosition);
+  //writeFile(file, text, folder, countObject, isComplaint, clientPosition);
   await worker.terminate();
+  return text;
 }
 
 async function convertBurst(fullFilePath) {
@@ -136,6 +140,7 @@ async function readMultipleFiles(
   clientPosition
 ) {
   makeDir(folder);
+  console.log("-------------------------------->readMultipleFiles called");
   fs.readdirSync(path).forEach((file, index) => {
     setTimeout(function () {
       convert(file, path, folder, countObject, isComplaint, clientPosition);
