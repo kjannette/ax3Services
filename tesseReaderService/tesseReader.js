@@ -42,11 +42,16 @@ async function writeFile(
       return countObject;
     } else {
       countWrites = 0;
-      docParser.readDir(
+      const type = await docParser.readDir(
         `../Documents/Textfiles/${folder}/`,
         `${folder}`,
         countObject
       );
+      console.log(
+        "++++++++++++++++++++++++++++++++++++type in tesse writeFile ",
+        type
+      );
+      return type;
     }
   }
 }
