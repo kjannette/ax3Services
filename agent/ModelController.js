@@ -44,7 +44,7 @@ class ModelController {
       filePath = `${basePath}/Documents/Requests/production/${docId}/${docId}-jbk-parsedRequests.json`;
     }
     console.log(
-      "arracyGenAnswers ------------------------- filePath",
+      "**arrayGenAnswers ------------------------- filePath",
       filePath
     );
     const fileData = fs.readFileSync(filePath, "utf8");
@@ -116,6 +116,7 @@ class ModelController {
    */
 
   async arrayGenAnswersCombined(docId, reqType, isRequests) {
+    /*
     let filePath;
     const basePath = process.cwd();
     if (reqType == "combined-numbered") {
@@ -128,8 +129,22 @@ class ModelController {
     } else if (reqType == "production") {
       filePath = `${basePath}/Documents/Requests/Parsedprod/${docId}/${docId}-jbk-parsedRequests.json`;
     }
+    */
 
-    const fileData = fs.readFileSync(filePath, "utf8");
+    const path = path.join(
+      __dirname,
+      "..",
+      "Documents",
+      "Requests",
+      `${reqType}`,
+      `${docId}`
+    );
+
+    const fileData = fs.readFileSync(
+      `${path}/${docId}-jbk-parsedRequests.json`,
+      "utf8"
+    );
+
     const rogs = await JSON.parse(fileData);
     const requests = rogs[0].requests;
     let completions;
