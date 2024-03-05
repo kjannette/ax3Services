@@ -108,7 +108,12 @@ app.post(
       });
       proxy.on("proxyRes", function (proxyRes, req, res) {
         const clientPosition = "plaintiff";
-        tesseController(id, isComplaint, clientPosition);
+        const isComplaint = true;
+        tesseController.executeReadWriteActions(
+          id,
+          isComplaint,
+          clientPosition
+        );
         /*
         proxyRes.on("end", function () {
           console.log('"compaint successfully uploaded"');
@@ -143,6 +148,7 @@ app.post(
           "RAW header from pyserver:",
           JSON.stringify(proxyRes.headers, true, 2)
         );
+        const isComplaint = true;
         tesseController
           .executeReadWriteActions(id, isComplaint, clientPosition)
           .then((res) => {
@@ -470,13 +476,13 @@ app.get("/getParsedRequests/:docId/:docType", (req, res) => {
   const { docId, docType } = req.params;
   let folder;
   if (docType === "interrogatories") {
-    folder = "Parsedrogs";
+    folder = "interrogatories";
   } else if (docType === "admissions") {
-    folder = "Parsedadmit";
+    folder = "admissions";
   } else if (docType === "production") {
-    folder = "Parsedprod";
+    folder = "production";
   } else if (docType === "combined-numbered") {
-    folder = "Parsedcombined";
+    folder = "combined-numbered";
   }
   console.log(
     "dir in getParsedRequests",
@@ -500,13 +506,13 @@ app.get("/completions/:docId/:docType", (req, res) => {
   let folder;
 
   if (docType === "interrogatories") {
-    folder = `Rogresp`;
+    folder = `interrogatories`;
   } else if (docType === "production") {
-    folder = `Prodresp`;
+    folder = `production`;
   } else if (docType === "admissions") {
-    folder = `Admitresp`;
+    folder = `admissions`;
   } else if (docType === "combined-numbered") {
-    folder = `Combinedresp`;
+    folder = "combined-numbered";
   }
 
   try {

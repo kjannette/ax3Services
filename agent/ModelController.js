@@ -161,7 +161,9 @@ class ModelController {
       `${docId}`
     );
 
-    const fileSuffix = isRequests ? "-jbk-requests.json" : "-jbk-responses.json”;
+    const fileSuffix = isRequests
+      ? "-jbk-requests.json"
+      : "-jbk-responses.json";
 
     let temp;
     temp = docId;
@@ -214,11 +216,13 @@ class ModelController {
         console.log("makeDir utilities error creating directory: " + err);
       }
     });
-    
+
     temp = docId;
     temp = masterArray;
     const data = JSON.stringify(temp);
-    const fileSuffix = isRequests ? "-jbk-requests.json" : "-jbk-responses.json";
+    const fileSuffix = isRequests
+      ? "-jbk-requests.json"
+      : "-jbk-responses.json";
 
     fs.writeFile(
       `${saveDirectory}/${docId}${fileSuffix}`,
@@ -337,7 +341,9 @@ class ModelController {
 
     let temp = docId;
     temp = masterArray;
-    const fileSuffix = isRequests ? "-jbk-requests.json" : "-jbk-responses.json";
+    const fileSuffix = isRequests
+      ? "-jbk-requests.json"
+      : "-jbk-responses.json";
     const data = JSON.stringify(temp);
 
     fs.writeFile(
@@ -349,7 +355,7 @@ class ModelController {
         }
       }
     );
- 
+
     updateDB(docId, reqType);
     return temp;
   }
@@ -453,7 +459,9 @@ class ModelController {
     let temp = docId;
     temp = masterArray;
     const data = JSON.stringify(temp);
-    const fileSuffix = isRequests ? "-jbk-requests.json" : "-jbk-responses.json";
+    const fileSuffix = isRequests
+      ? "-jbk-requests.json"
+      : "-jbk-responses.json";
     function sleep(ms) {
       return new Promise((resolve) => setTimeout(resolve, ms));
     }
@@ -551,7 +559,6 @@ class ModelController {
       }
     });
 
-
     const completionsObject2 = { type: "combined-numbered" };
     completionsObject2["requests"] = parsedRequests;
 
@@ -560,7 +567,9 @@ class ModelController {
     let temp2 = docId;
     temp2 = masterArray;
 
-    const fileSuffix = isRequests ? "-jbk-requests.json" : "-jbk-responses.json";
+    const fileSuffix = isRequests
+      ? "-jbk-requests.json"
+      : "-jbk-responses.json";
 
     fs.writeFile(
       `${saveDirectory}/${docId}${fileSuffix}`,

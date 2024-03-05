@@ -64,11 +64,11 @@ function selectResponsePath(reqType, isRequests, folder) {
 
   console.log("fdirup in selectResponsePath", fdirup);
   if (reqType === "interrogatories") {
-    dir = `${fdirup}/Rogresp/${folder}/`;
+    dir = `${fdirup}/interrogatories/${folder}/`;
   } else if (reqType == "admissions") {
-    dir = `${fdirup}/Admitresp/${folder}/`;
+    dir = `${fdirup}/admissions/${folder}/`;
   } else if (reqType == "production") {
-    dir = `${fdirup}/Prodresp/${folder}/`;
+    dir = `${fdirup}/production/${folder}/`;
   } else if (reqType == "combined-numbered") {
     dir = `${fdir}/${folder}/`;
   }
