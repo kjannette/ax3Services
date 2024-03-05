@@ -503,7 +503,7 @@ async function makeDir(folder, determinedDocType) {
       "..",
       "Documents",
       "Requests",
-      "Parsedrogs",
+      "interrogatories",
       `${folder}`
     );
   } else if (determinedDocType === "production") {
@@ -512,7 +512,7 @@ async function makeDir(folder, determinedDocType) {
       "..",
       "Documents",
       "Requests",
-      "Parsedprod",
+      "production",
       `${folder}`
     );
   } else if (determinedDocType === "admissions") {
@@ -521,7 +521,7 @@ async function makeDir(folder, determinedDocType) {
       "..",
       "Documents",
       "Requests",
-      "Parsedadmit",
+      "admissions",
       `${folder}`
     );
   } else if (determinedDocType === "combined-numbered") {
@@ -530,7 +530,7 @@ async function makeDir(folder, determinedDocType) {
       "..",
       "Documents",
       "Requests",
-      "Parsedcombined",
+      "combnined-numbered",
       `${folder}`
     );
   } else {
@@ -555,11 +555,11 @@ function saveParsedRogs(rogs, folder, determinedDocType) {
 
   const data2 = JSON.stringify(rogs);
   if (determinedDocType === "interrogatories") {
-    dir = `${fdirup}/Parsedrogs/${folder}/`;
+    dir = `${fdirup}/interrogagtories/${folder}/`;
   } else if (determinedDocType === "production") {
-    dir = `${fdirup}/Parsedprod/${folder}/`;
+    dir = `${fdirup}/production/${folder}/`;
   } else if (determinedDocType === "admissions") {
-    dir = `${fdirup}/Parsedadmit/${folder}/`;
+    dir = `${fdirup}/admissions/${folder}/`;
   }
 
   try {
