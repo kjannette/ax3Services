@@ -93,7 +93,7 @@ class ModelController {
     temp = masterArray;
     const data = JSON.stringify(temp);
     const fileSuffix = isRequests
-      ? "-jbk-requests.json"
+      ? "-jbk-parsedRequests.json"
       : "-jbk-responses.json";
 
     fs.writeFile(
@@ -162,7 +162,7 @@ class ModelController {
     );
 
     const fileSuffix = isRequests
-      ? "-jbk-requests.json"
+      ? "-jbk-parsedRequests.json"
       : "-jbk-responses.json";
 
     let temp;
@@ -221,7 +221,7 @@ class ModelController {
     temp = masterArray;
     const data = JSON.stringify(temp);
     const fileSuffix = isRequests
-      ? "-jbk-requests.json"
+      ? "-jbk-parsedRequests.json"
       : "-jbk-responses.json";
 
     fs.writeFile(
@@ -342,7 +342,7 @@ class ModelController {
     let temp = docId;
     temp = masterArray;
     const fileSuffix = isRequests
-      ? "-jbk-requests.json"
+      ? "-jbk-parsedRequests.json"
       : "-jbk-responses.json";
     const data = JSON.stringify(temp);
 
@@ -460,7 +460,7 @@ class ModelController {
     temp = masterArray;
     const data = JSON.stringify(temp);
     const fileSuffix = isRequests
-      ? "-jbk-requests.json"
+      ? "-jbk-parsedRequests.json"
       : "-jbk-responses.json";
     function sleep(ms) {
       return new Promise((resolve) => setTimeout(resolve, ms));
@@ -568,7 +568,7 @@ class ModelController {
     temp2 = masterArray;
 
     const fileSuffix = isRequests
-      ? "-jbk-requests.json"
+      ? "-jbk-parsedRequests.json"
       : "-jbk-responses.json";
 
     fs.writeFile(
@@ -673,7 +673,7 @@ class ModelController {
       `${reqType}`,
       `${docId}`
     );
-    const fileSuffix = "-jbk-requests-out.json";
+    const fileSuffix = "-jbk-parsedRequests.json";
     console.log("-----------------------------------------");
     console.log("saveDirectory:", saveDirectory);
     console.log("-----------------------------------------");

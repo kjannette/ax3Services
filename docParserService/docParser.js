@@ -399,7 +399,7 @@ async function parseAdmissions(
     parseTextFiles2SaveCount = 0;
     parseAdmitCount = 0;
     const data = JSON.stringify(requestArray);
-    const fileSuffix = "-jbk-requests.json";
+    const fileSuffix = "-jbk-parsedRequests.json";
 
     fs.writeFile(
       `${saveDirectory}/${docId}${fileSuffix}`,
