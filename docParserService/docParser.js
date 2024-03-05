@@ -555,11 +555,13 @@ function saveParsedRogs(rogs, folder, determinedDocType) {
 
   const data2 = JSON.stringify(rogs);
   if (determinedDocType === "interrogatories") {
-    dir = `${fdirup}/interrogagtories/${folder}/`;
+    dir = `${fdirup}/interrogatories/${folder}/`;
   } else if (determinedDocType === "production") {
     dir = `${fdirup}/production/${folder}/`;
   } else if (determinedDocType === "admissions") {
     dir = `${fdirup}/admissions/${folder}/`;
+  } else if (determinedDocType === "combined-numbered") {
+    dir = `${fdirup}/combined-numbered/${folder}/`;
   }
 
   try {
