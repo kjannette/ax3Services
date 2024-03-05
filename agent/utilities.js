@@ -5,7 +5,7 @@ const path = require("path");
  *  Strore returned completions
  */
 
-function saveCompletions(responses, folder, reqType, isRequests, reqType) {
+function saveCompletions(responses, folder, reqType, isRequests) {
   const data = JSON.stringify(responses);
   if (reqType === "") {
   }
@@ -72,7 +72,7 @@ function selectResponsePath(reqType, isRequests, folder) {
   } else if (reqType == "combined-numbered") {
     dir = `${fdir}/${folder}/`;
   }
-  console.log("dir in selectResponsePath", dir);
+  console.log("dir returned in selectResponsePath", dir);
   return dir;
 }
 
@@ -105,11 +105,6 @@ async function readDir(docId, direcPath = directoryPath) {
 
 ///Users/kjannette/workspace/ax3/ax3Services/Documents/Requests/Parsedcombined
 async function makeDir(folder, reqType, isRequests) {
-  makeDir(
-    "~~~~~~~~~~~~~~~makeDir folder, reqType, isRequests",
-    folder,
-    reqType
-  );
   let dir;
   if (reqType)
     if (isRequests === true) {
@@ -117,7 +112,7 @@ async function makeDir(folder, reqType, isRequests) {
     } else {
       dir = selectResponsePath(reqType, isRequests, folder);
     }
-
+  console.log("dir in mkDir", dir);
   fs.mkdir(`${dir}`, function (err) {
     if (err) {
       console.log("makeDir utilities error creating directory: " + err);

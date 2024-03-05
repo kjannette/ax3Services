@@ -49,12 +49,6 @@ class ModelController {
    */
 
   async arrayGenAnswers(docId, reqType, isRequests) {
-    console.log(
-      "------------------------------------------>arrayGenAnswers fired, docId, reqType, isRequests",
-      docId,
-      reqType,
-      isRequests
-    );
     let filePath;
     const basePath = process.cwd();
     if (reqType == "combined-numbered") {
@@ -66,6 +60,10 @@ class ModelController {
     } else if (reqType == "production") {
       filePath = `${basePath}/Documents/Requests/Parsedprod/${docId}/${docId}-jbk-parsedRequests.json`;
     }
+    console.log(
+      "arracyGenAnswers ------------------------- filePath",
+      filePath
+    );
     const fileData = fs.readFileSync(filePath, "utf8");
     const rogs = await JSON.parse(fileData);
     const requests = rogs[0].requests;
@@ -92,13 +90,36 @@ class ModelController {
 
     completionsObject["responses"] = completionsArray;
     masterArray.push(completionsObject);
+    const directionVar = isRequests ? "Requests" : "Responses";
+    const saveDirectory = path.join(
+      __dirname,
+      "..",
+      "Documents",
+      `${directionVar}`,
+      `${reqType}`,
+      `${docId}`
+    );
 
-    makeDir(docId, reqType, isRequests);
+    fs.mkdir(`${saveDirectory}`, function (err) {
+      if (err) {
+        console.log("makeDir utilities error creating directory: " + err);
+      }
+    });
 
     temp = docId;
     temp = masterArray;
-    console.log("temp in arrayGenAnswers", temp);
-    saveCompletions(temp, docId, reqType, isRequests);
+    const data = JSON.stringify(temp);
+    const fileSuffix = "-jbk-requests-out.json";
+    fs.writeFile(
+      `${saveDirectory}/${docId}${fileSuffix}`,
+      data,
+      function (err) {
+        if (err) {
+          return console.log("Error in saveCompletions writeFile:", err);
+        }
+      }
+    );
+    //saveCompletions(temp, docId, reqType, isRequests);
     return temp;
   }
 
@@ -477,7 +498,7 @@ class ModelController {
     console.log("foo", foo);
     parsedRequests = completes.flat(Infinity);
     parsedRequests = foo.concat(bar);
-*/
+    */
     makeDir(docId, reqType, isRequests);
 
     const completionsObject2 = { type: "combined-numbered" };
@@ -507,7 +528,10 @@ class ModelController {
           model: "gpt-4",
           messages: prompt,
         });
-
+        console.log(
+          "completion.choices[0].message.content",
+          completion.choices[0].message.content
+        );
         return completion.choices[0].message.content;
       })
     );
@@ -567,6 +591,27 @@ class ModelController {
       completion.choices[0].message.content
     );
     return completion.choices[0].message.content;
+  }
+  // for development
+  async testSaveFunction(docId, reqType, isRequests) {
+    const directionVar = isRequests ? "Requests" : "Responses";
+    const saveDirectory = path.join(
+      __dirname,
+      "..",
+      "Documents",
+      `${directionVar}`,
+      `${reqType}`,
+      `${docId}`
+    );
+    const fileSuffix = "-jbk-requests-out.json";
+    console.log("-----------------------------------------");
+    console.log("saveDirectory:", saveDirectory);
+    console.log("-----------------------------------------");
+    console.log(
+      "saveDirectory AND FILE",
+      `${saveDirectory}/${docId}${fileSuffix}`
+    );
+    console.log("-----------------------------------------");
   }
 }
 

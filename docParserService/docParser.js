@@ -564,7 +564,6 @@ function saveParsedRogs(rogs, folder, determinedDocType) {
 
   try {
     if (folder) {
-      console.log("folder in saveParsedRogs");
       updateDB(folder, determinedDocType);
     }
     fs.writeFile(

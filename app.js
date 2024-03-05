@@ -357,7 +357,8 @@ app.get(
   async (req, res) => {
     const { docId, docType } = req.params;
     console.log(
-      "---------------------------------------------------------------------------------> hit genResponseFromArray"
+      "---------------------------------------------------------------------------------> hit genResponseFromArray and rcvd docId",
+      docId
     );
     const isRequests = false;
     const reqType = docType;
@@ -549,6 +550,11 @@ console.log("app running on port", port);
 console.log("rootDir", rootDir);
 
 app.listen(port);
+
+//const docId = "5223d27b-035c-435a-92cb-ec2156aeb4e4";
+//const reqType = "interrogatories";
+//const isRequests = true;
+//modelController.testSaveFunction(docId, reqType, isRequests);
 
 /*
 const rogs = [
