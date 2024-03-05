@@ -176,10 +176,7 @@ async function parseProduction(
   parseProdCount
 ) {
   const initialHeaderString = "requests for production"; // /^request* for admission*$/;
-  console.log(
-    "------------------------------------------------------------------------ parseProdCount",
-    parseProdCount
-  );
+
   const processArray = [];
   const rogs = [];
   let searchStr;
@@ -282,6 +279,7 @@ async function parseProduction(
         }
       }
     );
+    updateDB(docId, determinedDocType);
   }
 }
 
@@ -559,6 +557,7 @@ async function parseRogs(
         }
       }
     );
+    updateDB(docId, determinedDocType);
     return determinedDocType;
     // Send it straight to LLM
     //modelController.arrayGenAnswers(docId, determinedDocType, isRequests);
