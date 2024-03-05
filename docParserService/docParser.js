@@ -176,10 +176,7 @@ async function parseProduction(
   parseProdCount
 ) {
   const initialHeaderString = "requests for production"; // /^request* for admission*$/;
-  console.log(
-    "------------------------------------------------------------------------ parseProdCount",
-    parseProdCount
-  );
+
   const processArray = [];
   const rogs = [];
   let searchStr;
@@ -250,13 +247,39 @@ async function parseProduction(
       return;
     }
   } else {
-    makeDir(folder, determinedDocType);
+    const docId = folder;
+    const reqType = "production"; //determinedDocType var value is lost by here not sure why but this hack should fix
+    const directionVar = "Requests";
+    const saveDirectory = path.join(
+      __dirname,
+      "..",
+      "Documents",
+      `${directionVar}`,
+      `${reqType}`,
+      `${docId}`
+    );
+    fs.mkdir(`${saveDirectory}`, function (err) {
+      if (err) {
+        console.log("makeDir utilities error creating directory: " + err);
+      }
+    });
     let requestArray = [];
     let requestObject = {};
     requestObject["type"] = determinedDocType;
     requestObject["requests"] = rogs;
     requestArray.push(requestObject);
-    saveParsedRogs(requestArray, folder, determinedDocType);
+    const fileSuffix = "-jbk-parsedRequests.json";
+    const data = JSON.stringify(requestArray);
+    fs.writeFile(
+      `${saveDirectory}/${docId}${fileSuffix}`,
+      data,
+      function (err) {
+        if (err) {
+          return console.log("Error in saveCompletions writeFile:", err);
+        }
+      }
+    );
+    updateDB(docId, determinedDocType);
   }
 }
 
@@ -399,7 +422,7 @@ async function parseAdmissions(
     parseTextFiles2SaveCount = 0;
     parseAdmitCount = 0;
     const data = JSON.stringify(requestArray);
-    const fileSuffix = "-jbk-requests.json";
+    const fileSuffix = "-jbk-parsedRequests.json";
 
     fs.writeFile(
       `${saveDirectory}/${docId}${fileSuffix}`,
@@ -503,13 +526,38 @@ async function parseRogs(
   } else {
     let requestArray = [];
     let requestObject = {};
-    requestObject["type"] = determinedDocType;
+    requestObject["type"] = "interrogatories";
     requestObject["requests"] = rogs;
     requestArray.push(requestObject);
-    makeDir(folder, determinedDocType);
-    saveParsedRogs(requestArray, folder, determinedDocType);
-    const isRequests = true;
     const docId = folder;
+    const reqType = "interrogatories"; //determinedDocType var value is lost by here not sure why but this hack should fix
+    const directionVar = "Requests";
+    const saveDirectory = path.join(
+      __dirname,
+      "..",
+      "Documents",
+      `${directionVar}`,
+      `${reqType}`,
+      `${docId}`
+    );
+
+    fs.mkdir(`${saveDirectory}`, function (err) {
+      if (err) {
+        console.log("makeDir utilities error creating directory: " + err);
+      }
+    });
+    const fileSuffix = "-jbk-parsedRequests.json";
+    const data = JSON.stringify(requestArray);
+    fs.writeFile(
+      `${saveDirectory}/${docId}${fileSuffix}`,
+      data,
+      function (err) {
+        if (err) {
+          return console.log("Error in saveCompletions writeFile:", err);
+        }
+      }
+    );
+    updateDB(docId, determinedDocType);
     return determinedDocType;
     // Send it straight to LLM
     //modelController.arrayGenAnswers(docId, determinedDocType, isRequests);
