@@ -100,7 +100,10 @@ app.post(
     const id = req.file.originalname.split(".")[0];
     const isComplaint = true;
     try {
-      req.url = req.url.replace("/v1/gen-disc-request-pl", `/newdoc/${id}`);
+      req.url = req.url.replace(
+        "/v1/gen-disc-request-pl",
+        `/parse-new-complaint/${id}`
+      );
       proxy.web(req, res, {
         function(err) {
           console.log("Proxy error:", err);
@@ -137,7 +140,10 @@ app.post(
   function (req, res) {
     const id = req.file.originalname.split(".")[0];
     try {
-      req.url = req.url.replace("/v1/gen-disc-request-pl", `/newdoc/${id}`);
+      req.url = req.url.replace(
+        "/v1/gen-disc-request-df",
+        `/parse-new-complaint/${id}`
+      );
       proxy.web(req, res, {
         function(err) {
           console.log("Proxy error:", err);
@@ -149,11 +155,12 @@ app.post(
           JSON.stringify(proxyRes.headers, true, 2)
         );
         const isComplaint = true;
-        tesseController
-          .executeReadWriteActions(id, isComplaint, clientPosition)
-          .then((res) => {
-            tesseController.runModel(res, id);
-          });
+        const clientPosition = "defendant";
+        tesseController.executeReadWriteActions(
+          id,
+          isComplaint,
+          clientPosition
+        );
         /*
         proxyRes.on("end", function () {
           console.log('"compaint successfully uploaded"');

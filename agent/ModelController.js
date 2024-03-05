@@ -435,13 +435,12 @@ class ModelController {
       }
     }
 
-    const directionVar = isRequests ? "Requests" : "Responses";
+    const directionVar = "RequestsOut";
     const saveDirectory = path.join(
       __dirname,
       "..",
       "Documents",
       `${directionVar}`,
-      `${reqType}`,
       `${docId}`
     );
 
@@ -459,9 +458,8 @@ class ModelController {
     let temp = docId;
     temp = masterArray;
     const data = JSON.stringify(temp);
-    const fileSuffix = isRequests
-      ? "-jbk-parsedRequests.json"
-      : "-jbk-responses.json";
+    const fileSuffix = "-jbk-requests-out.json";
+
     function sleep(ms) {
       return new Promise((resolve) => setTimeout(resolve, ms));
     }
@@ -649,7 +647,7 @@ class ModelController {
     if (clientPosition?.toLowerCase() === "plaintiff") {
       prompt = createArrayOfInterrogatoriesPlaintiffPrompt(requestStr);
     } else {
-      prmopt = createArrayOfInterrogatoriesDefendantPrompt(requestStr);
+      prompt = createArrayOfInterrogatoriesDefendantPrompt(requestStr);
     }
 
     const completion = await openai.chat.completions.create({
@@ -662,6 +660,7 @@ class ModelController {
     );
     return completion.choices[0].message.content;
   }
+
   // for development
   async testSaveFunction(docId, reqType, isRequests) {
     const directionVar = isRequests ? "Requests" : "Responses";

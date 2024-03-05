@@ -43,6 +43,7 @@ class TesseController {
     isComplaint = false,
     clientPosition = "Plaintiff"
   ) {
+    console.log("isComplaint in executeReadWriteActions", isComplaint);
     function sleep(ms) {
       console.log("sleep called");
       return new Promise((resolve) => setTimeout(resolve, ms));
