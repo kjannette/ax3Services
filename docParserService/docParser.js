@@ -374,8 +374,23 @@ async function parseAdmissions(
       );
     }
   } else {
-    const determinedDocType = "admissions"; //determinedDocType var value is lost by here not sure why but this hack should fix
-    makeDir(folder, determinedDocType);
+    const reqType = "admissions"; //determinedDocType var value is lost by here not sure why but this hack should fix
+    const directionVar = "Requests";
+    const docId = folder;
+    const saveDirectory = path.join(
+      __dirname,
+      "..",
+      "Documents",
+      `${directionVar}`,
+      `${reqType}`,
+      `${docId}`
+    );
+
+    fs.mkdir(`${saveDirectory}`, function (err) {
+      if (err) {
+        console.log("makeDir utilities error creating directory: " + err);
+      }
+    });
     let requestArray = [];
     let requestObject = {};
     requestObject["type"] = determinedDocType;
@@ -383,7 +398,17 @@ async function parseAdmissions(
     requestArray.push(requestObject);
     parseTextFiles2SaveCount = 0;
     parseAdmitCount = 0;
-    saveParsedRogs(requestArray, folder, determinedDocType);
+    const fileSuffix = "-jbk-requests.json";
+
+    fs.writeFile(
+      `${saveDirectory}/${docId}${fileSuffix}`,
+      data,
+      function (err) {
+        if (err) {
+          return console.log("Error in saveCompletions writeFile:", err);
+        }
+      }
+    );
   }
 }
 
