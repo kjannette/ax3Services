@@ -25,23 +25,6 @@ const openai = new OpenAI({
 });
 
 class ModelController {
-  async readFileSelectMethod(docId, reqType) {
-    let filePath;
-    let temp;
-
-    const basePath = process.cwd();
-    if (reqType == "combined-numbered") {
-      filePath = `${basePath}/Documents/Requests/Parsedcombined/${docId}/${docId}-jbk-parsedRequests.json`;
-    } else if (reqType == "interrogatories") {
-      filePath = `${basePath}/Documents/Requests/Parsedrogs/${docId}/${docId}-jbk-parsedRequests.json`;
-    } else if (reqType == "admissions") {
-      filePath = `${basePath}/Documents/Requests/Parsedadmit/${docId}/${docId}-jbk-parsedRequests.json`;
-    } else if (reqType == "production") {
-      filePath = `${basePath}/Documents/Requests/Parsedprod/${docId}/${docId}-jbk-parsedRequests.json`;
-    }
-    return temp;
-  }
-
   /*
    *  LLM PROMPT CONTROLLER
    *  RETURNS ANSWERS FROM ARRAY OF REQUESTS
@@ -52,13 +35,13 @@ class ModelController {
     let filePath;
     const basePath = process.cwd();
     if (reqType == "combined-numbered") {
-      filePath = `${basePath}/Documents/Requests/Parsedcombined/${docId}/${docId}-jbk-parsedRequests.json`;
+      filePath = `${basePath}/Documents/Requests/combined-numbered/${docId}/${docId}-jbk-parsedRequests.json`;
     } else if (reqType == "interrogatories") {
-      filePath = `${basePath}/Documents/Requests/Parsedrogs/${docId}/${docId}-jbk-parsedRequests.json`;
+      filePath = `${basePath}/Documents/Requests/interrogatories/${docId}/${docId}-jbk-parsedRequests.json`;
     } else if (reqType == "admissions") {
-      filePath = `${basePath}/Documents/Requests/Parsedadmit/${docId}/${docId}-jbk-parsedRequests.json`;
+      filePath = `${basePath}/Documents/Requests/admissions/${docId}/${docId}-jbk-parsedRequests.json`;
     } else if (reqType == "production") {
-      filePath = `${basePath}/Documents/Requests/Parsedprod/${docId}/${docId}-jbk-parsedRequests.json`;
+      filePath = `${basePath}/Documents/Requests/production/${docId}/${docId}-jbk-parsedRequests.json`;
     }
     console.log(
       "arracyGenAnswers ------------------------- filePath",
@@ -109,7 +92,10 @@ class ModelController {
     temp = docId;
     temp = masterArray;
     const data = JSON.stringify(temp);
-    const fileSuffix = "-jbk-requests-out.json";
+    const fileSuffix = isRequests
+      ? "-jbk-requests.json"
+      : "-jbk-responses.json";
+
     fs.writeFile(
       `${saveDirectory}/${docId}${fileSuffix}`,
       data,
@@ -165,13 +151,22 @@ class ModelController {
     });
     completionsObject["responses"] = completionsArray;
     masterArray.push(completionsObject);
+    const directionVar = isRequests ? "Requests" : "Responses";
+    const saveDirectory = path.join(
+      __dirname,
+      "..",
+      "Documents",
+      `${directionVar}`,
+      `${reqType}`,
+      `${docId}`
+    );
 
-    makeDir(docId, reqType, isRequests);
+    const fileSuffix = isRequests ? "-jbk-requests.json" : "-jbk-responses.json”;
+
     let temp;
     temp = docId;
     temp = masterArray;
 
-    saveCompletions(temp, docId, reqType, isRequests);
     return temp;
   }
 
@@ -204,12 +199,36 @@ class ModelController {
     completionsObject["responses"] = completions;
     masterArray.push(completionsObject);
 
-    makeDir(docId, reqType);
+    const directionVar = isRequests ? "Requests" : "Responses";
+    const saveDirectory = path.join(
+      __dirname,
+      "..",
+      "Documents",
+      `${directionVar}`,
+      `${reqType}`,
+      `${docId}`
+    );
 
+    fs.mkdir(`${saveDirectory}`, function (err) {
+      if (err) {
+        console.log("makeDir utilities error creating directory: " + err);
+      }
+    });
+    
     temp = docId;
     temp = masterArray;
+    const data = JSON.stringify(temp);
+    const fileSuffix = isRequests ? "-jbk-requests.json" : "-jbk-responses.json";
 
-    saveCompletions(temp, docId, reqType, isRequests);
+    fs.writeFile(
+      `${saveDirectory}/${docId}${fileSuffix}`,
+      data,
+      function (err) {
+        if (err) {
+          return console.log("Error in saveCompletions writeFile:", err);
+        }
+      }
+    );
     return temp;
   }
 
@@ -295,8 +314,22 @@ class ModelController {
         );
       }
     }
+    const directionVar = isRequests ? "Requests" : "Responses";
+    const saveDirectory = path.join(
+      __dirname,
+      "..",
+      "Documents",
+      `${directionVar}`,
+      `${reqType}`,
+      `${docId}`
+    );
 
-    makeDir(docId, reqType, isRequests, reqType);
+    fs.mkdir(`${saveDirectory}`, function (err) {
+      if (err) {
+        console.log("makeDir utilities error creating directory: " + err);
+      }
+    });
+
     const completionsObject = { type: "combined-numbered" };
     completionsObject["requests"] = parsedRequests;
 
@@ -304,8 +337,19 @@ class ModelController {
 
     let temp = docId;
     temp = masterArray;
+    const fileSuffix = isRequests ? "-jbk-requests.json" : "-jbk-responses.json";
+    const data = JSON.stringify(temp);
 
-    saveCompletions(temp, docId, reqType, isRequests);
+    fs.writeFile(
+      `${saveDirectory}/${docId}${fileSuffix}`,
+      data,
+      function (err) {
+        if (err) {
+          return console.log("Error in saveCompletions writeFile:", err);
+        }
+      }
+    );
+ 
     updateDB(docId, reqType);
     return temp;
   }
@@ -385,26 +429,19 @@ class ModelController {
       }
     }
 
-    /*
-    const savDirup = path.resolve(
-      process.cwd() + `/Documents/RequestsOut/${docId}/`
-    );
-    */
-    //makeDir(docId, reqType, isRequests, reqType);
-    const savDirup = path.join(
+    const directionVar = isRequests ? "Requests" : "Responses";
+    const saveDirectory = path.join(
       __dirname,
       "..",
       "Documents",
-      "RequestsOut",
+      `${directionVar}`,
+      `${reqType}`,
       `${docId}`
     );
 
-    fs.mkdir(`${savDirup}`, function (err) {
+    fs.mkdir(`${saveDirectory}`, function (err) {
       if (err) {
-        console.log(
-          "makeDir error at createArrayOfInterrogatories creating directory: " +
-            err
-        );
+        console.log("makeDir utilities error creating directory: " + err);
       }
     });
 
@@ -416,22 +453,21 @@ class ModelController {
     let temp = docId;
     temp = masterArray;
     const data = JSON.stringify(temp);
-    const fileSuffix = "-jbk-requests-out.json";
+    const fileSuffix = isRequests ? "-jbk-requests.json" : "-jbk-responses.json";
     function sleep(ms) {
       return new Promise((resolve) => setTimeout(resolve, ms));
     }
     await sleep(2000);
     try {
-      fs.writeFile(`${savDirup}/${docId}${fileSuffix}`, data, function (err) {
-        if (err) {
-          return console.log(
-            "Error in saveCompletions createArrayOfInterrogatories writeFile:",
-            err,
-            "writing to:",
-            `${savDirup}/${docId}${fileSuffix}`
-          );
+      fs.writeFile(
+        `${saveDirectory}/${docId}${fileSuffix}`,
+        data,
+        function (err) {
+          if (err) {
+            return console.log("Error in saveCompletions writeFile:", err);
+          }
         }
-      });
+      );
     } catch (err) {
       console.log("Error writing file:", err);
     }
