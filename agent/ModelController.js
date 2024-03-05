@@ -535,7 +535,22 @@ class ModelController {
     parsedRequests = completes.flat(Infinity);
     parsedRequests = foo.concat(bar);
     */
-    makeDir(docId, reqType, isRequests);
+    const directionVar = isRequests ? "Requests" : "Responses";
+    const saveDirectory = path.join(
+      __dirname,
+      "..",
+      "Documents",
+      `${directionVar}`,
+      `${reqType}`,
+      `${docId}`
+    );
+
+    fs.mkdir(`${saveDirectory}`, function (err) {
+      if (err) {
+        console.log("makeDir utilities error creating directory: " + err);
+      }
+    });
+
 
     const completionsObject2 = { type: "combined-numbered" };
     completionsObject2["requests"] = parsedRequests;
@@ -545,7 +560,17 @@ class ModelController {
     let temp2 = docId;
     temp2 = masterArray;
 
-    saveCompletions(temp2, docId, reqType, isRequests);
+    const fileSuffix = isRequests ? "-jbk-requests.json" : "-jbk-responses.json";
+
+    fs.writeFile(
+      `${saveDirectory}/${docId}${fileSuffix}`,
+      data,
+      function (err) {
+        if (err) {
+          return console.log("Error in saveCompletions writeFile:", err);
+        }
+      }
+    );
     updateDB(docId, reqType);
     return temp2;
   }
