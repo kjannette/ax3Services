@@ -19,7 +19,7 @@ suc = {
   'ok': True
   }
 
-@post('/newdoc/<id>')
+@post('/parse-new-complaint/<id>')
 def newdoc(id='test'):
     newDir = f"{id}" # path[-1].split(".")[0]
     print('newDir', newDir)
