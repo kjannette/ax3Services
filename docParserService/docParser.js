@@ -400,6 +400,7 @@ async function parseAdmissions(
     parseAdmitCount = 0;
     const data = JSON.stringify(requestArray);
     const fileSuffix = "-jbk-requests.json";
+
     fs.writeFile(
       `${saveDirectory}/${docId}${fileSuffix}`,
       data,
@@ -409,6 +410,7 @@ async function parseAdmissions(
         }
       }
     );
+    updateDB(docId, determinedDocType);
   }
 }
 
