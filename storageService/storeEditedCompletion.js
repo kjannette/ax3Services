@@ -2,6 +2,7 @@ const fs = require("fs");
 const path = require("path");
 
 async function makeDir(path) {
+  console.log("makeDir path", path);
   fs.mkdir(path, function (err) {
     if (err) {
       console.log("makeDir error" + err);
@@ -16,7 +17,7 @@ function storeEditedCompletions(editedComps) {
   );
   let docId = editedComps.id;
   const dir = ` ./docGenService/Docxinfo/${docId}/`;
-
+  const saveDirectory = path.join(__dirname, "..", "docGenService", "Docxinfo");
   try {
     if (fs.existsSync(`./docGenService/Docxinfo/${docId}/`)) {
       let bim;
@@ -73,11 +74,23 @@ function storeEditedCompletions(editedComps) {
         return;
       }
     } else {
-      makeDir(dir);
+      console.log(
+        "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~else block saveDirectory",
+        saveDirectory
+      );
+      fs.mkdir(saveDirectory, function (err) {
+        if (err) {
+          console.log("makeDir error" + err);
+        }
+      });
     }
     var options = { flag: "w" };
+    console.log(
+      "------------------------------------------------------------------->write file directory: ",
+      `${saveDirectory}/${docId}.json`
+    );
     fs.writeFileSync(
-      dir + `${docId}-jbk-editedResponses.json`,
+      `${saveDirectory}/${docId}.json`,
       editedCompletes,
       options,
       function (err) {
