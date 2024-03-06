@@ -464,12 +464,12 @@ app.get("/cleanUpDocx/:docId/:reqType", (req, res) => {
  *  POST store user-edited completions
  */
 
-app.post("/storeeditedcompletions", function (req, res) {
+app.post("/v1/store-edited-completions", function (req, res) {
   const data = req.body;
   try {
     storeEditedCompletions(data);
   } catch (err) {
-    console.log("Error:", err);
+    console.log("Error at /v1/store-edited-completions:", err);
   }
   res.end();
 });

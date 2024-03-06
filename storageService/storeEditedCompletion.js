@@ -15,7 +15,7 @@ function storeEditedCompletions(editedComps) {
     "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~storeEditedCompletion"
   );
   let docId = editedComps.id;
-  const dir = `EditedCompletions/${docId}/`;
+  const dir = `./EditedCompletions/${docId}/`;
 
   try {
     if (fs.existsSync(`EditedCompletions/${docId}/`)) {
