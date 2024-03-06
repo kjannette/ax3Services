@@ -1,7 +1,7 @@
 import bottle
 from bottle import run, get, post, request, route
 from bottle import HTTPResponse
-from ax3Services.docGenService.GenerateDocument import GenerateDocument
+from generateDocument import GenerateBody
 from pathlib import Path
 import json
 
@@ -14,19 +14,16 @@ def fix_environ_middleware(app):
 
 app = bottle.default_app()
 app.wsgi = fix_environ_middleware(app.wsgi)
-gen_doc = GenerateDocument()
+gen_body = GenerateBody()
 suc = { 
   'ok': True
   }
 
 
-@post('/gen-req-docx')
-def gen_new_docx():
-    print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~hitttt me')
-    #sp.make_dir(newDir)
-    #path_arg = f"../Documents/Uploads/{id}.pdf"
-    #print("path_arg", path_arg)
-    #sp.split_and_convert(path_arg, newDir)
+@post('/gen-req-docx/<docId>')
+def newdoc(docId):
+    print('docId', docId)
+    gen_body.generate(docId)
     respBody = json.dumps({'Status': 'Success'})
     return bottle.HTTPResponse(status=200, body=respBody)
 

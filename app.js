@@ -58,41 +58,6 @@ const altStorage = multer.diskStorage({
 const upload = multer({ storage: storage });
 const uploadComp = multer({ storage: altStorage });
 
-/*
- *  POST new complaint .pdf => gen discovery req
- */
-
-/*
-async function tesseController(id, isComplaint, clientPosition) {
-  console.log("before sleep id", id);
-  function sleep(ms) {
-    return new Promise((resolve) => setTimeout(resolve, ms));
-  }
-  await sleep(2500);
-  console.log("after sleep");
-  let fileCount = {};
-  fileCount.fileName = id;
-
-  async function countFiles(directory, file) {
-    let fileCount = {};
-    fileCount.fileName = file;
-    fs.readdir(directory, (err, files) => {
-      fileCount.numberOfFiles = files.length;
-    });
-    return fileCount;
-  }
-  // WILL HAVE TO FIX DIR IF?WHEN YOU MOVE THIS CONTROLLER
-  fileCount = await countFiles(`./Documents/Converted/${id}`, id);
-  const rogArray = await tesseReader.readMultipleFiles(
-    `./Documents/Converted/${id}`,
-    `${id}`,
-    fileCount,
-    isComplaint,
-    clientPosition
-  );
-  return { status: "OK" };
-}
-*/
 app.post(
   "/v1/gen-disc-request-pl",
   uploadComp.single("file"),
@@ -221,20 +186,16 @@ app.post("/v1/parse-new-req-doc", upload.single("file"), function (req, res) {
  *  POST to Generate Docx
  */
 
-app.post("/v1/generate-request-doc/:docId/:reqType", async function (req, res) {
+app.post("/v1/generate-request-docx/:docId", async function (req, res) {
   const { docId, reqType } = req.params;
   const data = req.body;
   try {
-    req.url = req.url.replace(
-      "/v1/generate-request-docx/:docId/:reqType",
-      `/gen-req-docx`
-    );
+    req.url = req.url.replace("/v1/generate-request-docx", `/gen-req-docx`);
     proxy.web(req, res, {
       function(err) {
         console.log("Proxy error:", err);
       },
     });
-    res.end("Success");
   } catch (err) {
     console.log(err);
   }
