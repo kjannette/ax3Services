@@ -2,6 +2,7 @@ import bottle
 from bottle import run, get, post, request, route
 from bottle import HTTPResponse
 from splitPdf import SplitPdf
+from GenerateBody import generate
 from pathlib import Path
 import json
 

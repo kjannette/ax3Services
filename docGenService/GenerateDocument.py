@@ -11,6 +11,7 @@ from pyGenObjectionTemplates import make_ny_gen_obj, make_nj_gen_obj, make_fl_ge
 
 class GenerateBody(object):
     def generate(self, docId):
+        print('------->docId', docId)
         # Init variables
         reqType = None
         arrLen = None
