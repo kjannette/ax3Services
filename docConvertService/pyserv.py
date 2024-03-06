@@ -41,4 +41,14 @@ def newdoc(id='test'):
     respBody = json.dumps({'Status': 'Success'})
     return bottle.HTTPResponse(status=200, body=respBody)
 
+@post('/gen-req-docx')
+def gen_new_docx():
+    print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~hitttt me')
+    #sp.make_dir(newDir)
+    #path_arg = f"../Documents/Uploads/{id}.pdf"
+    #print("path_arg", path_arg)
+    #sp.split_and_convert(path_arg, newDir)
+    respBody = json.dumps({'Status': 'Success'})
+    return bottle.HTTPResponse(status=200, body=respBody)
+
 run(app, host='127.0.0.1', port=8081, debug=True)

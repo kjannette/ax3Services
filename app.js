@@ -217,6 +217,43 @@ app.post("/v1/parse-new-req-doc", upload.single("file"), function (req, res) {
   res.sendStatus(200);
 });
 
+/*
+ *  POST to Generate Docx
+ */
+
+app.post("/v1/generate-request-doc/:docId/:reqType", async function (req, res) {
+  const { docId, reqType } = req.params;
+  const data = req.body;
+  try {
+    req.url = req.url.replace(
+      "/v1/generate-request-docx/:docId/:reqType",
+      `/gen-req-docx`
+    );
+    proxy.web(req, res, {
+      function(err) {
+        console.log("Proxy error:", err);
+      },
+    });
+
+    res.end("doc created");
+  } catch (err) {
+    console.log(err);
+  }
+});
+
+/*
+      const defaultMjsExport = (
+        await import(
+          `${rootDir}/ax3Services/docGenService/responseHeaderGenerator.mjs`
+        )
+      ).default;
+      defaultMjsExport(docId, reqType, data);
+
+      req.url = req.url.replace(
+        "/v1/generate-request-docx/:docId/:reqType",
+        `/gen-req-docx`
+      );
+      */
 const rootDir =
   process.env.NODE_ENV === "development"
     ? "/Users/kjannette/workspace/ax3"
@@ -412,26 +449,6 @@ app.get(
     }
   }
 );
-
-/*
- *  POST to Generate Docx
- */
-
-app.post("/genDocx/:docId/:reqType", async function (req, res) {
-  const { docId, reqType } = req.params;
-  const data = req.body;
-  try {
-    const defaultMjsExport = (
-      await import(
-        `${rootDir}/ax3Services/docGenService/responseHeaderGenerator.mjs`
-      )
-    ).default;
-    defaultMjsExport(docId, reqType, data);
-    res.end("doc created");
-  } catch (err) {
-    console.log(err);
-  }
-});
 
 /*
  *
