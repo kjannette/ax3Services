@@ -234,26 +234,12 @@ app.post("/v1/generate-request-doc/:docId/:reqType", async function (req, res) {
         console.log("Proxy error:", err);
       },
     });
-
-    res.end("doc created");
+    res.end("Success");
   } catch (err) {
     console.log(err);
   }
 });
 
-/*
-      const defaultMjsExport = (
-        await import(
-          `${rootDir}/ax3Services/docGenService/responseHeaderGenerator.mjs`
-        )
-      ).default;
-      defaultMjsExport(docId, reqType, data);
-
-      req.url = req.url.replace(
-        "/v1/generate-request-docx/:docId/:reqType",
-        `/gen-req-docx`
-      );
-      */
 const rootDir =
   process.env.NODE_ENV === "development"
     ? "/Users/kjannette/workspace/ax3"
@@ -661,4 +647,16 @@ const rogs = [
           console.log("Proxy error:", err);
         },
       });
+      /*
+      const defaultMjsExport = (
+        await import(
+          `${rootDir}/ax3Services/docGenService/responseHeaderGenerator.mjs`
+        )
+      ).default;
+      defaultMjsExport(docId, reqType, data);
+
+      req.url = req.url.replace(
+        "/v1/generate-request-docx/:docId/:reqType",
+        `/gen-req-docx`
+      );
       */
