@@ -1,8 +1,7 @@
 import bottle
 from bottle import run, get, post, request, route
 from bottle import HTTPResponse
-from splitPdf import SplitPdf
-from GenerateBody import generate
+from ax3Services.docGenService.GenerateDocument import GenerateDocument
 from pathlib import Path
 import json
 
@@ -15,32 +14,11 @@ def fix_environ_middleware(app):
 
 app = bottle.default_app()
 app.wsgi = fix_environ_middleware(app.wsgi)
-sp = SplitPdf()
+gen_doc = GenerateDocument()
 suc = { 
   'ok': True
   }
 
-@post('/parse-new-complaint/<id>')
-def newdoc(id='test'):
-    newDir = f"{id}" # path[-1].split(".")[0]
-    print('newDir', newDir)
-    sp.make_dir(newDir)
-    path_arg = f"../Documents/Complaints/{id}.pdf"
-    print(f"../Documents/Complaints/{id}.pdf")
-    sp.split_and_convert(path_arg, newDir)
-    respBody = json.dumps({'Status': 'Success'})
-    return bottle.HTTPResponse(status=200, body=respBody)
-
-@post('/parse-new-disc-req/<id>')
-def newdoc(id='test'):
-    newDir = f"{id}"
-    print('newDir', newDir)
-    sp.make_dir(newDir)
-    path_arg = f"../Documents/Uploads/{id}.pdf"
-    print("path_arg", path_arg)
-    sp.split_and_convert(path_arg, newDir)
-    respBody = json.dumps({'Status': 'Success'})
-    return bottle.HTTPResponse(status=200, body=respBody)
 
 @post('/gen-req-docx')
 def gen_new_docx():
