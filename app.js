@@ -40,6 +40,14 @@ const proxy = httpProxy.createProxy({
   target: targetUrl,
 });
 
+//** NODE HTTP-PROXY ***/
+const httpProxy2 = require("http-proxy");
+const targetAdd = "http://127.0.0.1:8087";
+const proxyTwo = httpProxy.createProxy({
+  changeOrigin: true,
+  target: targetAdd,
+});
+
 //*** MULTER ***/
 const storage = multer.diskStorage({
   destination: "./Documents/Uploads",
@@ -191,7 +199,7 @@ app.post("/v1/generate-request-docx/:docId", async function (req, res) {
   const data = req.body;
   try {
     req.url = req.url.replace("/v1/generate-request-docx", `/gen-req-docx`);
-    proxy.web(req, res, {
+    proxyTwo.web(req, res, {
       function(err) {
         console.log("Proxy error:", err);
       },

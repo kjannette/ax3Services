@@ -11,7 +11,7 @@ from pyGenObjectionTemplates import make_ny_gen_obj, make_nj_gen_obj, make_fl_ge
 
 class GenerateBody(object):
     def generate(self, docId):
-        print('------->docId', docId)
+        print('-------------->docId', docId)
         # Init variables
         reqType = None
         arrLen = None
@@ -39,7 +39,9 @@ class GenerateBody(object):
         # Get case data
         with open(dataFile) as json_data:
             jsonData = json.load(json_data)
-
+        caseInfo = jsonData.get("caseInfo")
+        print('caseInfo', caseInfo)
+        return
         caption1 = jsonData.get("caseCaption1")
         caption2 = jsonData.get("caseCaption2")
         clientPosition = jsonData.get("clientPosition")
@@ -239,8 +241,9 @@ class GenerateBody(object):
 #   f"/Users/kjannette/workspace/ax3/ax3Services/Docxfinal/{docId}.docx"
 #         document.save(f"/var/www/ax3Services/Docxfinal/{docId}.docx")
 # Uncomment for development/smoke testing
-# genBod = GenerateBody()
-# genBod.generate("a93d9b76-28aa-4b8c-83e4-e87ec6294c4b")
+genBod = GenerateBody()
+
+genBod.generate("eb75d30a-d58a-4b2e-80ba-695c8a79a1e6")
 # reqFile = f"/Users/kjannette/workspace/ax3/ax3Services/Documents/Requests/Parsedrogs/{docId}/{docId}-jbk-parsedRequests.json"
 # respFile = f"/Users/kjannette/workspace/ax3/ax3Services/Documents/Responses/Rogresp/{docId}/{docId}-jbk-responses.json"
 
