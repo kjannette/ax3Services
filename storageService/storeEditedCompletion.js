@@ -15,10 +15,10 @@ function storeEditedCompletions(editedComps) {
     "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~storeEditedCompletion"
   );
   let docId = editedComps.id;
-  const dir = `./EditedCompletions/${docId}/`;
+  const dir = ` ./docGenService/Docxinfo/${docId}/`;
 
   try {
-    if (fs.existsSync(`EditedCompletions/${docId}/`)) {
+    if (fs.existsSync(`./docGenService/Docxinfo/${docId}/`)) {
       let bim;
       const fileData = fs.readdirSync(`EditedCompletions/${docId}/`, "utf8");
       if (fileData.length > 1) {
