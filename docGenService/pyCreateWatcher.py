@@ -1,7 +1,7 @@
 import sys
 import time
 import logging
-from ax3Services.docGenService.GenerateDocument import GenerateBody
+from generateDocument import GenerateBody
 from watchdog.observers import Observer
 
 # from watchdog.events import LoggingEventHandler
