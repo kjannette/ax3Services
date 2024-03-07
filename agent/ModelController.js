@@ -85,7 +85,7 @@ class ModelController {
 
     fs.mkdir(`${saveDirectory}`, function (err) {
       if (err) {
-        console.log("makeDir utilities error creating directory: " + err);
+        console.log("arrayGenAnswers error creating directory: " + err);
       }
     });
 

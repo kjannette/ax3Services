@@ -25,6 +25,7 @@ class GenerateBody(object):
             "Since your eighteenth birthday, when you were represented by an attorney or waived the right to be represented by an attorney, state whether you have been found guilty of, or plead guilty to, any crimes other than minor traffic violations (i.e., those traffic offenses without the potential penalty of incarceration) and, if so, state the nature of the offense, the date of each conviction, and the full name of the court where each conviction was entered.",
             "If you are aware of any other case or proceeding involving the incident identified in Plaintiff's Complaint including, but not limited to, civil, criminal or administrative actions, identify the case or action by tribunal, case number, docket number or citation number, the date of any hearing, and indicate any pleas in the case(s) and the disposition of the matter(s).",
         ]
+
         # Init variables
         reqType = None
         arrLen = None
