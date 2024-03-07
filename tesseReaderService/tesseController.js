@@ -1,7 +1,6 @@
 const path = require("path");
 const fs = require("fs");
 const tesseReader = require("./tesseReader.js");
-const modelController = require("../agent/ModelController.js");
 const { getDoc } = require("../firebase/firebase.js");
 
 class TesseController {
@@ -43,7 +42,7 @@ class TesseController {
     isComplaint = false,
     clientPosition = "Plaintiff"
   ) {
-    console.log("isComplaint in executeReadWriteActions", isComplaint);
+    console.log("isComplaint, id in executeReadWriteActions", isComplaint, id);
     function sleep(ms) {
       console.log("sleep called");
       return new Promise((resolve) => setTimeout(resolve, ms));

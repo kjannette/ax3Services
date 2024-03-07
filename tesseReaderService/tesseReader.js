@@ -17,7 +17,7 @@ async function writeFile(
 ) {
   const totalFiles = countObject.numberOfFiles;
   const fdirup = path.join(__dirname, "..", "Documents", "Textfiles");
-
+  console.log("file (id) in write file", file);
   try {
     fs.writeFile(
       `${fdirup}/${folder}/${file.split(".")[0]}.txt`,
@@ -77,6 +77,7 @@ async function convert(
   isComplaint,
   clientPosition
 ) {
+  console.log("file in convert (id)", file);
   const worker = await createWorker();
   const concatPath = `${path}/${file}`;
   await worker.loadLanguage("eng");
