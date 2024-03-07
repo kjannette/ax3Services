@@ -15,16 +15,12 @@ def fix_environ_middleware(app):
 app = bottle.default_app()
 app.wsgi = fix_environ_middleware(app.wsgi)
 gen_body = GenerateBody()
-suc = { 
-  'ok': True
-  }
-
 
 @post('/gen-req-docx/<docId>')
 def newdoc(docId):
-    print('docId', docId)
+    print('________________in pyserv docId', docId)
     gen_body.generate(docId)
     respBody = json.dumps({'Status': 'Success'})
     return bottle.HTTPResponse(status=200, body=respBody)
 
-run(app, host='127.0.0.1', port=8081, debug=True)
+run(app, host='127.0.0.1', port=8087, debug=True)
