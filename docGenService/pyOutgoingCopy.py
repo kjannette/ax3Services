@@ -11,7 +11,7 @@ def make_outgoing_instructions(document, clientPosition, servingParty):
         "______________________________________________________________OUTGOING FIRED"
     )
     instructionsArray = [
-      "These requests are continuing in character and require you to file supplementary or amended responses if you obtain further, different or contradictory information at any time prior to a trial of this action.",
+      "These requests are continuing in nature and require you to file supplementary or amended responses if you obtain further, different or contradictory information at any time prior to a trial of this action.",
       "Unless otherwise stated, these requests refer to the time, place, and circumstances of the occurances described and/or complained of in the Complaint and which form the basis for this action.",
       "Where name and identity of a person is required, state the full name, home address and business address, if known.",
       "When the identity of a corporation or other business entity is requested, state the entity's principal place of business, address and telephone number.  Also, set forth the individual or individuals with knowledge of the facts and circumstances that form the basis for this action.",

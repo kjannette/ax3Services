@@ -6,7 +6,8 @@ from docx.shared import Length
 from docx.enum.text import WD_PARAGRAPH_ALIGNMENT
 from docx.enum.text import WD_ALIGN_PARAGRAPH
 from pyCaptionTemplates import make_ny_header, make_nj_header, make_fl_header
-from pyGenObjectionTemplates import make_ny_gen_obj, make_nj_gen_obj, make_fl_gen_obj, make_outgoing_gen_obj
+from pyGenObjectionTemplates import make_ny_gen_obj, make_nj_gen_obj, make_fl_gen_obj
+from pyOutgoingCopy import make_outgoing_instructions
 
 
 class GenerateBody(object):
@@ -88,8 +89,16 @@ class GenerateBody(object):
             servingParty = caption2
         elif clientPosition == "Defendant":
             servingParty = caption1
-
-        comesNowString = f"COMES NOW, Respondent(s), {respondent}, through counsel, in response to the {reqType} served by {servingParty}, and states as follows:"
+        parties = "FILL THIS VAR IN"
+        if reqType == 'interrogatories-out':
+            if firmState == "ny":
+                comesNowString = "COMES NOW, Plaintiff, Walter Sobchak, through counsel, and hereby propounds these Interrogatories and Requests for Production on AAA Ins. Co., to be answered under oath, in writing, in accordance with NY CPLR 3120 - 3130."
+            elif firmState == "nj":
+                #pass
+            elif firmState == "fl":
+                comesNowString = f"COMES NOW,  ${clientPosition}, ${parties}, through counsel, and hereby propounds these Interrogatories and Requests for Production on ${adversary}, to be answered to be answered under oath, in writing, in accordance with Rule 1.340, Florida Rules of Civil Procedure."
+        else: 
+            comesNowString = f"COMES NOW, Respondent(s), {respondent}, through counsel, in response to the {reqType} served by {servingParty}, and states as follows:"
 
         if reqType == "interrogatories":
             reqHeader = "INTERROGATORY NO."
@@ -106,6 +115,11 @@ class GenerateBody(object):
             respHeader = "Response to Request for Production  No."
             mainHeader = "RESPONSE TO REQUEST FOR PRODUCTON"
             mainHeader2 = "RESPONSES"
+        elif reqType == 'interrogatories-out':
+            reqHeader = "Request no."
+            respHeader = "Response to Request for Production  No."
+            mainHeader = "INTERROGATORIES AND REQUEST FOR PRODUCTION OF DOCUMENTS"
+            mainHeader2 = "REQUESTS"
         else:
             reqHeader = "Request No."
             respHeader = "Response to Request No."
@@ -184,11 +198,10 @@ class GenerateBody(object):
         paragraph.paragraph_format.space_after = Pt(12)
         paragraph.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
 
-        # Add General Objections
+        # Add Instructions/Definitions if outgoing, else add General Objections 
         if reqType == "interrogatories-out":
-            if firmState != "new-zealand":
-                document = make_outgoing_gen_obj(document, clientPosition, servingParty)
-        elif reqType != "interrogatories-out":
+            document = make_outgoing_instructions(document, clientPosition, servingParty)
+        else:
             if firmState == "ny":
                 document = make_ny_gen_obj(document, clientPosition, servingParty)
             elif firmState == "nj":
@@ -201,34 +214,53 @@ class GenerateBody(object):
         p.add_run(f"{mainHeader2}").underline = True
         p.paragraph_format.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
 
-        # INIT responses to iterate
-        json_resp_data = open(respFile)
-        respData = json.load(json_resp_data)
-        respArray = respData[0]["responses"]
-        arrLen = len(respArray)
+        # INIT responses to iterate if doc is responsive, not outgoing
+        if (reqType != "interrogatories-out"):
+            json_resp_data = open(respFile)
+            respData = json.load(json_resp_data)
+            respArray = respData[0]["responses"]
+            arrLen = len(respArray)
 
         # INIT requests and begin iteration to generate copy
-        with open(reqFile) as json_data:
-            dataz = json.load(json_data)
-            reqArray = dataz[0]["requests"]
-            count = 1
+        if (reqType == "interrogatories-out"):
+            with open(reqFile) as json_data:
+                dataz = json.load(json_data)
+                reqArray = dataz[0]["requests"]
+                count = 1
 
-            for req in reqArray:
-                if count == arrLen:
-                    break
-                text = req["text"]
-                paragraph = document.add_paragraph(f"{reqHeader} {count}:")
-                paragraph = document.add_paragraph(text)
-                paragraph.paragraph_format.line_spacing = Pt(20)
-                paragraph.paragraph_format.space_after = Pt(12)
-                paragraph.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
-                paragraph = document.add_paragraph(f"{respHeader} {count}:")
-                paragraph.paragraph_format.space_before = Pt(24)
-                paragraph = document.add_paragraph(respArray[count]["text"])
-                paragraph.paragraph_format.line_spacing = Pt(24)
-                paragraph.paragraph_format.space_after = Pt(12)
-                paragraph.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
-                count = count + 1
+                for req in reqArray:
+                    if count == arrLen:
+                        break
+                    text = req["text"]
+                    paragraph = document.add_paragraph(f"{reqHeader} {count}:")
+                    paragraph = document.add_paragraph(text)
+                    paragraph.paragraph_format.line_spacing = Pt(20)
+                    paragraph.paragraph_format.space_after = Pt(12)
+                    paragraph.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
+                    count = count + 1
+
+        elif (reqType != "interrogatories-out"):
+            with open(reqFile) as json_data:
+                dataz = json.load(json_data)
+                reqArray = dataz[0]["requests"]
+                count = 1
+
+                for req in reqArray:
+                    if count == arrLen:
+                        break
+                    text = req["text"]
+                    paragraph = document.add_paragraph(f"{reqHeader} {count}:")
+                    paragraph = document.add_paragraph(text)
+                    paragraph.paragraph_format.line_spacing = Pt(20)
+                    paragraph.paragraph_format.space_after = Pt(12)
+                    paragraph.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
+                    paragraph = document.add_paragraph(f"{respHeader} {count}:")
+                    paragraph.paragraph_format.space_before = Pt(24)
+                    paragraph = document.add_paragraph(respArray[count]["text"])
+                    paragraph.paragraph_format.line_spacing = Pt(24)
+                    paragraph.paragraph_format.space_after = Pt(12)
+                    paragraph.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
+                    count = count + 1
 
         paragraph = document.add_paragraph(
             f"For the {clientPosition}, attorney {leadAttorneys} on this ______ day of _______________________, 2024."
