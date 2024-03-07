@@ -6,7 +6,7 @@ from docx.shared import Length
 from docx.enum.text import WD_PARAGRAPH_ALIGNMENT
 from docx.enum.text import WD_ALIGN_PARAGRAPH
 from pyCaptionTemplates import make_ny_header, make_nj_header, make_fl_header
-from pyGenObjectionTemplates import make_ny_gen_obj, make_nj_gen_obj, make_fl_gen_obj
+from pyGenObjectionTemplates import make_ny_gen_obj, make_nj_gen_obj, make_fl_gen_obj, make_outgoing_gen_obj
 
 
 class GenerateBody(object):
@@ -40,27 +40,26 @@ class GenerateBody(object):
         with open(dataFile) as json_data:
             jsonData = json.load(json_data)
         caseInfo = jsonData.get("caseInfo")
-        print('caseInfo', caseInfo)
-        return
-        caption1 = jsonData.get("caseCaption1")
-        caption2 = jsonData.get("caseCaption2")
-        clientPosition = jsonData.get("clientPosition")
-        defendant = jsonData.get("defendant")
-        plaintiff = jsonData.get("defendant")
-        jurisdiction = jsonData.get("jurisdiction")
-        reqType = jsonData.get("currentRequestType")
-        venue = jsonData.get("venue")
-        caseNumber = jsonData.get("caseNumber")
-        judge = jsonData.get("judge")
+        
+        caption1 = caseInfo["caseCaption1"]
+        caption2 = caseInfo["caseCaption2"]
+        clientPosition = caseInfo["clientPosition"]
+        defendant = caseInfo["defendant"]
+        plaintiff = caseInfo["plaintiff"]
+        jurisdiction = caseInfo["jurisdiction"]
+        reqType = caseInfo["currentRequestType"]
+        venue = caseInfo["venue"]
+        caseNumber = caseInfo["caseNumber"]
+        judge = caseInfo["judge"]
 
         # Get attorney/firm data
-        firm = jsonData.get("firm")
-        leadAttorneys = jsonData.get("leadAttorneys")
-        firmStreetAddress = jsonData.get("firmStreetAddress")
-        firmCity = jsonData.get("firmCity")
-        firmState = jsonData.get("state")
-        firmTel = jsonData.get("tel")
-        firmZip = jsonData.get("firmZip")
+        firm = caseInfo["firm"] 
+        leadAttorneys = caseInfo["leadAttorneys"] 
+        firmStreetAddress = caseInfo["firmStreetAddress"] 
+        firmCity = caseInfo["firmCity"] 
+        firmState = caseInfo["state"] 
+        firmTel = caseInfo["tel"] 
+        firmZip = caseInfo["firmZip"]
 
         if reqType == "interrogatories":
             #reqFile = f"/var/www/ax3Services/Documents/Requests/Parsedrogs/{docId}/{docId}-jbk-parsedRequests.json"
@@ -76,6 +75,9 @@ class GenerateBody(object):
         elif reqType == "admissions":
             reqFile = f"/var/www/ax3Services/Documents/Requests/Parsedadmit/{docId}/{docId}-jbk-parsedRequests.json"
             respFile = f"/var/www/ax3Services/Documents/Responses/Admitresp/{docId}/{docId}-jbk-responses.json"
+        elif reqType == "interrogatories-out":
+            reqFile = f"/Users/kjannette/workspace/ax3/ax3Services/Documents/RequestsOut/{docId}/{docId}-jbk-requests-out.json"
+            #reqFile = f"/var/www/ax3Services/Documents/RequestsOut/{docId}/{docId}-jbk-requests-out.json"
 
         if clientPosition == "Plaintiff":
             respondent = plaintiff
@@ -181,14 +183,18 @@ class GenerateBody(object):
         paragraph.paragraph_format.space_before = Pt(12)
         paragraph.paragraph_format.space_after = Pt(12)
         paragraph.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
-        print("****************************************respFile", respFile)
+
         # Add General Objections
-        if firmState == "ny":
-            document = make_ny_gen_obj(document, clientPosition, servingParty)
-        elif firmState == "nj":
-            document = make_nj_gen_obj(document, clientPosition, servingParty)
-        elif firmState == "fl":
-            document = make_fl_gen_obj(document, clientPosition, servingParty)
+        if reqType == "interrogatories-out":
+            if firmState != "new-zealand":
+                document = make_outgoing_gen_obj(document, clientPosition, servingParty)
+        elif reqType != "interrogatories-out":
+            if firmState == "ny":
+                document = make_ny_gen_obj(document, clientPosition, servingParty)
+            elif firmState == "nj":
+                document = make_nj_gen_obj(document, clientPosition, servingParty)
+            elif firmState == "fl":
+                document = make_fl_gen_obj(document, clientPosition, servingParty)
 
         # Add main heading two
         p = document.add_paragraph()

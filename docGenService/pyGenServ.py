@@ -15,10 +15,6 @@ def fix_environ_middleware(app):
 app = bottle.default_app()
 app.wsgi = fix_environ_middleware(app.wsgi)
 gen_body = GenerateBody()
-suc = { 
-  'ok': True
-  }
-
 
 @post('/gen-req-docx/<docId>')
 def newdoc(docId):

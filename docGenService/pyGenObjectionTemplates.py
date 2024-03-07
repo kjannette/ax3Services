@@ -83,6 +83,7 @@ def make_fl_gen_obj(document, clientPosition, servingParty):
     print(
         "______________________________________________________________FLORIDA MAKE OBJECTION FIRED"
     )
+    
     p = document.add_paragraph()
     p.add_run("GENERAL OBJECTIONS").underline = True
     p.paragraph_format.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
