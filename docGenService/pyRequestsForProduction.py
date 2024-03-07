@@ -22,3 +22,21 @@ def make_requests_for_production(document, clientPosition, servingParty):
     "Any document prepared during the regular course of business as a result of the occurrence complained of in the complaint.",
     "Copies of any treaties, standards in the industry, legal authority, rule, case, statute, or code that will be relied upon in the defense of this case.",
   ]
+
+  p = document.add_paragraph()
+  p.add_run("REQUESTS FOR PRODUCTION OF DOCUMENTS").underline = True
+  p.paragraph_format.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
+  arrLen = len(requestsForProductionArray)
+  count = 0
+
+  for req in requestsForProductionArray:
+    if count == arrLen:
+        break
+
+    paragraph = document.add_paragraph(f"{count + 1}. {req}")
+    paragraph.paragraph_format.line_spacing = Pt(20)
+    paragraph.paragraph_format.space_after = Pt(12)
+    paragraph.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
+    count = count + 1
+
+    return document
