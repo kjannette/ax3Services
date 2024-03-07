@@ -12,7 +12,7 @@ def make_outgoing_instructions(document, clientPosition, servingParty):
     )
     instructionsArray = [
       "These requests are continuing in nature and require you to file supplementary or amended responses if you obtain further, different or contradictory information at any time prior to a trial of this action.",
-      "Unless otherwise stated, these requests refer to the time, place, and circumstances of the occurances described and/or complained of in the Complaint and which form the basis for this action.",
+      "Unless otherwise stated, these requests refer to the time, place, and circumstances of the occurrences described and/or complained of in the Complaint and which form the basis for this action.",
       "Where name and identity of a person is required, state the full name, home address and business address, if known.",
       "When the identity of a corporation or other business entity is requested, state the entity's principal place of business, address and telephone number.  Also, set forth the individual or individuals with knowledge of the facts and circumstances that form the basis for this action.",
       "Where knowledge or information in possession of a party is requested, such request includes knowledge of the party's agents, representatives, and, unless privileged,  attorneys. ",
@@ -22,7 +22,7 @@ def make_outgoing_instructions(document, clientPosition, servingParty):
     ]
 
     definitionsArray = [
-      "'You' refers to the party to whom the requests are addressed and any addiitonal parties or entities as described in the foregoing instructions and these definitions.",
+      "'You' refers to the party to whom the requests are addressed and any additional parties or entities as described in the foregoing instructions and these definitions.",
       "“Person”, unless otherwise specified”, includes the plural as well as the singular, and includes in its meaning any natural person, or artificial or legal entity, including corporations, partnerships, joint ventures, associations, governmental agencies, groups, organizations, and any and every other form of entity cognizable at law.",
       "“Document” means and includes all written and graphic matter of every kind and description, whether printed or produced by any process or by hand, whether final draft or reproduction, whether in the actual or constructive possession, custody or control of the respondent to a given interrogatory, including any and all written letters, correspondence, memoranda, notes, statements, transcripts, files, charters, articles of incorporation, securities, bonds, stocks, certificates of deposit, evidences of debt, contracts, agreements, licenses, memoranda or notes of telephone or personal conversations, work papers, tapes, charts, reports, books, ledgers, telegrams, sound recordings, books of account, customer account statements, financial statements, catalogs, checks, check stubs, and written statements of witnesses or other persons having knowledge pertaining to the pertinent facts requested or relating to the interrogatory or subpart thereof, whether or not these documents are claimed to be privileged against disclosure.",
       "“Identify” means, when used with reference to an individual person, organization, corporation or association, to state the full name, home and work addresses, e-mail address, home and business telephone numbers, present or last known position and business affiliation and position both in the past and at the time said interrogatory or subpart thereof is being responded to.",

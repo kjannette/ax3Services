@@ -79,20 +79,32 @@ class GenerateBody(object):
         elif reqType == "interrogatories-out":
             reqFile = f"/Users/kjannette/workspace/ax3/ax3Services/Documents/RequestsOut/{docId}/{docId}-jbk-requests-out.json"
             #reqFile = f"/var/www/ax3Services/Documents/RequestsOut/{docId}/{docId}-jbk-requests-out.json"
+        
+        if reqType == 'interrogatories-out':
+            if clientPosition == "Plaintiff":
+                respondent = defendant
+            elif clientPosition == "Defendant":
+                respondent = plaintiff
+        else: 
+            if clientPosition == "Plaintiff":
+                respondent = plaintiff
+            elif clientPosition == "Defendant":
+                respondent = defendant
 
-        if clientPosition == "Plaintiff":
-            respondent = plaintiff
-        elif clientPosition == "Defendant":
-            respondent = defendant
-
-        if clientPosition == "Plaintiff":
-            servingParty = caption2
-        elif clientPosition == "Defendant":
-            servingParty = caption1
+        if reqType == 'interrogatories-out':
+            if clientPosition == "Plaintiff":
+                servingParty = plaintiff
+            elif clientPosition == "Defendant":
+                servingParty = defendant
+        else:
+            if clientPosition == "Plaintiff":
+                servingParty = caption2
+            elif clientPosition == "Defendant":
+                servingParty = caption1
 
         if reqType == 'interrogatories-out':
             if firmState == "ny":
-                comesNowString = f"COMES NOW, {clientPosition}, {servingParty} through counsel, and hereby propounds these Interrogatories and Requests for Production upon {respondent}, to be answered under oath, in writing, in accordance with NY CPLR 3120 - 3130."
+                comesNowString = f"COMES NOW, {clientPosition}, {servingParty}, through counsel, and hereby propounds these Interrogatories and Requests for Production upon {respondent}, to be answered under oath, in writing, in accordance with NY CPLR 3120 - 3130."
             elif firmState == "nj":
                 comesNowString = f"Comes now ${clientPosition}, ${servingParty}, through counsel, and hereby propounds these Interrogatories and Requests for Production upon ${respondent}, to be answered to be answered under oath, in writing, in accordance with NJ R. 4:17-1 - 4:18-1, + et. seq. All questions must be answered unless the court otherwise orders or unless a claim of privilege or protective order is made in accordance with R. 4:17-1(b)(3)."
             elif firmState == "fl":
