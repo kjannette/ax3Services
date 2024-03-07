@@ -89,15 +89,14 @@ class GenerateBody(object):
             servingParty = caption2
         elif clientPosition == "Defendant":
             servingParty = caption1
-        parties = "FILL THIS VAR IN"
-        adversary = "FILL IN FILL IN FILL IN"
+
         if reqType == 'interrogatories-out':
             if firmState == "ny":
-                comesNowString = "COMES NOW, Plaintiff, Walter Sobchak, through counsel, and hereby propounds these Interrogatories and Requests for Production on AAA Ins. Co., to be answered under oath, in writing, in accordance with NY CPLR 3120 - 3130."
+                comesNowString = f"COMES NOW, {clientPosition}, {servingParty} through counsel, and hereby propounds these Interrogatories and Requests for Production upon {respondent}, to be answered under oath, in writing, in accordance with NY CPLR 3120 - 3130."
             elif firmState == "nj":
-                comesNowString = f"Comes now ${position}, ${parties}, through counsel, and hereby propounds these Interrogatories and Requests for Production on ${adversary}, to be answered to be answered under oath, in writing, in accordance with NJ R. 4:17-1 - 4:18-1, + et. seq. All questions must be answered unless the court otherwise orders or unless a claim of privilege or protective order is made in accordance with R. 4:17-1(b)(3)."
+                comesNowString = f"Comes now ${clientPosition}, ${servingParty}, through counsel, and hereby propounds these Interrogatories and Requests for Production upon ${respondent}, to be answered to be answered under oath, in writing, in accordance with NJ R. 4:17-1 - 4:18-1, + et. seq. All questions must be answered unless the court otherwise orders or unless a claim of privilege or protective order is made in accordance with R. 4:17-1(b)(3)."
             elif firmState == "fl":
-                comesNowString = f"COMES NOW,  ${clientPosition}, ${parties}, through counsel, and hereby propounds these Interrogatories and Requests for Production on ${adversary}, to be answered to be answered under oath, in writing, in accordance with Rule 1.340, Florida Rules of Civil Procedure."
+                comesNowString = f"COMES NOW,  ${clientPosition}, ${servingParty}, through counsel, and hereby propounds these Interrogatories and Requests for Production upon ${respondent}, to be answered to be answered under oath, in writing, in accordance with Rule 1.340, Florida Rules of Civil Procedure."
         else: 
             comesNowString = f"COMES NOW, Respondent(s), {respondent}, through counsel, in response to the {reqType} served by {servingParty}, and states as follows:"
 
