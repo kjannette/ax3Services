@@ -9,7 +9,7 @@ from pyCaptionTemplates import make_ny_header, make_nj_header, make_fl_header
 from pyGenObjectionTemplates import make_ny_gen_obj, make_nj_gen_obj, make_fl_gen_obj
 from pyOutgoingCopy import make_outgoing_instructions
 from pyRequestsForProduction import make_requests_for_production
-# 
+
 class GenerateBody(object):
     def generate(self, docId):
         print('-------------->docId', docId)
@@ -310,9 +310,9 @@ class GenerateBody(object):
 #   f"/Users/kjannette/workspace/ax3/ax3Services/Docxfinal/{docId}.docx"
 #         document.save(f"/var/www/ax3Services/Docxfinal/{docId}.docx")
 # Uncomment for development/smoke testing
-genBod = GenerateBody()
+#genBod = GenerateBody()
 
-genBod.generate("eb75d30a-d58a-4b2e-80ba-695c8a79a1e6")
+#genBod.generate("eb75d30a-d58a-4b2e-80ba-695c8a79a1e6")
 # reqFile = f"/Users/kjannette/workspace/ax3/ax3Services/Documents/Requests/Parsedrogs/{docId}/{docId}-jbk-parsedRequests.json"
 # respFile = f"/Users/kjannette/workspace/ax3/ax3Services/Documents/Responses/Rogresp/{docId}/{docId}-jbk-responses.json"
 
