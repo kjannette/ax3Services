@@ -56,7 +56,7 @@ def make_outgoing_instructions(document, clientPosition, servingParty):
       if count_two == arrLen:
          break
       
-      paragraph = document.add_paragraph(f"{count + 1}. {defn}")
+      paragraph = document.add_paragraph(f"{count_two + 1}. {defn}")
       paragraph.paragraph_format.line_spacing = Pt(20)
       paragraph.paragraph_format.space_after = Pt(12)
       paragraph.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
