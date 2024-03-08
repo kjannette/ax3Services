@@ -65,7 +65,13 @@ const altStorage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 const uploadComp = multer({ storage: altStorage });
-
+let count;
+function tesseCalls(id) {
+  console.log(
+    `-------------------------> calling tesse exx read write ${count} times for id no:  ${id}`
+  );
+  count++;
+}
 app.post(
   "/v1/gen-disc-request-pl",
   uploadComp.single("file"),
@@ -73,6 +79,10 @@ app.post(
     const id = req.file.originalname.split(".")[0];
     const isComplaint = true;
     try {
+      console.log(
+        "------------------------------/v1/gen-disc-request-pl PLAINTIFF"
+      );
+
       req.url = req.url.replace(
         "/v1/gen-disc-request-pl",
         `/parse-new-complaint/${id}`
@@ -85,17 +95,12 @@ app.post(
       proxy.on("proxyRes", function (proxyRes, req, res) {
         const clientPosition = "plaintiff";
         const isComplaint = true;
+        tesseCalls(id);
         tesseController.executeReadWriteActions(
           id,
           isComplaint,
           clientPosition
         );
-        /*
-        proxyRes.on("end", function () {
-          console.log('"compaint successfully uploaded"');
-          res.end("compaint successfully uploaded");
-        });
-        */
       });
       res.sendStatus(200);
     } catch (err) {
@@ -113,6 +118,9 @@ app.post(
   function (req, res) {
     const id = req.file.originalname.split(".")[0];
     try {
+      console.log(
+        "------------------------------/v1/gen-disc-request-df DEFENDANT"
+      );
       req.url = req.url.replace(
         "/v1/gen-disc-request-df",
         `/parse-new-complaint/${id}`
@@ -129,6 +137,7 @@ app.post(
         );
         const isComplaint = true;
         const clientPosition = "defendant";
+        tesseCalls(id);
         tesseController.executeReadWriteActions(
           id,
           isComplaint,
@@ -160,6 +169,7 @@ app.post("/v1/parse-new-req-doc", upload.single("file"), function (req, res) {
   const isComplaint = false;
 
   try {
+    console.log("------------------------------/v1/parse-new-disc-req UNISEX");
     req.url = req.url.replace(
       "/v1/parse-new-req-doc",
       `/parse-new-disc-req/${id}`
@@ -171,10 +181,7 @@ app.post("/v1/parse-new-req-doc", upload.single("file"), function (req, res) {
     });
 
     proxy.on("proxyRes", function (proxyRes, req, res) {
-      console.log(
-        "RAW header from pyserver:",
-        JSON.stringify(proxyRes.headers, true, 2)
-      );
+      tesseCalls(id);
       tesseController.executeReadWriteActions(id, isComplaint);
       /*
       proxyRes.on("end", function () {
