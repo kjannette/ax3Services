@@ -72,8 +72,9 @@ function tesseCalls(id) {
   );
   count++;
 }
+
 app.post(
-  "/v1/gen-disc-request-pl",
+  "/v1/gen-disc-request-out",
   uploadComp.single("file"),
   function (req, res) {
     const id = req.file.originalname.split(".")[0];
@@ -85,7 +86,7 @@ app.post(
       );
 
       req.url = req.url.replace(
-        "/v1/gen-disc-request-pl",
+        "/v1/gen-disc-request-out",
         `/parse-new-complaint/${id}`
       );
       proxy.web(req, res, {
@@ -93,15 +94,6 @@ app.post(
           console.log("Proxy error:", err);
         },
       });
-      proxy.on("proxyRes", function (proxyRes, req, res) {
-        tesseCalls(id);
-        tesseController.executeReadWriteActions(
-          id,
-          isComplaint,
-          clientPosition
-        );
-      });
-      res.sendStatus(201);
     } catch (err) {
       logger.error({ level: "error", message: "err", err });
       console.log("Error at /v1/gen-disc-request", err);
@@ -112,16 +104,17 @@ app.post(
 );
 
 app.post(
-  "/v1/gen-disc-request-df",
+  "/v1/upload-convert-complaint",
   uploadComp.single("file"),
   function (req, res) {
     const id = req.file.originalname.split(".")[0];
     try {
       console.log(
-        "------------------------------/v1/gen-disc-request-df DEFENDANT"
+        "------------------------------/v1/upload-convert-complaint id",
+        id
       );
       req.url = req.url.replace(
-        "/v1/gen-disc-request-df",
+        "/v1/upload-convert-commplaint",
         `/parse-new-complaint/${id}`
       );
       proxy.web(req, res, {
@@ -129,33 +122,38 @@ app.post(
           console.log("Proxy error:", err);
         },
       });
-      proxy.on("proxyRes", function (proxyRes, req, res) {
-        console.log(
-          "RAW header from pyserver:",
-          JSON.stringify(proxyRes.headers, true, 2)
-        );
-        const isComplaint = true;
-        const clientPosition = "defendant";
-        tesseCalls(id);
-        tesseController.executeReadWriteActions(
-          id,
-          isComplaint,
-          clientPosition
-        );
-        /*
-        proxyRes.on("end", function () {
-          console.log('"compaint successfully uploaded"');
-          res.end("compaint successfully uploaded");
-        });
-        */
-      });
-      res.status(200).send();
     } catch (err) {
       logger.error({ level: "error", message: "err", err });
       console.log("Error at /v1/gen-disc-request", err);
       res.send(err);
     }
-    res.sendStatus(200);
+    res.sendStatus(201); //try res.end
+  }
+);
+
+app.post(
+  "/v1/generate-outgoing-disc-req/:docId/:radioValue/:clientPosition",
+  function (req, res) {
+    const { docId, radioValue, clientPosition } = req.params;
+    console.log(
+      "hit generate-outgoing-disc-req/ docId, radioValue, clientPosition",
+      docId,
+      radioValue,
+      clientPosition
+    );
+    try {
+      const isComplaint =
+        radioValue.toLowerCase() === "complaint" ? true : false;
+
+      tesseController.executeReadWriteActions(
+        docId,
+        isComplaint,
+        clientPosition
+      );
+    } catch (err) {
+      console.log("Error at /v1/store-edited-completions:", err);
+    }
+    res.end();
   }
 );
 
