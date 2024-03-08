@@ -17,14 +17,14 @@ async function writeFile(
 ) {
   const totalFiles = countObject.numberOfFiles;
   const fdirup = path.join(__dirname, "..", "Documents", "Textfiles");
-
+  console.log("file (id) in write file", file);
   try {
     fs.writeFile(
       `${fdirup}/${folder}/${file.split(".")[0]}.txt`,
       text,
       function (err) {
         if (err) {
-          return console.log("err in tesseReader writeFile", err);
+          console.log("err in tesseReader writeFile", err);
         }
       }
     );
@@ -60,7 +60,7 @@ async function writeSingle(folder, text) {
       text,
       function (err) {
         if (err) {
-          return console.log(err);
+          console.log("error in writeSingle, ", err);
         }
       }
     );
@@ -77,6 +77,7 @@ async function convert(
   isComplaint,
   clientPosition
 ) {
+  console.log("file in convert (id)", file);
   const worker = await createWorker();
   const concatPath = `${path}/${file}`;
   await worker.loadLanguage("eng");

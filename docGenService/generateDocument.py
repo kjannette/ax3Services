@@ -9,7 +9,7 @@ from pyCaptionTemplates import make_ny_header, make_nj_header, make_fl_header
 from pyGenObjectionTemplates import make_ny_gen_obj, make_nj_gen_obj, make_fl_gen_obj
 from pyOutgoingCopy import make_outgoing_instructions
 from pyRequestsForProduction import make_requests_for_production
-# 
+
 class GenerateBody(object):
     def generate(self, docId):
         print('-------------->docId', docId)
@@ -25,6 +25,7 @@ class GenerateBody(object):
             "Since your eighteenth birthday, when you were represented by an attorney or waived the right to be represented by an attorney, state whether you have been found guilty of, or plead guilty to, any crimes other than minor traffic violations (i.e., those traffic offenses without the potential penalty of incarceration) and, if so, state the nature of the offense, the date of each conviction, and the full name of the court where each conviction was entered.",
             "If you are aware of any other case or proceeding involving the incident identified in Plaintiff's Complaint including, but not limited to, civil, criminal or administrative actions, identify the case or action by tribunal, case number, docket number or citation number, the date of any hearing, and indicate any pleas in the case(s) and the disposition of the matter(s).",
         ]
+
         # Init variables
         reqType = None
         arrLen = None
@@ -310,9 +311,9 @@ class GenerateBody(object):
 #   f"/Users/kjannette/workspace/ax3/ax3Services/Docxfinal/{docId}.docx"
 #         document.save(f"/var/www/ax3Services/Docxfinal/{docId}.docx")
 # Uncomment for development/smoke testing
-genBod = GenerateBody()
+#genBod = GenerateBody()
 
-genBod.generate("eb75d30a-d58a-4b2e-80ba-695c8a79a1e6")
+#genBod.generate("eb75d30a-d58a-4b2e-80ba-695c8a79a1e6")
 # reqFile = f"/Users/kjannette/workspace/ax3/ax3Services/Documents/Requests/Parsedrogs/{docId}/{docId}-jbk-parsedRequests.json"
 # respFile = f"/Users/kjannette/workspace/ax3/ax3Services/Documents/Responses/Rogresp/{docId}/{docId}-jbk-responses.json"
 

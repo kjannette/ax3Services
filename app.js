@@ -65,14 +65,25 @@ const altStorage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 const uploadComp = multer({ storage: altStorage });
-
+let count;
+function tesseCalls(id) {
+  console.log(
+    `-------------------------> calling tesse exx read write ${count} times for id no:  ${id}`
+  );
+  count++;
+}
 app.post(
   "/v1/gen-disc-request-pl",
   uploadComp.single("file"),
   function (req, res) {
     const id = req.file.originalname.split(".")[0];
     const isComplaint = true;
+    const clientPosition = "plaintiff";
     try {
+      console.log(
+        "------------------------------/v1/gen-disc-request-pl PLAINTIFF"
+      );
+
       req.url = req.url.replace(
         "/v1/gen-disc-request-pl",
         `/parse-new-complaint/${id}`
@@ -83,21 +94,14 @@ app.post(
         },
       });
       proxy.on("proxyRes", function (proxyRes, req, res) {
-        const clientPosition = "plaintiff";
-        const isComplaint = true;
+        tesseCalls(id);
         tesseController.executeReadWriteActions(
           id,
           isComplaint,
           clientPosition
         );
-        /*
-        proxyRes.on("end", function () {
-          console.log('"compaint successfully uploaded"');
-          res.end("compaint successfully uploaded");
-        });
-        */
       });
-      res.sendStatus(200);
+      res.sendStatus(201);
     } catch (err) {
       logger.error({ level: "error", message: "err", err });
       console.log("Error at /v1/gen-disc-request", err);
@@ -113,6 +117,9 @@ app.post(
   function (req, res) {
     const id = req.file.originalname.split(".")[0];
     try {
+      console.log(
+        "------------------------------/v1/gen-disc-request-df DEFENDANT"
+      );
       req.url = req.url.replace(
         "/v1/gen-disc-request-df",
         `/parse-new-complaint/${id}`
@@ -129,6 +136,7 @@ app.post(
         );
         const isComplaint = true;
         const clientPosition = "defendant";
+        tesseCalls(id);
         tesseController.executeReadWriteActions(
           id,
           isComplaint,
@@ -160,6 +168,7 @@ app.post("/v1/parse-new-req-doc", upload.single("file"), function (req, res) {
   const isComplaint = false;
 
   try {
+    console.log("------------------------------/v1/parse-new-disc-req UNISEX");
     req.url = req.url.replace(
       "/v1/parse-new-req-doc",
       `/parse-new-disc-req/${id}`
@@ -171,10 +180,7 @@ app.post("/v1/parse-new-req-doc", upload.single("file"), function (req, res) {
     });
 
     proxy.on("proxyRes", function (proxyRes, req, res) {
-      console.log(
-        "RAW header from pyserver:",
-        JSON.stringify(proxyRes.headers, true, 2)
-      );
+      tesseCalls(id);
       tesseController.executeReadWriteActions(id, isComplaint);
       /*
       proxyRes.on("end", function () {
@@ -205,7 +211,7 @@ app.post("/v1/generate-request-docx/:docId", async function (req, res) {
       },
     });
   } catch (err) {
-    console.log(err);
+    console.log("generate-request-docx error", err);
   }
 });
 
@@ -259,7 +265,7 @@ app.post("/create-subscription", async (req, res) => {
       customerId,
     });
   } catch (error) {
-    console.log(error);
+    console.log("Error in create-subscription", error);
     res.status(400).send({ error: { message: error.message } });
   }
 });
@@ -376,7 +382,7 @@ app.get(
 
       res.send(data);
     } catch (error) {
-      console.log(error);
+      console.log("Error in enResponseFromArray/:docId", error);
       res.send(error);
     }
   }
