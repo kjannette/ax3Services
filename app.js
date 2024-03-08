@@ -65,13 +65,6 @@ const altStorage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 const uploadComp = multer({ storage: altStorage });
-let count;
-function tesseCalls(id) {
-  console.log(
-    `-------------------------> calling tesse exx read write ${count} times for id no:  ${id}`
-  );
-  count++;
-}
 
 app.post(
   "/v1/gen-disc-request-out",
@@ -102,32 +95,25 @@ app.post(
     res.sendStatus(200);
   }
 );
-
+//make outgoing
 app.post(
-  "/v1/upload-convert-complaint",
-  uploadComp.single("file"),
-  function (req, res) {
-    const id = req.file.originalname.split(".")[0];
+  "/v1/make-outgoing-requests/:docId/:radioValue/:clientPosition",
+  async (req, res) => {
+    const { docId, radioValue, clientPosition } = req.params;
+    console.log(
+      "``````````````````````````make outgoing requests------------------------------------------------------------------------------------>"
+    );
+    const isComplaint = true;
     try {
-      console.log(
-        "------------------------------/v1/upload-convert-complaint id",
-        id
+      const res = await tesseController.executeReadWriteActions(
+        docId,
+        isComplaint,
+        clientPosition
       );
-      req.url = req.url.replace(
-        "/v1/upload-convert-commplaint",
-        `/parse-new-complaint/${id}`
-      );
-      proxy.web(req, res, {
-        function(err) {
-          console.log("Proxy error:", err);
-        },
-      });
+      return res;
     } catch (err) {
-      logger.error({ level: "error", message: "err", err });
-      console.log("Error at /v1/gen-disc-request", err);
-      res.send(err);
+      console.log("err in make-outgoing-requests", err);
     }
-    res.sendStatus(201); //try res.end
   }
 );
 
@@ -166,7 +152,7 @@ app.post("/v1/parse-new-req-doc", upload.single("file"), function (req, res) {
   const isComplaint = false;
 
   try {
-    console.log("------------------------------/v1/parse-new-disc-req UNISEX");
+    console.log("------------------------------/v1/parse-new-disc-req ");
     req.url = req.url.replace(
       "/v1/parse-new-req-doc",
       `/parse-new-disc-req/${id}`
