@@ -24,7 +24,7 @@ async function writeFile(
       text,
       function (err) {
         if (err) {
-          return console.log("err in tesseReader writeFile", err);
+          console.log("err in tesseReader writeFile", err);
         }
       }
     );
@@ -60,7 +60,7 @@ async function writeSingle(folder, text) {
       text,
       function (err) {
         if (err) {
-          return console.log(err);
+          console.log("error in writeSingle, ", err);
         }
       }
     );

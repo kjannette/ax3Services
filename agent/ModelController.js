@@ -485,12 +485,15 @@ class ModelController {
         data,
         function (err) {
           if (err) {
-            return console.log("Error in saveCompletions writeFile:", err);
+            console.log(
+              "Error in createArrayOfInterrogatories writeFile:",
+              err
+            );
           }
         }
       );
     } catch (err) {
-      console.log("Error writing file:", err);
+      console.log("Error writing file in createArrayOfInterrogatories:", err);
     }
     updateDB(docId, reqType); //need to fix
     return temp;

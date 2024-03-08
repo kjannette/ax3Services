@@ -109,7 +109,9 @@ async function parseCombined(
   const rogs = [];
 
   filePaths.forEach((filePath) => {
-    fileData = fs.readFileSync(filePath, "utf8");
+    fileData = fs.readFileSync(filePath, "utf8", function (err) {
+      console.log("error in readFile", err);
+    });
     const arr = [];
     searchStr = 1;
 

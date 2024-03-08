@@ -78,6 +78,7 @@ app.post(
   function (req, res) {
     const id = req.file.originalname.split(".")[0];
     const isComplaint = true;
+    const clientPosition = "plaintiff";
     try {
       console.log(
         "------------------------------/v1/gen-disc-request-pl PLAINTIFF"
@@ -93,8 +94,6 @@ app.post(
         },
       });
       proxy.on("proxyRes", function (proxyRes, req, res) {
-        const clientPosition = "plaintiff";
-        const isComplaint = true;
         tesseCalls(id);
         tesseController.executeReadWriteActions(
           id,
@@ -102,7 +101,7 @@ app.post(
           clientPosition
         );
       });
-      res.sendStatus(200);
+      res.sendStatus(201);
     } catch (err) {
       logger.error({ level: "error", message: "err", err });
       console.log("Error at /v1/gen-disc-request", err);
@@ -212,7 +211,7 @@ app.post("/v1/generate-request-docx/:docId", async function (req, res) {
       },
     });
   } catch (err) {
-    console.log(err);
+    console.log("generate-request-docx error", err);
   }
 });
 
@@ -266,7 +265,7 @@ app.post("/create-subscription", async (req, res) => {
       customerId,
     });
   } catch (error) {
-    console.log(error);
+    console.log("Error in create-subscription", error);
     res.status(400).send({ error: { message: error.message } });
   }
 });
@@ -383,7 +382,7 @@ app.get(
 
       res.send(data);
     } catch (error) {
-      console.log(error);
+      console.log("Error in enResponseFromArray/:docId", error);
       res.send(error);
     }
   }
