@@ -32,6 +32,9 @@ async function writeFile(
     console.log("Error writing file:", err);
   }
   countWrites++;
+
+  console.log("_----------------------countWrites", countWrites);
+  console.log("_----------------------totalFiles", totalFiles);
   if (countWrites == totalFiles) {
     if (isComplaint === true) {
       countObject.filePath = `../Documents/Textfiles/${folder}/`;
