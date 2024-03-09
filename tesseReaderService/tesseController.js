@@ -20,21 +20,10 @@ class TesseController {
     });
   }
 
-  async countFiles(file) {
-    var fdirup = path.join(
-      __dirname,
-      "..",
-      "Documents",
-      "Converted",
-      `${file}`
-    );
-    let fileCount = [{}];
-    fileCount.fileName = file;
-    let fileNames = fs.readdirSync(fdirup);
-    fileCount["files"] = fileNames;
-    fileCount["path"] = fdirup;
-    fileCount["numberOfFiles"] = fileNames.length;
-    return fileCount;
+  async createObj(file) {
+    console.log("fdirup", fdirup);
+
+    // console.log("---------------------------------------fileNames", fileNames);
   }
 
   async executeReadWriteActions(
@@ -42,15 +31,23 @@ class TesseController {
     isComplaint = false,
     clientPosition = "Plaintiff"
   ) {
-    console.log("isComplaint, id in executeReadWriteActions", isComplaint, id);
-    function sleep(ms) {
-      console.log("sleep called");
-      return new Promise((resolve) => setTimeout(resolve, ms));
-    }
+    const fdirup = path.join(
+      __dirname,
+      "..",
+      "Documents",
+      "Converted",
+      `${id}`
+    );
+    let fileInfObj = {};
+    fileInfObj.fileName = id;
+    let fileNames = fs.readdirSync(fdirup);
+    fileInfObj.files = fileNames;
+    fileInfObj.path = fdirup;
+    fileInfObj.numberOfFiles = fileNames.length;
 
-    const fileInfObj = await this.countFiles(id);
-
+    console.log("fileInfoObj", fileInfObj);
     this.makeDir(id);
+
     let masterArr = [];
 
     function callConvert(
@@ -99,4 +96,22 @@ class TesseController {
   }
 }
 
+const tesseCont = new TesseController();
+
 module.exports = new TesseController();
+
+/*
+
+const id = "5f9d7844-584d-46d5-bd0a-e1ac6ff0c06d";
+const isComplaint = true;
+
+tesseCont.executeReadWriteActions(id, isComplaint);
+
+
+    function sleep(ms) {
+      console.log("sleep called");
+      return new Promise((resolve) => setTimeout(resolve, ms));
+    }
+
+
+*/

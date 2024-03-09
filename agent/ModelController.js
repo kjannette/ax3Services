@@ -450,12 +450,11 @@ class ModelController {
       }
     }
 
-    const directionVar = "RequestsOut";
     const saveDirectory = path.join(
       __dirname,
       "..",
       "Documents",
-      `${directionVar}`,
+      "RequestsOut",
       `${docId}`
     );
 
@@ -478,7 +477,7 @@ class ModelController {
     function sleep(ms) {
       return new Promise((resolve) => setTimeout(resolve, ms));
     }
-    await sleep(2000);
+    await sleep(1000);
     try {
       fs.writeFile(
         `${saveDirectory}/${docId}${fileSuffix}`,
