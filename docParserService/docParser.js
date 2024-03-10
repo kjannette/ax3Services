@@ -533,12 +533,11 @@ async function parseRogs(
     requestArray.push(requestObject);
     const docId = folder;
     const reqType = "interrogatories"; //determinedDocType var value is lost by here not sure why but this hack should fix
-    const directionVar = "Requests";
     const saveDirectory = path.join(
       __dirname,
       "..",
       "Documents",
-      `${directionVar}`,
+      "Requests",
       `${reqType}`,
       `${docId}`
     );
@@ -550,6 +549,12 @@ async function parseRogs(
     });
     const fileSuffix = "-jbk-parsedRequests.json";
     const data = JSON.stringify(requestArray);
+    updateDB(docId, determinedDocType);
+    function sleep(ms) {
+      console.log("sleep called");
+      return new Promise((resolve) => setTimeout(resolve, ms));
+    }
+    await sleep(2500);
     fs.writeFile(
       `${saveDirectory}/${docId}${fileSuffix}`,
       data,
@@ -559,10 +564,10 @@ async function parseRogs(
         }
       }
     );
-    updateDB(docId, determinedDocType);
-    return determinedDocType;
+
     // Send it straight to LLM
-    //modelController.arrayGenAnswers(docId, determinedDocType, isRequests);
+    const isRequests = true;
+    modelController.arrayGenAnswers(docId, determinedDocType, isRequests);
   }
 }
 
