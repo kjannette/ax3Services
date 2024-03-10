@@ -538,8 +538,8 @@ async function parseRogs(
       "..",
       "Documents",
       "Requests",
-      `${reqType}`,
-      `${docId}`
+      "interrogatories",
+      `${folder}`
     );
 
     fs.mkdir(`${saveDirectory}`, function (err) {
@@ -547,16 +547,21 @@ async function parseRogs(
         console.log("makeDir utilities error creating directory: " + err);
       }
     });
+
     const fileSuffix = "-jbk-parsedRequests.json";
     const data = JSON.stringify(requestArray);
+    console.log(
+      "**************************************************************data",
+      data
+    );
     updateDB(docId, determinedDocType);
-    function sleep(ms) {
-      console.log("sleep called");
-      return new Promise((resolve) => setTimeout(resolve, ms));
-    }
-    await sleep(2500);
+
+    console.log(
+      " `${saveDirectory}/${docId}${fileSuffix}`",
+      `${saveDirectory}/${folder}${fileSuffix}`
+    );
     fs.writeFile(
-      `${saveDirectory}/${docId}${fileSuffix}`,
+      `${saveDirectory}/${folder}${fileSuffix}`,
       data,
       function (err) {
         if (err) {
@@ -564,7 +569,6 @@ async function parseRogs(
         }
       }
     );
-
     // Send it straight to LLM
     const isRequests = true;
     modelController.arrayGenAnswers(docId, determinedDocType, isRequests);

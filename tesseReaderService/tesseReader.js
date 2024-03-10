@@ -35,15 +35,12 @@ async function writeFile(
 
   console.log("_----------------------countWrites", countWrites);
   console.log("_----------------------totalFiles", totalFiles);
+  console.log("------------------------------------->isComplaint", isComplaint);
   if (countWrites == totalFiles) {
-    if (isComplaint === true) {
-      countObject.filePath = `../Documents/Textfiles/${folder}/`;
-      await modelController.createArrayOfInterrogatories(
-        folder,
-        clientPosition
+    if (isComplaint != true) {
+      console.log(
+        "------------------------------------->isComplaint === true ELSE STATEMENT"
       );
-      return countObject;
-    } else {
       countWrites = 0;
       const type = await docParser.readDir(
         `../Documents/Textfiles/${folder}/`,
@@ -51,6 +48,16 @@ async function writeFile(
         countObject
       );
       return type;
+    } else if (isComplaint == true) {
+      /*
+      console.log("------------------------------------->isComplaint === true");
+      countObject.filePath = `../Documents/Textfiles/${folder}/`;
+      await modelController.createArrayOfInterrogatories(
+        folder,
+        clientPosition
+      );
+      return countObject;
+      */
     }
   }
 }
