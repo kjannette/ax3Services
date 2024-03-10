@@ -74,9 +74,7 @@ app.post(
     const isComplaint = true;
     const clientPosition = "plaintiff";
     try {
-      console.log(
-        "------------------------------/v1/gen-disc-request-pl PLAINTIFF"
-      );
+      console.log("------------------------------/v1/gen-disc-request-pl");
 
       req.url = req.url.replace(
         "/v1/gen-disc-request-out",
@@ -101,7 +99,10 @@ app.post(
   async (req, res) => {
     const { docId, radioValue, clientPosition } = req.params;
     console.log(
-      "``````````````````````````make outgoing requests------------------------------------------------------------------------------------>"
+      "docId, raqdioValue, clientPosition",
+      docId,
+      radioValue,
+      clientPosition
     );
     const isComplaint = true;
     try {
@@ -120,7 +121,7 @@ app.post(
 app.post(
   "/v1/generate-outgoing-disc-req/:docId/:radioValue/:clientPosition",
   function (req, res) {
-    const { docId, radioValue, clientPosition } = req.params;
+    const { docId, radioValue, clientPosition, isComplaint } = req.params;
     console.log(
       "hit generate-outgoing-disc-req/ docId, radioValue, clientPosition",
       docId,
@@ -130,7 +131,6 @@ app.post(
     try {
       const isComplaint =
         radioValue.toLowerCase() === "complaint" ? true : false;
-
       tesseController.executeReadWriteActions(
         docId,
         isComplaint,
@@ -152,7 +152,7 @@ app.post("/v1/parse-new-req-doc", upload.single("file"), function (req, res) {
   const isComplaint = false;
 
   try {
-    console.log("------------------------------/v1/parse-new-disc-req ");
+    console.log("------------------------------/v1/parse-new-req-doc");
     req.url = req.url.replace(
       "/v1/parse-new-req-doc",
       `/parse-new-disc-req/${id}`
@@ -162,21 +162,12 @@ app.post("/v1/parse-new-req-doc", upload.single("file"), function (req, res) {
         console.log("Proxy error:", err);
       },
     });
-
-    proxy.on("proxyRes", function (proxyRes, req, res) {
-      tesseCalls(id);
-      tesseController.executeReadWriteActions(id, isComplaint);
-      /*
-      proxyRes.on("end", function () {
-        console.log('"compaint successfully uploaded"');
-        res.end("compaint successfully uploaded");
-      });
-      */
-    });
   } catch (err) {
     logger.error({ level: "error", message: "err", err });
-    res.send("error:", err);
+    console.log("Error at /v1/gen-disc-request", err);
+    res.send(err);
   }
+
   res.sendStatus(200);
 });
 
