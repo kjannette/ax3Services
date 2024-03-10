@@ -560,7 +560,7 @@ async function parseRogs(
       " `${saveDirectory}/${docId}${fileSuffix}`",
       `${saveDirectory}/${folder}${fileSuffix}`
     );
-    fs.writeFile(
+    fs.writeFileSync(
       `${saveDirectory}/${folder}${fileSuffix}`,
       data,
       function (err) {
