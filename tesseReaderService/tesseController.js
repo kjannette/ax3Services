@@ -71,7 +71,7 @@ class TesseController {
         });
     }
 
-    await countObject.files.forEach(async (file, index) => {
+    countObject.files.forEach(async (file, index) => {
       setTimeout(
         callConvert,
         index * 10,
