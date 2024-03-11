@@ -100,7 +100,6 @@ app.post(
 
 app.post("/v1/parse-new-req-doc", upload.single("file"), function (req, res) {
   const id = req.file.originalname.split(".")[0];
-  const isComplaint = false;
 
   try {
     console.log("------------------------------/v1/parse-new-req-doc");
@@ -423,9 +422,13 @@ app.get("/v1/get-parsed-requests/:docId/:docType", (req, res) => {
  *  Client GET completions - (responses to) requests in
  */
 
-app.get("/get-completions/:docId/:docType", (req, res) => {
+app.get("/v1/get-completions/:docId/:docType", (req, res) => {
   const { docId, docType } = req.params;
-
+  console.log(
+    "get-completions docId and docType --------------------------------------------------------",
+    docId,
+    docType
+  );
   try {
     res.sendFile(`${docId}-jbk-responses.json`, {
       root: `./Documents/Responses/${docType}/${docId}/`,
