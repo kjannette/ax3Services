@@ -75,7 +75,6 @@ app.post(
     const isComplaint = true;
     const clientPosition = "plaintiff";
     try {
-      console.log("------------------------------/v1/gen-disc-request-pl");
       req.url = req.url.replace(
         "/v1/parse-new-compdoc",
         `/parse-new-complaint/${id}`
@@ -102,7 +101,6 @@ app.post("/v1/parse-new-req-doc", upload.single("file"), function (req, res) {
   const id = req.file.originalname.split(".")[0];
 
   try {
-    console.log("------------------------------/v1/parse-new-req-doc");
     req.url = req.url.replace(
       "/v1/parse-new-req-doc",
       `/parse-new-disc-req/${id}`
@@ -126,11 +124,7 @@ app.post(
   "/v1/generate-outgoing-disc-req/:docId/:clientPosition",
   async (req, res) => {
     const { docId, clientPosition } = req.params;
-    console.log(
-      "app.js ----------------------> generate-outgoing-disc-req  docId, clientPosition",
-      docId,
-      clientPosition
-    );
+
     const isComplaint = true;
     try {
       const res = await tesseController.executeReadWriteActions(
@@ -151,11 +145,7 @@ app.post(
   "/v1/generate-disc-responses/:docId/:clientPosition",
   async (req, res) => {
     const { docId, clientPosition } = req.params;
-    console.log(
-      "app.js -------------------------------------->  generate-disc-responses docId, clientPosition",
-      docId,
-      clientPosition
-    );
+
     const isComplaint = false;
     try {
       const res = await tesseController.executeReadWriteActions(
@@ -405,10 +395,6 @@ app.post("/v1/store-edited-completions", function (req, res) {
 app.get("/v1/get-parsed-requests/:docId/:docType", (req, res) => {
   const { docId, docType } = req.params;
 
-  console.log(
-    "dir in getParsedRequests",
-    `${rootDir}/ax3Services/Documents/Requests/${docType}/${docId}/`
-  );
   try {
     res.sendFile(`${docId}-jbk-parsedRequests.json`, {
       root: `${rootDir}/ax3Services/Documents/Requests/${docType}/${docId}/`,
@@ -424,11 +410,7 @@ app.get("/v1/get-parsed-requests/:docId/:docType", (req, res) => {
 
 app.get("/v1/get-completions/:docId/:docType", (req, res) => {
   const { docId, docType } = req.params;
-  console.log(
-    "get-completions docId and docType --------------------------------------------------------",
-    docId,
-    docType
-  );
+
   try {
     res.sendFile(`${docId}-jbk-responses.json`, {
       root: `./Documents/Responses/${docType}/${docId}/`,
@@ -477,66 +459,6 @@ app.listen(port);
 //modelController.testSaveFunction(docId, reqType, isRequests);
 
 /*
-
-
-DEPRECATED docEDIR PAGE was the client request for this endopoint:
-
-/*
-app.post(
-  "/v1/gen-outgoing-disc-req/:docId/:radioValue/:clientPosition",
-  function (req, res) {
-    const { docId, radioValue, clientPosition, isComplaint } = req.params;
-    console.log(
-      "hit generate-outgoing-disc-req/ docId, radioValue, clientPosition",
-      docId,
-      radioValue,
-      clientPosition
-    );
-    try {
-      const isComplaint =
-        radioValue.toLowerCase() === "complaint" ? true : false;
-      tesseController.executeReadWriteActions(
-        docId,
-        isComplaint,
-        clientPosition
-      );
-    } catch (err) {
-      console.log("Error at /v1/store-edited-completions:", err);
-    }
-    res.end();
-  }
-);
-*/
-/*
- *  Generate responses to regular types:
- *  interrogatories, admissions, production
- */
-/*
-app.get(
-  "/genResponseFromArray/:docId/:docType/:isRequests",
-  async (req, res) => {
-    const { docId, docType } = req.params;
-    console.log(
-      "---------------------------------------------------------------------------------> hit genResponseFromArray and rcvd docId",
-      docId
-    );
-    const isRequests = false;
-    const reqType = docType;
-    try {
-      const data = await modelController.arrayGenAnswers(
-        docId,
-        reqType,
-        isRequests
-      );
-
-      res.send(data);
-    } catch (error) {
-      console.log("Error in enResponseFromArray/:docId", error);
-      res.send(error);
-    }
-  }
-);
-
 
 const rogs = [
   {
@@ -602,26 +524,3 @@ const rogs = [
   },
 ];
 */
-//const folder = "5223d27b-035c-435a-92cb-ec2156aeb4e4";
-//const determinedDocType = "interrogatories";
-//makeDir(folder, determinedDocType);
-//saveParsedRogs(rogs, folder, determinedDocType);
-/*
-      proxy.web(req, res, {
-        function(err) {
-          console.log("Proxy error:", err);
-        },
-      });
-      /*
-      const defaultMjsExport = (
-        await import(
-          `${rootDir}/ax3Services/docGenService/responseHeaderGenerator.mjs`
-        )
-      ).default;
-      defaultMjsExport(docId, reqType, data);
-
-      req.url = req.url.replace(
-        "/v1/generate-request-docx/:docId/:reqType",
-        `/gen-req-docx`
-      );
-      */
