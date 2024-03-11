@@ -92,9 +92,7 @@ class ModelController {
     temp = docId;
     temp = masterArray;
     const data = JSON.stringify(temp);
-    const fileSuffix = isRequests
-      ? "-jbk-parsedRequests.json"
-      : "-jbk-responses.json";
+    const fileSuffix = "-jbk-responses.json";
 
     fs.writeFile(
       `${saveDirectory}/${docId}${fileSuffix}`,
