@@ -39,7 +39,7 @@ async function writeFile(
   if (countWrites == totalFiles) {
     if (isComplaint == false) {
       console.log(
-        "------------------------------------->isComplaint === true ELSE STATEMENT"
+        "------------------------------------->isComplaint === false ELSE STATEMENT"
       );
       countWrites = 0;
       const type = await docParser.readDir(
@@ -49,7 +49,9 @@ async function writeFile(
       );
       return type;
     } else if (isComplaint == true) {
-      console.log("------------------------------------->isComplaint === true");
+      console.log(
+        "------------------------------------->isComplaint === true ELSE statement"
+      );
       countObject.filePath = `../Documents/Textfiles/${folder}/`;
       await modelController.createArrayOfInterrogatories(
         folder,

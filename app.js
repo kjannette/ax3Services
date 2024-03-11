@@ -125,7 +125,7 @@ app.post("/v1/parse-new-req-doc", upload.single("file"), function (req, res) {
 
 //make outgoing requests from comp
 app.post(
-  "/v1/generate-outgoing-disc-req/:docId/:radioValue/:clientPosition",
+  "/v1/generate-outgoing-disc-req/:docId/:clientPosition",
   async (req, res) => {
     const { docId, clientPosition } = req.params;
     console.log(

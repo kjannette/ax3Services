@@ -48,8 +48,6 @@ class TesseController {
     console.log("countObject", countObject);
     this.makeDir(id);
 
-    let masterArr = [];
-
     function callConvert(
       file,
       path,
