@@ -76,7 +76,6 @@ app.post(
     const clientPosition = "plaintiff";
     try {
       console.log("------------------------------/v1/gen-disc-request-pl");
-
       req.url = req.url.replace(
         "/v1/parse-new-compdoc",
         `/parse-new-complaint/${id}`
@@ -404,25 +403,16 @@ app.post("/v1/store-edited-completions", function (req, res) {
  *  Client GET parsed requests array
  */
 
-app.get("/getParsedRequests/:docId/:docType", (req, res) => {
+app.get("/v1/get-parsed-requests/:docId/:docType", (req, res) => {
   const { docId, docType } = req.params;
-  let folder;
-  if (docType === "interrogatories") {
-    folder = "interrogatories";
-  } else if (docType === "admissions") {
-    folder = "admissions";
-  } else if (docType === "production") {
-    folder = "production";
-  } else if (docType === "combined-numbered") {
-    folder = "combined-numbered";
-  }
+
   console.log(
     "dir in getParsedRequests",
-    `${rootDir}/ax3Services/Documents/Requests/${folder}/${docId}/`
+    `${rootDir}/ax3Services/Documents/Requests/${docType}/${docId}/`
   );
   try {
     res.sendFile(`${docId}-jbk-parsedRequests.json`, {
-      root: `${rootDir}/ax3Services/Documents/Requests/${folder}/${docId}/`,
+      root: `${rootDir}/ax3Services/Documents/Requests/${docType}/${docId}/`,
     });
   } catch (err) {
     console.log("err", err);
@@ -433,23 +423,12 @@ app.get("/getParsedRequests/:docId/:docType", (req, res) => {
  *  Client GET completions - (responses to) requests in
  */
 
-app.get("/completions/:docId/:docType", (req, res) => {
+app.get("/get-completions/:docId/:docType", (req, res) => {
   const { docId, docType } = req.params;
-  let folder;
-
-  if (docType === "interrogatories") {
-    folder = `interrogatories`;
-  } else if (docType === "production") {
-    folder = `production`;
-  } else if (docType === "admissions") {
-    folder = `admissions`;
-  } else if (docType === "combined-numbered") {
-    folder = "combined-numbered";
-  }
 
   try {
     res.sendFile(`${docId}-jbk-responses.json`, {
-      root: `./Documents/Responses/${folder}/${docId}/`,
+      root: `./Documents/Responses/${docType}/${docId}/`,
     });
   } catch (err) {
     console.log("err", err);

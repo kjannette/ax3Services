@@ -73,12 +73,12 @@ class ModelController {
 
     completionsObject["responses"] = completionsArray;
     masterArray.push(completionsObject);
-    const directionVar = isRequests ? "Requests" : "Responses";
+
     const saveDirectory = path.join(
       __dirname,
       "..",
       "Documents",
-      `${directionVar}`,
+      "Responses",
       `${reqType}`,
       `${docId}`
     );
