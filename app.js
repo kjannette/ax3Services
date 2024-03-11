@@ -66,8 +66,9 @@ const altStorage = multer.diskStorage({
 const upload = multer({ storage: storage });
 const uploadComp = multer({ storage: altStorage });
 
+//POST NEW COMPLAINT DOC -> docConvert pdf-png
 app.post(
-  "/v1/gen-disc-request-out",
+  "/v1/parse-new-compdoc",
   uploadComp.single("file"),
   function (req, res) {
     const id = req.file.originalname.split(".")[0];
@@ -77,7 +78,7 @@ app.post(
       console.log("------------------------------/v1/gen-disc-request-pl");
 
       req.url = req.url.replace(
-        "/v1/gen-disc-request-out",
+        "/v1/parse-new-compdoc",
         `/parse-new-complaint/${id}`
       );
       proxy.web(req, res, {
@@ -93,58 +94,9 @@ app.post(
     res.sendStatus(200);
   }
 );
-//make outgoing
-app.post(
-  "/v1/make-outgoing-requests/:docId/:radioValue/:clientPosition",
-  async (req, res) => {
-    const { docId, radioValue, clientPosition } = req.params;
-    console.log(
-      "docId, raqdioValue, clientPosition",
-      docId,
-      radioValue,
-      clientPosition
-    );
-    const isComplaint = true;
-    try {
-      const res = await tesseController.executeReadWriteActions(
-        docId,
-        isComplaint,
-        clientPosition
-      );
-      return res;
-    } catch (err) {
-      console.log("err in make-outgoing-requests", err);
-    }
-  }
-);
-
-app.post(
-  "/v1/generate-outgoing-disc-req/:docId/:radioValue/:clientPosition",
-  function (req, res) {
-    const { docId, radioValue, clientPosition, isComplaint } = req.params;
-    console.log(
-      "hit generate-outgoing-disc-req/ docId, radioValue, clientPosition",
-      docId,
-      radioValue,
-      clientPosition
-    );
-    try {
-      const isComplaint =
-        radioValue.toLowerCase() === "complaint" ? true : false;
-      tesseController.executeReadWriteActions(
-        docId,
-        isComplaint,
-        clientPosition
-      );
-    } catch (err) {
-      console.log("Error at /v1/store-edited-completions:", err);
-    }
-    res.end();
-  }
-);
 
 /*
- *  POST new discv request => tesseR (to text) => docParser (to array)
+ *  POST new discv request => docConvert - pdf to png
  */
 
 app.post("/v1/parse-new-req-doc", upload.single("file"), function (req, res) {
@@ -170,6 +122,56 @@ app.post("/v1/parse-new-req-doc", upload.single("file"), function (req, res) {
 
   res.sendStatus(200);
 });
+
+//make outgoing requests from comp
+app.post(
+  "/v1/generate-outgoing-disc-req/:docId/:clientPosition",
+  async (req, res) => {
+    const { docId, clientPosition } = req.params;
+    console.log(
+      "app.js ----------------------> generate-outgoing-disc-req  docId, clientPosition",
+      docId,
+      clientPosition
+    );
+    const isComplaint = true;
+    try {
+      const res = await tesseController.executeReadWriteActions(
+        docId,
+        isComplaint,
+        clientPosition
+      );
+      //return res;
+    } catch (err) {
+      console.log("err in make-outgoing-requests", err);
+    }
+    res.sendStatus(200);
+  }
+);
+
+//make resp to incoming requests from req doc
+app.post(
+  "/v1/generate-disc-responses/:docId/:clientPosition",
+  async (req, res) => {
+    const { docId, clientPosition } = req.params;
+    console.log(
+      "app.js -------------------------------------->  generate-disc-responses docId, clientPosition",
+      docId,
+      clientPosition
+    );
+    const isComplaint = false;
+    try {
+      const res = await tesseController.executeReadWriteActions(
+        docId,
+        isComplaint,
+        clientPosition
+      );
+      return res;
+    } catch (err) {
+      console.log("err in make-outgoing-requests", err);
+    }
+    res.sendStatus(200);
+  }
+);
 
 /*
  *  POST to Generate Docx
@@ -334,36 +336,6 @@ app.post(
 );
 
 /*
- *  Generate responses to regular types:
- *  interrogatories, admissions, production
- */
-
-app.get(
-  "/genResponseFromArray/:docId/:docType/:isRequests",
-  async (req, res) => {
-    const { docId, docType } = req.params;
-    console.log(
-      "---------------------------------------------------------------------------------> hit genResponseFromArray and rcvd docId",
-      docId
-    );
-    const isRequests = false;
-    const reqType = docType;
-    try {
-      const data = await modelController.arrayGenAnswers(
-        docId,
-        reqType,
-        isRequests
-      );
-
-      res.send(data);
-    } catch (error) {
-      console.log("Error in enResponseFromArray/:docId", error);
-      res.send(error);
-    }
-  }
-);
-
-/*
  *  Generate responses to irregular types
  *  combined-numbered
  */
@@ -523,6 +495,67 @@ app.listen(port);
 //modelController.testSaveFunction(docId, reqType, isRequests);
 
 /*
+
+
+DEPRECATED docEDIR PAGE was the client request for this endopoint:
+
+/*
+app.post(
+  "/v1/gen-outgoing-disc-req/:docId/:radioValue/:clientPosition",
+  function (req, res) {
+    const { docId, radioValue, clientPosition, isComplaint } = req.params;
+    console.log(
+      "hit generate-outgoing-disc-req/ docId, radioValue, clientPosition",
+      docId,
+      radioValue,
+      clientPosition
+    );
+    try {
+      const isComplaint =
+        radioValue.toLowerCase() === "complaint" ? true : false;
+      tesseController.executeReadWriteActions(
+        docId,
+        isComplaint,
+        clientPosition
+      );
+    } catch (err) {
+      console.log("Error at /v1/store-edited-completions:", err);
+    }
+    res.end();
+  }
+);
+*/
+/*
+ *  Generate responses to regular types:
+ *  interrogatories, admissions, production
+ */
+/*
+app.get(
+  "/genResponseFromArray/:docId/:docType/:isRequests",
+  async (req, res) => {
+    const { docId, docType } = req.params;
+    console.log(
+      "---------------------------------------------------------------------------------> hit genResponseFromArray and rcvd docId",
+      docId
+    );
+    const isRequests = false;
+    const reqType = docType;
+    try {
+      const data = await modelController.arrayGenAnswers(
+        docId,
+        reqType,
+        isRequests
+      );
+
+      res.send(data);
+    } catch (error) {
+      console.log("Error in enResponseFromArray/:docId", error);
+      res.send(error);
+    }
+  }
+);
+
+
 const rogs = [
   {
     type: "interrogatories",

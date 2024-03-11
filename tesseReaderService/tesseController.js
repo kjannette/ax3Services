@@ -38,56 +38,47 @@ class TesseController {
       "Converted",
       `${id}`
     );
-    let fileInfObj = {};
-    fileInfObj.fileName = id;
+    const countObject = {};
+    countObject.fileName = id;
     let fileNames = fs.readdirSync(fdirup);
-    fileInfObj.files = fileNames;
-    fileInfObj.path = fdirup;
-    fileInfObj.numberOfFiles = fileNames.length;
+    countObject.files = fileNames;
+    countObject.path = fdirup;
+    countObject.numberOfFiles = fileNames.length;
 
-    console.log("fileInfoObj", fileInfObj);
+    console.log("countObject", countObject);
     this.makeDir(id);
-
-    let masterArr = [];
 
     function callConvert(
       file,
       path,
       id,
-      fileInfObj,
+      countObject,
       isComplaint,
       clientPosition,
       index
     ) {
       tesseReader
-        .convert(
-          file,
-          fileInfObj.path,
-          id,
-          fileInfObj,
-          isComplaint,
-          clientPosition
-        )
+        .convert(file, countObject, isComplaint, clientPosition)
         .then((text) => {
           tesseReader.writeFile(
             file,
             text,
             id,
-            fileInfObj,
+            countObject,
             isComplaint,
             clientPosition
           );
         });
     }
 
-    await fileInfObj.files.forEach(async (file, index) => {
+    await countObject.files.forEach(async (file, index) => {
       setTimeout(
         callConvert,
         index * 10,
         file,
-        fileInfObj.path,
+        countObject.path,
         id,
-        fileInfObj,
+        countObject,
         isComplaint,
         clientPosition
       );
