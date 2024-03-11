@@ -37,7 +37,7 @@ async function writeFile(
   console.log("_----------------------totalFiles", totalFiles);
   console.log("------------------------------------->isComplaint", isComplaint);
   if (countWrites == totalFiles) {
-    if (isComplaint != true) {
+    if (isComplaint == false) {
       console.log(
         "------------------------------------->isComplaint === true ELSE STATEMENT"
       );
@@ -49,7 +49,6 @@ async function writeFile(
       );
       return type;
     } else if (isComplaint == true) {
-      /*
       console.log("------------------------------------->isComplaint === true");
       countObject.filePath = `../Documents/Textfiles/${folder}/`;
       await modelController.createArrayOfInterrogatories(
@@ -57,7 +56,6 @@ async function writeFile(
         clientPosition
       );
       return countObject;
-      */
     }
   }
 }
@@ -79,15 +77,9 @@ async function writeSingle(folder, text) {
   }
 }
 
-async function convert(
-  file,
-  path,
-  folder,
-  countObject,
-  isComplaint,
-  clientPosition
-) {
+async function convert(file, countObject, isComplaint, clientPosition) {
   console.log("file in convert (id)", file);
+  const path = countObject?.path;
   const worker = await createWorker();
   const concatPath = `${path}/${file}`;
   await worker.loadLanguage("eng");
