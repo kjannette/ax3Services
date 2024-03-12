@@ -379,6 +379,7 @@ app.get("/cleanUpDocx/:docId/:reqType", (req, res) => {
 
 app.post("/v1/store-edited-completions", function (req, res) {
   const data = req.body;
+
   try {
     storeEditedCompletions(data);
   } catch (err) {
@@ -394,6 +395,7 @@ app.post("/v1/store-edited-completions", function (req, res) {
 app.post("/v1/store-docx-data/:docId", function (req, res) {
   const { docId } = req.params;
   const data = req.body;
+  console.log("data", data);
   try {
     storeDataForGenServices(docId, data);
   } catch (err) {

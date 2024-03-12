@@ -11,17 +11,12 @@ async function makeDir(path) {
 }
 
 function storeDataForGenServices(docId, data) {
-  console.log(
-    "o~~~~~~~~~~~~~~~~~~~~~~~~~~~---v -- -- -- typeof data",
-    typeof data
-  );
-
-  console.log("o~~~~~~~~~~~~~~~~~~~~~~~~~~~---v docId", docId);
-  const saveData = JSON.stringify(data);
+  const foo = JSON.stringify(data);
+  console.log("o~~~~~~~~~~~~~~~~~~~~~~~~~~~---v foo", foo);
   const saveDirectory = path.join(__dirname, "..", "docGenService", "Docxinfo");
   const filename = `${docId}.json`;
   const savePath = `${saveDirectory}/${filename}`;
-  fs.writeFile(savePath, saveData, function (err) {
+  fs.writeFile(savePath, foo, function (err) {
     if (err) {
       return console.log("Error writing in responseHeaderGenerator", err);
     }
