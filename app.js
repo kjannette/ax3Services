@@ -8,7 +8,6 @@ const logger = require("./logger/logger.js");
 const modelController = require("./agent/ModelController.js");
 const tesseController = require("./tesseReaderService/tesseController.js");
 const stripeController = require("./paymentService/stripeController.js");
-const { makeDir, saveParsedRogs } = require("./docParserService/docParser.js");
 const { db } = require("./firebase/firebase.js");
 //const sleep = require("system-sleep");
 const {
@@ -405,12 +404,11 @@ app.get("/v1/get-parsed-requests/:docId/:docType", (req, res) => {
 });
 
 /*
- *  Client GET completions - (responses to) requests in
+ *  Client GET completions - (responses to) incoming requests
  */
 
 app.get("/v1/get-completions/:docId/:docType", (req, res) => {
   const { docId, docType } = req.params;
-
   try {
     res.sendFile(`${docId}-jbk-responses.json`, {
       root: `./Documents/Responses/${docType}/${docId}/`,
