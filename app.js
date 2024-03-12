@@ -8,11 +8,11 @@ const logger = require("./logger/logger.js");
 const modelController = require("./agent/ModelController.js");
 const tesseController = require("./tesseReaderService/tesseController.js");
 const stripeController = require("./paymentService/stripeController.js");
-const { makeDir, saveParsedRogs } = require("./docParserService/docParser.js");
 const { db } = require("./firebase/firebase.js");
 //const sleep = require("system-sleep");
 const {
   storeEditedCompletions,
+  storeDataForGenServices,
 } = require("./storageService/storeEditedCompletion.js");
 const {
   deleteDocument,
@@ -66,7 +66,7 @@ const altStorage = multer.diskStorage({
 const upload = multer({ storage: storage });
 const uploadComp = multer({ storage: altStorage });
 
-//POST NEW COMPLAINT DOC -> docConvert pdf-png
+//POST NEW COMPLAINT DOC -> py docConvert pdf-png
 app.post(
   "/v1/parse-new-compdoc",
   uploadComp.single("file"),
@@ -166,7 +166,7 @@ app.post(
  */
 
 app.post("/v1/generate-request-docx/:docId", async function (req, res) {
-  const { docId, reqType } = req.params;
+  const { docId } = req.params;
   const data = req.body;
   try {
     req.url = req.url.replace("/v1/generate-request-docx", `/gen-req-docx`);
@@ -379,8 +379,25 @@ app.get("/cleanUpDocx/:docId/:reqType", (req, res) => {
 
 app.post("/v1/store-edited-completions", function (req, res) {
   const data = req.body;
+
   try {
     storeEditedCompletions(data);
+  } catch (err) {
+    console.log("Error at /v1/store-edited-completions:", err);
+  }
+  res.end();
+});
+
+/*
+ *  POST store docx data for gen service
+ */
+
+app.post("/v1/store-docx-data/:docId", function (req, res) {
+  const { docId } = req.params;
+  const data = req.body;
+  console.log("data", data);
+  try {
+    storeDataForGenServices(docId, data);
   } catch (err) {
     console.log("Error at /v1/store-edited-completions:", err);
   }
@@ -405,12 +422,11 @@ app.get("/v1/get-parsed-requests/:docId/:docType", (req, res) => {
 });
 
 /*
- *  Client GET completions - (responses to) requests in
+ *  Client GET completions - (responses to) incoming requests
  */
 
 app.get("/v1/get-completions/:docId/:docType", (req, res) => {
   const { docId, docType } = req.params;
-
   try {
     res.sendFile(`${docId}-jbk-responses.json`, {
       root: `./Documents/Responses/${docType}/${docId}/`,

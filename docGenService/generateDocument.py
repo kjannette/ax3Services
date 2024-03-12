@@ -48,12 +48,13 @@ class GenerateBody(object):
         # filePath = f"/Users/kjannette/workspace/ax3/ax3Services/docGenService/Docxstaging/{docId}.docx"
         # f = open(filePath, "rb")
         document = Document()
-        dataFile = f"Docxinfo/{docId}.json"
+        dataFile = f"./Docxinfo/{docId}.json"
 
         # Get case data
         with open(dataFile) as json_data:
-            jsonData = json.load(json_data)
-        caseInfo = jsonData.get("caseInfo")
+            caseInfo = json.load(json_data)
+
+        #caseInfo = jsonData.get("caseInfo")
         
         caption1 = caseInfo["caseCaption1"]
         caption2 = caseInfo["caseCaption2"]
@@ -78,17 +79,17 @@ class GenerateBody(object):
         if reqType == "interrogatories":
             #reqFile = f"/var/www/ax3Services/Documents/Requests/Parsedrogs/{docId}/{docId}-jbk-parsedRequests.json"
             #respFile = f"/var/www/ax3Services/Documents/Responses/Rogresp/{docId}/{docId}-jbk-responses.json"
-            reqFile = f"/Users/kjannette/workspace/ax3/ax3Services/Documents/Requests/Parsedrogs/{docId}/{docId}-jbk-parsedRequests.json"
-            respFile = f"/Users/kjannette/workspace/ax3/ax3Services/Documents/Responses/Rogresp/{docId}/{docId}-jbk-responses.json"
+            reqFile = f"/Users/kjannette/workspace/ax3/ax3Services/Documents/Requests/interrogatories/{docId}/{docId}-jbk-parsedRequests.json"
+            respFile = f"/Users/kjannette/workspace/ax3/ax3Services/Documents/Responses/interrogatories/{docId}/{docId}-jbk-responses.json"
         elif reqType == "combined-numbered":
-            reqFile = f"/var/www/ax3Services/Documents/Requests/Parsedcombined/{docId}/{docId}-jbk-parsedRequests.json"
-            respFile = f"/var/www/ax3Services/Documents/Responses/Combinedresp/{docId}/{docId}-jbk-responses.json"
+            reqFile = f"/var/www/ax3Services/Documents/Requests/combined-numbered/{docId}/{docId}-jbk-parsedRequests.json"
+            respFile = f"/var/www/ax3Services/Documents/Responses/combined-numbered/{docId}/{docId}-jbk-responses.json"
         elif reqType == "production":
-            reqFile = f"/var/www/ax3Services/Documents/Requests/Parsedprod/{docId}/{docId}-jbk-parsedRequests.json"
-            respFile = f"/var/www/ax3Services/Documents/Responses/Prodresp/{docId}/{docId}-jbk-responses.json"
+            reqFile = f"/var/www/ax3Services/Documents/Requests/production/{docId}/{docId}-jbk-parsedRequests.json"
+            respFile = f"/var/www/ax3Services/Documents/Responses/production/{docId}/{docId}-jbk-responses.json"
         elif reqType == "admissions":
-            reqFile = f"/var/www/ax3Services/Documents/Requests/Parsedadmit/{docId}/{docId}-jbk-parsedRequests.json"
-            respFile = f"/var/www/ax3Services/Documents/Responses/Admitresp/{docId}/{docId}-jbk-responses.json"
+            reqFile = f"/var/www/ax3Services/Documents/Requests/admissions/{docId}/{docId}-jbk-parsedRequests.json"
+            respFile = f"/var/www/ax3Services/Documents/Responses/admissions/{docId}/{docId}-jbk-responses.json"
         elif reqType == "interrogatories-out":
             reqFile = f"/Users/kjannette/workspace/ax3/ax3Services/Documents/RequestsOut/{docId}/{docId}-jbk-requests-out.json"
             #reqFile = f"/var/www/ax3Services/Documents/RequestsOut/{docId}/{docId}-jbk-requests-out.json"
