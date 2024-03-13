@@ -352,8 +352,8 @@ app.get(
  *
  */
 
-app.get("/getDocx/:docId/:reqType", (req, res) => {
-  const { docId, reqType } = req.params;
+app.get("/v1/get-docx/:docId/:reqType", (req, res) => {
+  const { docId } = req.params;
   res.sendFile(`${docId}.docx`, {
     root: `${rootDir}/ax3Services/Docxfinal/`,
   });

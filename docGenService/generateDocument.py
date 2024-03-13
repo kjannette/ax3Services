@@ -306,7 +306,9 @@ class GenerateBody(object):
         paragraph.paragraph_format.space_before = Pt(24)
         paragraph.paragraph_format.space_after = Pt(12)
         document.save(f"/Users/kjannette/workspace/ax3/ax3Services/Docxfinal/{docId}.docx")
-
+        
+        respBody = json.dumps({'Status': 'Success'})
+        return respBody
 
 # document.save(
 #   f"/Users/kjannette/workspace/ax3/ax3Services/Docxfinal/{docId}.docx"
