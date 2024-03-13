@@ -117,8 +117,7 @@ class ModelController {
 
   async createArrayOfQuestions(docId, reqType, isRequests, countObject) {
     const masterArray = [];
-    const isRequests = true;
-
+    const clientPosition = countObject.clientPosition;
     const dirPath = path.join(
       __dirname,
       "..",
