@@ -15,6 +15,7 @@ const {
   createArrayOfInterrogatoriesPlaintiffPrompt,
   createArrayOfInterrogatoriesDefendantPrompt,
   createVerboseResponseFromOneQuestionPrompt,
+  parseRequestsFromStringBlobPrompt,
 } = require("./promptTemplates.js");
 const { OPENAI_API_KEY } = require("./secrets_1.js");
 const { v4: uuidv4 } = require("uuid");
@@ -34,6 +35,7 @@ class ModelController {
   async arrayGenAnswers(docId, reqType, isRequests) {
     let filePath;
     const basePath = process.cwd();
+
     if (reqType == "combined-numbered") {
       filePath = `${basePath}/Documents/Requests/combined-numbered/${docId}/${docId}-jbk-parsedRequests.json`;
     } else if (reqType == "interrogatories") {
@@ -52,7 +54,7 @@ class ModelController {
     const requests = rogs[0].requests;
     let completions;
     if (reqType == "combined-numbered") {
-      completions = await this.startOne(requests, reqType, isRequests);
+      completions = await this.startOne(requests, clientPosition);
     } else {
       completions = await this.start(requests, reqType, isRequests);
     }
@@ -99,7 +101,7 @@ class ModelController {
       data,
       function (err) {
         if (err) {
-          return console.log("Error in saveCompletions writeFile:", err);
+          return console.log("arrayGenAnswers - error in fs writeFile:", err);
         }
       }
     );
@@ -209,7 +211,11 @@ class ModelController {
     });
 
     const requestString = iteratePathsReturnString(dirArray);
-    const completions = await this.startOne(requestString, reqType, isRequests); //START
+    const completions = await this.startOne(
+      requestString,
+      reqType,
+      clientPosition
+    ); //START
     const completionsObject = { type: `response to combined-requests` };
     completionsObject["responses"] = completions;
     masterArray.push(completionsObject);
@@ -242,7 +248,10 @@ class ModelController {
       data,
       function (err) {
         if (err) {
-          return console.log("Error in saveCompletions writeFile:", err);
+          return console.log(
+            "combinedGenAnswers - error in fs writeFile:",
+            err
+          );
         }
       }
     );
@@ -255,14 +264,27 @@ class ModelController {
    *
    */
 
-  async createArrayOfQuestions(docId, reqType) {
+  async createArrayOfQuestions(docId, reqType, isRequests = true, countObject) {
     const masterArray = [];
-    const isRequests = true;
 
-    const dirPath = `../Documents/Textfiles/${docId}/`;
+    const dirPath = path.join(
+      __dirname,
+      "..",
+      "Documents",
+      "Textfiles",
+      `${docId}`
+    );
+    console.log(
+      "createArrayOfQuestions _++___+_+_+_+_+_+_+_+_ _++___+_+_+_+_+_+_+_+_ _++___+_+_+_+_+_+_+_+_ _++___+_+_+_+_+_+_+_+_ _++___+_+_+_+_+_+_+_+_ countObject",
+      countObject
+    );
+
+    const clientPosition = countObject.clientPosition;
+    //const dirPath = `../Documents/Textfiles/${docId}/`;
     let fileNames = fs.readdirSync(dirPath);
+    console.log("createArrayOfQuestions fileNames", fileNames);
     const dirArray = fileNames.map((name) => {
-      return dirPath + name;
+      return `${dirPath}/${name}`;
     });
 
     let requestStr;
@@ -280,7 +302,7 @@ class ModelController {
       completes = await Promise.all(
         newArray.map(async (arr) => {
           requestStr = await iteratePathsReturnString(arr);
-          const comp = await this.startOne(requestStr, reqType, isRequests);
+          const comp = await this.startOne(requestStr, reqType, clientPosition);
           return comp;
         })
       );
@@ -321,7 +343,7 @@ class ModelController {
       });
     } else {
       requestStr = await iteratePathsReturnString(dirArray);
-      flatReq = await this.startOne(requestStr, reqType, isRequests);
+      flatReq = await this.startOne(requestStr, reqType, clientPosition);
       try {
         parsedRequests = JSON.parse(flatReq);
       } catch (err) {
@@ -364,7 +386,10 @@ class ModelController {
       data,
       function (err) {
         if (err) {
-          return console.log("Error in saveCompletions writeFile:", err);
+          return console.log(
+            "createArrayOfQuestions - wrror in fs writeFile:",
+            err
+          );
         }
       }
     );
@@ -410,12 +435,7 @@ class ModelController {
       completes = await Promise.all(
         newArray.map(async (arr) => {
           requestStr = await iteratePathsReturnString(arr);
-          const comp = await this.startOne(
-            requestStr,
-            reqType,
-            isRequests,
-            reqType
-          );
+          const comp = await this.startOne(requestStr, reqType, clientPosition);
           return comp;
         })
       );
@@ -433,7 +453,6 @@ class ModelController {
       flatReq = await this.startOneCreateOutgoing(
         requestStr,
         reqType,
-        isRequests,
         clientPosition
       );
       try {
@@ -529,7 +548,7 @@ class ModelController {
     completes = await Promise.all(
       newArray.map(async (arr) => {
         requestStr = await iteratePathsReturnString(arr);
-        const comp = await this.startOne(requestStr, reqType, isRequests);
+        const comp = await this.startOne(requestStr, reqType, clientPosition);
         return comp;
       })
     );
@@ -589,7 +608,10 @@ class ModelController {
       data,
       function (err) {
         if (err) {
-          return console.log("Error in saveCompletions writeFile:", err);
+          return console.log(
+            "createArrayOfQuestionsLarge - error in fs writeFile:",
+            err
+          );
         }
       }
     );
@@ -625,21 +647,31 @@ class ModelController {
   }
 
   /*
-   *  LLM PROMPT CYCLE
-   *  CREATE ARRAY OF Qs FROM STRING BLOB
+   *    LLM PROMPT CYCLE
+   *    1.  CREATE ARRAY OF Qs FROM STRING BLOB (OF INCOMING REQUESTS -- may deprecate because created startOneCreateOutgoing below)
+   *      or
+   *    2.  CREATE ARRAY OF OUTGOING Qs FROM COMPLAINT
    *
    */
-  //clientPosition
-  async startOne(requestStr, reqType, isRequests) {
+
+  async startOne(requestStr, reqType, clientPosition) {
     let prompt;
-    /*
-    if (reqType === "interrogatories-out") {
-      prompt = createArrayOfInterrogatoriesPrompt(request);
-    } else {
-      prompt = createArrayFromSingleDocPrompt(request);
+    console.log(
+      "-----0000----00000 -----0000----00000 -----0000----00000 -----0000----00000 -----0000----00000 -----0000----00000 client posiiton, requestType in startOne",
+      clientPosition,
+      reqType
+    );
+
+    if (reqType !== "interrogatories-out") {
+      prompt = parseRequestsFromStringBlobPrompt(requestStr);
+    } else if (reqType === "interrogatories-out") {
+      if (clientPosition == "Plaintiff") {
+        prompt = createArrayOfInterrogatoriesPlaintiffPrompt(requestStr);
+      } else if (clientPosition == "Defendant") {
+        prompt = createArrayOfInterrogatoriesDefendantPrompt(requestStr);
+      }
     }
-  */
-    prompt = createArrayOfInterrogatoriesPlaintiffPrompt(requestStr);
+
     const completion = await openai.chat.completions.create({
       model: "gpt-4",
       messages: prompt,
@@ -650,6 +682,13 @@ class ModelController {
     );
     return completion.choices[0].message.content;
   }
+
+  /*
+   *    LLM PROMPT CYCLE
+   *    CREATE ARRAY OF Qs FROM STRING BLOB (OF INCOMING REQUESTS)
+   *
+   *
+   */
 
   async startOneCreateOutgoing(
     requestStr,

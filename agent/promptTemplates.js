@@ -83,12 +83,30 @@ const createArrayOfInterrogatoriesDefendantPrompt = (complaint) => {
   return parseRequestsPrompt;
 };
 
+const parseRequestsFromStringBlobPrompt = (request) => {
+  console.log(
+    ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>parseRequestsFromStringBlobPrompt FIRED~~~~~~~~~~~~~~~~~~~"
+  );
+  const parseRequestsFromStringBlobPrompt = [
+    {
+      role: "user",
+      content: `You are an AI assistant and paralegal assisting trial attorneys in drafting discovery responses.  As part of your job, you convert discovery request documents from text to other formats, such as JSON, for further processing. I will provide you with some instructions, then a discovery request document (or a portion of one), and you will perform a parsing operation.
+      The instructions: Review the discovery request document and return the numbered requests, and only the requests, as JSON. This JSON should be in the following form: an array of objects. There should be one object for each numbered request.  The object should contain two key/value pairs: first, “requestId" this key's value will be a randomly generated, version 4 UUID   The second key is ”text",  its value will be the substantive  content of the individual request.  This is an example response to a hypothetical sequence of three requests:  [{ "requestId": "73a855af-4fdc-4b8b-9e7f-34d57a2c084a",
+      "text": "example - you should state the request text here.”}, { "requestId": "36fe8375-240d-4a08-8a71-9b2ba5bda348",
+      "text": "example - you should state the request text here."}, { "requestId": "cfaf4a36-20de-44ff-8673-5a725bddca03",
+      "text": "example - you should state the request text here“}]. Some documents may contain sections preceding the requests. such as ‘Definitions’, or ‘Instructions,’ do not include definitions, instructions, or any preamble text whatsoever in your return JSON data.  Return the questions only, and do not respond to or answer the questions. Please note the following, as it is important:  some documents may have two kinds of requests - requests for production of documents, and interrogatories.  Sometimes the requests for production of documents may come first, then the interrogatories, or vice versa.  Please, be sure to include both the requests for production of documents and the interrogatories (regardless of which type comes first). Do not add introductory comments, analysis, or observations, such as "Based on  your request, I have parsed the document and..,"  etc.  These will be problematic for later processing.  This is the request document: ${request}`,
+    },
+  ];
+  return parseRequestsFromStringBlobPrompt;
+};
+
 module.exports = {
   createArrayFromSingleDocPrompt,
   createResponseFromOneQuestionPrompt,
   createArrayOfInterrogatoriesPlaintiffPrompt,
   createArrayOfInterrogatoriesDefendantPrompt,
   createVerboseResponseFromOneQuestionPrompt,
+  parseRequestsFromStringBlobPrompt,
 };
 
 /*

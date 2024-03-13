@@ -15,7 +15,7 @@ async function readDir(direcPath, folder, countObject) {
     "Textfiles",
     `${folder}`
   );
-
+  console.log("docParser readDir countObject", countObject);
   try {
     const dirArray = countObject.files.map((file) => {
       return `${fdirup}/${file.split(".")[0]}.txt`;
@@ -25,24 +25,34 @@ async function readDir(direcPath, folder, countObject) {
     const docType = await docClassifer.classifyDoc(sorted, folder);
 
     let parseOneCount = 0;
-    methodSelector(docType, sorted, folder, parseOneCount);
+    methodSelector(docType, sorted, folder, parseOneCount, countObject);
     return docType;
   } catch (err) {
     console.log("read error", err);
   }
 }
 
-async function methodSelector(docType, filePaths, folder, parseOneCount) {
+async function methodSelector(
+  docType,
+  filePaths,
+  folder,
+  parseOneCount,
+  countObject
+) {
   let searchStr;
   let determinedDocType;
 
   if (docType.combined === "combined-numbered") {
+    console.log(
+      "+++++++********** +++++++**********  +++++++********** +++++++********** +++++++**********  determinedDocType is combined-numbered calling createArrayOfQuestions"
+    );
     determinedDocType = "combined-numbered";
     const isRequests = true;
     modelController.createArrayOfQuestions(
       folder,
       determinedDocType,
-      isRequests
+      isRequests,
+      countObject
     );
     return;
   } else if (docType.rogs > docType.docProd && docType.rogs > docType.admit) {

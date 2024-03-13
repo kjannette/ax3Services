@@ -47,7 +47,6 @@ async function writeFile(
         `${folder}`,
         countObject
       );
-      return type;
     } else if (isComplaint == true) {
       console.log(
         "------------------------------------->isComplaint === true ELSE statement"
