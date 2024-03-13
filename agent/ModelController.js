@@ -256,14 +256,21 @@ class ModelController {
    *  CREATES ARRAY OF INCOMING QUESTIONS FROM STRING BLOB INSTEAD
    */
 
-  async createArrayOfQuestions(docId, reqType) {
+  async createArrayOfQuestions(docId, reqType, isRequests, countObject) {
     const masterArray = [];
     const isRequests = true;
 
-    const dirPath = `../Documents/Textfiles/${docId}/`;
+    const dirPath = path.join(
+      __dirname,
+      "..",
+      "Documents",
+      "Textfiles",
+      `${docId}`
+    );
+    //const dirPath = `../Documents/Textfiles/${docId}/`;
     let fileNames = fs.readdirSync(dirPath);
     const dirArray = fileNames.map((name) => {
-      return dirPath + name;
+      return `${dirPath}/${name}`;
     });
 
     let requestStr;
