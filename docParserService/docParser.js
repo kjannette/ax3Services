@@ -23,7 +23,10 @@ async function readDir(direcPath, folder, countObject) {
 
     const sortedFilePaths = dirArray.sort();
     const docType = await docClassifer.classifyDoc(sortedFilePaths, folder);
-
+    console.log(
+      "=========================================countObject in docParser readDir",
+      countObject
+    );
     let parseOneCount = 0;
     methodSelector(
       docType,
@@ -51,6 +54,10 @@ async function methodSelector(
   if (docType.combined === "combined-numbered") {
     determinedDocType = "combined-numbered";
     const isRequests = true;
+    console.log(
+      "=========================================determinedDocType in docParser methodSelecotr",
+      determinedDocType
+    );
     modelController.createArrayOfQuestions(
       folder,
       determinedDocType,

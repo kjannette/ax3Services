@@ -117,7 +117,14 @@ class ModelController {
 
   async createArrayOfQuestions(docId, reqType, isRequests, countObject) {
     const masterArray = [];
-    const clientPosition = countObject.clientPosition;
+    //const clientPosition = countObject.clientPosition;
+    console.log(
+      "createArrayOfQuestions docId, reqType, isRequests, countObject in ",
+      docId,
+      reqType,
+      isRequests,
+      countObject
+    );
     const dirPath = path.join(
       __dirname,
       "..",
@@ -162,7 +169,7 @@ class ModelController {
           console.log("err in first fooz try", err);
         }
       } catch (err) {
-        console.log("Error in createArrayOfQuestions at 237:", err);
+        console.log("Error in createArrayOfQuestions at :", err);
       }
 
       try {
@@ -175,7 +182,7 @@ class ModelController {
           console.log("err in first barz try", err);
         }
       } catch (err) {
-        console.log("Error in createArrayOfQuestions at 250:", err);
+        console.log("Error in createArrayOfQuestions :", err);
       }
 
       fooz.forEach((item) => {
@@ -206,12 +213,15 @@ class ModelController {
       `${reqType}`,
       `${docId}`
     );
-
-    fs.mkdir(`${saveDirectory}`, function (err) {
-      if (err) {
-        console.log("makeDir utilities error creating directory: " + err);
+    // change abck to saveDirectory
+    fs.mkdir(
+      `/Users/kjannette/workspace/ax3/ax3Services/Documents/Requests/${reqType}/${docId}`,
+      function (err) {
+        if (err) {
+          console.log("makeDir utilities error creating directory: " + err);
+        }
       }
-    });
+    );
 
     const completionsObject = { type: "combined-numbered" };
     completionsObject["requests"] = parsedRequests;
@@ -224,12 +234,14 @@ class ModelController {
       ? "-jbk-parsedRequests.json"
       : "-jbk-responses.json";
     const data = JSON.stringify(temp);
-    console.log(
-      " ++++----++++++ ++++----++++++ ++++----++++++ ++++----++++++ ++++----++++++  `${saveDirectory}/${docId}${fileSuffix}`",
-      `${saveDirectory}/${docId}${fileSuffix}`
-    );
+    function sleep(ms) {
+      console.log("sleep called");
+      return new Promise((resolve) => setTimeout(resolve, ms));
+    }
+    sleep(3000);
+    //change back
     fs.writeFile(
-      `${saveDirectory}/${docId}${fileSuffix}`,
+      `/Users/kjannette/workspace/ax3/ax3Services/Documents/Requests/${reqType}/${docId}/${docId}-jbk-parsedRequests.json`,
       data,
       function (err) {
         if (err) {

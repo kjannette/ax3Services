@@ -80,7 +80,8 @@ async function writeSingle(folder, text) {
 }
 
 async function convert(file, countObject, isComplaint, clientPosition) {
-  console.log("file in convert (id)", file);
+  console.log("countObject in convert", countObject);
+  //console.log("file in convert (id)", file);
   const path = countObject?.path;
   const worker = await createWorker();
   const concatPath = `${path}/${file}`;

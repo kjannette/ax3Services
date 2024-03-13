@@ -145,7 +145,10 @@ app.post(
   "/v1/generate-disc-responses/:docId/:clientPosition",
   async (req, res) => {
     const { docId, clientPosition } = req.params;
-
+    console.log(
+      "generate-disc-responses ------------------> clientPosition",
+      clientPosition
+    );
     const isComplaint = false;
     try {
       const res = await tesseController.executeReadWriteActions(
