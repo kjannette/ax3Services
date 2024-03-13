@@ -57,6 +57,21 @@ class ModelController {
     } else {
       completions = await this.start(requests, reqType, isRequests);
     }
+    //moved makedir up - race condition
+    const saveDirectory = path.join(
+      __dirname,
+      "..",
+      "Documents",
+      "Responses",
+      `${reqType}`,
+      `${docId}`
+    );
+
+    fs.mkdir(`${saveDirectory}`, function (err) {
+      if (err) {
+        console.log("arrayGenAnswers error creating directory: " + err);
+      }
+    });
 
     let masterArray = [];
     const completionsArray = [];
@@ -75,21 +90,6 @@ class ModelController {
     completionsObject["responses"] = completionsArray;
     masterArray.push(completionsObject);
 
-    const saveDirectory = path.join(
-      __dirname,
-      "..",
-      "Documents",
-      "Responses",
-      `${reqType}`,
-      `${docId}`
-    );
-
-    fs.mkdir(`${saveDirectory}`, function (err) {
-      if (err) {
-        console.log("arrayGenAnswers error creating directory: " + err);
-      }
-    });
-
     temp = docId;
     temp = masterArray;
     const data = JSON.stringify(temp);
@@ -104,7 +104,7 @@ class ModelController {
         }
       }
     );
-    //saveCompletions(temp, docId, reqType, isRequests);
+
     return temp;
   }
 
@@ -197,12 +197,12 @@ class ModelController {
       }
     }
     //IS THIS ALWAYS GOING TO BE REQUESTS NOW??????
-    const directionVar = isRequests ? "Requests" : "Responses";
+    //const directionVar = isRequests ? "Requests" : "Responses";
     const saveDirectory = path.join(
       __dirname,
       "..",
       "Documents",
-      `${directionVar}`,
+      "Requests",
       `${reqType}`,
       `${docId}`
     );
@@ -224,7 +224,10 @@ class ModelController {
       ? "-jbk-parsedRequests.json"
       : "-jbk-responses.json";
     const data = JSON.stringify(temp);
-
+    console.log(
+      " ++++----++++++ ++++----++++++ ++++----++++++ ++++----++++++ ++++----++++++  `${saveDirectory}/${docId}${fileSuffix}`",
+      `${saveDirectory}/${docId}${fileSuffix}`
+    );
     fs.writeFile(
       `${saveDirectory}/${docId}${fileSuffix}`,
       data,
