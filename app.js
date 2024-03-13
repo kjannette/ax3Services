@@ -329,12 +329,12 @@ app.post(
  */
 
 app.get(
-  "/genResponseFromArrayCombined/:docId/:docType/:isRequests",
+  "/v1/generate-disc-responses-irreg/:docId/:docType/:isRequests",
   async (req, res) => {
     const { docId, docType } = req.params;
     const isRequests = false;
     try {
-      const data = await modelController.arrayGenAnswersCombined(
+      const data = await modelController.arrayGenAnswers(
         docId,
         docType,
         isRequests

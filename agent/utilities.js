@@ -26,7 +26,10 @@ function saveCompletions(responses, folder, reqType, isRequests) {
   try {
     fs.writeFile(`${dir}${folder}${fileSuffix}`, data, function (err) {
       if (err) {
-        return console.log("Error in saveCompletions writeFile:", err);
+        return console.log(
+          "utilities Error in saveCompletions writeFile:",
+          err
+        );
       }
     });
   } catch (err) {
