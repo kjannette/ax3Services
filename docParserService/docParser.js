@@ -21,18 +21,30 @@ async function readDir(direcPath, folder, countObject) {
       return `${fdirup}/${file.split(".")[0]}.txt`;
     });
 
-    const sorted = dirArray.sort();
-    const docType = await docClassifer.classifyDoc(sorted, folder);
+    const sortedFilePaths = dirArray.sort();
+    const docType = await docClassifer.classifyDoc(sortedFilePaths, folder);
 
     let parseOneCount = 0;
-    methodSelector(docType, sorted, folder, parseOneCount);
+    methodSelector(
+      docType,
+      sortedFilePaths,
+      folder,
+      parseOneCount,
+      countObject
+    );
     return docType;
   } catch (err) {
     console.log("read error", err);
   }
 }
 
-async function methodSelector(docType, filePaths, folder, parseOneCount) {
+async function methodSelector(
+  docType,
+  filePaths,
+  folder,
+  parseOneCount,
+  countObject
+) {
   let searchStr;
   let determinedDocType;
 
@@ -42,7 +54,8 @@ async function methodSelector(docType, filePaths, folder, parseOneCount) {
     modelController.createArrayOfQuestions(
       folder,
       determinedDocType,
-      isRequests
+      isRequests,
+      countObject
     );
     return;
   } else if (docType.rogs > docType.docProd && docType.rogs > docType.admit) {

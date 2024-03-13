@@ -83,12 +83,30 @@ const createArrayOfInterrogatoriesDefendantPrompt = (complaint) => {
   return parseRequestsPrompt;
 };
 
+const createArrayFromStringBlobPrompt = (request) => {
+  console.log(
+    ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>createArrayFromStringBlobPrompt FIRED~~~~~~~~~~~~~~~~~~~"
+  );
+  const parseRequestsPrompt = [
+    {
+      role: "user",
+      content: `You are an AI paralegal assisting attorneys in drafting discovery responses.  Part of your job is to convert discovery request documents from text to other formats, such as JSON, for processing. I will provide you with some instructions, then a discovery request document, then you will perform a parsing operation.
+      The instructions: Review the discovery request document and return the numbered requests, and only the requests, as JSON.  This JSON should be in the following form: an array of objects. There should be one object for each numbered discovery request.  The object should contain two key/value pairs: first, a “requestId". This key's value will be a randomly generated, version 4 UUID   The second key is ”text",  its value will be the substantive  content of the individual request.  This is an example response to a hypothetical sequence of three requests:  [{ "requestId": "73a855af-4fdc-4b8b-9e7f-34d57a2c084a",
+      "text": "example - you would put an individual request here.”}, { "requestId": "36fe8375-240d-4a08-8a71-9b2ba5bda348",
+      "text": "example - you would put an individual request here."}, { "requestId": "cfaf4a36-20de-44ff-8673-5a725bddca03",
+      "text": "you would put an individual request here.“}]. Some documents may contain sections before the requests. such as “Definitions”, or “Instructions,” do not include definitions, instructions or any other text that precedes the requests.  Return the text of the question only, do not respond to it. Note the following CAREFULLY,  it is important:  some documents may have two kinds of requests - 1. Interrogatories and 2. requests for production of documents.  You MUST be sure to include both the interrogatories and the requests for production of documents.  Do not add introductory comments, analysis, or observations, such as "Based on  your request, I have parsed the document and..,"  etc.  Such comments will be problematic for later. This is the  request document: ${request}`,
+    },
+  ];
+  return parseRequestsPrompt;
+};
+
 module.exports = {
   createArrayFromSingleDocPrompt,
   createResponseFromOneQuestionPrompt,
   createArrayOfInterrogatoriesPlaintiffPrompt,
   createArrayOfInterrogatoriesDefendantPrompt,
   createVerboseResponseFromOneQuestionPrompt,
+  createArrayFromStringBlobPrompt,
 };
 
 /*

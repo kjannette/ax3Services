@@ -15,6 +15,7 @@ const {
   createArrayOfInterrogatoriesPlaintiffPrompt,
   createArrayOfInterrogatoriesDefendantPrompt,
   createVerboseResponseFromOneQuestionPrompt,
+  createArrayFromStringBlobPrompt,
 } = require("./promptTemplates.js");
 const { OPENAI_API_KEY } = require("./secrets_1.js");
 const { v4: uuidv4 } = require("uuid");
@@ -27,7 +28,7 @@ const openai = new OpenAI({
 class ModelController {
   /*
    *  LLM PROMPT CONTROLLER
-   *  RETURNS ANSWERS FROM ARRAY OF REQUESTS
+   *  RETURNS ANSWERS FROM JSON ARRAY OF REQUEST Qs
    *
    */
 
@@ -109,160 +110,24 @@ class ModelController {
 
   /*
    *  LLM PROMPT CONTROLLER
-   *  RETURNS ANSWERS FROM ARRAY OF REQUESTS - COMBINED TYPE
    *
+   *  FOR docPARSER FAILS(?)/docCLASSIFIER DETERMINES COMBINED-NUMBERED
+   *  CREATES JSON ARRAY OF QUESTIONS FROM STRING BLOB OF INCOMING REQ
    */
 
-  async arrayGenAnswersCombined(docId, reqType, isRequests) {
-    /*
-    let filePath;
-    const basePath = process.cwd();
-    if (reqType == "combined-numbered") {
-      filePath = `${basePath}/Documents/Requests/Parsedcombined/${docId}/${docId}-jbk-parsedRequests.json`;
-      //filePath = `${basePath}/Documents/Requests/Parsedcombined/${docId}/${docId}-jbk-parsedRequests.json`;
-    } else if (reqType == "interrogatories") {
-      filePath = `${basePath}/Documents/Requests/Parsedrogs/${docId}/${docId}-jbk-parsedRequests.json`;
-    } else if (reqType == "admissions") {
-      filePath = `${basePath}/Documents/Requests/Parsedadmit/${docId}/${docId}-jbk-parsedRequests.json`;
-    } else if (reqType == "production") {
-      filePath = `${basePath}/Documents/Requests/Parsedprod/${docId}/${docId}-jbk-parsedRequests.json`;
-    }
-    */
-
-    const path = path.join(
-      __dirname,
-      "..",
-      "Documents",
-      "Requests",
-      `${reqType}`,
-      `${docId}`
-    );
-
-    const fileData = fs.readFileSync(
-      `${path}/${docId}-jbk-parsedRequests.json`,
-      "utf8"
-    );
-
-    const rogs = await JSON.parse(fileData);
-    const requests = rogs[0].requests;
-    let completions;
-
-    completions = await this.start(requests, reqType, isRequests);
-
-    let masterArray = [];
-    const completionsArray = [];
-    const completionsObject = { type: `response to ${reqType}` };
-    const finalArray = completions[0];
-
-    finalArray?.forEach((comp) => {
-      console.log("comp", comp);
-      let obj = {};
-      const responseId = uuidv4();
-      obj["responseId"] = responseId;
-      obj["text"] = comp;
-      completionsArray.push(obj);
-    });
-    completionsObject["responses"] = completionsArray;
-    masterArray.push(completionsObject);
-    const directionVar = isRequests ? "Requests" : "Responses";
-    const saveDirectory = path.join(
-      __dirname,
-      "..",
-      "Documents",
-      `${directionVar}`,
-      `${reqType}`,
-      `${docId}`
-    );
-
-    const fileSuffix = isRequests
-      ? "-jbk-parsedRequests.json"
-      : "-jbk-responses.json";
-
-    let temp;
-    temp = docId;
-    temp = masterArray;
-
-    return temp;
-  }
-
-  /*
-   *  LLM PROMPT CONTROLLER
-   *  RETURNS ANSWERS FROM TEXT BLOB
-   *
-   */
-
-  async combinedGenAnswers(docId, reqType, isRequests) {
-    console.log(
-      "_____________________________________________________________ fired combinedGenAnswers"
-    );
+  async createArrayOfQuestions(docId, reqType, isRequests, countObject) {
     const masterArray = [];
-    let dirPath;
-
-    if (reqType === "combined-numbered") {
-      dirPath = `../Documents/Textfiles/${docId}/`;
-    } else {
-      //
-    }
+    const clientPosition = countObject.clientPosition;
+    const dirPath = path.join(
+      __dirname,
+      "..",
+      "Documents",
+      "Textfiles",
+      `${docId}`
+    );
     let fileNames = fs.readdirSync(dirPath);
     const dirArray = fileNames.map((name) => {
-      return dirPath + name;
-    });
-
-    const requestString = iteratePathsReturnString(dirArray);
-    const completions = await this.startOne(requestString, reqType, isRequests); //START
-    const completionsObject = { type: `response to combined-requests` };
-    completionsObject["responses"] = completions;
-    masterArray.push(completionsObject);
-
-    const directionVar = isRequests ? "Requests" : "Responses";
-    const saveDirectory = path.join(
-      __dirname,
-      "..",
-      "Documents",
-      `${directionVar}`,
-      `${reqType}`,
-      `${docId}`
-    );
-
-    fs.mkdir(`${saveDirectory}`, function (err) {
-      if (err) {
-        console.log("makeDir utilities error creating directory: " + err);
-      }
-    });
-
-    temp = docId;
-    temp = masterArray;
-    const data = JSON.stringify(temp);
-    const fileSuffix = isRequests
-      ? "-jbk-parsedRequests.json"
-      : "-jbk-responses.json";
-
-    fs.writeFile(
-      `${saveDirectory}/${docId}${fileSuffix}`,
-      data,
-      function (err) {
-        if (err) {
-          return console.log("Error in saveCompletions writeFile:", err);
-        }
-      }
-    );
-    return temp;
-  }
-
-  /*
-   *  LLM PROMPT CONTROLLER
-   *  RETURNS REQUESTS FROM STRING BLOB
-   *
-   */
-
-  async createArrayOfQuestions(docId, reqType) {
-    const masterArray = [];
-    const isRequests = true;
-
-    const dirPath = `../Documents/Textfiles/${docId}/`;
-    let fileNames = fs.readdirSync(dirPath);
-    const dirArray = fileNames.map((name) => {
-      return dirPath + name;
+      return `${dirPath}/${name}`;
     });
 
     let requestStr;
@@ -271,7 +136,7 @@ class ModelController {
     let flatReq;
     let parsedRequests = [];
 
-    if (dirArray.length > 10) {
+    if (dirArray.length > 12) {
       const splitAt = Math.floor(dirArray.length / 2);
       const temp1 = dirArray.slice(0, splitAt);
       const temp2 = dirArray.slice(splitAt, dirArray.length);
@@ -331,6 +196,7 @@ class ModelController {
         );
       }
     }
+    //IS THIS ALWAYS GOING TO BE REQUESTS NOW??????
     const directionVar = isRequests ? "Requests" : "Responses";
     const saveDirectory = path.join(
       __dirname,
@@ -599,7 +465,7 @@ class ModelController {
 
   /*
    *  LLM PROMPT CYCLE
-   *  CREATE RESPONSES FROM ARRAY OF REQUEST Qs
+   *  CREATE RESPONSES TO JSON ARRAY OF REQUEST Qs
    *
    */
 
@@ -626,20 +492,20 @@ class ModelController {
 
   /*
    *  LLM PROMPT CYCLE
-   *  CREATE ARRAY OF Qs FROM STRING BLOB
+   *  PULL ARRAY OF Qs FROM STRING BLOB OF INCOMING REQUEST DOC
    *
    */
-  //clientPosition
+
   async startOne(requestStr, reqType, isRequests) {
     let prompt;
-    /*
+
     if (reqType === "interrogatories-out") {
       prompt = createArrayOfInterrogatoriesPrompt(request);
     } else {
-      prompt = createArrayFromSingleDocPrompt(request);
+      prompt = createArrayFromStringBlobPrompt(request);
     }
-  */
-    prompt = createArrayOfInterrogatoriesPlaintiffPrompt(requestStr);
+
+    //prompt = createArrayOfInterrogatoriesPlaintiffPrompt(requestStr);
     const completion = await openai.chat.completions.create({
       model: "gpt-4",
       messages: prompt,
@@ -650,6 +516,12 @@ class ModelController {
     );
     return completion.choices[0].message.content;
   }
+
+  /*
+   *  LLM PROMPT CYCLE
+   *  CREATE OUTGOING REQUESTS FROM COMPLAINT
+   *
+   */
 
   async startOneCreateOutgoing(
     requestStr,
@@ -700,3 +572,142 @@ class ModelController {
 }
 
 module.exports = new ModelController();
+
+/*   ******** **************************************************************************
+
+ 
+   *  LLM PROMPT CONTROLLER
+   *  CREATES ANSWERS FROM ARRAY OF REQUESTS - COMBINED TYPE
+   *
+   
+
+  async arrayGenAnswersCombined(docId, reqType, isRequests) {
+    
+    let filePath;
+    const basePath = process.cwd();
+    if (reqType == "combined-numbered") {
+      filePath = `${basePath}/Documents/Requests/Parsedcombined/${docId}/${docId}-jbk-parsedRequests.json`;
+      //filePath = `${basePath}/Documents/Requests/Parsedcombined/${docId}/${docId}-jbk-parsedRequests.json`;
+    } else if (reqType == "interrogatories") {
+      filePath = `${basePath}/Documents/Requests/Parsedrogs/${docId}/${docId}-jbk-parsedRequests.json`;
+    } else if (reqType == "admissions") {
+      filePath = `${basePath}/Documents/Requests/Parsedadmit/${docId}/${docId}-jbk-parsedRequests.json`;
+    } else if (reqType == "production") {
+      filePath = `${basePath}/Documents/Requests/Parsedprod/${docId}/${docId}-jbk-parsedRequests.json`;
+    }
+    
+
+    const path = path.join(
+      __dirname,
+      "..",
+      "Documents",
+      "Requests",
+      `${reqType}`,
+      `${docId}`
+    );
+
+    const fileData = fs.readFileSync(
+      `${path}/${docId}-jbk-parsedRequests.json`,
+      "utf8"
+    );
+
+    const rogs = await JSON.parse(fileData);
+    const requests = rogs[0].requests;
+    let completions;
+
+    completions = await this.start(requests, reqType, isRequests);
+
+    let masterArray = [];
+    const completionsArray = [];
+    const completionsObject = { type: `response to ${reqType}` };
+    const finalArray = completions[0];
+
+    finalArray?.forEach((comp) => {
+      console.log("comp", comp);
+      let obj = {};
+      const responseId = uuidv4();
+      obj["responseId"] = responseId;
+      obj["text"] = comp;
+      completionsArray.push(obj);
+    });
+    completionsObject["responses"] = completionsArray;
+    masterArray.push(completionsObject);
+    const directionVar = isRequests ? "Requests" : "Responses";
+    const saveDirectory = path.join(
+      __dirname,
+      "..",
+      "Documents",
+      `${directionVar}`,
+      `${reqType}`,
+      `${docId}`
+    );
+
+    const fileSuffix = isRequests
+      ? "-jbk-parsedRequests.json"
+      : "-jbk-responses.json";
+
+    let temp;
+    temp = docId;
+    temp = masterArray;
+
+    return temp;
+  }
+
+async combinedGenAnswers(docId, reqType, isRequests) {
+  console.log(
+    "_____________________________________________________________ fired combinedGenAnswers"
+  );
+  const masterArray = [];
+  let dirPath;
+
+  if (reqType === "combined-numbered") {
+    dirPath = `../Documents/Textfiles/${docId}/`;
+  } else {
+    //
+  }
+  let fileNames = fs.readdirSync(dirPath);
+  const dirArray = fileNames.map((name) => {
+    return dirPath + name;
+  });
+
+  const requestString = iteratePathsReturnString(dirArray);
+  const completions = await this.startOne(requestString, reqType, isRequests); //START
+  const completionsObject = { type: `response to combined-requests` };
+  completionsObject["responses"] = completions;
+  masterArray.push(completionsObject);
+
+  const directionVar = isRequests ? "Requests" : "Responses";
+  const saveDirectory = path.join(
+    __dirname,
+    "..",
+    "Documents",
+    `${directionVar}`,
+    `${reqType}`,
+    `${docId}`
+  );
+
+  fs.mkdir(`${saveDirectory}`, function (err) {
+    if (err) {
+      console.log("makeDir utilities error creating directory: " + err);
+    }
+  });
+
+  temp = docId;
+  temp = masterArray;
+  const data = JSON.stringify(temp);
+  const fileSuffix = isRequests
+    ? "-jbk-parsedRequests.json"
+    : "-jbk-responses.json";
+
+  fs.writeFile(
+    `${saveDirectory}/${docId}${fileSuffix}`,
+    data,
+    function (err) {
+      if (err) {
+        return console.log("Error in saveCompletions writeFile:", err);
+      }
+    }
+  );
+  return temp;
+}
+*/
