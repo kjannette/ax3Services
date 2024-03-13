@@ -53,7 +53,7 @@ class ModelController {
     const requests = rogs[0].requests;
     let completions;
     if (reqType == "combined-numbered") {
-      completions = await this.startOne(requests, reqType, isRequests);
+      completions = await this.start(requests, reqType, isRequests);
     } else {
       completions = await this.start(requests, reqType, isRequests);
     }
@@ -100,7 +100,7 @@ class ModelController {
       data,
       function (err) {
         if (err) {
-          return console.log("Error in saveCompletions writeFile:", err);
+          return console.log("arrayGenAnswers err in writeFile:", err);
         }
       }
     );
@@ -230,7 +230,10 @@ class ModelController {
       data,
       function (err) {
         if (err) {
-          return console.log("Error in saveCompletions writeFile:", err);
+          return console.log(
+            "createArrayOfQuestions Error in  writeFile:",
+            err
+          );
         }
       }
     );
@@ -455,7 +458,10 @@ class ModelController {
       data,
       function (err) {
         if (err) {
-          return console.log("Error in saveCompletions writeFile:", err);
+          return console.log(
+            "createArrayOfQuestionsLargeError in  writeFile:",
+            err
+          );
         }
       }
     );
@@ -500,9 +506,9 @@ class ModelController {
     let prompt;
 
     if (reqType === "interrogatories-out") {
-      prompt = createArrayOfInterrogatoriesPrompt(request);
+      //prompt = createArrayOfInterrogatoriesPrompt(request);
     } else {
-      prompt = createArrayFromStringBlobPrompt(request);
+      prompt = createArrayFromStringBlobPrompt(requestStr);
     }
 
     //prompt = createArrayOfInterrogatoriesPlaintiffPrompt(requestStr);

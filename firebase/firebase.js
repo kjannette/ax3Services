@@ -47,6 +47,12 @@ async function updateDB(docId, determinedDocType) {
   });
 }
 
+async function updateDBCombNum(docId, message) {
+  await updateDoc(doc(db, "documents", docId), {
+    combinedNumberedType: message,
+  });
+}
+
 async function getDoc(docId) {
   try {
     const docRef = doc(db, "documents", `${docId}`);
@@ -135,6 +141,7 @@ async function getUsers() {
 module.exports = {
   db,
   updateDB,
+  updateDBCombNum,
   getDoc,
 };
 
