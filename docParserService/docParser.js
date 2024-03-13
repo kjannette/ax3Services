@@ -25,7 +25,7 @@ async function readDir(direcPath, folder, countObject) {
     const docType = await docClassifer.classifyDoc(sorted, folder);
 
     let parseOneCount = 0;
-    methodSelector(docType, sorted, folder, parseOneCount);
+    methodSelector(docType, sorted, folder, parseOneCount, countObject);
     return docType;
   } catch (err) {
     console.log("read error", err);
