@@ -41,9 +41,9 @@ const db = getFirestore(app);
  *
  ******************************************************************************/
 
-async function updateDB(docId, determinedDocType) {
+async function updateDB(docId, docType) {
   await updateDoc(doc(db, "documents", docId), {
-    docType: determinedDocType,
+    docType: docType,
   });
 }
 

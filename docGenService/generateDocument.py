@@ -82,18 +82,24 @@ class GenerateBody(object):
             reqFile = f"/Users/kjannette/workspace/ax3/ax3Services/Documents/Requests/interrogatories/{docId}/{docId}-jbk-parsedRequests.json"
             respFile = f"/Users/kjannette/workspace/ax3/ax3Services/Documents/Responses/interrogatories/{docId}/{docId}-jbk-responses.json"
         elif reqType == "combined-numbered":
-            reqFile = f"/var/www/ax3Services/Documents/Requests/combined-numbered/{docId}/{docId}-jbk-parsedRequests.json"
-            respFile = f"/var/www/ax3Services/Documents/Responses/combined-numbered/{docId}/{docId}-jbk-responses.json"
+            reqFile = f"/Users/kjannette/workspace/ax3/ax3Services/Documents/Requests/combined-numbered/{docId}/{docId}-jbk-parsedRequests.json"
+            respFile = f"/Users/kjannette/workspace/ax3/ax3Services/Documents/Responses/combined-numbered/{docId}/{docId}-jbk-responses.json"
+            #reqFile = f"/var/www/ax3Services/Documents/Requests/combined-numbered/{docId}/{docId}-jbk-parsedRequests.json"
+            #respFile = f"/var/www/ax3Services/Documents/Responses/combined-numbered/{docId}/{docId}-jbk-responses.json"
         elif reqType == "production":
-            reqFile = f"/var/www/ax3Services/Documents/Requests/production/{docId}/{docId}-jbk-parsedRequests.json"
-            respFile = f"/var/www/ax3Services/Documents/Responses/production/{docId}/{docId}-jbk-responses.json"
+            reqFile = f"/Users/kjannette/workspace/ax3/ax3Services/Documents/Requests/production/{docId}/{docId}-jbk-parsedRequests.json"
+            reqFile = f"/Users/kjannette/workspace/ax3/ax3Services/Documents/Requests/production/{docId}/{docId}-jbk-parsedRequests.json"
+            #reqFile = f"/var/www/ax3Services/Documents/Requests/production/{docId}/{docId}-jbk-parsedRequests.json"
+            #reqFile = f"/var/www/ax3Services/Documents/Requests/production/{docId}/{docId}-jbk-parsedRequests.json"
         elif reqType == "admissions":
-            reqFile = f"/var/www/ax3Services/Documents/Requests/admissions/{docId}/{docId}-jbk-parsedRequests.json"
-            respFile = f"/var/www/ax3Services/Documents/Responses/admissions/{docId}/{docId}-jbk-responses.json"
+            reqFile = f"/Users/kjannette/workspace/ax3/ax3Services/Requests/admissions/{docId}/{docId}-jbk-parsedRequests.json"
+            respFile = f"/Users/kjannette/workspace/ax3/ax3Services/Documents/Responses/admissions/{docId}/{docId}-jbk-responses.json"
+            #reqFile = f"/var/www/ax3Services/Documents/Requests/admissions/{docId}/{docId}-jbk-parsedRequests.json"
+            #respFile = f"/var/www/ax3Services/Documents/Responses/admissions/{docId}/{docId}-jbk-responses.json"
         elif reqType == "interrogatories-out":
             reqFile = f"/Users/kjannette/workspace/ax3/ax3Services/Documents/RequestsOut/{docId}/{docId}-jbk-requests-out.json"
             #reqFile = f"/var/www/ax3Services/Documents/RequestsOut/{docId}/{docId}-jbk-requests-out.json"
-        
+
         if reqType == 'interrogatories-out':
             if clientPosition == "Plaintiff":
                 respondent = defendant
