@@ -114,7 +114,7 @@ class ModelController {
         }
       }
     );
-
+    updateDB(docId, reqType);
     return temp;
   }
 

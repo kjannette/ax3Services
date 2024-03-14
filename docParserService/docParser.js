@@ -32,7 +32,6 @@ async function readDir(direcPath, folder, countObject) {
       parseOneCount,
       countObject
     );
-    return docType;
   } catch (err) {
     console.log("read error", err);
   }
@@ -295,7 +294,7 @@ async function parseProduction(
       data,
       function (err) {
         if (err) {
-          return console.log("Error in saveCompletions writeFile:", err);
+          return console.log("Error in parseProd writeFile:", err);
         }
       }
     );
@@ -317,7 +316,9 @@ async function parseAdmissions(
   parseAdmitCount
 ) {
   const initialHeaderString = "requests for admissions"; //^request* for admission*$/;
-
+  console.log(
+    "parseAdmissions called-------------------------------------------"
+  );
   const processArray = [];
   const rogs = [];
   let searchStr;
@@ -424,8 +425,8 @@ async function parseAdmissions(
       __dirname,
       "..",
       "Documents",
-      `${directionVar}`,
-      `${reqType}`,
+      "Requests",
+      "admissions",
       `${docId}`
     );
 
@@ -449,11 +450,13 @@ async function parseAdmissions(
       data,
       function (err) {
         if (err) {
-          return console.log("Error in saveCompletions writeFile:", err);
+          return console.log("Error in parse admit writeFile:", err);
         }
       }
     );
-    updateDB(docId, determinedDocType);
+    const reqstType = "admissions";
+    const isRequests = true;
+    modelController.arrayGenAnswers(docId, reqstType, isRequests);
   }
 }
 
@@ -585,7 +588,7 @@ async function parseRogs(
       data,
       function (err) {
         if (err) {
-          return console.log("Error in saveCompletions writeFile:", err);
+          return console.log("Error in parseRogs writeFile:", err);
         }
       }
     );
