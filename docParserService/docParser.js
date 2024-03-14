@@ -23,10 +23,7 @@ async function readDir(direcPath, folder, countObject) {
 
     const sortedFilePaths = dirArray.sort();
     const docType = await docClassifer.classifyDoc(sortedFilePaths, folder);
-    console.log(
-      "=========================================countObject in docParser readDir",
-      countObject
-    );
+    console.log("====================================== docParser readDir");
     let parseOneCount = 0;
     methodSelector(
       docType,
@@ -58,6 +55,7 @@ async function methodSelector(
       "=========================================determinedDocType in docParser methodSelecotr",
       determinedDocType
     );
+    updateDB(docId, determinedDocType);
     modelController.createArrayOfQuestions(
       folder,
       determinedDocType,
@@ -301,7 +299,6 @@ async function parseProduction(
         }
       }
     );
-    updateDB(docId, determinedDocType);
   }
 }
 
@@ -412,6 +409,7 @@ async function parseAdmissions(
       );
       const isRequests = true;
       determinedDocType = "combined-numbered";
+      updateDB(docId, determinedDocType);
       modelController.createArrayOfQuestions(
         folder,
         determinedDocType,
@@ -473,6 +471,9 @@ async function parseRogs(
   parseRogsCount
 ) {
   let searchStr;
+  console.log(
+    "***************************************************************************** PARSE ROGS FIRED"
+  );
   if (parseRogsCount < 1) {
     searchStr = "INTERROGATORY NO";
   } else {
@@ -574,8 +575,7 @@ async function parseRogs(
       "**************************************************************data",
       data
     );
-    updateDB(docId, determinedDocType);
-
+    updateDB(docId, reqType);
     console.log(
       " `${saveDirectory}/${docId}${fileSuffix}`",
       `${saveDirectory}/${folder}${fileSuffix}`
@@ -590,8 +590,8 @@ async function parseRogs(
       }
     );
     // Send it straight to LLM
-    const isRequests = true;
-    modelController.arrayGenAnswers(docId, determinedDocType, isRequests);
+    const isRequests = false;
+    modelController.arrayGenAnswers(docId, reqType, isRequests);
   }
 }
 
@@ -687,7 +687,13 @@ function saveParsedRogs(rogs, folder, determinedDocType) {
     console.log("docParser saveParsedRogs error. Error writing file:", err);
   }
 }
+/*
+const reqType = "admissions";
+const docId = "73cf6d0d-15cd-4d12-9edc-00bfa8de8ebb";
+const isRequests = true;
 
+modelController.testSaveFunction(docId, reqType, isRequests);
+*/
 module.exports = {
   readDir,
   makeDir,

@@ -33,7 +33,7 @@ class ModelController {
    */
 
   async arrayGenAnswers(docId, reqType, isRequests) {
-    let filePath;
+    /*
     const basePath = process.cwd();
     if (reqType == "combined-numbered") {
       filePath = `${basePath}/Documents/Requests/combined-numbered/${docId}/${docId}-jbk-parsedRequests.json`;
@@ -44,6 +44,16 @@ class ModelController {
     } else if (reqType == "production") {
       filePath = `${basePath}/Documents/Requests/production/${docId}/${docId}-jbk-parsedRequests.json`;
     }
+    */
+    const filePath = path.join(
+      __dirname,
+      "..",
+      "Documents",
+      "Requests",
+      `${reqType}`,
+      `${docId}`,
+      `${docId}-jbk-parsedRequests.json`
+    );
     console.log(
       "**arrayGenAnswers ------------------------- filePath",
       filePath
@@ -119,12 +129,15 @@ class ModelController {
     const masterArray = [];
     //const clientPosition = countObject.clientPosition;
     console.log(
-      "createArrayOfQuestions docId, reqType, isRequests, countObject in ",
-      docId,
-      reqType,
-      isRequests,
-      countObject
+      "----------------------------------------------------------------------"
     );
+    console.log("createArrayOfQuestions docId:", docId);
+    console.log("createArrayOfQuestions reqType:", reqType);
+    console.log("createArrayOfQuestions isRequests:", isRequests);
+    console.log(
+      "----------------------------------------------------------------------"
+    );
+
     const dirPath = path.join(
       __dirname,
       "..",
@@ -132,6 +145,7 @@ class ModelController {
       "Textfiles",
       `${docId}`
     );
+
     let fileNames = fs.readdirSync(dirPath);
     const dirArray = fileNames.map((name) => {
       return `${dirPath}/${name}`;
@@ -203,22 +217,26 @@ class ModelController {
         );
       }
     }
-    //IS THIS ALWAYS GOING TO BE REQUESTS NOW??????
-    //const directionVar = isRequests ? "Requests" : "Responses";
+    //ISNT THIS ALWAYS GOING TO BE REQUESTS NOW??????
+    const directionVar = isRequests ? "Requests" : "Responses";
     const saveDirectory = path.join(
       __dirname,
       "..",
       "Documents",
-      "Requests",
+      `${directionVar}`,
       `${reqType}`,
       `${docId}`
     );
-    // change abck to saveDirectory
-    fs.mkdir(
-      `/Users/kjannette/workspace/ax3/ax3Services/Documents/Requests/${reqType}/${docId}`,
+    // change back to saveDirectory
+    fs.writeFile(
+      `${saveDirectory}/${docId}${fileSuffix}`,
+      data,
       function (err) {
         if (err) {
-          console.log("makeDir utilities error creating directory: " + err);
+          return console.log(
+            "createArrayOfQuestionsLargeError in  writeFile:",
+            err
+          );
         }
       }
     );
@@ -230,15 +248,13 @@ class ModelController {
 
     let temp = docId;
     temp = masterArray;
+
     const fileSuffix = isRequests
       ? "-jbk-parsedRequests.json"
       : "-jbk-responses.json";
+
     const data = JSON.stringify(temp);
-    function sleep(ms) {
-      console.log("sleep called");
-      return new Promise((resolve) => setTimeout(resolve, ms));
-    }
-    sleep(3000);
+
     //change back
     fs.writeFile(
       `/Users/kjannette/workspace/ax3/ax3Services/Documents/Requests/${reqType}/${docId}/${docId}-jbk-parsedRequests.json`,
@@ -376,7 +392,7 @@ class ModelController {
     } catch (err) {
       console.log("Error writing file in createArrayOfInterrogatories:", err);
     }
-    updateDB(docId, reqType); //need to fix
+    //updateDB(docId, reqType); //need to fix
     return temp;
   }
 
@@ -572,6 +588,10 @@ class ModelController {
   // for development
   async testSaveFunction(docId, reqType, isRequests) {
     const directionVar = isRequests ? "Requests" : "Responses";
+    const temp = [
+      { one: "one", two: "two", three: "three", four: "ddd", five: "mmm" },
+    ];
+    const data = JSON.stringify(temp);
     const saveDirectory = path.join(
       __dirname,
       "..",
@@ -580,7 +600,11 @@ class ModelController {
       `${reqType}`,
       `${docId}`
     );
-    const fileSuffix = "-jbk-parsedRequests.json";
+
+    const fileSuffix = isRequests
+      ? "-jbk-parsedRequests.json"
+      : "-jbk-responses.json";
+
     console.log("-----------------------------------------");
     console.log("saveDirectory:", saveDirectory);
     console.log("-----------------------------------------");
@@ -589,6 +613,18 @@ class ModelController {
       `${saveDirectory}/${docId}${fileSuffix}`
     );
     console.log("-----------------------------------------");
+    fs.writeFile(
+      `${saveDirectory}/${docId}${fileSuffix}`,
+      data,
+      function (err) {
+        if (err) {
+          return console.log(
+            "createArrayOfQuestionsLargeError in  writeFile:",
+            err
+          );
+        }
+      }
+    );
   }
 }
 
@@ -596,7 +632,13 @@ module.exports = new ModelController();
 
 /*   ******** **************************************************************************
 
- 
+     fs.writeFile(
+      `/Users/kjannette/workspace/ax3/ax3Services/Documents/Requests/${reqType}/${docId}`,
+      data,
+      (err) => {
+        console.log("test err:", err);
+      }
+    );
    *  LLM PROMPT CONTROLLER
    *  CREATES ANSWERS FROM ARRAY OF REQUESTS - COMBINED TYPE
    *

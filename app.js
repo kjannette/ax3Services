@@ -146,7 +146,8 @@ app.post(
   async (req, res) => {
     const { docId, clientPosition } = req.params;
     console.log(
-      "generate-disc-responses ------------------> clientPosition",
+      "generate-disc-responses ------------------> docId clientPosition",
+      docId,
       clientPosition
     );
     const isComplaint = false;
