@@ -269,7 +269,7 @@ class GenerateBody(object):
                 for req in joinedReqArray:
                     if count == arrLen2:
                         break
-                  
+                    
                     paragraph = document.add_paragraph(f"{count}. {req}")
                     paragraph.paragraph_format.line_spacing = Pt(20)
                     paragraph.paragraph_format.space_after = Pt(12)
