@@ -442,6 +442,7 @@ async function parseAdmissions(
     requestArray.push(requestObject);
     parseTextFiles2SaveCount = 0;
     parseAdmitCount = 0;
+    console.log("requestArray", requestArray);
     const data = JSON.stringify(requestArray);
     const fileSuffix = "-jbk-parsedRequests.json";
 
@@ -456,6 +457,10 @@ async function parseAdmissions(
     );
     const reqstType = "admissions";
     const isRequests = true;
+    function sleep(ms) {
+      return new Promise((resolve) => setTimeout(resolve, ms));
+    }
+    await sleep(3000);
     modelController.arrayGenAnswers(docId, reqstType, isRequests);
   }
 }
