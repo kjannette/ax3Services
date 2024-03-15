@@ -333,6 +333,9 @@ app.get(
   async (req, res) => {
     const { docId, docType } = req.params;
     const isRequests = false;
+    console.log(
+      "hit end point for generate-disc-responses-irreg ===++++++==++=+=+ ----------------------> "
+    );
     try {
       const data = await modelController.arrayGenAnswers(
         docId,

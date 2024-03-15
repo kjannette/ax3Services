@@ -55,8 +55,9 @@ class ModelController {
       `${docId}-jbk-parsedRequests.json`
     );
     console.log(
-      "**arrayGenAnswers ------------------------- filePath",
-      filePath
+      "**arrayGenAnswers ------------------------- reqType, isRequests",
+      reqType,
+      isRequests
     );
     const fileData = fs.readFileSync(filePath, "utf8");
     const rogs = await JSON.parse(fileData);
