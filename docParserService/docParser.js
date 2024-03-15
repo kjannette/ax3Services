@@ -546,12 +546,12 @@ async function parseRogs(
       parseRogsCount++;
       parseRogs(docType, filePaths, folder, determinedDocType, parseRogsCount);
     } else {
-      const isRequests = true;
-      modelController.createArrayOfQuestions(
-        folder,
-        determinedDocType,
-        isRequests
+      const _isRequests = true;
+      const reqType = "combined-numbered";
+      console.log(
+        "---- ----  ---- ----  ---- ----  ---- ----  ---- ----  ---- ---- parseRogs GIVING UP calling createArrayOfQuestions ---- ---- "
       );
+      modelController.createArrayOfQuestions(folder, reqType, _isRequests);
       return;
     }
   } else {
@@ -580,8 +580,7 @@ async function parseRogs(
     const fileSuffix = "-jbk-parsedRequests.json";
     const data = JSON.stringify(requestArray);
     console.log(
-      "**************************************************************data",
-      data
+      "************************************************************** parseRogs updating DB"
     );
     updateDB(docId, reqType);
     console.log(

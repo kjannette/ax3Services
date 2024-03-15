@@ -137,6 +137,15 @@ class ModelController {
     console.log(
       "----------------------------------------------------------------------"
     );
+    const directionVar = isRequests ? "Requests" : "Responses";
+    const saveDirectory = path.join(
+      __dirname,
+      "..",
+      "Documents",
+      "Requests",
+      `${reqType}`,
+      `${docId}`
+    );
 
     const dirPath = path.join(
       __dirname,
@@ -145,6 +154,12 @@ class ModelController {
       "Textfiles",
       `${docId}`
     );
+
+    fs.mkdir(`${saveDirectory}`, function (err) {
+      if (err) {
+        console.log("arrayGenAnswers error creating directory: " + err);
+      }
+    });
 
     let fileNames = fs.readdirSync(dirPath);
     const dirArray = fileNames.map((name) => {
@@ -217,29 +232,6 @@ class ModelController {
         );
       }
     }
-    //ISNT THIS ALWAYS GOING TO BE REQUESTS NOW??????
-    const directionVar = isRequests ? "Requests" : "Responses";
-    const saveDirectory = path.join(
-      __dirname,
-      "..",
-      "Documents",
-      `${directionVar}`,
-      `${reqType}`,
-      `${docId}`
-    );
-    // change back to saveDirectory
-    fs.writeFile(
-      `${saveDirectory}/${docId}${fileSuffix}`,
-      data,
-      function (err) {
-        if (err) {
-          return console.log(
-            "createArrayOfQuestionsLargeError in  writeFile:",
-            err
-          );
-        }
-      }
-    );
 
     const completionsObject = { type: "combined-numbered" };
     completionsObject["requests"] = parsedRequests;
@@ -257,14 +249,11 @@ class ModelController {
 
     //change back
     fs.writeFile(
-      `/Users/kjannette/workspace/ax3/ax3Services/Documents/Requests/${reqType}/${docId}/${docId}-jbk-parsedRequests.json`,
+      `${saveDirectory}/${docId}${fileSuffix}`,
       data,
       function (err) {
         if (err) {
-          return console.log(
-            "createArrayOfQuestions Error in  writeFile:",
-            err
-          );
+          return console.log("arrayGenAnswers err in writeFile:", err);
         }
       }
     );
@@ -514,10 +503,7 @@ class ModelController {
           model: "gpt-4",
           messages: prompt,
         });
-        console.log(
-          "completion.choices[0].message.content",
-          completion.choices[0].message.content
-        );
+        console.log("completion.choices[0].message.content");
         return completion.choices[0].message.content;
       })
     );
