@@ -17,7 +17,7 @@ async function writeFile(
 ) {
   const totalFiles = countObject.numberOfFiles;
   const fdirup = path.join(__dirname, "..", "Documents", "Textfiles");
-  console.log("file (id) in write file", file);
+
   try {
     fs.writeFile(
       `${fdirup}/${folder}/${file.split(".")[0]}.txt`,
@@ -79,7 +79,6 @@ async function writeSingle(folder, text) {
 }
 
 async function convert(file, countObject, isComplaint, clientPosition) {
-  console.log("tesse in convert called");
   //console.log("file in convert (id)", file);
   const path = countObject?.path;
   const worker = await createWorker();

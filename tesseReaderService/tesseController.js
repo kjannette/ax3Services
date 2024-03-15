@@ -45,7 +45,7 @@ class TesseController {
     countObject.path = fdirup;
     countObject.numberOfFiles = fileNames.length;
     countObject.clientPosition = clientPosition;
-    console.log("countObject", countObject);
+
     this.makeDir(id);
 
     function callConvert(
