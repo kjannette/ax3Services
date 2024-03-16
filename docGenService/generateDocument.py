@@ -1,4 +1,5 @@
 import json
+import os
 from docx import Document
 from docx.shared import Inches
 from docx.shared import Pt
@@ -10,10 +11,11 @@ from pyGenObjectionTemplates import make_ny_gen_obj, make_nj_gen_obj, make_fl_ge
 from pyOutgoingCopy import make_outgoing_instructions
 from pyRequestsForProduction import make_requests_for_production
 
+
 class GenerateBody(object):
     def generate(self, docId):
         print('-------------->docId', docId)
-
+        path = os.path.abspath(os.path.join(os.path.dirname( __file__ ), ".."))
         foundationRogArray = [
             "State your full name, home addresses for the past ten years, your employer for the last 10 years, your current work address, date of birth and social security number.",
             "Identify all insurance carriers or self-insured funds, by name, address, policy numbers and policy limits, for any insurance policy or fund which may provide coverage for any judgment entered against you in this action.",
@@ -79,25 +81,25 @@ class GenerateBody(object):
         if reqType == "interrogatories":
             #reqFile = f"/var/www/ax3Services/Documents/Requests/Parsedrogs/{docId}/{docId}-jbk-parsedRequests.json"
             #respFile = f"/var/www/ax3Services/Documents/Responses/Rogresp/{docId}/{docId}-jbk-responses.json"
-            reqFile = f"/Users/kjannette/workspace/ax3/ax3Services/Documents/Requests/interrogatories/{docId}/{docId}-jbk-parsedRequests.json"
-            respFile = f"/Users/kjannette/workspace/ax3/ax3Services/Documents/Responses/interrogatories/{docId}/{docId}-jbk-responses.json"
+            reqFile = f"{path}/Documents/Requests/interrogatories/{docId}/{docId}-jbk-parsedRequests.json"
+            respFile = f"{path}/Documents/Responses/interrogatories/{docId}/{docId}-jbk-responses.json"
         elif reqType == "combined-numbered":
-            reqFile = f"/Users/kjannette/workspace/ax3/ax3Services/Documents/Requests/combined-numbered/{docId}/{docId}-jbk-parsedRequests.json"
-            respFile = f"/Users/kjannette/workspace/ax3/ax3Services/Documents/Responses/combined-numbered/{docId}/{docId}-jbk-responses.json"
+            reqFile = f"{path}/Documents/Requests/combined-numbered/{docId}/{docId}-jbk-parsedRequests.json"
+            respFile = f"{path}/Documents/Responses/combined-numbered/{docId}/{docId}-jbk-responses.json"
             #reqFile = f"/var/www/ax3Services/Documents/Requests/combined-numbered/{docId}/{docId}-jbk-parsedRequests.json"
             #respFile = f"/var/www/ax3Services/Documents/Responses/combined-numbered/{docId}/{docId}-jbk-responses.json"
         elif reqType == "production":
-            reqFile = f"/Users/kjannette/workspace/ax3/ax3Services/Documents/Requests/production/{docId}/{docId}-jbk-parsedRequests.json"
-            reqFile = f"/Users/kjannette/workspace/ax3/ax3Services/Documents/Requests/production/{docId}/{docId}-jbk-parsedRequests.json"
+            reqFile = f"{path}/Documents/Requests/production/{docId}/{docId}-jbk-parsedRequests.json"
+            reqFile = f"{path}/Documents/Requests/production/{docId}/{docId}-jbk-parsedRequests.json"
             #reqFile = f"/var/www/ax3Services/Documents/Requests/production/{docId}/{docId}-jbk-parsedRequests.json"
             #reqFile = f"/var/www/ax3Services/Documents/Requests/production/{docId}/{docId}-jbk-parsedRequests.json"
         elif reqType == "admissions":
-            reqFile = f"/Users/kjannette/workspace/ax3/ax3Services/Requests/admissions/{docId}/{docId}-jbk-parsedRequests.json"
-            respFile = f"/Users/kjannette/workspace/ax3/ax3Services/Documents/Responses/admissions/{docId}/{docId}-jbk-responses.json"
+            reqFile = f"{path}/Documents/Requests/admissions/{docId}/{docId}-jbk-parsedRequests.json"
+            respFile = f"{path}/Documents/Responses/admissions/{docId}/{docId}-jbk-responses.json"
             #reqFile = f"/var/www/ax3Services/Documents/Requests/admissions/{docId}/{docId}-jbk-parsedRequests.json"
             #respFile = f"/var/www/ax3Services/Documents/Responses/admissions/{docId}/{docId}-jbk-responses.json"
         elif reqType == "interrogatories-out":
-            reqFile = f"/Users/kjannette/workspace/ax3/ax3Services/Documents/RequestsOut/{docId}/{docId}-jbk-requests-out.json"
+            reqFile = f"{path}/Documents/RequestsOut/{docId}/{docId}-jbk-requests-out.json"
             #reqFile = f"/var/www/ax3Services/Documents/RequestsOut/{docId}/{docId}-jbk-requests-out.json"
 
         if reqType == 'interrogatories-out':

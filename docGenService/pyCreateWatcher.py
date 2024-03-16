@@ -3,6 +3,7 @@ import time
 import logging
 from generateDocument import GenerateBody
 from watchdog.observers import Observer
+import os
 
 # from watchdog.events import LoggingEventHandler
 from watchdog.events import PatternMatchingEventHandler
@@ -17,13 +18,14 @@ if __name__ == "__main__":
         print(">>>>>>>>>>>>>>>>>>>>>>>path", path[-1].split(".")[0])
         docId = str(path[-1].split(".")[0])
         bodygen.generate(docId)
-
+    
+    root_path = os.path.abspath(os.path.join(os.path.dirname( __file__ ), ".."))
     patterns = ["*"]
     ignore_patterns = None
     ignore_directories = False
     case_sensitive = True
     #path = "/var/www/ax3Services/docGenService/Docxinfo"
-    path = "/Users/kjannette/workspace/ax3/ax3Services/docGenService/Docxinfo"
+    path = f"{root_path}/docGenService/Docxinfo"
     my_event_handler = PatternMatchingEventHandler(
         patterns, ignore_patterns, ignore_directories, case_sensitive
     )

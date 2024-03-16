@@ -29,7 +29,8 @@ class TesseController {
   async executeReadWriteActions(
     id,
     isComplaint = false,
-    clientPosition = "Plaintiff"
+    clientPosition = "Plaintiff",
+    novosValue = 2
   ) {
     const fdirup = path.join(
       __dirname,
@@ -45,6 +46,7 @@ class TesseController {
     countObject.path = fdirup;
     countObject.numberOfFiles = fileNames.length;
     countObject.clientPosition = clientPosition;
+    countObject.novosValue = novosValue;
 
     this.makeDir(id);
 
