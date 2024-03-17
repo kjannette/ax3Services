@@ -142,20 +142,16 @@ app.post(
 
 //make resp to incoming requests from req doc
 app.post(
-  "/v1/generate-disc-responses/:docId/:clientPosition/:novosValue",
+  "/v1/generate-disc-responses/:docId/:clientPosition",
   async (req, res) => {
     const { docId, clientPosition } = req.params;
-    console.log(
-      "generate-disc-responses ------------------>novosValue",
-      novosValue
-    );
+    console.log("generate-disc-responses ------------------>");
     const isComplaint = false;
     try {
       const res = await tesseController.executeReadWriteActions(
         docId,
         isComplaint,
-        clientPosition,
-        novosValue
+        clientPosition
       );
       return res;
     } catch (err) {
