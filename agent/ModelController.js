@@ -139,7 +139,7 @@ class ModelController {
       "----------------------------------------------------------------------"
     );
     const directionVar = isRequests ? "Requests" : "Responses";
-    const novosValue = countObject.novosValue ? countObject.novosValue : 2;
+
     const saveDirectory = path.join(
       __dirname,
       "..",

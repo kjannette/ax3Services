@@ -79,7 +79,7 @@ function selectResponsePath(reqType, isRequests, folder) {
   return dir;
 }
 
-const directoryPath = `/Users/kjannette/workspace/agentxa2new/Backend/Documents/Textfiles/`;
+//const directoryPath = `/Users/kjannette/workspace/agentxa2new/Backend/Documents/Textfiles/`;
 
 /**
  *
