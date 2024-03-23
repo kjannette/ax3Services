@@ -13,7 +13,7 @@ function onComplete() {
 }
 
 csv()
-  .fromStream(request.get("http://mywebsite.com/mycsvfile.csv"))
+  .fromStream(request.get("./data.csv"))
   .subscribe(
     (json) => {
       return new Promise((resolve, reject) => {
