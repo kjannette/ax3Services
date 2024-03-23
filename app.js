@@ -9,6 +9,8 @@ const modelController = require("./agent/ModelController.js");
 const tesseController = require("./tesseReaderService/tesseController.js");
 const stripeController = require("./paymentService/stripeController.js");
 const { db } = require("./firebase/firebase.js");
+const trialUsers = require("./Constants/trialSignupData.js");
+
 //const sleep = require("system-sleep");
 const {
   storeEditedCompletions,
@@ -414,11 +416,29 @@ app.post("/v1/store-docx-data/:docId", function (req, res) {
 
 app.get("/v1/get-parsed-requests/:docId/:docType", (req, res) => {
   const { docId, docType } = req.params;
-
   try {
     res.sendFile(`${docId}-jbk-parsedRequests.json`, {
       root: `${rootDir}/ax3Services/Documents/Requests/${docType}/${docId}/`,
     });
+  } catch (err) {
+    console.log("err", err);
+  }
+});
+
+/*
+ *
+ *  Client GET focus user data
+ */
+console.log("trialUsers.trialUsers", trialUsers.trialUsers);
+app.get("/v1/get-focused-data/:code", (req, res) => {
+  const { code } = req.params;
+  console.log("code", code);
+  const match = trialUsers.trialUsers.filter((user) => user.promoId === code);
+  console.log("match", match);
+  try {
+    if (match) {
+      res.send(match);
+    }
   } catch (err) {
     console.log("err", err);
   }
