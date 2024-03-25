@@ -3,7 +3,7 @@
 const path = require("path");
 const json2csv = require("json2csv");
 const fs = require("fs");
-const request = require("requests");
+
 const csv = require("csvtojson");
 const converter = csv({
   noheader: true,
@@ -36,3 +36,30 @@ converter
     });
   });
 */
+
+const fileData = fs.readFileSync("prospects.json", "utf8", function (err) {
+  console.log("error in readFile", err);
+});
+
+const data = JSON.parse(fileData);
+
+json2csv
+  .parseAsync(data, {
+    fields: [
+      "field1",
+      "field2",
+      "field3",
+      "field4",
+      "field5",
+      "field6",
+      "field7",
+      "field8",
+      "field9",
+    ],
+  })
+  .then((csv) => {
+    fs.writeFile("prospects.csv", csv, function (err) {
+      if (err) throw err;
+      console.log("File Saved!");
+    });
+  });
