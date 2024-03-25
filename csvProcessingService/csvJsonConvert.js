@@ -43,6 +43,14 @@ const fileData = fs.readFileSync("prospects.json", "utf8", function (err) {
 
 const data = JSON.parse(fileData);
 
+json2csv.parseAsync(data).then((csv) => {
+  fs.writeFile("prospects.csv", csv, function (err) {
+    if (err) throw err;
+    console.log("File Saved!");
+  });
+});
+
+/*
 json2csv
   .parseAsync(data, {
     fields: [
@@ -63,3 +71,4 @@ json2csv
       console.log("File Saved!");
     });
   });
+*/
