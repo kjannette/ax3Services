@@ -445,7 +445,6 @@ app.get("/v1/get-focused-data/:code", (req, res) => {
     const match = trialUsers.trialUsers.filter(
       (user) => user.signupCode === code
     );
-    console.log("match[0]", match[0]);
     const mspall = generatePassword();
     match[0]["mspall"] = mspall;
     if (match) {
