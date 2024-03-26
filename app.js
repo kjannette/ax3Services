@@ -10,7 +10,7 @@ const tesseController = require("./tesseReaderService/tesseController.js");
 const stripeController = require("./paymentService/stripeController.js");
 const { db } = require("./firebase/firebase.js");
 const trialUsers = require("./Constants/trialSignupData.js");
-
+const crypto = require("crypto");
 //const sleep = require("system-sleep");
 const {
   storeEditedCompletions,
@@ -26,6 +26,14 @@ const {
   handleSubscriptionDeletion,
 } = require("./paymentService/stripe.js");
 const { collection, query, where, getDocs } = require("firebase/firestore");
+
+const generatePassword = (
+  length = 20,
+  characters = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz~!@-#$"
+) =>
+  Array.from(crypto.randomFillSync(new Uint32Array(length)))
+    .map((x) => characters[x % characters.length])
+    .join("");
 
 //*** STRIPE ***/
 const Stripe = require("stripe");
@@ -429,13 +437,17 @@ app.get("/v1/get-parsed-requests/:docId/:docType", (req, res) => {
  *
  *  Client GET focus user data
  */
-console.log("trialUsers.trialUsers", trialUsers.trialUsers);
+
 app.get("/v1/get-focused-data/:code", (req, res) => {
   const { code } = req.params;
-  console.log("code", code);
-  const match = trialUsers.trialUsers.filter((user) => user.promoId === code);
-  console.log("match", match);
+
   try {
+    const match = trialUsers.trialUsers.filter(
+      (user) => user.signupCode === code
+    );
+    console.log("match[0]", match[0]);
+    const mspall = generatePassword();
+    match[0]["mspall"] = mspall;
     if (match) {
       res.send(match);
     }
