@@ -289,7 +289,7 @@ const trialUsers = [
     field1: "6df72490-3b67-4a05-ac29-7346cc4de52d",
     firstName: "Darryl",
     lastName: "Richards",
-    firm: "",
+    firm: "***",
     email: "darrylr@jpfirm.com",
     city: "",
     state: "Florida",
