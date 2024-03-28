@@ -10,7 +10,6 @@ const tesseController = require("./tesseReaderService/tesseController.js");
 const stripeController = require("./paymentService/stripeController.js");
 const { db } = require("./firebase/firebase.js");
 const trialUsers = require("./Constants/trialSignupData.js");
-const njFocusGroup = require("./Constants/njFocusData.js");
 const crypto = require("crypto");
 
 const {
@@ -156,7 +155,7 @@ app.post(
   "/v1/generate-disc-responses/:docId/:clientPosition",
   async (req, res) => {
     const { docId, clientPosition } = req.params;
-    console.log("generate-disc-responses ------------------>");
+
     const isComplaint = false;
     try {
       const res = await tesseController.executeReadWriteActions(
