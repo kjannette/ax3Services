@@ -11,7 +11,7 @@ const stripeController = require("./paymentService/stripeController.js");
 const { db } = require("./firebase/firebase.js");
 const trialUsers = require("./Constants/trialSignupData.js");
 const crypto = require("crypto");
-//const sleep = require("system-sleep");
+
 const {
   storeEditedCompletions,
   storeDataForGenServices,
@@ -155,7 +155,7 @@ app.post(
   "/v1/generate-disc-responses/:docId/:clientPosition",
   async (req, res) => {
     const { docId, clientPosition } = req.params;
-    console.log("generate-disc-responses ------------------>");
+
     const isComplaint = false;
     try {
       const res = await tesseController.executeReadWriteActions(
@@ -272,6 +272,7 @@ app.post("/new-payment-intent", async (req, res) => {
 /*
  *  Client POST for cancelling a subscription
  */
+
 app.post("/cancel-subscription", async (req, res) => {
   const { appUserId } = req.body;
   try {
@@ -343,9 +344,7 @@ app.get(
   async (req, res) => {
     const { docId, docType } = req.params;
     const isRequests = false;
-    console.log(
-      "hit end point for generate-disc-responses-irreg ===++++++==++=+=+ ----------------------> "
-    );
+
     try {
       const data = await modelController.arrayGenAnswers(
         docId,
@@ -445,9 +444,10 @@ app.get("/v1/get-focused-data/:code", (req, res) => {
     const match = trialUsers.trialUsers.filter(
       (user) => user.signupCode === code
     );
-    const mspall = generatePassword();
-    match[0]["mspall"] = mspall;
-    if (match) {
+
+    if (match.length > 0) {
+      const mspall = generatePassword();
+      match[0]["mspall"] = mspall;
       res.send(match);
     }
   } catch (err) {

@@ -1,323 +1,4 @@
-const trialUsers = [
-  {
-    uuid: "7249e565-4dfc-4a38-9582-f4b0f2da3dba",
-    firstName: "Scott",
-    lastName: "Smith",
-    field4: "",
-    email: "ssmith@smithball.com",
-    city: "Palm Beach Gardens",
-    state: "Florida",
-    zip: "",
-    signupCode: "novofreedom-fl24-061",
-  },
-  {
-    uuid: "5a543c34-bad3-49d0-a13d-7de4661b3782",
-    firstName: "Curtis",
-    lastName: "Mase",
-    field4: "",
-    email: "cmase@maselaw.com",
-    city: "",
-    state: "Florida",
-    zip: "",
-    signupCode: "novofreedom-fl24-062",
-  },
-  {
-    uuid: "f8733245-676b-403c-b535-fc642dacff8c",
-    firstName: "Brett",
-    lastName: "Rosen",
-    field4: "",
-    email: "brosen@goldbergandrosen.com",
-    city: "",
-    state: "Florida",
-    zip: "",
-    signupCode: "novofreedom-fl24-063",
-  },
-  {
-    uuid: "ac6d1fe8-5a4c-42a9-b163-684b9385a727",
-    firstName: "Rachel",
-    lastName: "Tuckerman",
-    field4: "",
-    email: "rachtuckerman@gmail.com",
-    city: "",
-    state: "Florida",
-    zip: "",
-    signupCode: "novofreedom-fl24-064",
-  },
-  {
-    uuid: "776b0f59-646e-48f5-b5f4-5d8b4eef66d2",
-    firstName: "Deborah",
-    lastName: "Daly",
-    field4: "",
-    email: "deborahd@ha.com",
-    city: "",
-    state: "Florida",
-    zip: "",
-    signupCode: "novofreedom-fl24-065",
-  },
-  {
-    uuid: "00dcc023-6432-4e77-b7c4-7e928ccee977",
-    firstName: "Timothy",
-    lastName: "Shanahan",
-    field4: "",
-    email: "tim@bernsteininjurylaw.com",
-    city: "Tampa",
-    state: "Florida",
-    zip: "",
-    signupCode: "novofreedom-fl24-066",
-  },
-  {
-    uuid: "eca54566-a90e-4388-8c87-0b9429020ff2",
-    firstName: "Jennifer",
-    lastName: "Englert",
-    field4: "",
-    email: "jenglert@theorlandolawgroup.com",
-    city: "Orlando",
-    state: "Florida",
-    zip: "",
-    signupCode: "novofreedom-fl24-067",
-  },
-  {
-    uuid: "d4fa78d7-8617-4eab-bf74-02619800e78b",
-    firstName: "Aaron",
-    lastName: "Lapin",
-    field4: "",
-    email: "aaron@lapininjurylaw.com",
-    city: "",
-    state: "Florida",
-    zip: "",
-    signupCode: "novofreedom-fl24-068",
-  },
-  {
-    field1: "66f567f2-dd6e-4347-a53c-1de900a3df42",
-    firstName: "Harsh",
-    lastName: "Arora",
-    field4: "",
-    email: "harsh.arora@nelsonmullins.com",
-    city: "",
-    state: "Florida",
-    zip: "",
-    signupCode: "novofreedom-fl24-069",
-  },
-  {
-    uuid: "b70eb3ae-2695-453d-80cb-cb7488329726",
-    firstName: "Spencer",
-    lastName: "Kuvin",
-    field4: "",
-    email: "skuvin@goldlaw.com",
-    city: "West Palm Beach",
-    state: "Florida",
-    zip: "",
-    signupCode: "novofreedom-fl24-070",
-  },
-  {
-    uuid: "46d3b0cb-3008-4b5e-be05-a329a536ccd1",
-    firstName: "Matthew",
-    lastName: "Thomas",
-    field4: "",
-    email: "matthew@gravesthomas.com",
-    city: "Vero Beach",
-    state: "Florida",
-    zip: "",
-    signupCode: "novofreedom-fl24-071",
-  },
-  {
-    field1: "b72c7c06-edcb-4eeb-bd5e-87912a6ed722",
-    firstName: "Philip",
-    lastName: "Freiden",
-    field4: "",
-    email: "pf@fblawyers.net",
-    city: "Miami",
-    state: "Florida",
-    zip: "",
-    signupCode: "novofreedom-fl24-072",
-  },
-  {
-    uuid: "3c863814-cd8e-437c-9435-a291a0d37ada",
-    firstName: "Mariano",
-    lastName: "Garcia",
-    field4: "",
-    email: "mxg@searcylaw.com",
-    city: "West Palm Beach",
-    fieldstate7: "Florida",
-    zip: "",
-    signupCode: "novofreedom-fl24-073",
-  },
-  {
-    field1: "8e6d5916-9168-4312-b955-ec983a38a47b",
-    firstName: "Benjamin",
-    lastName: "Grossman",
-    field4: "",
-    email: "bjgrossman@foley.com",
-    city: "Tallahassee",
-    state: "Florida",
-    zip: "",
-    signupCode: "novofreedom-fl24-074",
-  },
-  {
-    uuid: "05ddc49c-d3d4-4278-84be-9dd61577102e",
-    firstName: "Armondo",
-    lastName: "Edmiston",
-    field4: "",
-    email: "armando@armandoinjurylaw.com",
-    city: "Tampa",
-    state: "Florida",
-    zip: "",
-    signupCode: "novofreedom-fl24-075",
-  },
-  {
-    field1: "36d56dec-3222-4cf0-b3b7-61d1cbba761a",
-    firstName: "Michael",
-    lastName: "McLeod",
-    field4: "",
-    email: "mmcleod@mcleodbrock.com",
-    city: "Boca Raton",
-    state: "Florida",
-    zip: "",
-    signupCode: "novofreedom-fl24-076",
-  },
-  {
-    field1: "2fe8a674-f03e-4e90-80a9-d38142af57f3",
-    firstName: "Paul",
-    lastName: "Perkins",
-    field4: "",
-    email: "pperkins@paulandperkins.com",
-    city: "",
-    state: "Florida",
-    zip: "",
-    signupCode: "novofreedom-fl24-077",
-  },
-  {
-    uuid: "7c471377-640b-4261-9a5d-24d0c67c6d66",
-    firstName: "Sally",
-    lastName: "Fox",
-    field4: "",
-    email: "sfox@esclaw.com",
-    city: "Pensacola",
-    state: "Florida",
-    zip: "",
-    signupCode: "novofreedom-fl24-078",
-  },
-  {
-    uuid: "8c5b9f93-68b4-4169-9d03-e3e2b3fe95f3",
-    firstName: "Christian",
-    lastName: "Searcy",
-    field4: "",
-    email: "cds@searcylaw.com",
-    city: "West Palm Beach",
-    state: "Florida",
-    zip: "",
-    signupCode: "novofreedom-fl24-079",
-  },
-  {
-    uuid: "9cf0953f-3dd2-4df3-8300-ff6d28f7302c",
-    firstName: "David",
-    lastName: "Paul",
-    field4: "",
-    email: "dave@pkblawfirm.com",
-    city: "Winter Park",
-    state: "Florida",
-    zip: "",
-    signupCode: "novofreedom-fl24-080",
-  },
-  {
-    uuid: "2534523b-24a0-4c69-a90c-c16a2f9d68ee",
-    firstName: "David",
-    lastName: "Paul",
-    field4: "",
-    email: "david@rvplawyers.com",
-    city: "Miami",
-    state: "Florida",
-    zip: "",
-    signupCode: "novofreedom-fl24-081",
-  },
-  {
-    uuid: "f31ba35e-7a52-400d-bd9f-54ff2c34b98c",
-    firstName: "Carlos",
-    lastName: "Leach",
-    field4: "",
-    email: "cleach@theleachfirm.com",
-    city: "",
-    state: "Florida",
-    zip: "",
-    signupCode: "novofreedom-fl24-082",
-  },
-  {
-    uuid: "15798053-4b17-4fe6-9a85-525874d94aac",
-    firstName: "Steven",
-    lastName: "Lavely",
-    field4: "",
-    email: "steve@lavelylaw.com",
-    city: "Bradenton",
-    state: "Florida",
-    zip: "",
-    signupCode: "novofreedom-fl24-083",
-  },
-  {
-    uuid: "22401c49-dadf-4ad7-82c9-c9b74b0c7159",
-    firstName: "Fuller",
-    lastName: "Haring",
-    field4: "",
-    email: "fuller.haring@boginmunns.com",
-    city: "Longwood",
-    state: "Florida",
-    zip: "",
-    signupCode: "novofreedom-fl24-084",
-  },
-  {
-    uuid: "cfe67163-e55a-496b-9ba3-a9ecc3b3d785",
-    firstName: "Drew",
-    lastName: "McCulloch",
-    field4: "",
-    email: "drew@mcfloridalaw.com",
-    city: "",
-    state: "Florida",
-    zip: "",
-    signupCode: "novofreedom-fl24-085",
-  },
-  {
-    uuid: "7e697bbb-5329-4ad3-9f81-da8da51a818a",
-    firstName: "Richard",
-    lastName: "Welden",
-    field4: "",
-    email: "rweldonlaw@gmail.com",
-    city: "Safety Harbor",
-    state: "Florida",
-    zip: "",
-    signupCode: "novofreedom-fl24-086",
-  },
-  {
-    field1: "6df72490-3b67-4a05-ac29-7346cc4de52d",
-    firstName: "Darryl",
-    lastName: "Richards",
-    firm: "***",
-    email: "darrylr@jpfirm.com",
-    city: "",
-    state: "Florida",
-    zip: "",
-    signupCode: "novofreedom-fl24-087",
-  },
-  {
-    uuid: "99dedcf5-5a16-42a7-ab0b-a52f62e187ae",
-    firstName: "Ross",
-    lastName: "Abramowitz",
-    firm: "The Injury Firm",
-    email: "ross@flinjuryfirm.com",
-    city: "Fort Lauderdale",
-    state: "Florida",
-    zip: "",
-    signupCode: "novofreedom-fl24-089",
-  },
-  {
-    uuid: "99dedcf5-5a16-42a7-ab0b-a52f62e187ae",
-    firstName: "Dalton",
-    lastName: "Thomas",
-    firm: "The Injury Firm",
-    email: "dalton@flinjuryfirm.com",
-    city: "Fort Lauderdale",
-    state: "Florida",
-    zip: "33334",
-    signupCode: "novofreedom-fl24-090",
-  },
+const njFocusList = [
   {
     firstName: "First Name",
     lastName: "Last Name",
@@ -325,7 +6,7 @@ const trialUsers = [
     email: "Email",
     city: "City",
     state: "State",
-    signupCode: "novolens-nj24-202",
+    description: "novolens-nj24-202",
   },
   {
     firstName: "Kristy",
@@ -334,7 +15,7 @@ const trialUsers = [
     email: "kristy.krasowski@brandonjbroderick.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-203",
+    description: "novolens-nj24-203",
   },
   {
     firstName: "Ken",
@@ -343,7 +24,7 @@ const trialUsers = [
     email: "kenbiedzynski@attorneys.com",
     city: "River Edge",
     state: "NJ",
-    signupCode: "novolens-nj24-204",
+    description: "novolens-nj24-204",
   },
   {
     firstName: "Steven",
@@ -352,7 +33,7 @@ const trialUsers = [
     email: "steven@dsslaw.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-205",
+    description: "novolens-nj24-205",
   },
   {
     firstName: "Adam",
@@ -361,7 +42,7 @@ const trialUsers = [
     email: "adaml@dsslaw.com",
     city: "Teaneck",
     state: "NJ",
-    signupCode: "novolens-nj24-206",
+    description: "novolens-nj24-206",
   },
   {
     firstName: "Tiffany",
@@ -370,7 +51,7 @@ const trialUsers = [
     email: "tburress@brandonjbroderick.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-207",
+    description: "novolens-nj24-207",
   },
   {
     firstName: "Angelo",
@@ -379,7 +60,7 @@ const trialUsers = [
     email: "angelocatanzariti@corradinoandpapa.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-208",
+    description: "novolens-nj24-208",
   },
   {
     firstName: "Joseph",
@@ -388,7 +69,7 @@ const trialUsers = [
     email: "jdefuria@corradinoandpapa.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-209",
+    description: "novolens-nj24-209",
   },
   {
     firstName: "Alex",
@@ -397,7 +78,7 @@ const trialUsers = [
     email: "alyubarsky@wilentz.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-210",
+    description: "novolens-nj24-210",
   },
   {
     firstName: "Lynne",
@@ -406,7 +87,7 @@ const trialUsers = [
     email: "lkizis@wilentz.com",
     city: "",
     state: "",
-    signupCode: "novolens-nj24-211",
+    description: "novolens-nj24-211",
   },
   {
     firstName: "Jason",
@@ -415,7 +96,7 @@ const trialUsers = [
     email: "",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-212",
+    description: "novolens-nj24-212",
   },
   {
     firstName: "Jay",
@@ -424,7 +105,7 @@ const trialUsers = [
     email: "jsawczak@wilentz.com",
     city: "",
     state: "",
-    signupCode: "novolens-nj24-213",
+    description: "novolens-nj24-213",
   },
   {
     firstName: "Pierre",
@@ -433,7 +114,7 @@ const trialUsers = [
     email: "pchwang@wilentz.com",
     city: "",
     state: "",
-    signupCode: "novolens-nj24-214",
+    description: "novolens-nj24-214",
   },
   {
     firstName: "Yessica",
@@ -442,7 +123,7 @@ const trialUsers = [
     email: "ypinales@wilentz.com",
     city: "",
     state: "NY",
-    signupCode: "novolens-nj24-215",
+    description: "novolens-nj24-215",
   },
   {
     firstName: "Michael",
@@ -451,7 +132,7 @@ const trialUsers = [
     email: "mellery@myinjuryattorney.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-216",
+    description: "novolens-nj24-216",
   },
   {
     firstName: "Lindsay",
@@ -460,7 +141,7 @@ const trialUsers = [
     email: "lsewekow@myinjuryattorney.com",
     city: "",
     state: "",
-    signupCode: "novolens-nj24-217",
+    description: "novolens-nj24-217",
   },
   {
     firstName: "Katherine",
@@ -469,7 +150,7 @@ const trialUsers = [
     email: "katherine.catanese@foley.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-218",
+    description: "novolens-nj24-218",
   },
   {
     firstName: "Rachel",
@@ -478,7 +159,7 @@ const trialUsers = [
     email: "rplacitella@cprlaw.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-219",
+    description: "novolens-nj24-219",
   },
   {
     firstName: "Michael",
@@ -487,7 +168,7 @@ const trialUsers = [
     email: "mdennin@ciecka.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-220",
+    description: "novolens-nj24-220",
   },
   {
     firstName: "Vincent",
@@ -496,7 +177,7 @@ const trialUsers = [
     email: "vciecka@ciecka.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-221",
+    description: "novolens-nj24-221",
   },
   {
     firstName: "Santo",
@@ -505,7 +186,7 @@ const trialUsers = [
     email: "santoartusa@gmail.com",
     city: "",
     state: "",
-    signupCode: "novolens-nj24-222",
+    description: "novolens-nj24-222",
   },
   {
     firstName: "Scott",
@@ -514,7 +195,7 @@ const trialUsers = [
     email: "scottgrossman@grossmanlaw.net",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-223",
+    description: "novolens-nj24-223",
   },
   {
     firstName: "Adam",
@@ -523,7 +204,7 @@ const trialUsers = [
     email: "adam@malamutlaw.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-224",
+    description: "novolens-nj24-224",
   },
   {
     firstName: "Katherine",
@@ -532,7 +213,7 @@ const trialUsers = [
     email: "kimberly@patonlawfirm.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-225",
+    description: "novolens-nj24-225",
   },
   {
     firstName: "Scott",
@@ -541,7 +222,7 @@ const trialUsers = [
     email: "scott@malamutlaw.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-226",
+    description: "novolens-nj24-226",
   },
   {
     firstName: "Michele",
@@ -550,7 +231,7 @@ const trialUsers = [
     email: "michele@malamutlaw.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-227",
+    description: "novolens-nj24-227",
   },
   {
     firstName: "Mark",
@@ -559,7 +240,7 @@ const trialUsers = [
     email: "mnatale@malamutlaw.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-228",
+    description: "novolens-nj24-228",
   },
   {
     firstName: "Michael",
@@ -568,7 +249,7 @@ const trialUsers = [
     email: "ringold@njlegalhelp.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-229",
+    description: "novolens-nj24-229",
   },
   {
     firstName: "Laurie",
@@ -577,7 +258,7 @@ const trialUsers = [
     email: "lln@ttnlaw.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-230",
+    description: "novolens-nj24-230",
   },
   {
     firstName: "James",
@@ -586,7 +267,7 @@ const trialUsers = [
     email: "jdrake@weisspaarz.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-231",
+    description: "novolens-nj24-231",
   },
   {
     firstName: "Kevin",
@@ -595,7 +276,7 @@ const trialUsers = [
     email: "kcostello@costellomains.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-232",
+    description: "novolens-nj24-232",
   },
   {
     firstName: "David",
@@ -604,7 +285,7 @@ const trialUsers = [
     email: "dkrolikowski@weisspaarz.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-233",
+    description: "novolens-nj24-233",
   },
   {
     firstName: "Pamela",
@@ -613,7 +294,7 @@ const trialUsers = [
     email: "pjones@goralkalawfirm.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-234",
+    description: "novolens-nj24-234",
   },
   {
     firstName: "Peter",
@@ -622,7 +303,7 @@ const trialUsers = [
     email: "pgarvey@obbblaw.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-235",
+    description: "novolens-nj24-235",
   },
   {
     firstName: "David",
@@ -631,7 +312,7 @@ const trialUsers = [
     email: "davids@spevacklegalteam.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-236",
+    description: "novolens-nj24-236",
   },
   {
     firstName: "Sara",
@@ -640,7 +321,7 @@ const trialUsers = [
     email: "smcardle@saramcardlelaw.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-237",
+    description: "novolens-nj24-237",
   },
   {
     firstName: "Brian",
@@ -649,7 +330,7 @@ const trialUsers = [
     email: "brian@drazinandwarshaw.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-238",
+    description: "novolens-nj24-238",
   },
   {
     firstName: "Adam",
@@ -658,7 +339,7 @@ const trialUsers = [
     email: "akirgis@gmail.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-239",
+    description: "novolens-nj24-239",
   },
   {
     firstName: "John",
@@ -667,7 +348,7 @@ const trialUsers = [
     email: "jscura@scura.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-240",
+    description: "novolens-nj24-240",
   },
   {
     firstName: "Kate",
@@ -676,7 +357,7 @@ const trialUsers = [
     email: "kreilly@bbr-law.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-241",
+    description: "novolens-nj24-241",
   },
   {
     firstName: "Jae",
@@ -685,7 +366,7 @@ const trialUsers = [
     email: "jae@jaeleelaw.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-242",
+    description: "novolens-nj24-242",
   },
   {
     firstName: "Sharon",
@@ -694,7 +375,7 @@ const trialUsers = [
     email: "sharon@freeman.net",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-243",
+    description: "novolens-nj24-243",
   },
   {
     firstName: "Ronald",
@@ -703,7 +384,7 @@ const trialUsers = [
     email: "ronald@nusbaumstein.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-244",
+    description: "novolens-nj24-244",
   },
   {
     firstName: "Robyn",
@@ -712,7 +393,7 @@ const trialUsers = [
     email: "robyng@posternockapell.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-245",
+    description: "novolens-nj24-245",
   },
   {
     firstName: "Diana",
@@ -721,7 +402,7 @@ const trialUsers = [
     email: "dianas@posternockapell.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-246",
+    description: "novolens-nj24-246",
   },
   {
     firstName: "Marie",
@@ -730,7 +411,7 @@ const trialUsers = [
     email: "mariem@posternockapell.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-247",
+    description: "novolens-nj24-247",
   },
   {
     firstName: "Robert",
@@ -739,7 +420,7 @@ const trialUsers = [
     email: "rbeck@archerlaw.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-248",
+    description: "novolens-nj24-248",
   },
   {
     firstName: "Michael",
@@ -748,7 +429,7 @@ const trialUsers = [
     email: "mhorn@archerlaw.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-249",
+    description: "novolens-nj24-249",
   },
   {
     firstName: "Robrta",
@@ -757,7 +438,7 @@ const trialUsers = [
     email: "rbarsotti@archerlaw.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-250",
+    description: "novolens-nj24-250",
   },
   {
     firstName: "Steven",
@@ -766,7 +447,7 @@ const trialUsers = [
     email: "sharz@archerlaw.com",
     city: "Hackensack",
     state: "NJ",
-    signupCode: "novolens-nj24-251",
+    description: "novolens-nj24-251",
   },
   {
     firstName: "Audrey",
@@ -775,7 +456,7 @@ const trialUsers = [
     email: "ashields@grsl.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-252",
+    description: "novolens-nj24-252",
   },
   {
     firstName: "Gene",
@@ -784,7 +465,7 @@ const trialUsers = [
     email: "ekillian@tkfpc.com",
     city: "MIddletown",
     state: "NJ",
-    signupCode: "novolens-nj24-253",
+    description: "novolens-nj24-253",
   },
   {
     firstName: "Josh",
@@ -793,7 +474,7 @@ const trialUsers = [
     email: "josh.markowitz@mgs-law.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-254",
+    description: "novolens-nj24-254",
   },
   {
     firstName: "Jillian",
@@ -802,7 +483,7 @@ const trialUsers = [
     email: "jillian.a.centanni@gmail.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-255",
+    description: "novolens-nj24-255",
   },
   {
     firstName: "Lawerence",
@@ -811,7 +492,7 @@ const trialUsers = [
     email: "lpowers@hoaglandlongo.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-256",
+    description: "novolens-nj24-256",
   },
   {
     firstName: "Gary",
@@ -820,7 +501,7 @@ const trialUsers = [
     email: "ghoagland@hoaglandlongo.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-257",
+    description: "novolens-nj24-257",
   },
   {
     firstName: "Frank",
@@ -829,7 +510,7 @@ const trialUsers = [
     email: "fcaruso@hoaglandlongo.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-258",
+    description: "novolens-nj24-258",
   },
   {
     firstName: "Marc",
@@ -838,7 +519,7 @@ const trialUsers = [
     email: "marc.gaffrey@hoaglandlongo.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-259",
+    description: "novolens-nj24-259",
   },
   {
     firstName: "Joseph",
@@ -847,7 +528,7 @@ const trialUsers = [
     email: "jleone@hoaglandlongo.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-260",
+    description: "novolens-nj24-260",
   },
   {
     firstName: "Charles",
@@ -856,7 +537,7 @@ const trialUsers = [
     email: "lanzalotti@bbs-law.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-261",
+    description: "novolens-nj24-261",
   },
   {
     firstName: "Michael",
@@ -865,7 +546,7 @@ const trialUsers = [
     email: "mjepstein@theepsteinlawfirm.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-262",
+    description: "novolens-nj24-262",
   },
   {
     firstName: "Vito",
@@ -874,7 +555,7 @@ const trialUsers = [
     email: "vagagliardi@pbnlaw.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-263",
+    description: "novolens-nj24-263",
   },
   {
     firstName: "Theresa",
@@ -883,7 +564,7 @@ const trialUsers = [
     email: "theresa.lyons@lyonspc.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-264",
+    description: "novolens-nj24-264",
   },
   {
     firstName: "Gorman",
@@ -892,7 +573,7 @@ const trialUsers = [
     email: "jgorman@lsgmpa.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-265",
+    description: "novolens-nj24-265",
   },
   {
     firstName: "Daniele",
@@ -901,7 +582,7 @@ const trialUsers = [
     email: "dcervino@beattielaw.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-266",
+    description: "novolens-nj24-266",
   },
   {
     firstName: "Kenneth",
@@ -910,7 +591,7 @@ const trialUsers = [
     email: "kbogdan@connerstrong.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-267",
+    description: "novolens-nj24-267",
   },
   {
     firstName: "Paul",
@@ -919,7 +600,7 @@ const trialUsers = [
     email: "paul@mccrossonstantonlaw.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-268",
+    description: "novolens-nj24-268",
   },
   {
     firstName: "Jonathan",
@@ -928,7 +609,7 @@ const trialUsers = [
     email: "jonr@cartonandrudnick.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-269",
+    description: "novolens-nj24-269",
   },
   {
     firstName: "Esther",
@@ -937,7 +618,7 @@ const trialUsers = [
     email: "eomoloyin@goldbergsegalla.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-270",
+    description: "novolens-nj24-270",
   },
   {
     firstName: "Abraham",
@@ -946,7 +627,7 @@ const trialUsers = [
     email: "abrahammilgraum@njciviljustice.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-271",
+    description: "novolens-nj24-271",
   },
   {
     firstName: "Susan",
@@ -955,7 +636,7 @@ const trialUsers = [
     email: "srubright@bracheichler.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-272",
+    description: "novolens-nj24-272",
   },
   {
     firstName: "Kirsten",
@@ -964,7 +645,7 @@ const trialUsers = [
     email: "kirsten@ksbraniganlaw.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-273",
+    description: "novolens-nj24-273",
   },
   {
     firstName: "Andrew",
@@ -973,7 +654,7 @@ const trialUsers = [
     email: "andrew@dresselmalikschmitt.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-274",
+    description: "novolens-nj24-274",
   },
   {
     firstName: "Mark",
@@ -982,7 +663,7 @@ const trialUsers = [
     email: "shapiro@hylandlevin.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-275",
+    description: "novolens-nj24-275",
   },
   {
     firstName: "Thomas",
@@ -991,7 +672,7 @@ const trialUsers = [
     email: "tshebell@shebell.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-276",
+    description: "novolens-nj24-276",
   },
   {
     firstName: "Richard",
@@ -1000,7 +681,7 @@ const trialUsers = [
     email: "rperr@kaufmandolowich.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-277",
+    description: "novolens-nj24-277",
   },
   {
     firstName: "Brian",
@@ -1009,7 +690,7 @@ const trialUsers = [
     email: "bschwartz@szaferman.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-278",
+    description: "novolens-nj24-278",
   },
   {
     firstName: "John",
@@ -1018,7 +699,7 @@ const trialUsers = [
     email: "jvreeland@genovaburns.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-279",
+    description: "novolens-nj24-279",
   },
   {
     firstName: "Stephen",
@@ -1027,7 +708,7 @@ const trialUsers = [
     email: "sbarcan@wilentz.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-280",
+    description: "novolens-nj24-280",
   },
   {
     firstName: "Gerald",
@@ -1036,7 +717,7 @@ const trialUsers = [
     email: "gclark@clarklawnj.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-281",
+    description: "novolens-nj24-281",
   },
   {
     firstName: "Staci",
@@ -1045,7 +726,7 @@ const trialUsers = [
     email: "sroccanova@mr-laws.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-282",
+    description: "novolens-nj24-282",
   },
   {
     firstName: "James",
@@ -1054,7 +735,7 @@ const trialUsers = [
     email: "jnapoli@caesarnapoli.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-283",
+    description: "novolens-nj24-283",
   },
   {
     firstName: "Susan",
@@ -1063,7 +744,7 @@ const trialUsers = [
     email: "skarp@murphyllp.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-284",
+    description: "novolens-nj24-284",
   },
   {
     firstName: "Joe",
@@ -1072,7 +753,7 @@ const trialUsers = [
     email: "jrussell@wilentz.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-285",
+    description: "novolens-nj24-285",
   },
   {
     firstName: "Christopher",
@@ -1081,7 +762,7 @@ const trialUsers = [
     email: "cwestrick@carellabyrne.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-286",
+    description: "novolens-nj24-286",
   },
   {
     firstName: "Mark",
@@ -1090,7 +771,7 @@ const trialUsers = [
     email: "mark@SadakaFirm.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-287",
+    description: "novolens-nj24-287",
   },
   {
     firstName: "John",
@@ -1099,7 +780,7 @@ const trialUsers = [
     email: "jnovella@goldbergsegalla.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-288",
+    description: "novolens-nj24-288",
   },
   {
     firstName: "Megan",
@@ -1108,7 +789,7 @@ const trialUsers = [
     email: "mgable@ferraralawfirm.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-289",
+    description: "novolens-nj24-289",
   },
   {
     firstName: "James",
@@ -1117,7 +798,7 @@ const trialUsers = [
     email: "jjuliano@chamlinlaw.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-290",
+    description: "novolens-nj24-290",
   },
   {
     firstName: "Patrick",
@@ -1126,7 +807,7 @@ const trialUsers = [
     email: "patrick@falconcpa.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-291",
+    description: "novolens-nj24-291",
   },
   {
     firstName: "Nick",
@@ -1135,7 +816,7 @@ const trialUsers = [
     email: "nday@nickdaylaw.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-292",
+    description: "novolens-nj24-292",
   },
   {
     firstName: "James",
@@ -1144,7 +825,7 @@ const trialUsers = [
     email: "jameslawlor@wmd-law.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-293",
+    description: "novolens-nj24-293",
   },
   {
     firstName: "Eric",
@@ -1153,7 +834,7 @@ const trialUsers = [
     email: "eric@aretskylawgroup.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-294",
+    description: "novolens-nj24-294",
   },
   {
     firstName: "Robert",
@@ -1162,7 +843,7 @@ const trialUsers = [
     email: "rbianchi@bianchilawgroup.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-295",
+    description: "novolens-nj24-295",
   },
   {
     firstName: "Kevork",
@@ -1171,7 +852,7 @@ const trialUsers = [
     email: "george@adanaslaw.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-296",
+    description: "novolens-nj24-296",
   },
   {
     firstName: "Joseph",
@@ -1180,7 +861,7 @@ const trialUsers = [
     email: "jrh@spsk.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-297",
+    description: "novolens-nj24-297",
   },
   {
     firstName: "Rafael",
@@ -1189,7 +870,7 @@ const trialUsers = [
     email: "rvergara@whiteandwilliams.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-298",
+    description: "novolens-nj24-298",
   },
   {
     firstName: "Thomas",
@@ -1198,7 +879,7 @@ const trialUsers = [
     email: "lenney@kaplanwilliams.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-299",
+    description: "novolens-nj24-299",
   },
   {
     firstName: "Lauren",
@@ -1207,7 +888,7 @@ const trialUsers = [
     email: "komsa@kaplanwilliams.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-300",
+    description: "novolens-nj24-300",
   },
   {
     firstName: "Margaret",
@@ -1216,7 +897,7 @@ const trialUsers = [
     email: "mwood@csglaw.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-301",
+    description: "novolens-nj24-301",
   },
   {
     firstName: "Mark",
@@ -1225,7 +906,7 @@ const trialUsers = [
     email: "mlevenson@sillscummis.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-302",
+    description: "novolens-nj24-302",
   },
   {
     firstName: "Eugene",
@@ -1234,7 +915,7 @@ const trialUsers = [
     email: "thewilkinsongroup@gmail.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-303",
+    description: "novolens-nj24-303",
   },
   {
     firstName: "Jennifer",
@@ -1243,7 +924,7 @@ const trialUsers = [
     email: "jlazor@lazorrantas.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-304",
+    description: "novolens-nj24-304",
   },
   {
     firstName: "Kenneth",
@@ -1252,7 +933,7 @@ const trialUsers = [
     email: "gormleyk@fcllp.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-305",
+    description: "novolens-nj24-305",
   },
   {
     firstName: "Haley",
@@ -1261,7 +942,7 @@ const trialUsers = [
     email: "hgrieco@lsslawoffices.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-306",
+    description: "novolens-nj24-306",
   },
   {
     firstName: "Carl",
@@ -1270,7 +951,7 @@ const trialUsers = [
     email: "",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-307",
+    description: "novolens-nj24-307",
   },
   {
     firstName: "Terrance",
@@ -1279,7 +960,7 @@ const trialUsers = [
     email: "terrences@dsslaw.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-308",
+    description: "novolens-nj24-308",
   },
   {
     firstName: "Jonathan",
@@ -1288,7 +969,7 @@ const trialUsers = [
     email: "jdagostino@daglawteam.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-309",
+    description: "novolens-nj24-309",
   },
   {
     firstName: "Mary",
@@ -1297,7 +978,7 @@ const trialUsers = [
     email: "mmillerick@javerbaumwurgaft.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-310",
+    description: "novolens-nj24-310",
   },
   {
     firstName: "Mstthew",
@@ -1306,7 +987,7 @@ const trialUsers = [
     email: "mschiller@murphyllp.com",
     city: "Newark",
     state: "NJ",
-    signupCode: "novolens-nj24-311",
+    description: "novolens-nj24-311",
   },
   {
     firstName: "Brian",
@@ -1315,7 +996,7 @@ const trialUsers = [
     email: "bfrankoski@pirozinnalaw.com",
     city: "NY",
     state: "NY",
-    signupCode: "novolens-nj24-312",
+    description: "novolens-nj24-312",
   },
   {
     firstName: "Michael",
@@ -1324,7 +1005,7 @@ const trialUsers = [
     email: "mkoribanick@pirozinnalaw.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-313",
+    description: "novolens-nj24-313",
   },
   {
     firstName: "Nancy",
@@ -1333,7 +1014,7 @@ const trialUsers = [
     email: "nmoemen@pirozinnalaw.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-314",
+    description: "novolens-nj24-314",
   },
   {
     firstName: "Alex",
@@ -1342,7 +1023,7 @@ const trialUsers = [
     email: "apastore@pirozinnalaw.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-315",
+    description: "novolens-nj24-315",
   },
   {
     firstName: "Kristen",
@@ -1351,7 +1032,7 @@ const trialUsers = [
     email: "kjones@pirozinnalaw.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-316",
+    description: "novolens-nj24-316",
   },
   {
     firstName: "Michelle",
@@ -1360,7 +1041,7 @@ const trialUsers = [
     email: "msmith@pirozinnalaw.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-317",
+    description: "novolens-nj24-317",
   },
   {
     firstName: "Dan",
@@ -1369,7 +1050,7 @@ const trialUsers = [
     email: "dbevere@pirozinnalaw.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-318",
+    description: "novolens-nj24-318",
   },
   {
     firstName: "David",
@@ -1378,7 +1059,7 @@ const trialUsers = [
     email: "dparis@pirozinnalaw.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-319",
+    description: "novolens-nj24-319",
   },
   {
     firstName: "Rajeh",
@@ -1387,7 +1068,7 @@ const trialUsers = [
     email: "rsaadeh@rajehsaadeh.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-320",
+    description: "novolens-nj24-320",
   },
   {
     firstName: "Robert",
@@ -1396,7 +1077,7 @@ const trialUsers = [
     email: "rknee@kneelaw.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-321",
+    description: "novolens-nj24-321",
   },
   {
     firstName: "John",
@@ -1405,7 +1086,7 @@ const trialUsers = [
     email: "jderose@clarkhill.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-322",
+    description: "novolens-nj24-322",
   },
   {
     firstName: "Steven",
@@ -1414,7 +1095,7 @@ const trialUsers = [
     email: "steven.rosenberg@danziger.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-323",
+    description: "novolens-nj24-323",
   },
   {
     firstName: "Bradley",
@@ -1423,7 +1104,7 @@ const trialUsers = [
     email: "brad@danziger.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-324",
+    description: "novolens-nj24-324",
   },
   {
     firstName: "Renee",
@@ -1432,7 +1113,7 @@ const trialUsers = [
     email: "renee@danziger.com",
     city: "NY",
     state: "NY",
-    signupCode: "novolens-nj24-325",
+    description: "novolens-nj24-325",
   },
   {
     firstName: "Richard",
@@ -1441,7 +1122,7 @@ const trialUsers = [
     email: "rgranofsky@lskdnylaw.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-326",
+    description: "novolens-nj24-326",
   },
   {
     firstName: "Aoife",
@@ -1450,7 +1131,7 @@ const trialUsers = [
     email: "akavanagh@lskdnylaw.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-327",
+    description: "novolens-nj24-327",
   },
   {
     firstName: "David",
@@ -1459,7 +1140,7 @@ const trialUsers = [
     email: "dmotola@lskdnylaw.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-328",
+    description: "novolens-nj24-328",
   },
   {
     firstName: "Robyn",
@@ -1468,7 +1149,7 @@ const trialUsers = [
     email: "rleader@lskdnylaw.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-329",
+    description: "novolens-nj24-329",
   },
   {
     firstName: "Paul",
@@ -1477,7 +1158,7 @@ const trialUsers = [
     email: "pkassirer@lskdnylaw.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-330",
+    description: "novolens-nj24-330",
   },
   {
     firstName: "Alfredo",
@@ -1486,7 +1167,7 @@ const trialUsers = [
     email: "aalvarado@lskdnylaw.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-331",
+    description: "novolens-nj24-331",
   },
   {
     firstName: "Robert",
@@ -1495,7 +1176,7 @@ const trialUsers = [
     email: "robertdunn@lskdnylaw.com",
     city: "",
     state: "NY",
-    signupCode: "novolens-nj24-332",
+    description: "novolens-nj24-332",
   },
   {
     firstName: "Richard",
@@ -1504,7 +1185,7 @@ const trialUsers = [
     email: "rgranofsky@lskdnylaw.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-333",
+    description: "novolens-nj24-333",
   },
   {
     firstName: "Steven",
@@ -1513,7 +1194,7 @@ const trialUsers = [
     email: "steveng@ghlawnynj.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-334",
+    description: "novolens-nj24-334",
   },
   {
     firstName: "Richard",
@@ -1522,7 +1203,7 @@ const trialUsers = [
     email: "rgantner@cgajlaw.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-335",
+    description: "novolens-nj24-335",
   },
   {
     firstName: "Joseph",
@@ -1531,7 +1212,7 @@ const trialUsers = [
     email: "jrem@remlawgroup.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-336",
+    description: "novolens-nj24-336",
   },
   {
     firstName: "Thomas",
@@ -1540,7 +1221,7 @@ const trialUsers = [
     email: "twehner@chartwelllaw.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-337",
+    description: "novolens-nj24-337",
   },
   {
     firstName: "James",
@@ -1549,7 +1230,7 @@ const trialUsers = [
     email: "jandrews@ghclaw.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-338",
+    description: "novolens-nj24-338",
   },
   {
     firstName: "Jack",
@@ -1558,7 +1239,7 @@ const trialUsers = [
     email: "jgillick@njrcmlaw.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-339",
+    description: "novolens-nj24-339",
   },
   {
     firstName: "Meredith",
@@ -1567,7 +1248,7 @@ const trialUsers = [
     email: "meredith.stoma@lewisbrisbois.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-340",
+    description: "novolens-nj24-340",
   },
   {
     firstName: "Brian",
@@ -1576,7 +1257,7 @@ const trialUsers = [
     email: "bpaul@szaferman.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-341",
+    description: "novolens-nj24-341",
   },
   {
     firstName: "Alan",
@@ -1585,7 +1266,7 @@ const trialUsers = [
     email: "aschwalbe@jacobslawoffice.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-342",
+    description: "novolens-nj24-342",
   },
   {
     firstName: "Ronald",
@@ -1594,7 +1275,7 @@ const trialUsers = [
     email: "rabramson@winnebanta.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-343",
+    description: "novolens-nj24-343",
   },
   {
     firstName: "Glenn",
@@ -1603,7 +1284,7 @@ const trialUsers = [
     email: "gkienz@weiner.law",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-344",
+    description: "novolens-nj24-344",
   },
   {
     firstName: "Sherri",
@@ -1612,7 +1293,7 @@ const trialUsers = [
     email: "sherriaffrunti@reedsmith.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-345",
+    description: "novolens-nj24-345",
   },
   {
     firstName: "Jeff",
@@ -1621,7 +1302,7 @@ const trialUsers = [
     email: "jhorn@hornlawgroup.net",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-346",
+    description: "novolens-nj24-346",
   },
   {
     firstName: "Tom",
@@ -1630,7 +1311,7 @@ const trialUsers = [
     email: "tpf@bfz-legal.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-347",
+    description: "novolens-nj24-347",
   },
   {
     firstName: "Jack",
@@ -1639,7 +1320,7 @@ const trialUsers = [
     email: "jack@corradinoandpapa.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-348",
+    description: "novolens-nj24-348",
   },
   {
     firstName: "Todd",
@@ -1648,7 +1329,7 @@ const trialUsers = [
     email: "jack@corradinoandpapa.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-349",
+    description: "novolens-nj24-349",
   },
   {
     firstName: "Michael",
@@ -1657,7 +1338,7 @@ const trialUsers = [
     email: "mzicherman@pecklaw.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-350",
+    description: "novolens-nj24-350",
   },
   {
     firstName: "Donald",
@@ -1666,7 +1347,7 @@ const trialUsers = [
     email: "dcaminiti@breslinandbreslin.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-351",
+    description: "novolens-nj24-351",
   },
   {
     firstName: "Susan",
@@ -1675,7 +1356,7 @@ const trialUsers = [
     email: "skarp@murphyllp.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-352",
+    description: "novolens-nj24-352",
   },
   {
     firstName: "Denis",
@@ -1684,7 +1365,7 @@ const trialUsers = [
     email: "dmurphy@weiner.law",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-353",
+    description: "novolens-nj24-353",
   },
   {
     firstName: "Carmine",
@@ -1693,7 +1374,7 @@ const trialUsers = [
     email: "crvillani@villanideluca.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-354",
+    description: "novolens-nj24-354",
   },
   {
     firstName: "Eric",
@@ -1702,7 +1383,7 @@ const trialUsers = [
     email: "ekatz@mazieslater.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-355",
+    description: "novolens-nj24-355",
   },
   {
     firstName: "Joe",
@@ -1711,7 +1392,7 @@ const trialUsers = [
     email: "jvalenti@parkermccay.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-356",
+    description: "novolens-nj24-356",
   },
   {
     firstName: "Sheila",
@@ -1720,7 +1401,7 @@ const trialUsers = [
     email: "smints@parkermccay.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-357",
+    description: "novolens-nj24-357",
   },
   {
     firstName: "Rick",
@@ -1729,7 +1410,7 @@ const trialUsers = [
     email: "rcushman@parkermccay.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-358",
+    description: "novolens-nj24-358",
   },
   {
     firstName: "Sean",
@@ -1738,7 +1419,7 @@ const trialUsers = [
     email: "sfannon@parkermccay.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-359",
+    description: "novolens-nj24-359",
   },
   {
     firstName: "Daniele",
@@ -1747,7 +1428,7 @@ const trialUsers = [
     email: "dcapecci@parkermccay.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-360",
+    description: "novolens-nj24-360",
   },
   {
     firstName: "Stuart",
@@ -1756,7 +1437,7 @@ const trialUsers = [
     email: "stuartwilkins62@outlook.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-361",
+    description: "novolens-nj24-361",
   },
   {
     firstName: "Randy",
@@ -1765,7 +1446,7 @@ const trialUsers = [
     email: "rlafferty@cooperlevenson.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-362",
+    description: "novolens-nj24-362",
   },
   {
     firstName: "Lisa",
@@ -1774,7 +1455,7 @@ const trialUsers = [
     email: "lparker@greenbaumlaw.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-363",
+    description: "novolens-nj24-363",
   },
   {
     firstName: "Jeffrey",
@@ -1783,7 +1464,7 @@ const trialUsers = [
     email: "jvppuff@comcast.net",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-364",
+    description: "novolens-nj24-364",
   },
   {
     firstName: "Jaice",
@@ -1792,7 +1473,7 @@ const trialUsers = [
     email: "jaice@thomasvallen.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-365",
+    description: "novolens-nj24-365",
   },
   {
     firstName: "Jonathan",
@@ -1801,7 +1482,7 @@ const trialUsers = [
     email: "jwolfe@skoloffwolfe.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-366",
+    description: "novolens-nj24-366",
   },
   {
     firstName: "Michael",
@@ -1810,7 +1491,7 @@ const trialUsers = [
     email: "michael.morea@morealaw.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-367",
+    description: "novolens-nj24-367",
   },
   {
     firstName: "Francisco",
@@ -1819,7 +1500,7 @@ const trialUsers = [
     email: "frodriguez@javerbaumwurgaft.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-368",
+    description: "novolens-nj24-368",
   },
   {
     firstName: "Cory",
@@ -1828,7 +1509,7 @@ const trialUsers = [
     email: "crothbort@mazieslater.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-369",
+    description: "novolens-nj24-369",
   },
   {
     firstName: "Mike",
@@ -1837,7 +1518,7 @@ const trialUsers = [
     email: "mmumola@kmhlawyers.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-370",
+    description: "novolens-nj24-370",
   },
   {
     firstName: "Tom",
@@ -1846,7 +1527,7 @@ const trialUsers = [
     email: "tshebell@shebell.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-371",
+    description: "novolens-nj24-371",
   },
   {
     firstName: "Emily",
@@ -1855,7 +1536,7 @@ const trialUsers = [
     email: "esantana@reitlerlaw.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-372",
+    description: "novolens-nj24-372",
   },
   {
     firstName: "Abhishek",
@@ -1864,7 +1545,7 @@ const trialUsers = [
     email: "abapna@pbwt.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-373",
+    description: "novolens-nj24-373",
   },
   {
     firstName: "Derek",
@@ -1873,7 +1554,7 @@ const trialUsers = [
     email: "dreed@epgprlaw.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-374",
+    description: "novolens-nj24-374",
   },
   {
     firstName: "Regina",
@@ -1882,7 +1563,7 @@ const trialUsers = [
     email: "rms@spsk.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-375",
+    description: "novolens-nj24-375",
   },
   {
     firstName: "Nicholas",
@@ -1891,7 +1572,7 @@ const trialUsers = [
     email: "nick@giudittalaw.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-376",
+    description: "novolens-nj24-376",
   },
   {
     firstName: "Dillon",
@@ -1900,7 +1581,7 @@ const trialUsers = [
     email: "dmcguire@pashmanstein.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-377",
+    description: "novolens-nj24-377",
   },
   {
     firstName: "Robert",
@@ -1909,7 +1590,7 @@ const trialUsers = [
     email: "tarverlaw@comcast.net",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-378",
+    description: "novolens-nj24-378",
   },
   {
     firstName: "Fred",
@@ -1918,7 +1599,7 @@ const trialUsers = [
     email: "fred@fredgreenberg.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-379",
+    description: "novolens-nj24-379",
   },
   {
     firstName: "Jonathan",
@@ -1927,7 +1608,7 @@ const trialUsers = [
     email: "jlerner@starrgern.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-380",
+    description: "novolens-nj24-380",
   },
   {
     firstName: "Tatiana",
@@ -1936,7 +1617,7 @@ const trialUsers = [
     email: "tlaing@paulweiss.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-381",
+    description: "novolens-nj24-381",
   },
   {
     firstName: "Alan",
@@ -1945,7 +1626,7 @@ const trialUsers = [
     email: "apralgever@greenbaumlaw.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-382",
+    description: "novolens-nj24-382",
   },
   {
     firstName: "Robert",
@@ -1954,7 +1635,7 @@ const trialUsers = [
     email: "rschachter@greenbaumlaw.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-383",
+    description: "novolens-nj24-383",
   },
   {
     firstName: "David",
@@ -1963,7 +1644,7 @@ const trialUsers = [
     email: "dbruck@greenbaumlaw.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-384",
+    description: "novolens-nj24-384",
   },
   {
     firstName: "Kirsten",
@@ -1972,7 +1653,7 @@ const trialUsers = [
     email: "kkortbawi@greenbaumlaw.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-385",
+    description: "novolens-nj24-385",
   },
   {
     firstName: "Diana",
@@ -1981,7 +1662,7 @@ const trialUsers = [
     email: "dparker@greenbaumlaw.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-386",
+    description: "novolens-nj24-386",
   },
   {
     firstName: "Ellen",
@@ -1990,7 +1671,7 @@ const trialUsers = [
     email: "eamon@greenbaumlaw.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-387",
+    description: "novolens-nj24-387",
   },
   {
     firstName: "Dennis",
@@ -1999,7 +1680,7 @@ const trialUsers = [
     email: "estis@greenbaumlaw.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-388",
+    description: "novolens-nj24-388",
   },
   {
     firstName: "Joel",
@@ -2008,7 +1689,7 @@ const trialUsers = [
     email: "jclymer@greenbaumlaw.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-389",
+    description: "novolens-nj24-389",
   },
   {
     firstName: "Pierson",
@@ -2017,7 +1698,7 @@ const trialUsers = [
     email: "pb@backesfirm.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-390",
+    description: "novolens-nj24-390",
   },
   {
     firstName: "Reginald",
@@ -2026,7 +1707,7 @@ const trialUsers = [
     email: "rlong@loveandlonglaw.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-391",
+    description: "novolens-nj24-391",
   },
   {
     firstName: "Arif",
@@ -2035,7 +1716,7 @@ const trialUsers = [
     email: "arif@gozellaw.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-392",
+    description: "novolens-nj24-392",
   },
   {
     firstName: "David",
@@ -2044,7 +1725,7 @@ const trialUsers = [
     email: "davids@stonemagnalaw.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-393",
+    description: "novolens-nj24-393",
   },
   {
     firstName: "Carolyn",
@@ -2053,7 +1734,7 @@ const trialUsers = [
     email: "cdaly@dalyfamilylaw.net",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-394",
+    description: "novolens-nj24-394",
   },
   {
     firstName: "Jennifer",
@@ -2062,7 +1743,7 @@ const trialUsers = [
     email: "jennifer@baynelaw.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-395",
+    description: "novolens-nj24-395",
   },
   {
     firstName: "Chad",
@@ -2071,7 +1752,7 @@ const trialUsers = [
     email: "crutkowski@bakerlaw.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-396",
+    description: "novolens-nj24-396",
   },
   {
     firstName: "Margaret",
@@ -2080,7 +1761,7 @@ const trialUsers = [
     email: "margaret@keavneystreger.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-397",
+    description: "novolens-nj24-397",
   },
   {
     firstName: "Stephen",
@@ -2089,7 +1770,7 @@ const trialUsers = [
     email: "sdenittis@denittislaw.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-398",
+    description: "novolens-nj24-398",
   },
   {
     firstName: "Marc",
@@ -2098,7 +1779,7 @@ const trialUsers = [
     email: "mschauer@wcmlaw.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-399",
+    description: "novolens-nj24-399",
   },
   {
     firstName: "John",
@@ -2107,7 +1788,7 @@ const trialUsers = [
     email: "jcwhipple@whippleazzarellolaw.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-400",
+    description: "novolens-nj24-400",
   },
   {
     firstName: "L Grace",
@@ -2116,7 +1797,7 @@ const trialUsers = [
     email: "ls@njadvocates.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-401",
+    description: "novolens-nj24-401",
   },
   {
     firstName: "Christopher",
@@ -2125,7 +1806,7 @@ const trialUsers = [
     email: "cconrad@njadvocates.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-402",
+    description: "novolens-nj24-402",
   },
   {
     firstName: "Robert",
@@ -2134,7 +1815,7 @@ const trialUsers = [
     email: "rbanas@njadvocates.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-403",
+    description: "novolens-nj24-403",
   },
   {
     firstName: "Bill",
@@ -2143,7 +1824,7 @@ const trialUsers = [
     email: "bcrutchlow@njadvocates.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-404",
+    description: "novolens-nj24-404",
   },
   {
     firstName: "Daryl",
@@ -2152,7 +1833,7 @@ const trialUsers = [
     email: "dzaslow@njadvocates.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-405",
+    description: "novolens-nj24-405",
   },
   {
     firstName: "Edward",
@@ -2161,7 +1842,7 @@ const trialUsers = [
     email: "emcelroy@njadvocates.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-406",
+    description: "novolens-nj24-406",
   },
   {
     firstName: "Thomas",
@@ -2170,7 +1851,7 @@ const trialUsers = [
     email: "trinaldi@njadvocates.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-407",
+    description: "novolens-nj24-407",
   },
   {
     firstName: "Robert",
@@ -2179,7 +1860,7 @@ const trialUsers = [
     email: "snelliro@yahoo.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-408",
+    description: "novolens-nj24-408",
   },
   {
     firstName: "John",
@@ -2188,7 +1869,7 @@ const trialUsers = [
     email: "jfazzio@fazziolaw.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-409",
+    description: "novolens-nj24-409",
   },
   {
     firstName: "Michael",
@@ -2197,7 +1878,7 @@ const trialUsers = [
     email: "mberger@andresberger.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-410",
+    description: "novolens-nj24-410",
   },
   {
     firstName: "Chris",
@@ -2206,7 +1887,7 @@ const trialUsers = [
     email: "cmusmanno@einhornlawyers.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-411",
+    description: "novolens-nj24-411",
   },
   {
     firstName: "Thomas",
@@ -2215,7 +1896,7 @@ const trialUsers = [
     email: "tmajor@offitkurman.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-412",
+    description: "novolens-nj24-412",
   },
   {
     firstName: "Howard",
@@ -2224,7 +1905,7 @@ const trialUsers = [
     email: "howard@hleopoldlaw.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-413",
+    description: "novolens-nj24-413",
   },
   {
     firstName: "Stuart",
@@ -2233,7 +1914,7 @@ const trialUsers = [
     email: "ssherman@minionsherman.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-414",
+    description: "novolens-nj24-414",
   },
   {
     firstName: "Kenneth",
@@ -2242,7 +1923,7 @@ const trialUsers = [
     email: "kandres@andresberger.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-415",
+    description: "novolens-nj24-415",
   },
   {
     firstName: "Randy",
@@ -2251,7 +1932,7 @@ const trialUsers = [
     email: "rlafferty@cooperlevenson.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-416",
+    description: "novolens-nj24-416",
   },
   {
     firstName: "Brian",
@@ -2260,7 +1941,7 @@ const trialUsers = [
     email: "bbarr@cooperlevenson.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-417",
+    description: "novolens-nj24-417",
   },
   {
     firstName: "Scott",
@@ -2269,7 +1950,7 @@ const trialUsers = [
     email: "sgood@cooperlevenson.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-418",
+    description: "novolens-nj24-418",
   },
   {
     firstName: "Michael",
@@ -2278,7 +1959,7 @@ const trialUsers = [
     email: "msalad@cooperlevenson.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-419",
+    description: "novolens-nj24-419",
   },
   {
     firstName: "Nicholas",
@@ -2287,7 +1968,7 @@ const trialUsers = [
     email: "ntalvacchia@cooperlevenson.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-420",
+    description: "novolens-nj24-420",
   },
   {
     firstName: "Eric",
@@ -2296,7 +1977,7 @@ const trialUsers = [
     email: "e.browndorf@cooperlevenson.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-421",
+    description: "novolens-nj24-421",
   },
   {
     firstName: "Andrew",
@@ -2305,7 +1986,7 @@ const trialUsers = [
     email: "achambarry@gillandchamas.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-422",
+    description: "novolens-nj24-422",
   },
   {
     firstName: "David",
@@ -2314,7 +1995,7 @@ const trialUsers = [
     email: "dlande@gillandchamas.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-423",
+    description: "novolens-nj24-423",
   },
   {
     firstName: "Michael",
@@ -2323,7 +2004,7 @@ const trialUsers = [
     email: "mhanus@gillandchamas.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-424",
+    description: "novolens-nj24-424",
   },
   {
     firstName: "Michael",
@@ -2332,7 +2013,7 @@ const trialUsers = [
     email: "mrose@gillandchamas.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-425",
+    description: "novolens-nj24-425",
   },
   {
     firstName: "Robert",
@@ -2341,7 +2022,7 @@ const trialUsers = [
     email: "baranowski@hylandlevin.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-426",
+    description: "novolens-nj24-426",
   },
   {
     firstName: "Stacy",
@@ -2350,7 +2031,7 @@ const trialUsers = [
     email: "asbell@hylandlevin.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-427",
+    description: "novolens-nj24-427",
   },
   {
     firstName: "Mark",
@@ -2359,7 +2040,7 @@ const trialUsers = [
     email: "shapiro@hylandlevin.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-428",
+    description: "novolens-nj24-428",
   },
   {
     firstName: "Jennifer",
@@ -2368,7 +2049,7 @@ const trialUsers = [
     email: "cordes@hylandlevin.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-429",
+    description: "novolens-nj24-429",
   },
   {
     firstName: "Zachary",
@@ -2377,7 +2058,7 @@ const trialUsers = [
     email: "friedman@hylandlevin.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-430",
+    description: "novolens-nj24-430",
   },
   {
     firstName: "Megan",
@@ -2386,7 +2067,7 @@ const trialUsers = [
     email: "balne@hylandlevin.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-431",
+    description: "novolens-nj24-431",
   },
   {
     firstName: "Kasia",
@@ -2395,7 +2076,7 @@ const trialUsers = [
     email: "kasia@mezlawyers.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-432",
+    description: "novolens-nj24-432",
   },
   {
     firstName: "Adam",
@@ -2404,7 +2085,7 @@ const trialUsers = [
     email: "adam@mezlawyers.com",
     city: "",
     state: "",
-    signupCode: "novolens-nj24-433",
+    description: "novolens-nj24-433",
   },
   {
     firstName: "Tricia",
@@ -2413,7 +2094,7 @@ const trialUsers = [
     email: "tricia@mezlawyers.com",
     city: "",
     state: "",
-    signupCode: "novolens-nj24-434",
+    description: "novolens-nj24-434",
   },
   {
     firstName: "John",
@@ -2422,7 +2103,7 @@ const trialUsers = [
     email: "jbrost@starrgern.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-435",
+    description: "novolens-nj24-435",
   },
   {
     firstName: "Alona",
@@ -2431,7 +2112,7 @@ const trialUsers = [
     email: "amagidova@starrgern.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-436",
+    description: "novolens-nj24-436",
   },
   {
     firstName: "David",
@@ -2440,7 +2121,7 @@ const trialUsers = [
     email: "dwendel@starrgern.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-437",
+    description: "novolens-nj24-437",
   },
   {
     firstName: "Juliana",
@@ -2449,7 +2130,7 @@ const trialUsers = [
     email: "juliana.diaz1@gmail.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-438",
+    description: "novolens-nj24-438",
   },
   {
     firstName: "Henry",
@@ -2458,7 +2139,7 @@ const trialUsers = [
     email: "hcistrelli@starrgern.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-439",
+    description: "novolens-nj24-439",
   },
   {
     firstName: "Robert",
@@ -2467,7 +2148,7 @@ const trialUsers = [
     email: "rhille@greenbaumlaw.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-440",
+    description: "novolens-nj24-440",
   },
   {
     firstName: "Stephen",
@@ -2476,7 +2157,7 @@ const trialUsers = [
     email: "surbinato@starrgern.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-441",
+    description: "novolens-nj24-441",
   },
   {
     firstName: "Ira",
@@ -2485,7 +2166,7 @@ const trialUsers = [
     email: "irastarr@starrgern.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-442",
+    description: "novolens-nj24-442",
   },
   {
     firstName: "Ana Rita",
@@ -2494,7 +2175,7 @@ const trialUsers = [
     email: "ferreiraa@starrgern.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-443",
+    description: "novolens-nj24-443",
   },
   {
     firstName: "Bruce",
@@ -2503,7 +2184,7 @@ const trialUsers = [
     email: "bpitman@starrgern.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-444",
+    description: "novolens-nj24-444",
   },
   {
     firstName: "Henry",
@@ -2512,7 +2193,7 @@ const trialUsers = [
     email: "hcistrelli@starrgern.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-445",
+    description: "novolens-nj24-445",
   },
   {
     firstName: "Stephen",
@@ -2521,7 +2202,7 @@ const trialUsers = [
     email: "sbarry@capelegal.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-446",
+    description: "novolens-nj24-446",
   },
   {
     firstName: "Joshua",
@@ -2530,7 +2211,7 @@ const trialUsers = [
     email: "jdonohue@capelegal.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-447",
+    description: "novolens-nj24-447",
   },
   {
     firstName: "Stephen",
@@ -2539,7 +2220,7 @@ const trialUsers = [
     email: "vegasshj@yahoo.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-448",
+    description: "novolens-nj24-448",
   },
   {
     firstName: "Steven",
@@ -2548,7 +2229,7 @@ const trialUsers = [
     email: "sgoldenberg@ghclaw.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-449",
+    description: "novolens-nj24-449",
   },
   {
     firstName: "Aaron",
@@ -2557,7 +2238,7 @@ const trialUsers = [
     email: "aaronb@jonallaw.com",
     city: "",
     state: "NY",
-    signupCode: "novolens-nj24-450",
+    description: "novolens-nj24-450",
   },
   {
     firstName: "Enes",
@@ -2566,7 +2247,7 @@ const trialUsers = [
     email: "eneshajdar@gmail.com",
     city: "",
     state: "NY",
-    signupCode: "novolens-nj24-451",
+    description: "novolens-nj24-451",
   },
   {
     firstName: "Catherine",
@@ -2575,7 +2256,7 @@ const trialUsers = [
     email: "cshiels@grsl.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-452",
+    description: "novolens-nj24-452",
   },
   {
     firstName: "Hristo",
@@ -2584,7 +2265,7 @@ const trialUsers = [
     email: "czevlikaris@grsl.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-453",
+    description: "novolens-nj24-453",
   },
   {
     firstName: "Eric",
@@ -2593,7 +2274,7 @@ const trialUsers = [
     email: "eschlesinger@grsl.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-454",
+    description: "novolens-nj24-454",
   },
   {
     firstName: "Meghan",
@@ -2602,7 +2283,7 @@ const trialUsers = [
     email: "mayre@grsl.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-455",
+    description: "novolens-nj24-455",
   },
   {
     firstName: "Rosanne",
@@ -2611,7 +2292,7 @@ const trialUsers = [
     email: "rpalumbo@grsl.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-456",
+    description: "novolens-nj24-456",
   },
   {
     firstName: "Deborah",
@@ -2620,7 +2301,7 @@ const trialUsers = [
     email: "dbanfield@grsl.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-457",
+    description: "novolens-nj24-457",
   },
   {
     firstName: "Loren",
@@ -2629,7 +2310,7 @@ const trialUsers = [
     email: "lsolari@grsl.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-458",
+    description: "novolens-nj24-458",
   },
   {
     firstName: "Rey",
@@ -2638,7 +2319,7 @@ const trialUsers = [
     email: "rvillanueva@grsl.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-459",
+    description: "novolens-nj24-459",
   },
   {
     firstName: "Jeffrey",
@@ -2647,7 +2328,7 @@ const trialUsers = [
     email: "jbell@grsl.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-460",
+    description: "novolens-nj24-460",
   },
   {
     firstName: "Michael",
@@ -2656,7 +2337,7 @@ const trialUsers = [
     email: "mkulzer@kulzerdipadova.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-461",
+    description: "novolens-nj24-461",
   },
   {
     firstName: "Steven",
@@ -2665,7 +2346,7 @@ const trialUsers = [
     email: "spetrillo@petrilloandgoldberg.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-462",
+    description: "novolens-nj24-462",
   },
   {
     firstName: "Katelyn",
@@ -2674,7 +2355,7 @@ const trialUsers = [
     email: "katelyn@coccalaw.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-463",
+    description: "novolens-nj24-463",
   },
   {
     firstName: "William",
@@ -2683,7 +2364,7 @@ const trialUsers = [
     email: "william.barrett@rocketmail.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-464",
+    description: "novolens-nj24-464",
   },
   {
     firstName: "James",
@@ -2692,7 +2373,7 @@ const trialUsers = [
     email: "jpantages@fgsb.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-465",
+    description: "novolens-nj24-465",
   },
   {
     firstName: "Richard",
@@ -2701,7 +2382,7 @@ const trialUsers = [
     email: "rich@reinartzlaw.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-466",
+    description: "novolens-nj24-466",
   },
   {
     firstName: "Andrew",
@@ -2710,7 +2391,7 @@ const trialUsers = [
     email: "afraser@lcrlaw.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-467",
+    description: "novolens-nj24-467",
   },
   {
     firstName: "Stephen",
@@ -2719,7 +2400,7 @@ const trialUsers = [
     email: "sknox@bressler.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-468",
+    description: "novolens-nj24-468",
   },
   {
     firstName: "Chris",
@@ -2728,7 +2409,7 @@ const trialUsers = [
     email: "cpyne@stark-stark.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-469",
+    description: "novolens-nj24-469",
   },
   {
     firstName: "John",
@@ -2737,7 +2418,7 @@ const trialUsers = [
     email: "jburke@kbblegal.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-470",
+    description: "novolens-nj24-470",
   },
   {
     firstName: "Tom",
@@ -2746,7 +2427,7 @@ const trialUsers = [
     email: "tom@cmlaw.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-471",
+    description: "novolens-nj24-471",
   },
   {
     firstName: "John",
@@ -2755,7 +2436,7 @@ const trialUsers = [
     email: "jhein@wmd-law.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-472",
+    description: "novolens-nj24-472",
   },
   {
     firstName: "Brant",
@@ -2764,7 +2445,7 @@ const trialUsers = [
     email: "bkuehn@wmd-law.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-473",
+    description: "novolens-nj24-473",
   },
   {
     firstName: "Paul",
@@ -2773,7 +2454,7 @@ const trialUsers = [
     email: "pdefilippo@wmd-law.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-474",
+    description: "novolens-nj24-474",
   },
   {
     firstName: "Brad",
@@ -2782,7 +2463,7 @@ const trialUsers = [
     email: "baxelrod@wmd-law.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-475",
+    description: "novolens-nj24-475",
   },
   {
     firstName: "David",
@@ -2791,7 +2472,7 @@ const trialUsers = [
     email: "dwollmuth@wmd-law.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-476",
+    description: "novolens-nj24-476",
   },
   {
     firstName: "Robert",
@@ -2800,7 +2481,7 @@ const trialUsers = [
     email: "robert@fuggilaw.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-477",
+    description: "novolens-nj24-477",
   },
   {
     firstName: "Tanis",
@@ -2809,7 +2490,7 @@ const trialUsers = [
     email: "tdeitch@deitchandperone.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-478",
+    description: "novolens-nj24-478",
   },
   {
     firstName: "Vincent",
@@ -2818,7 +2499,7 @@ const trialUsers = [
     email: "maltesev@wilentz.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-479",
+    description: "novolens-nj24-479",
   },
   {
     firstName: "John",
@@ -2827,7 +2508,7 @@ const trialUsers = [
     email: "jkeefe@wilentz.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-480",
+    description: "novolens-nj24-480",
   },
   {
     firstName: "David",
@@ -2836,7 +2517,7 @@ const trialUsers = [
     email: "dwildstein@wilentz.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-481",
+    description: "novolens-nj24-481",
   },
   {
     firstName: "Alex",
@@ -2845,7 +2526,7 @@ const trialUsers = [
     email: "alyubarsky@wilentz.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-482",
+    description: "novolens-nj24-482",
   },
   {
     firstName: "Gary",
@@ -2854,7 +2535,7 @@ const trialUsers = [
     email: "gshapiro@shapirosternlieb.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-483",
+    description: "novolens-nj24-483",
   },
   {
     firstName: "Charles",
@@ -2863,7 +2544,7 @@ const trialUsers = [
     email: "cvuotto@starrgern.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-484",
+    description: "novolens-nj24-484",
   },
   {
     firstName: "Diane",
@@ -2872,10 +2553,10 @@ const trialUsers = [
     email: "dalexander@mfhenvlaw.com",
     city: "",
     state: "NJ",
-    signupCode: "novolens-nj24-485",
+    description: "novolens-nj24-485",
   },
 ];
 
 module.exports = Object.freeze({
-  trialUsers: trialUsers,
+  njFocusList: njFocusList,
 });
