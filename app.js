@@ -10,10 +10,9 @@ const tesseController = require("./tesseReaderService/tesseController.js");
 const stripeController = require("./paymentService/stripeController.js");
 const { db } = require("./firebase/firebase.js");
 const trialUsers = require("./Constants/trialSignupData.js");
-const njFocusGroup = require("./Constants/njFocusGroup.js");
+const njFocusGroup = require("./Constants/njFocusData.js");
 const crypto = require("crypto");
-console.log("njFocusGroup", njFocusGroup);
-//const sleep = require("system-sleep");
+
 const {
   storeEditedCompletions,
   storeDataForGenServices,
@@ -274,6 +273,7 @@ app.post("/new-payment-intent", async (req, res) => {
 /*
  *  Client POST for cancelling a subscription
  */
+
 app.post("/cancel-subscription", async (req, res) => {
   const { appUserId } = req.body;
   try {
@@ -345,9 +345,7 @@ app.get(
   async (req, res) => {
     const { docId, docType } = req.params;
     const isRequests = false;
-    console.log(
-      "hit end point for generate-disc-responses-irreg ===++++++==++=+=+ ----------------------> "
-    );
+
     try {
       const data = await modelController.arrayGenAnswers(
         docId,
@@ -442,14 +440,13 @@ app.get("/v1/get-parsed-requests/:docId/:docType", (req, res) => {
 
 app.get("/v1/get-focused-data/:code", (req, res) => {
   const { code } = req.params;
-
+  let match;
   try {
-    const match = trialUsers.trialUsers.filter(
-      (user) => user.signupCode === code
-    );
-    const mspall = generatePassword();
-    match[0]["mspall"] = mspall;
+    match = trialUsers.trialUsers.filter((user) => user.signupCode === code);
     if (match) {
+      console.log("match", match);
+      const mspall = generatePassword();
+      match[0]["mspall"] = mspall;
       res.send(match);
     }
   } catch (err) {
