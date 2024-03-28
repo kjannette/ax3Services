@@ -10,7 +10,9 @@ const tesseController = require("./tesseReaderService/tesseController.js");
 const stripeController = require("./paymentService/stripeController.js");
 const { db } = require("./firebase/firebase.js");
 const trialUsers = require("./Constants/trialSignupData.js");
+const njFocusGroup = require("./Constants/njFocusGroup.js");
 const crypto = require("crypto");
+console.log("njFocusGroup", njFocusGroup);
 //const sleep = require("system-sleep");
 const {
   storeEditedCompletions,
