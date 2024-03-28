@@ -440,14 +440,14 @@ app.get("/v1/get-parsed-requests/:docId/:docType", (req, res) => {
 
 app.get("/v1/get-focused-data/:code", (req, res) => {
   const { code } = req.params;
-  console.log("---------------------------->code", code);
+
   try {
     const match = trialUsers.trialUsers.filter(
       (user) => user.signupCode === code
     );
-    const mspall = generatePassword();
 
-    if (match) {
+    if (match.length > 0) {
+      const mspall = generatePassword();
       match[0]["mspall"] = mspall;
       res.send(match);
     }
