@@ -37,7 +37,7 @@ const createArrayFromSingleDocPrompt = (request) => {
       "text": "example - Please identify the person or persons responding to these Interrogatories, and identify each person who has provided information in connection 
       with these Interrogatories.”}, { "requestId": "36fe8375-240d-4a08-8a71-9b2ba5bda348", "text": "example - Identify the owner of the premises described in complaint."}, 
       { "requestId": "cfaf4a36-20de-44ff-8673-5a725bddca03", "text": "example - Identify any person not already named as a party to this lawsuit whom you contend caused 
-      or contributed to the occurrence which you contend proximately caused your injuries and/or other damages .“}]. Lastly, please do not add introductory comments, analysis, 
+      or contributed to the occurrence which you contend proximately caused your injuries and/or other damages .“}]. Lastly, do not add introductory comments, analysis, 
       or observations.  Return only the interrogatories in the manner previously described.  This is the complaint: ${complaint}`,
     },
   ];
