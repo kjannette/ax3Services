@@ -1,6 +1,6 @@
 const generateHead = (title, scripts) => {
   const scriptTags = scripts
-    .map((src) => `<script async src="${src}"></script>`)
+    .map((src) => `<script type="text/javascript" src="${src}"></script>`)
     .join("");
   return `
     <head>
