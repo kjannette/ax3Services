@@ -22,4 +22,4 @@ const pageObjects = [
   },
 ];
 
-module.exports = pageObject;
+module.exports = pageObjects;
