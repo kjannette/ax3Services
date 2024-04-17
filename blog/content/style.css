@@ -1,0 +1,14 @@
+body {
+  min-height: 600px;
+  background-color: #fff;
+}
+
+.main-content-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  padding-top: 45px;
+  width: 720px;
+}
