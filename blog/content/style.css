@@ -52,6 +52,12 @@ body {
   line-height: 1.42;
 }
 
+li:before {
+  font-family: Roboto;
+  content: "\f067";
+  margin: 0 5px 0 -15px;
+}
+
 .article-link,
 .meta {
   font-weight: 300;
