@@ -10,5 +10,17 @@ body {
   align-items: center;
   margin: auto;
   padding-top: 45px;
-  width: 720px;
+  width: 650px;
+}
+
+.heading-container {
+  display: flex;
+  width: 650px;
+}
+
+.body-text-container {
+  display: flex;
+  flex-direction: column;
+  width: 650px;
+  text-align: justify;
 }

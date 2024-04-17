@@ -14,6 +14,7 @@ const generateHead = (title, scripts) => {
 `;
 };
 
+const tempDate = new Date();
 const generateBody = (subject, content) => {
   const paragraphs = content
     .split("\n")
@@ -24,6 +25,7 @@ const generateBody = (subject, content) => {
     <div class="main-content-container">
       <div class="heading-container">
         <h1>${subject}</h1>
+        <span></span>
       </div>
       <div class="body-text-container">
         ${paragraphs}
