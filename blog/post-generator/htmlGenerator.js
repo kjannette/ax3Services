@@ -6,7 +6,7 @@ const generateHead = (title, scripts) => {
     <head>
       <meta charset="UTF-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <link rel="stylesheet" href="./style.css" />
+      <link rel="stylesheet" href="../style.css" />
       <link rel="icon" href="./favicon.ico" type="image/x-icon" />
       <link rel="preconnect" href="https://fonts.googleapis.com">
       <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -18,6 +18,10 @@ const generateHead = (title, scripts) => {
 };
 
 const tempDate = new Date();
+const tempArr = tempDate.toString().split("-");
+const tempString = tempArr[0];
+console.log("=============tempString", tempString.slice(0, 15));
+const displayDate = tempString.slice(0, 15);
 const generateBody = (subject, content) => {
   const paragraphs = content
     .split("\n")
@@ -27,8 +31,8 @@ const generateBody = (subject, content) => {
   <body>
     <div class="main-content-container">
       <div class="heading-container">
-        <h1>${subject}</h1>
-        <span></span>
+        <h1 class="blog-heading">${subject}</h1>
+        <span class="blog-posted-at">Posted on: ${displayDate}</span>
       </div>
       <div class="body-text-container">
         ${paragraphs}

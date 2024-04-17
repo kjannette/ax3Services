@@ -3,9 +3,8 @@ const pageObjectsArr = require("./pageObjects");
 const path = require("node:path");
 const { generateHTML } = require("./htmlGenerator");
 
-objectsTotal = 1;
+objectsTotal = 0;
 //if more objects in the array than previous saved number, pop off the last one to make new page
-console.log("pageObjectsArr", pageObjectsArr);
 
 if (pageObjectsArr.length > objectsTotal) {
   const pageObject = pageObjectsArr.pop();
