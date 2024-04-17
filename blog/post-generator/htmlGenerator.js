@@ -20,7 +20,7 @@ const generateHead = (title, scripts) => {
 const tempDate = new Date();
 const tempArr = tempDate.toString().split("-");
 const displayDate = tempArr[0].slice(0, 15);
-//const displayDate = tempString.slice(0, 15);
+
 const generateBody = (subject, content) => {
   const paragraphs = content
     .split("\n")

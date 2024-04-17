@@ -1,24 +1,10 @@
 const pageObjects = [
   {
-    title: "My Page Title",
-    scripts: [
-      "https://example.com/script1.js",
-      "https://example.com/script2.js",
-    ],
-    subject: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. ",
-    content:
-      "Ultricies tristique nulla aliquet enim. Tempor orci dapibus ultrices in. Sagittis purus sit amet volutpat consequat. Tincidunt augue interdum velit euismod in. Quis auctor elit sed vulputate mi sit amet mauris. Nisi porta lorem mollis aliquam ut porttitor leo. At erat pellentesque adipiscing commodo elit at imperdiet. Quisque non tellus orci ac auctor augue mauris augue. Urna neque viverra justo nec. \n Tellus in metus vulputate eu scelerisque felis imperdiet. Orci dapibus ultrices in iaculis nunc. Amet risus nullam eget felis. Ipsum faucibus vitae aliquet nec ullamcorper sit amet. \n Nunc congue nisi vitae suscipit tellus mauris a diam maecenas. Nibh nisl condimentum id venenatis a. Suscipit tellus mauris a diam maecenas. Ipsum dolor sit amet consectetur adipiscing. \n Ullamcorper velit sed ullamcorper morbi. Ut enim blandit volutpat maecenas volutpat blandit.",
-  },
-  {
-    title: "My Page Title2",
-    scripts: [
-      "https://example.com/script1.js",
-      "https://example.com/script2.js",
-    ],
+    title: "Measuring the Persuasiveness of AI Models",
     subject:
-      "Curabitur tincidunt rutrum nisl, ut elementum lacus auctor dapibus. Maecenas et augue in lacus pulvinar interdum.",
+      "Anthropic's New Framework to Quantitatively Evaluate AI Model Persuasiveness",
     content:
-      "Integer eros justo, laoreet nec mattis eget, posuere et orci. Morbi a ipsum erat. Nam porta diam feugiat, placerat purus ac, scelerisque nibh. Duis hendrerit et purus ultrices ornare. Praesent ornare sagittis leo sit amet venenatis. Pellentesque sollicitudin nunc eu elementum pretium. Vestibulum eget consectetur enim. Pellentesque vulputate lectus lectus. Morbi malesuada rutrum diam in vulputate. Nunc suscipit varius euismod. Curabitur efficitur enim leo, in faucibus metus pretium laoreet. \n Vestibulum vulputate tempus ipsum, sed lacinia ante lobortis vel. Fusce egestas arcu vel nisi convallis bibendum. Donec vestibulum finibus blandit. Curabitur tincidunt rutrum nisl, ut elementum lacus auctor dapibus. Maecenas et augue in lacus pulvinar interdum. Donec quis tempor nunc. Nullam tristique mauris quis dictum pellentesque. Nulla convallis elit vitae vulputate semper. Nunc sit amet quam hendrerit, viverra odio quis, iaculis neque. Curabitur nisi velit, vulputate at diam ac, congue aliquet massa. Etiam ultrices facilisis malesuada. \n Quisque mollis suscipit velit, sit amet iaculis enim iaculis in. Curabitur finibus mi sit amet nisl aliquam aliquam. Maecenas iaculis erat justo. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Praesent pretium aliquet lectus, ac viverra urna posuere quis. Vivamus dignissim, orci id euismod suscipit, metus lacus lacinia elit, et faucibus diam odio ac lacus. Curabitur tincidunt sed leo at molestie. Vivamus lacinia sed felis nec bibendum. Nam dictum nec nibh eget accumsan. In nunc nisl, ultricies at laoreet a, scelerisque quis nisl. Nulla tincidunt nisl vel maximus egestas. Fusce a ipsum vestibulum, efficitur erat eu, sodales risus. Praesent odio erat, vehicula ac eros sit amet, rhoncus volutpat orci. ",
+      "Anthropic, an AI research organization, has developed a method to test how persuasive language models (LMs) are. In order to engage with the safety issues of large models, the team at Anthropic aims to make them more reliable and improve their safe deployment. This study on model persuasiveness forms part of that initiative. \n The research involved the development of a quantitative framework to evaluate whose opinions model-generated responses are more similar to. The aim was to understand the persuasiveness of different versions of AI models, an aspect that has not been extensively studied before. The study found that larger, newer AI models tended to be more persuasive, a finding with significant implications as LMs continue to evolve.  \n It was also discovered that as technology develops and models are further refined, there's a chance of increased persuasiveness. This factor is vital to consider in the development and deployment of AI models as their impact on society and behaviour could be substantial. \n  In addition to this, the team also conducted an in-house persuasion test. While the effectiveness of this test at measuring true persuasiveness may be questioned, it forms a crucial part of the research. The test's results helped the team understand the nuances of persuasiveness in AI models and provided a basis for further studies on this subject. \n Anthropic has shared these findings in order to contribute to the understanding and improvement of language model behaviours. The research not only sheds light on the persuasiveness of AI models but also paves the way for future studies on AI safety and reliability. \n The study by Anthropic offers a new perspective on the capabilities of AI models. By introducing a method to measure persuasiveness, the research helps the AI community understand the implications of model persuasiveness and how it can be harnessed for better AI safety and deployment.\n The full article may be viewed here: https://www.anthropic.com/research/measuring-model-persuasiveness?utm_source=substack&utm_medium=email",
   },
 ];
 
