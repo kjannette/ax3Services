@@ -61,3 +61,13 @@ body {
   letter-spacing: -0.01rem;
   line-height: 1.42;
 }
+
+.nav-header-container {
+  height: 85px;
+  border-bottom: 1px solid #b1b1b1;
+  padding: 0px 70px;
+}
+
+.header-logo {
+  height: 70px;
+}
