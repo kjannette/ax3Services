@@ -19,9 +19,8 @@ const generateHead = (title, scripts) => {
 
 const tempDate = new Date();
 const tempArr = tempDate.toString().split("-");
-const tempString = tempArr[0];
-console.log("=============tempString", tempString.slice(0, 15));
-const displayDate = tempString.slice(0, 15);
+const displayDate = tempArr[0].slice(0, 15);
+//const displayDate = tempString.slice(0, 15);
 const generateBody = (subject, content) => {
   const paragraphs = content
     .split("\n")
