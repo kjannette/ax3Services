@@ -4,10 +4,11 @@ const path = require("node:path");
 const { generateHTML } = require("./htmlGenerator");
 
 objectsTotal = 0;
-//if more objects in the array than previous saved number, pop off the last one to make new page
 
+//if more objects in the array than previous saved number, pop off the last one to make new page
 if (pageObjectsArr.length > objectsTotal) {
   const pageObject = pageObjectsArr.pop();
+  console.log("pageObject", pageObject);
   const htmlContent = generateHTML(pageObject);
   const folderName = pageObject.subject.toLowerCase().replace(" ", "-");
 

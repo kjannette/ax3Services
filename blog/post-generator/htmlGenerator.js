@@ -1,6 +1,6 @@
 const generateHead = (title, scripts) => {
   const scriptTags = scripts
-    .map((src) => `<script async src="${src}"></script>`)
+    .map((src) => `<script type="text/javascript" src="${src}"></script>`)
     .join("");
   return `
     <head>
@@ -20,7 +20,7 @@ const generateHead = (title, scripts) => {
 const tempDate = new Date();
 const tempArr = tempDate.toString().split("-");
 const displayDate = tempArr[0].slice(0, 15);
-//const displayDate = tempString.slice(0, 15);
+
 const generateBody = (subject, content) => {
   const paragraphs = content
     .split("\n")

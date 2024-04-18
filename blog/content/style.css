@@ -3,6 +3,39 @@ body {
   background-color: #fff;
 }
 
+.nav-logo-container {
+  margin-left: 60px;
+  width: 30%;
+}
+
+.nav-title-container {
+  width: 70%;
+  padding-right: 150px;
+}
+
+.nav-title {
+  font-family: Roboto;
+  font-weight: 300;
+  font-size: 2rem;
+  color: #000;
+  letter-spacing: -0.019rem;
+  line-height: 1.02;
+  text-align: right;
+  margin-top: 10px;
+}
+
+.nav-subheading {
+  font-family: Roboto;
+  font-weight: 300;
+  font-size: 1.1rem;
+  color: #919191;
+  letter-spacing: -0.019rem;
+  line-height: 1.02;
+  text-align: right;
+  margin-top: 10px;
+  padding-right: 4px;
+}
+
 .main-content-container {
   display: flex;
   flex-direction: column;
@@ -19,6 +52,27 @@ body {
   width: 650px;
 }
 
+.posts-index-container {
+  width: 650px;
+  padding: 12px 38px 12px 42px;
+}
+
+.post-index-header {
+  padding-left: 26px;
+}
+
+.posts-index-text {
+  padding-left: 26px;
+  font-weight: 300;
+  font-size: 1.1rem;
+  font-family: Roboto;
+  color: #515151;
+  letter-spacing: -0.01rem;
+  line-height: 1.42;
+  margin-top: 8px;
+  line-height: 1.3;
+}
+
 .blog-heading {
   font-family: Roboto;
   font-weight: 500;
@@ -26,6 +80,7 @@ body {
   color: #000;
   letter-spacing: -0.019rem;
   line-height: 1.02;
+  text-align: justify;
 }
 
 .blog-posted-at {
@@ -34,6 +89,8 @@ body {
   font-size: 1rem;
   color: #000;
   letter-spacing: -0.019rem;
+  padding-top: 6px;
+  margin-bottom: 12px;
 }
 
 .body-text-container {
@@ -50,4 +107,47 @@ body {
   color: #515151;
   letter-spacing: -0.01rem;
   line-height: 1.42;
+  margin: 10px 0px 8px 0px !important;
+}
+
+li:before {
+  font-family: Roboto;
+  content: "マ ";
+  margin: 0 5px 0 -15px;
+}
+
+.article-link {
+  font-weight: 400;
+  font-size: 1.1rem;
+  font-family: Roboto;
+  color: #000;
+  letter-spacing: -0.01rem;
+  line-height: 1.42;
+}
+
+.meta {
+  font-weight: 300;
+  font-size: 0.97rem;
+  font-family: Roboto;
+  color: #515151;
+  letter-spacing: -0.01rem;
+  line-height: 1.42;
+  margin-top: -6px;
+  padding-left: 25px;
+}
+
+.nav-header-container {
+  display: flex;
+  flex-direction: row;
+  height: 85px;
+  border-bottom: 1px solid #b1b1b1;
+  padding: 0px 70px;
+}
+
+.header-logo {
+  height: 70px;
+}
+
+h1 {
+  margin: 0px;
 }
