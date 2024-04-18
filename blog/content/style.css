@@ -3,6 +3,39 @@ body {
   background-color: #fff;
 }
 
+.nav-logo-container {
+  margin-left: 60px;
+  width: 30%;
+}
+
+.nav-title-container {
+  width: 70%;
+  padding-right: 150px;
+}
+
+.nav-title {
+  font-family: Roboto;
+  font-weight: 300;
+  font-size: 2rem;
+  color: #000;
+  letter-spacing: -0.019rem;
+  line-height: 1.02;
+  text-align: right;
+  margin-top: 10px;
+}
+
+.nav-subheading {
+  font-family: Roboto;
+  font-weight: 300;
+  font-size: 1.1rem;
+  color: #919191;
+  letter-spacing: -0.019rem;
+  line-height: 1.02;
+  text-align: right;
+  margin-top: 10px;
+  padding-right: 4px;
+}
+
 .main-content-container {
   display: flex;
   flex-direction: column;
@@ -104,6 +137,8 @@ li:before {
 }
 
 .nav-header-container {
+  display: flex;
+  flex-direction: row;
   height: 85px;
   border-bottom: 1px solid #b1b1b1;
   padding: 0px 70px;
