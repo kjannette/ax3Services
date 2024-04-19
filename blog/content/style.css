@@ -198,10 +198,13 @@ h1 {
 
   .nav-title {
     font-size: 1.7rem;
+    font-weight: 400;
   }
 
   .blog-heading {
     text-align: unset;
+    font-size: 1.52rem;
+    font-weight: 400;
   }
 
   .body-text-container {
@@ -210,7 +213,10 @@ h1 {
   }
 
   .body-text {
-    font-size: 1.05rem;
+    padding-left: 1px;
+    text-align: justify;
+    font-size: 0.905rem;
+    width: 330px;
   }
 
   .posts-index-container {
@@ -221,6 +227,12 @@ h1 {
 
   .post-index-header {
     padding: 1px;
+  }
+
+  .blog-posted-at {
+    padding-left: 2px;
+    font-size: 0.9rem;
+    font-weight: 300;
   }
 
   .meta {
