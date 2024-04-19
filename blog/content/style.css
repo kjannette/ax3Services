@@ -4,13 +4,14 @@ body {
 }
 
 .nav-logo-container {
-  margin-left: 60px;
+  margin-left: 70px;
+  padding-left: 30px;
   width: 30%;
 }
 
 .nav-title-container {
   width: 70%;
-  padding-right: 150px;
+  padding-right: 90px;
 }
 
 .nav-title {
