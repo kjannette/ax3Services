@@ -28,6 +28,22 @@ const generateBody = (subject, content) => {
     .join("");
   return `
   <body>
+  <div class="nav-header-container">
+  <div class="nav-logo-container">
+    <a href="http://www.novodraft.ai">
+      <img
+        src="https://imagedelivery.net/OvFc3s8IYmBw7-_bogeTLg/24558b17-802d-46eb-2d5b-912af896c700/public"
+        class="header-logo"
+      />
+    </a>
+  </div>
+  <div class="nav-title-container">
+    <h1 class="nav-title">prompting reflection</h1>
+    <h4 class="nav-subheading">
+      law + ai technology
+      </h3>
+    </div>
+  </div>
     <div class="main-content-container">
       <div class="heading-container">
         <h1 class="blog-heading">${subject}</h1>
