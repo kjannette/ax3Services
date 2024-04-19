@@ -156,11 +156,11 @@ h1 {
   margin: 0px;
 }
 
-@media only screen and (max-width: 498px) {
+@media only screen and (max-width: 400px) {
   .main-content-container {
     display: flex;
     flex-direction: column;
-    width: 370px;
+    width: 340px;
     align-items: flex-start;
     padding-top: 18px;
     justify-content: unset;
@@ -169,10 +169,12 @@ h1 {
 
   .nav-header-container {
     padding: 0px 4px;
+    width: 340px;
   }
 
   .nav-logo-container {
     margin-left: 1px;
+    width: 20%;
   }
 
   .nav-title-container {
@@ -182,16 +184,20 @@ h1 {
     width: 80%;
   }
 
+  .article-link {
+    font-size: 1rem;
+  }
+
   .heading-container {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    width: 375px;
+    width: 340px;
     padding-left: 6px;
   }
 
   .nav-title {
-    text-align: center;
+    font-size: 1.7rem;
   }
 
   .blog-heading {
@@ -199,7 +205,7 @@ h1 {
   }
 
   .body-text-container {
-    width: 370px;
+    width: 355px;
     padding: 1px 6px;
   }
 
@@ -208,7 +214,7 @@ h1 {
   }
 
   .posts-index-container {
-    width: 370px;
+    width: 355px;
     padding: 1px;
     margin: 10px 1px;
   }
@@ -219,10 +225,13 @@ h1 {
 
   .meta {
     padding-left: 2px;
+    font-size: 0.85rem;
   }
 
   .posts-index-text {
     padding-left: 2px;
     text-align: justify;
+    font-size: 0.99rem;
+    width: 330px;
   }
 }
