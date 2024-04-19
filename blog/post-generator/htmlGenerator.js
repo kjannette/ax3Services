@@ -51,6 +51,7 @@ const generateBody = (subject, content) => {
       </div>
       <div class="body-text-container">
         ${paragraphs}
+        <div><a class="back-link" href="https://www.novodraft.ai/blog">< Back</a></div>
       </div>
     </div>
   </body>

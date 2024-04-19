@@ -158,7 +158,11 @@ h1 {
 }
 
 .back-link {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
   color: blue;
+  width: 100%;
   font-family: Roboto;
   font-size: 1rem;
   text-decoration: none;
