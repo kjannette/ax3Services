@@ -31,9 +31,9 @@ class StripeController {
     } else if (planType === "partner" && isAnnual === true) {
       priceId = "price_1P7PqDBi8p7FeGFr1BhUJm8Q";
     } else if (planType === "seniorPartner" && isAnnual === false) {
-      priceId = "price_1OdGRLBi8p7FeGFrVAf7QCdw";
+      priceId = "price_1P7PuoBi8p7FeGFrT3JlZMGp";
     } else if (planType === "seniorPartner" && isAnnual === true) {
-      priceId = "price_1OdGRrBi8p7FeGFr2Zvr7USe";
+      priceId = "price_1P7PvbBi8p7FeGFrce1HVyT4";
     }
 
     items = [{ price: priceId }];
@@ -74,21 +74,6 @@ class StripeController {
       } else if (additionalAccounts === 5) {
         addId = "price_1OdJ88Bi8p7FeGFrSwpR5r4Z";
         items.push({ price: addId });
-      } else if (additionalAccounts === 6) {
-        addId = "price_1OdJ9CBi8p7FeGFrTQNy2YVd";
-        items.push({ price: addId });
-      } else if (additionalAccounts === 7) {
-        addId = "price_1OdJAIBi8p7FeGFrZyWHIlYf";
-        items.push({ price: addId });
-      } else if (additionalAccounts === 8) {
-        addId = "price_1OdJCzBi8p7FeGFriBy3OCso";
-        items.push({ price: addId });
-      } else if (additionalAccounts === 9) {
-        addId = "price_1OddLzBi8p7FeGFrzeVmj4fG";
-        items.push({ price: addId });
-      } else if (additionalAccounts === 10) {
-        addId = "price_1OddNUBi8p7FeGFraRX3ypOK";
-        items.push({ price: addId });
       }
     }
 
@@ -107,21 +92,6 @@ class StripeController {
         items.push({ price: addId });
       } else if (additionalAccounts === 5) {
         addId = "price_1OdJ8lBi8p7FeGFr6d8z3afK";
-        items.push({ price: addId });
-      } else if (additionalAccounts === 6) {
-        addId = "price_1OdJ9kBi8p7FeGFrxXTG7s20";
-        items.push({ price: addId });
-      } else if (additionalAccounts === 7) {
-        addId = "price_1OdJBJBi8p7FeGFrc0F6ByO5";
-        items.push({ price: addId });
-      } else if (additionalAccounts === 8) {
-        addId = "price_1OdJDbBi8p7FeGFrbpE4URLd";
-        items.push({ price: addId });
-      } else if (additionalAccounts === 9) {
-        addId = "price_1OddMxBi8p7FeGFraD12KrD4";
-        items.push({ price: addId });
-      } else if (additionalAccounts === 10) {
-        addId = "price_1OddOEBi8p7FeGFrKcFey7PM";
         items.push({ price: addId });
       }
     }
