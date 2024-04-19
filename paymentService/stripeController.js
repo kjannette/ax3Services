@@ -23,13 +23,13 @@ class StripeController {
     let items;
 
     if (planType === "associate" && isAnnual === false) {
-      priceId = "price_1OdGLMBi8p7FeGFrr3JN9LB6";
+      priceId = "price_1P7PdTBi8p7FeGFrmzmQ8zlX";
     } else if (planType === "associate" && isAnnual === true) {
-      priceId = "price_1OdGN3Bi8p7FeGFr9PM7oD93";
+      priceId = "price_1P7PlPBi8p7FeGFrpmdPDLiy";
     } else if (planType === "partner" && isAnnual === false) {
-      priceId = "price_1OdGO8Bi8p7FeGFrg7EdavjO";
+      priceId = "price_1P7PnpBi8p7FeGFrZOPRgDtL";
     } else if (planType === "partner" && isAnnual === true) {
-      priceId = "price_1OdGPHBi8p7FeGFrNd0hOVro";
+      priceId = "price_1P7PqDBi8p7FeGFr1BhUJm8Q";
     } else if (planType === "seniorPartner" && isAnnual === false) {
       priceId = "price_1OdGRLBi8p7FeGFrVAf7QCdw";
     } else if (planType === "seniorPartner" && isAnnual === true) {
