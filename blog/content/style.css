@@ -156,6 +156,19 @@ h1 {
   margin: 0px;
 }
 
+.back-link {
+  color: blue;
+  font-family: Roboto;
+  font-size: 1rem;
+  text-decoration: none;
+  padding-left: 4px;
+}
+
+.back-link:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
 @media only screen and (max-width: 400px) {
   .main-content-container {
     display: flex;
@@ -197,7 +210,7 @@ h1 {
   }
 
   .nav-title {
-    font-size: 1.7rem;
+    font-size: 1.74rem;
     font-weight: 400;
   }
 
