@@ -31,9 +31,9 @@ class StripeController {
     } else if (planType === "partner" && isAnnual === true) {
       priceId = "price_1P7PqDBi8p7FeGFr1BhUJm8Q";
     } else if (planType === "seniorPartner" && isAnnual === false) {
-      priceId = "price_1P7PuoBi8p7FeGFrT3JlZMGp";
+      priceId = "price_1P7ilhBi8p7FeGFrcMxQ8JFQ";
     } else if (planType === "seniorPartner" && isAnnual === true) {
-      priceId = "price_1P7PvbBi8p7FeGFrce1HVyT4";
+      priceId = "price_1P7imfBi8p7FeGFrtOsgCVmz";
     }
 
     items = [{ price: priceId }];
