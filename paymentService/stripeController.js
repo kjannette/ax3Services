@@ -21,13 +21,6 @@ class StripeController {
     let priceId;
     let addId;
     let items;
-    console.log(
-      "planType, isAnnual, customerData, token.id",
-      planType,
-      isAnnual,
-      customerData,
-      token.id
-    );
 
     if (process.env.NODE_ENV === "development") {
       if (planType === "associate" && isAnnual === false) {
@@ -51,14 +44,14 @@ class StripeController {
       } else if (planType === "partner" && isAnnual === false) {
         priceId = "price_1P7PnpBi8p7FeGFrZOPRgDtL";
       } else if (planType === "partner" && isAnnual === true) {
-        priceId = "price_1PKqYrBi8p7FeGFrXz5Z4uGg";
+        priceId = "price_1PKqWwBi8p7FeGFrqHBrAdPU";
       } else if (planType === "seniorPartner" && isAnnual === false) {
         priceId = "price_1P7PuoBi8p7FeGFrT3JlZMGp";
       } else if (planType === "seniorPartner" && isAnnual === true) {
         priceId = "price_1P7PvbBi8p7FeGFrce1HVyT4";
       }
     }
-    console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>current priceId", priceId);
+
     items = [{ price: priceId }];
     // might need tyo change this to reflect development/[rpduction mode, as above]
     if (planType === "partner" && isAnnual === false) {
