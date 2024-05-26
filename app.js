@@ -104,7 +104,7 @@ app.post(
 );
 
 /*
- *  POST new discv request => docConvert - pdf to png
+ *  POST new discv request => docConvert - for pdf to png
  */
 
 app.post("/v1/parse-new-req-doc", upload.single("file"), function (req, res) {
@@ -129,7 +129,7 @@ app.post("/v1/parse-new-req-doc", upload.single("file"), function (req, res) {
   res.sendStatus(200);
 });
 
-//make outgoing requests from comp
+//Make outgoing requests from complaint
 app.post(
   "/v1/generate-outgoing-disc-req/:docId/:clientPosition",
   async (req, res) => {
@@ -248,7 +248,7 @@ app.post("/create-subscription", async (req, res) => {
 /*
  *  Client POST create stripe subscription, make payment
  */
-
+console.log("process.env.NODE_ENV", process.env.NODE_ENV);
 app.post("/new-payment-intent", async (req, res) => {
   const { planType, additionalAccounts, isAnnual, customerData, token } =
     req.body;

@@ -79,6 +79,7 @@ async function deleteDocument(docId, reqType, respGens) {
 async function deleteFolderAndContents(docId, reqType, respGens = 0) {
   const requestFolderPath = selectRequestFolderPath(docId, reqType);
   const gens = parseInt(respGens);
+
   function removeFolder() {
     const requestFolderPath = selectRequestFolderPath(docId, reqType);
     if (requestFolderPath) {

@@ -21,23 +21,46 @@ class StripeController {
     let priceId;
     let addId;
     let items;
+    console.log(
+      "planType, isAnnual, customerData, token.id",
+      planType,
+      isAnnual,
+      customerData,
+      token.id
+    );
 
-    if (planType === "associate" && isAnnual === false) {
-      priceId = "price_1P7PdTBi8p7FeGFrmzmQ8zlX";
-    } else if (planType === "associate" && isAnnual === true) {
-      priceId = "price_1P7PlPBi8p7FeGFrpmdPDLiy";
-    } else if (planType === "partner" && isAnnual === false) {
-      priceId = "price_1P7PnpBi8p7FeGFrZOPRgDtL";
-    } else if (planType === "partner" && isAnnual === true) {
-      priceId = "price_1P7PqDBi8p7FeGFr1BhUJm8Q";
-    } else if (planType === "seniorPartner" && isAnnual === false) {
-      priceId = "price_1P7PuoBi8p7FeGFrT3JlZMGp";
-    } else if (planType === "seniorPartner" && isAnnual === true) {
-      priceId = "price_1P7PvbBi8p7FeGFrce1HVyT4";
+    if (process.env.NODE_ENV === "development") {
+      if (planType === "associate" && isAnnual === false) {
+        // NEED TO MAKE DEV MODE PRODUCT IN STRIPE DASH
+      } else if (planType === "associate" && isAnnual === true) {
+        // NEED TO MAKE DEV MODE PRODUCT IN STRIPE DASH
+      } else if (planType === "partner" && isAnnual === false) {
+        priceId = "price_1PJPX6Bi8p7FeGFrBu7BQVkn";
+      } else if (planType === "partner" && isAnnual === true) {
+        priceId = "price_1PKqV9Bi8p7FeGFrNzATmnyf";
+      } else if (planType === "seniorPartner" && isAnnual === false) {
+        // NEED TO MAKE DEV MODE PRODUCT IN STRIPE DASH
+      } else if (planType === "seniorPartner" && isAnnual === true) {
+        // NEED TO MAKE DEV MODE PRODUCT IN STRIPE DASH
+      }
+    } else {
+      if (planType === "associate" && isAnnual === false) {
+        priceId = "price_1P7PdTBi8p7FeGFrmzmQ8zlX";
+      } else if (planType === "associate" && isAnnual === true) {
+        priceId = "price_1PJQ9FBi8p7FeGFrAINvdMHz";
+      } else if (planType === "partner" && isAnnual === false) {
+        priceId = "price_1P7PnpBi8p7FeGFrZOPRgDtL";
+      } else if (planType === "partner" && isAnnual === true) {
+        priceId = "price_1PKqYrBi8p7FeGFrXz5Z4uGg";
+      } else if (planType === "seniorPartner" && isAnnual === false) {
+        priceId = "price_1P7PuoBi8p7FeGFrT3JlZMGp";
+      } else if (planType === "seniorPartner" && isAnnual === true) {
+        priceId = "price_1P7PvbBi8p7FeGFrce1HVyT4";
+      }
     }
-
+    console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>current priceId", priceId);
     items = [{ price: priceId }];
-
+    // might need tyo change this to reflect development/[rpduction mode, as above]
     if (planType === "partner" && isAnnual === false) {
       if (additionalAccounts === 1) {
         addId = "price_1OdIcqBi8p7FeGFrcKhFGudX";
