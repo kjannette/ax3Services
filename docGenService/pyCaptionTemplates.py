@@ -19,7 +19,7 @@ def make_ny_header(
     clientPosition,
 ):
     print(
-        "______________________________________________________________NEW YORK MAKE HEADER FIRED"
+        "______________________________________________________________NEW YORK!! MAKE HEADER FIRED"
     )
     paragraph = document.add_paragraph(f"{jurisdiction}")
     paragraph.paragraph_format.space_before = Pt(0)
@@ -254,25 +254,32 @@ def make_mi_header(
     print(
         "______________________________________________________________MICHIGAN MAKE HEADER FIRED"
     )
+    temp = venue.split(" ", 1)
+    newVenue = temp[0].upper()
     paragraph = document.add_paragraph("STATE OF MICHIGAN")
+    paragraph.paragraph_format.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
     paragraph.paragraph_format.space_before = Pt(0)
     paragraph.paragraph_format.space_after = Pt(1)
-    paragraph = document.add_paragraph(f"{venue}")
+    paragraph = document.add_paragraph(f"IN THE CIRCUIT COURT FOR THE COUNTY OF {newVenue}")
+    paragraph.paragraph_format.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
     paragraph.paragraph_format.space_before = Pt(0)
-    paragraph.paragraph_format.space_after = Pt(1)
+    paragraph.paragraph_format.space_after = Pt(0)
 
+    paragraph.paragraph_format.space_before = Pt(0)
+    paragraph.paragraph_format.space_after = Pt(1)
+    paragraph = document.add_paragraph(" ")
     paragraph.paragraph_format.space_before = Pt(0)
     paragraph.paragraph_format.space_after = Pt(1)
     paragraph = document.add_paragraph(f"{caption1}")
     paragraph.paragraph_format.space_before = Pt(0)
     paragraph.paragraph_format.space_after = Pt(12)
     paragraph = document.add_paragraph(
-        f"                                                Plaintiff(s)                                                                  Index No.: {caseNumber}"
+        f"                                                Plaintiff(s)                                                               Case No.: {caseNumber}"
     )
     paragraph.paragraph_format.space_before = Pt(0)
     paragraph.paragraph_format.space_after = Pt(12)
     paragraph = document.add_paragraph(
-        f"- against -                                                                                                                    Judge: {judge}"
+        f"v.                                                                                                                                  Hon. {judge}"
     )
     paragraph.paragraph_format.space_before = Pt(0)
     paragraph.paragraph_format.space_after = Pt(16)
@@ -285,7 +292,7 @@ def make_mi_header(
     paragraph.paragraph_format.space_before = Pt(0)
     paragraph.paragraph_format.space_after = Pt(3)
     paragraph = document.add_paragraph(
-        "-------------------------------------------------------------X"
+        "___________________________________________________________________/"
     )
     paragraph.paragraph_format.space_before = Pt(0)
     paragraph.paragraph_format.space_after = Pt(12)

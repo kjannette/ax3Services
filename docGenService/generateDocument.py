@@ -7,14 +7,14 @@ from docx.shared import Length
 from docx.enum.text import WD_PARAGRAPH_ALIGNMENT
 from docx.enum.text import WD_ALIGN_PARAGRAPH
 from pyCaptionTemplates import make_ny_header, make_nj_header, make_fl_header, make_mi_header
-from pyGenObjectionTemplates import make_ny_gen_obj, make_nj_gen_obj, make_fl_gen_obj
+from pyGenObjectionTemplates import make_ny_gen_obj, make_nj_gen_obj, make_fl_gen_obj,  make_mi_gen_obj
 from pyOutgoingCopy import make_outgoing_instructions
 from pyRequestsForProduction import make_requests_for_production
 
 
 class GenerateBody(object):
     def generate(self, docId):
-        print('-------------->docId', docId)
+ 
         path = os.path.abspath(os.path.join(os.path.dirname( __file__ ), ".."))
         foundationRogArray = [
             "State your full name, home addresses for the past ten years, your employer for the last 10 years, your current work address, date of birth and social security number.",
@@ -251,7 +251,7 @@ class GenerateBody(object):
             document = make_outgoing_instructions(document, clientPosition, servingParty)
         else:
             if firmState == "mi":
-                document = make_ny_gen_obj(document, clientPosition, servingParty)
+                document = make_mi_gen_obj(document, clientPosition, servingParty)
             elif firmState == "ny":
                 document = make_ny_gen_obj(document, clientPosition, servingParty)
             elif firmState == "nj":
