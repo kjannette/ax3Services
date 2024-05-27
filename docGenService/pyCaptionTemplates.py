@@ -19,7 +19,7 @@ def make_ny_header(
     clientPosition,
 ):
     print(
-        "______________________________________________________________NEW YORK MAKE HEADER FIRED"
+        "______________________________________________________________NEW YORK!! MAKE HEADER FIRED"
     )
     paragraph = document.add_paragraph(f"{jurisdiction}")
     paragraph.paragraph_format.space_before = Pt(0)
@@ -236,5 +236,69 @@ def make_nj_header(
     )
     paragraph.paragraph_format.space_before = Pt(0)
     paragraph.paragraph_format.space_after = Pt(0)
+
+    return document
+
+# Michigan *******************************************************************/
+def make_mi_header(
+    document,
+    jurisdiction,
+    venue,
+    caption1,
+    caption2,
+    mainHeader,
+    caseNumber,
+    judge,
+    clientPosition,
+):
+    print(
+        "______________________________________________________________MICHIGAN MAKE HEADER FIRED"
+    )
+    temp = venue.split(" ", 1)
+    newVenue = temp[0].upper()
+    paragraph = document.add_paragraph("STATE OF MICHIGAN")
+    paragraph.paragraph_format.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
+    paragraph.paragraph_format.space_before = Pt(0)
+    paragraph.paragraph_format.space_after = Pt(1)
+    paragraph = document.add_paragraph(f"IN THE CIRCUIT COURT FOR THE COUNTY OF {newVenue}")
+    paragraph.paragraph_format.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
+    paragraph.paragraph_format.space_before = Pt(0)
+    paragraph.paragraph_format.space_after = Pt(0)
+
+    paragraph.paragraph_format.space_before = Pt(0)
+    paragraph.paragraph_format.space_after = Pt(1)
+    paragraph = document.add_paragraph(" ")
+    paragraph.paragraph_format.space_before = Pt(0)
+    paragraph.paragraph_format.space_after = Pt(1)
+    paragraph = document.add_paragraph(f"{caption1}")
+    paragraph.paragraph_format.space_before = Pt(0)
+    paragraph.paragraph_format.space_after = Pt(12)
+    paragraph = document.add_paragraph(
+        f"                                                Plaintiff(s)                                                               Case No.: {caseNumber}"
+    )
+    paragraph.paragraph_format.space_before = Pt(0)
+    paragraph.paragraph_format.space_after = Pt(12)
+    paragraph = document.add_paragraph(
+        f"v.                                                                                                                                  Hon. {judge}"
+    )
+    paragraph.paragraph_format.space_before = Pt(0)
+    paragraph.paragraph_format.space_after = Pt(16)
+    paragraph = document.add_paragraph(f"{caption2}")
+    paragraph.paragraph_format.space_before = Pt(0)
+    paragraph.paragraph_format.space_after = Pt(1)
+    paragraph = document.add_paragraph(
+        "                                                Defendant(s)"
+    )
+    paragraph.paragraph_format.space_before = Pt(0)
+    paragraph.paragraph_format.space_after = Pt(3)
+    paragraph = document.add_paragraph(
+        "___________________________________________________________________/"
+    )
+    paragraph.paragraph_format.space_before = Pt(0)
+    paragraph.paragraph_format.space_after = Pt(12)
+
+    p = document.add_paragraph()
+    p.add_run(f"{clientPosition.upper()}'S {mainHeader}").underline = True
+    p.paragraph_format.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
 
     return document

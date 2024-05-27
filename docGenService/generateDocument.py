@@ -6,15 +6,15 @@ from docx.shared import Pt
 from docx.shared import Length
 from docx.enum.text import WD_PARAGRAPH_ALIGNMENT
 from docx.enum.text import WD_ALIGN_PARAGRAPH
-from pyCaptionTemplates import make_ny_header, make_nj_header, make_fl_header
-from pyGenObjectionTemplates import make_ny_gen_obj, make_nj_gen_obj, make_fl_gen_obj
+from pyCaptionTemplates import make_ny_header, make_nj_header, make_fl_header, make_mi_header
+from pyGenObjectionTemplates import make_ny_gen_obj, make_nj_gen_obj, make_fl_gen_obj,  make_mi_gen_obj
 from pyOutgoingCopy import make_outgoing_instructions
 from pyRequestsForProduction import make_requests_for_production
 
 
 class GenerateBody(object):
     def generate(self, docId):
-        print('-------------->docId', docId)
+ 
         path = os.path.abspath(os.path.join(os.path.dirname( __file__ ), ".."))
         foundationRogArray = [
             "State your full name, home addresses for the past ten years, your employer for the last 10 years, your current work address, date of birth and social security number.",
@@ -125,7 +125,9 @@ class GenerateBody(object):
                 servingParty = caption1
 
         if reqType == 'interrogatories-out':
-            if firmState == "ny":
+            if firmState == "mi":
+                comesNowString = f"COMES NOW, {clientPosition}, {servingParty}, through counsel, and hereby propounds these Interrogatories and Requests for Production upon {respondent}, to be answered under oath, in writing."
+            elif firmState == "ny":
                 comesNowString = f"COMES NOW, {clientPosition}, {servingParty}, through counsel, and hereby propounds these Interrogatories and Requests for Production upon {respondent}, to be answered under oath, in writing, in accordance with NY CPLR 3120 - 3130."
             elif firmState == "nj":
                 comesNowString = f"Comes now ${clientPosition}, ${servingParty}, through counsel, and hereby propounds these Interrogatories and Requests for Production upon ${respondent}, to be answered to be answered under oath, in writing, in accordance with NJ R. 4:17-1 - 4:18-1, + et. seq. All questions must be answered unless the court otherwise orders or unless a claim of privilege or protective order is made in accordance with R. 4:17-1(b)(3)."
@@ -161,7 +163,19 @@ class GenerateBody(object):
             mainHeader2 = "RESPONSES"
 
         # Create header
-        if firmState == "ny":
+        if firmState == "mi":
+            document = make_mi_header(
+                document,
+                jurisdiction,
+                venue,
+                caption1,
+                caption2,
+                mainHeader,
+                caseNumber,
+                judge,
+                clientPosition,
+            )
+        elif firmState == "ny":
             document = make_ny_header(
                 document,
                 jurisdiction,
@@ -236,7 +250,9 @@ class GenerateBody(object):
         if reqType == "interrogatories-out":
             document = make_outgoing_instructions(document, clientPosition, servingParty)
         else:
-            if firmState == "ny":
+            if firmState == "mi":
+                document = make_mi_gen_obj(document, clientPosition, servingParty)
+            elif firmState == "ny":
                 document = make_ny_gen_obj(document, clientPosition, servingParty)
             elif firmState == "nj":
                 document = make_nj_gen_obj(document, clientPosition, servingParty)
