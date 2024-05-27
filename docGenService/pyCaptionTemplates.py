@@ -239,7 +239,7 @@ def make_nj_header(
 
     return document
 
-# New York *******************************************************************/
+# Michigan *******************************************************************/
 def make_mi_header(
     document,
     jurisdiction,
@@ -252,17 +252,15 @@ def make_mi_header(
     clientPosition,
 ):
     print(
-        "______________________________________________________________NEW YORK MAKE HEADER FIRED"
+        "______________________________________________________________MICHIGAN MAKE HEADER FIRED"
     )
-    paragraph = document.add_paragraph(f"{jurisdiction}")
+    paragraph = document.add_paragraph("STATE OF MICHIGAN")
     paragraph.paragraph_format.space_before = Pt(0)
     paragraph.paragraph_format.space_after = Pt(1)
     paragraph = document.add_paragraph(f"{venue}")
     paragraph.paragraph_format.space_before = Pt(0)
     paragraph.paragraph_format.space_after = Pt(1)
-    paragraph = document.add_paragraph(
-        "-------------------------------------------------------------X"
-    )
+
     paragraph.paragraph_format.space_before = Pt(0)
     paragraph.paragraph_format.space_after = Pt(1)
     paragraph = document.add_paragraph(f"{caption1}")
